@@ -81,6 +81,13 @@ let python_highlight_numbers = 1
 let python_highlight_builtins = 1
 "
 "
+" MANAGING EVIL
+"   For those cases where a single line is far longer than it ever
+"   should be I set up the arrow keys to work to my advantage.
+map <Down> gj
+map <Up> gk
+"
+"
 " HUMAN FAILURES
 "   Because sometimes you hit the wrong key and you just want it
 "   to work!
