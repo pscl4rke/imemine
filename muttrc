@@ -1,0 +1,90 @@
+
+#======================================================================#
+#                        MUTT PREFERENCES FILE                         #
+#======================================================================#
+
+
+#     USAGE: This file contains Mutt preferences that are
+#       carried accross multiple sites.  Place host-specific
+#       information in your .muttrc, and then source these
+#       preferences with "source ~/.muttrc-prefs".
+
+
+#     NOTE: I don't actually use Mutt from day to day.  In
+#       fact, I haven't even decided whether Mutt is my
+#       preferred terminal mail client.  But when I do use
+#       it the following settings are quite handy.
+
+
+# KEYS
+#   For some crazy reason the keys in the pager jump around
+#   different messages instead of just scrolling up and down.
+bind pager j next-line
+bind pager k previous-line
+
+
+# HELP BAR
+#   When I feel brave enough to disable the top bar...
+#unset help
+
+
+# WRITING AND REPLYING
+#   Use vim as the editor for emails etc.  And ask it to use tabbed
+#   mode, because that should be its default anyway.
+set editor="vim -p"
+set forward_format="Fwd: %s"
+
+
+# TILDES
+#   Puts vim-style tildes on all lines between a message ending
+#   and the bottom of the terminal.
+set tilde=yes
+
+
+# Do not auto-delete on exit:
+set delete=no
+
+
+# THE INDEX FORMAT
+#   I am undecided exactly how I like my index lines to be
+#   displayed, so here are some different options.
+# Default:
+#set index_format="%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
+# With dates on the right:
+set index_format="%4C %Z %-15.15L (%?l?%4l&%4c?) %?M?+(%M)&? %s %*  %{%e %b}"
+
+
+# COLOURS
+#   Here are a bunch of colours that make using Mutt a bit
+#   more agreeable than some of the defaults that I've seen.
+#   They aren't too disimilar from the default Tig colourings
+#   that I've seen.
+# The messages that get displayed below the status bar:
+color message white default
+# This covers the normal email lists (index):
+color normal white default
+# This is the tree for showing threads:
+color tree red default
+# This is the cursor which selects messages:
+color indicator white green
+# These set the quotation levels:
+color quoted  blue default
+color quoted1 blue default
+color quoted2 blue default
+color quoted3 blue default
+# This fills the rest of the pager when the message has finished:
+color tilde brightblack default
+# This is for the mail headers in the pager:
+color hdrdefault brightwhite default
+# These don't seem to make much difference:
+color signature white default
+color markers white red
+color error white default
+
+
+# PER MESSAGE COLOURING
+#   Here I highlight any unread messages
+color index yellow default ~N
+color index yellow default ~O
+
+
