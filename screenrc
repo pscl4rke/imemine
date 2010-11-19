@@ -1,0 +1,45 @@
+
+
+#======================================================================#
+#                       SCREEN SETUP CONFIG FILE                       #
+#======================================================================#
+
+
+#     NOTE: These are only settings that apply for my own personal
+#       screens.  I may well be using different screenrcs if I'm
+#       using screen for work or to keep services running.
+#       This isn't complete.  I shall keep working on it until I
+#       have things like the hardstatus sorted.
+
+
+# ALTSCREEN
+#   I shall put this in right near the start, because it seems
+#   ridiculous that such a feature is disabled by default.  Altscreen
+#   allows programs like less to launch on a 'virtual' screen over
+#   the original one, which disappears completely when the program
+#   exits, so I go back to the command line that I left.
+altscreen on
+
+
+# MULTIUSER
+#   Terribly useful little option that allows a user to log on multiple
+#   times from different connections and hook up and use the same
+#   screen.
+multiuser on
+
+
+# THE DREADED BELL
+#   As a general rule I prefer a visual bell to an annoying noise,
+#   but lots of screens just flash at me, which is even worse.  Until
+#   that is fixed, I enable the beep in screen and hope that it can
+#   be disabled elsewhere.
+vbell off
+
+
+# INITIAL SETTNGS
+#   I'm generally happy with just the one shell window when a screen
+#   starts, but I do wish it wouldn't keep giving me its licensing
+#   arrangements everytime it starts.
+startup_message off
+
+
