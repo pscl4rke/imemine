@@ -41,7 +41,7 @@ hi LineNr ctermfg=DarkBlue
 "   been personalised since then.  I also say that I always want the
 "   insert/replace etc mode to be indicated when active.
 set laststatus=2
-set statusline=%t%m%r%h%w\ [%{&ff}]\ (%Y)\ %=\ Ch\:\ \%03.3b\ (0x\%02.2B)\ %03lx%02v\ (%02.2p%%\ of\ %L)
+set statusline=%t%m%r%h%w\ [%{&ff}\|%{&fenc}]\ (%Y)\ %=\ Ch\:\ \%03.3b\ (0x\%02.2B)\ %03lx%02v\ (%02.2p%%\ of\ %L)
 hi StatusLine term=reverse ctermbg=black ctermfg=gray
 set showmode
 "
