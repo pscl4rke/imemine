@@ -19,13 +19,17 @@
 # KEYS
 #   For some crazy reason the keys in the pager jump around
 #   different messages instead of just scrolling up and down.
+#   Generally speaking, making this more less-like.
 bind pager j next-line
 bind pager k previous-line
+bind index G bottom-page
+bind pager G bottom
 
 
 # HELP BAR
-#   When I feel brave enough to disable the top bar...
-#unset help
+#   I don't feel I need the help bar anymore.  I can always type
+#   '?' if I need the current keybindings.
+unset help
 
 
 # WRITING AND REPLYING
@@ -35,13 +39,17 @@ set editor="vim -p"
 set forward_format="Fwd: %s"
 
 
-# TILDES
+# RANDOM STUFF
 #   Puts vim-style tildes on all lines between a message ending
 #   and the bottom of the terminal.
 set tilde=yes
+set menu_scroll="yes"
 
 
-# Do not auto-delete on exit:
+# EXITING BEHAVIOUR
+#   Don't delete anything, but do ask me if I want to leave
+#   (because reloading IMAP is particularly slow).
+set quit=ask-yes
 set delete=no
 
 
@@ -74,17 +82,25 @@ color quoted2 blue default
 color quoted3 blue default
 # This fills the rest of the pager when the message has finished:
 color tilde brightblack default
+# This is the indicator when a line is wrapped
+color markers brightblack default
 # This is for the mail headers in the pager:
 color hdrdefault brightwhite default
 # These don't seem to make much difference:
 color signature white default
-color markers white red
 color error white default
 
 
-# PER MESSAGE COLOURING
-#   Here I highlight any unread messages
+# THE LIST OF EMAILS
+#   Here I highlight any unread or flagged messages, and try
+#   to ignore deleted ones.
 color index yellow default ~N
 color index yellow default ~O
+color index brightgreen default ~F
+color index red default ~D
+
+
+# VIEWING AN EMAIL
+set pager_index_lines="8"
 
 
