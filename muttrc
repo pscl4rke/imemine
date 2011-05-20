@@ -22,7 +22,7 @@
 #   Generally speaking, making this more less-like.
 bind pager j next-line
 bind pager k previous-line
-bind index G bottom-page
+bind index G last-entry
 bind pager G bottom
 
 
