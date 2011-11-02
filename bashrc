@@ -71,6 +71,15 @@ export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]$(__git_ps1 " (
 #   little point in doing that.
 alias gdiff="git diff"
 alias gst="git status"
+alias du0="du --max-depth=0"
+alias du1="du --max-depth=1"
+alias du2="du --max-depth=2"
+alias du3="du --max-depth=3"
+
+
+# PRODUCTIVITY IMPROVEMENTS
+#   To avoid the parts that are likely to hold me back.
+alias sl="echo Boom! Train Crash!"
 
 
 # STANDARD TOOLKIT
