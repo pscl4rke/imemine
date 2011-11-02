@@ -84,7 +84,7 @@ alias ls='ls $LS_OPTIONS'
 # LOCAL CONFIGURATION
 #   If a config file exists containing machine specific config
 #   then load it at this point.
-[ -f "~/.bashrc-local" ] && source "~/.bashrc-local"
+[ -f "$HOME/.bashrc-local" ] && source "$HOME/.bashrc-local"
 
 
 # CYGWIN SUPPORT
