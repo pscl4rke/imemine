@@ -1,0 +1,32 @@
+
+
+#======================================================================#
+#                         ACK PREFERENCES FILE                         #
+#======================================================================#
+
+
+# DISPLAY
+#   Stuff to make it look a bit more familiar to someone used to
+#   working with grep.  And then page it to be confusing!
+--pager=less -R
+--color-filename=magenta
+--color-match=bold red
+--color-lineno=green
+
+
+# DOCUMENTATION FORMATS
+#   Note that there isn't really a format for docs.  If I define
+#   a new one myself then ack still works but it produces a message
+#   on stderr that I can't silence.  Therefore I'm using the hh
+#   format.  I'm unlikely to need hh in the near future, and it is
+#   a subset of cc anyway.
+--type-add=hh=.rst
+--type-add=hh=.rest
+
+
+# MISSED FORMATS
+#   Maybe I should file these as feature requests, but for the
+#   time being they live here:
+--type-add=sql=.mysql
+
+
