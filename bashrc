@@ -79,6 +79,15 @@ alias du2="du --max-depth=2"
 alias du3="du --max-depth=3"
 
 
+# CUSTOM SCRIPTS
+#   If ~/bin/ exists it is given priority as a location for
+#   executables.
+if [ -d "$HOME/bin" ]
+then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+
 # PRODUCTIVITY IMPROVEMENTS
 #   To avoid the parts that are likely to hold me back.
 alias sl="echo Boom! Train Crash!"
