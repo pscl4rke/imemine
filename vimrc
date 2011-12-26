@@ -79,7 +79,7 @@ set tabpagemax=20
 syntax on
 hi Comment ctermfg=DarkGreen
 hi ExtraWhitespace ctermbg=red guibg=red term=reverse
-match ExtraWhitespace /\s\+$/
+au BufNewFile,BufRead * match ExtraWhitespace /\s\+$/
 let python_highlight_numbers = 1
 let python_highlight_builtins = 1
 "
