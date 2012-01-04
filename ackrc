@@ -14,6 +14,13 @@
 --color-lineno=green
 
 
+# LOCAL CONVENTIONS
+#   There are a few conventions that I've come across where
+#   directories contain historical or experimental data that
+#   is best ignored.
+--ignore-dir=attic
+
+
 # DOCUMENTATION FORMATS
 #   Note that there isn't really a format for docs.  If I define
 #   a new one myself then ack still works but it produces a message
