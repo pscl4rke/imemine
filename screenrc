@@ -43,3 +43,11 @@ vbell off
 startup_message off
 
 
+# SCREEN LOCKING
+#   Arrgh!  No.  No.  No.   If this was locking the session it
+#   might have made sense, but it locks up the terminal instead.
+#   No program should EVER be allowed to completely ignore
+#   keyboard interrupts.
+bind x screen
+
+

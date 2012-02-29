@@ -95,6 +95,7 @@ map <Up> gk
 "   Because sometimes you hit the wrong key and you just want it
 "   to work!
 imap <F1> <ESC>
+map Q W
 "
 "
 " RARELY USED FEATURES
