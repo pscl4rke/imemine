@@ -91,6 +91,16 @@ map <Down> gj
 map <Up> gk
 "
 "
+" THE COPY BUFFER
+"   Terminals usually give me Ctrl-Shift-V to paste, but that
+"   doesn't work in gvim, so these are used instead.  Note that
+"   I still need Ctrl-Shift-C.
+map <C-V> "+gP
+"imap <C-V> <ESC>"+gpa
+imap <C-V> <C-R>+
+cmap <C-V> <C-R>+
+"
+"
 " HUMAN FAILURES
 "   Because sometimes you hit the wrong key and you just want it
 "   to work!
