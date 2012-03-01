@@ -108,15 +108,21 @@ imap <F1> <ESC>
 map Q W
 "
 "
+" GUI OPTIONS
+"   They don't get much use, but I have some preferences for the GUI.
+"   I believe it is possible to set a list of fonts, but I'm picking
+"   only one for the time being.
+"set guifont=Lucida_Sans_Typewriter:h14:cANSI
+set guifont=Monospace\ 11
+"
+"
 " RARELY USED FEATURES
-"   I rarely use the GUI, folding etc, but I have a few settings
+"   I rarely use folding etc, but I have a few settings
 "   that come into play.
 " Use the indentation as a guide:
 set foldmethod=indent
 " But don't fold by default:
 set nofoldenable
-" Use a decent font in the GUI:
-set guifont=Lucida_Sans_Typewriter:h10:cANSI
 " When highlighting spelling mistakes, use a different foreground:
 hi SpellBad term=reverse ctermbg=1 ctermfg=7
 hi SpellCap term=reverse ctermbg=4 ctermfg=7
