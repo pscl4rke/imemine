@@ -96,9 +96,13 @@ alias sl="echo Boom! Train Crash!"
 # STANDARD TOOLKIT
 #   Here I make the standard toolkit a bit friendlier for a
 #   human user.  This includes using colour and nice file sizes.
+#   I also override the standard colordiff wrapper with one that
+#   works better for me.
 export GREP_OPTIONS='--color=auto'
 export LS_OPTIONS='-hF --color=tty'
 alias ls='ls $LS_OPTIONS'
+complete -f cdiff
+function cdiff() { colordiff -u $@ | less -R; }
 
 
 # LOCAL CONFIGURATION
