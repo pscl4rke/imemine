@@ -15,14 +15,40 @@
 # BORROWED FROM UBUNTU DEFAULTS
 #   I don't know how much these are needed, but I include them in
 #   case it reduces the usability that I've been accustomed to.
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+
+# COMMAND COMPLETION
+#   Command auto-completion is very handy, but I've had to do
+#   some performance tuning here.
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    # This line is (relatively) very time-consuming, so I've
+    # cancelled all of the files in /etc/bash_completion.d
+    BASH_COMPLETION_DIR=foo
+    BASH_COMPLETION_COMPAT_DIR=foo
+    . /etc/bash_completion
+fi
+#   Now I manually include the completion files that I want
+#   (They can use uname, userland, have etc.)
+UNAME=$( uname -s )
+UNAME=${UNAME/CYGWIN_*/Cygwin}
+case ${UNAME} in
+    Linux|GNU|GNU/*) USERLAND=GNU ;;
+    *) USERLAND=${UNAME} ;;
+esac
+have() {
+    unset -v have
+    PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
+    have="yes"
+}
+for completer in git tig man ssh apt
+do
+    source /etc/bash_completion.d/$completer
+done
 
 
 # BASIC OPTIONS
