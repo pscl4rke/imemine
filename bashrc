@@ -85,12 +85,20 @@ then
 fi
 
 
+function __nave_ps1() {
+    if [ ! -z "$NAVENAME" ]
+    then
+        echo " (nave:$NAVENAME)"
+    fi
+}
+
+
 # THE PROMPT
 #   The prompt is heavily influenced by the default Cygwin prompt.
 #   I just feel it is nicer to spread out your commands and make
 #   full use of your terminal's colours.  I apologise for this being
 #   such a long config line!
-export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]$(__git_ps1 " (%s)")\[\e[0m\]\n\$ '
+export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]$(__git_ps1 " (%s)")\[\e[35m\]$(__nave_ps1)\[\e[0m\]\n\$ '
 
 
 # ALIASES
