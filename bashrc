@@ -59,6 +59,7 @@ set -o noclobber
 shopt -s histappend
 HISTCONTROL=ignoreboth
 shopt -s checkwinsize
+shopt -s histverify
 
 
 # EDITING FILES
