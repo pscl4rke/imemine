@@ -70,22 +70,17 @@ export EDITOR=vi
 export VISUAL=vi
 
 
-# GIT AUTOCOMPLETE ETC
-#   Currently, Git completion is carried out by Shawn O Pearce's
-#   script, but I'm willing to change that if there are other ones
-#   out there (esp. faster ones).  I create a dummy PS1 function
-#   for if the script cannot be found.
-#   The script is semi-official, and copies can be found in the
-#   Git source under contrib/completion.
-function __git_ps1() {
-    echo
-}
-if [ -f ~/.git-completion.sh ]
+# ENVIRONMENTAL STATUS FUNCTIONS
+#   These will be used in the PS1 etc to give the current settings,
+#   environment, etc.
+if declare -F | grep -q __git_ps1
 then
-    source ~/.git-completion.sh
+    : #(already included from /etc/bash_completion.d/git)
+else
+    function __git_ps1() {
+        echo " (git?)"
+    }
 fi
-
-
 function __nave_ps1() {
     if [ ! -z "$NAVENAME" ]
     then
