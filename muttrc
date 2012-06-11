@@ -16,7 +16,7 @@
 #       it the following settings are quite handy.
 
 
-# KEYS
+# NAVIGATION KEY-BINDINGS {{{
 #   For some crazy reason the keys in the pager jump around
 #   different messages instead of just scrolling up and down.
 #   Generally speaking, making this more less-like.
@@ -24,6 +24,27 @@ bind pager j next-line
 bind pager k previous-line
 bind index G last-entry
 bind pager G bottom
+bind pager } skip-quoted
+#}}}
+
+
+# ACTION KEY-BINDINGS {{{
+#   These rebind the commands that send messages so they are
+#   prefixed by an 'm'.  It frees up the bare keys to be used
+#   by things that are more useful to me.
+macro index,pager mm "<mail>"
+macro index,pager me "<edit>"
+macro index,pager mr "<reply>"
+macro index,pager mg "<group-reply>"
+macro index,pager mf "<forward-message>"
+macro index,pager mb "<bounce-message>"
+bind index,pager e noop
+bind index,pager r noop
+bind index g first-entry
+bind pager g top
+bind index,pager f noop
+bind index,pager b noop
+#}}}
 
 
 # HELP BAR
@@ -44,6 +65,7 @@ set forward_format="Fwd: %s"
 #   and the bottom of the terminal.
 set tilde=yes
 set menu_scroll="yes"
+bind index R imap-fetch-mail
 
 
 # EXITING BEHAVIOUR
@@ -60,6 +82,19 @@ set delete=no
 #set index_format="%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
 # With dates on the right:
 set index_format="%4C %Z %-15.15L (%?l?%4l&%4c?) %?M?+(%M)&? %s %*  %{%e %b}"
+
+
+# THREAD SUPPORT
+#   Make use of threads in the index, and give some nice key
+#   bindings for them.
+bind index - collapse-thread
+macro index _ '<limit>!~D<enter><collapse-all>'
+set sort="threads"
+set sort_aux="last-date-received"
+
+
+# VIEWING AN EMAIL
+set pager_index_lines="8"
 
 
 # COLOURS
@@ -98,9 +133,5 @@ color index yellow default ~N
 color index yellow default ~O
 color index brightgreen default ~F
 color index red default ~D
-
-
-# VIEWING AN EMAIL
-set pager_index_lines="8"
 
 
