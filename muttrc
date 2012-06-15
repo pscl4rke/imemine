@@ -22,7 +22,7 @@
 #   Generally speaking, making this more less-like.
 bind pager j next-line
 bind pager k previous-line
-bind index G last-entry
+bind index,generic G last-entry
 bind pager G bottom
 bind pager } skip-quoted
 #}}}
@@ -40,7 +40,7 @@ macro index,pager mf "<forward-message>"
 macro index,pager mb "<bounce-message>"
 bind index,pager e noop
 bind index,pager r noop
-bind index g first-entry
+bind index,generic g first-entry
 bind pager g top
 bind index,pager f noop
 bind index,pager b noop
