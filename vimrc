@@ -25,6 +25,8 @@ set nocompatible
 "   they aren't, so it's best to be explicit.
 set scrolloff=3
 set backspace=indent,eol,start
+set timeoutlen=250
+map Y y$
 "
 "
 " LINE NUMBERING
@@ -63,6 +65,13 @@ set shiftwidth=4
 "   terminal window use the full filename.
 set titlestring=%t
 set title
+"
+"
+" TAB COMPLETION {{{
+"   The tab completion on the command line is set to act more like
+"   bash: filling out as much as it can and then offering suggestions.
+set wildmode=longest,list
+"}}}
 "
 "
 " SETTING UP TABS
