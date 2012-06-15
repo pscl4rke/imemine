@@ -1,4 +1,5 @@
 
+#                                              vim:ft=muttrc:fdm=marker:
 #======================================================================#
 #                        MUTT PREFERENCES FILE                         #
 #======================================================================#
@@ -8,12 +9,6 @@
 #       carried accross multiple sites.  Place host-specific
 #       information in your .muttrc, and then source these
 #       preferences with "source ~/.muttrc-prefs".
-
-
-#     NOTE: I don't actually use Mutt from day to day.  In
-#       fact, I haven't even decided whether Mutt is my
-#       preferred terminal mail client.  But when I do use
-#       it the following settings are quite handy.
 
 
 # NAVIGATION KEY-BINDINGS {{{
@@ -47,12 +42,6 @@ bind index,pager b noop
 #}}}
 
 
-# HELP BAR
-#   I don't feel I need the help bar anymore.  I can always type
-#   '?' if I need the current keybindings.
-unset help
-
-
 # WRITING AND REPLYING
 #   Use vim as the editor for emails etc.  And ask it to use tabbed
 #   mode, because that should be its default anyway.
@@ -60,12 +49,11 @@ set editor="vim -p"
 set forward_format="Fwd: %s"
 
 
-# RANDOM STUFF
-#   Puts vim-style tildes on all lines between a message ending
-#   and the bottom of the terminal.
-set tilde=yes
+# RANDOM STUFF {{{
+unset help
 set menu_scroll="yes"
 bind index R imap-fetch-mail
+#}}}
 
 
 # EXITING BEHAVIOUR
@@ -75,13 +63,20 @@ set quit=ask-yes
 set delete=no
 
 
-# THE INDEX FORMAT
+# VIEWING THE INDEX {{{
+#   Here I highlight any unread or flagged messages, and try
+#   to ignore deleted ones.
+color index yellow default ~N
+color index yellow default ~O
+color index brightgreen default ~F
+color index red default ~D
 #   I am undecided exactly how I like my index lines to be
 #   displayed, so here are some different options.
 # Default:
 #set index_format="%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
 # With dates on the right:
 set index_format="%4C %Z %-15.15L (%?l?%4l&%4c?) %?M?+(%M)&? %s %*  %{%e %b}"
+#}}}
 
 
 # THREAD SUPPORT
@@ -93,8 +88,10 @@ set sort="threads"
 set sort_aux="last-date-received"
 
 
-# VIEWING AN EMAIL
+# VIEWING AN EMAIL {{{
 set pager_index_lines="8"
+set tilde=yes
+#}}}
 
 
 # COLOURS
@@ -124,14 +121,5 @@ color hdrdefault brightwhite default
 # These don't seem to make much difference:
 color signature white default
 color error white default
-
-
-# THE LIST OF EMAILS
-#   Here I highlight any unread or flagged messages, and try
-#   to ignore deleted ones.
-color index yellow default ~N
-color index yellow default ~O
-color index brightgreen default ~F
-color index red default ~D
 
 
