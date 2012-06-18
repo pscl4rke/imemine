@@ -89,12 +89,15 @@ function __nave_ps1() {
 }
 
 
-# THE PROMPT
+# THE PROMPT {{{
 #   The prompt is heavily influenced by the default Cygwin prompt.
 #   I just feel it is nicer to spread out your commands and make
 #   full use of your terminal's colours.  I apologise for this being
 #   such a long config line!
-export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]$(__git_ps1 " (%s)")\[\e[35m\]$(__nave_ps1)\[\e[0m\]\n\$ '
+launcher=""
+[ -z $RANGER_LEVEL ] || launcher="\[\e[35m\](ranging) "
+export PS1="\[\e]0;\w\a\]\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\[\e[0m\]\n\$ "
+#}}}
 
 
 # ALIASES
