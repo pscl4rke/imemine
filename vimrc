@@ -107,6 +107,14 @@ imap <F1> <ESC>
 map Q W
 "
 "
+" FILE-TYPE DETECTION {{{
+"   Vim's usually pretty good at this sort of thing, but sometimes it
+"   gets things wrong (and it does have an obsession with modula2).
+:autocmd BufNewFile,BufRead *.md set filetype=markdown
+:autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+"}}}
+"
+"
 " GUI OPTIONS
 "   They don't get much use, but I have some preferences for the GUI.
 "   I believe it is possible to set a list of fonts, but I'm picking
