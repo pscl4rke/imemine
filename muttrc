@@ -16,7 +16,9 @@
 #   different messages instead of just scrolling up and down.
 #   Generally speaking, making this more less-like.
 bind pager j next-line
+bind pager <down> next-line
 bind pager k previous-line
+bind pager <up> previous-line
 bind index,generic G last-entry
 bind pager G bottom
 bind pager } skip-quoted
