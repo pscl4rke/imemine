@@ -124,6 +124,7 @@ fi
 # PRODUCTIVITY IMPROVEMENTS
 #   To avoid the parts that are likely to hold me back.
 alias sl="echo Boom! Train Crash!"
+alias LS="echo Boom! Train Crash!"
 
 
 # STANDARD TOOLKIT
