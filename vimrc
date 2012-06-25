@@ -110,8 +110,8 @@ map Q W
 " FILE-TYPE DETECTION {{{
 "   Vim's usually pretty good at this sort of thing, but sometimes it
 "   gets things wrong (and it does have an obsession with modula2).
-:autocmd BufNewFile,BufRead *.md set filetype=markdown
-:autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 "}}}
 "
 "
