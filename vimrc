@@ -40,6 +40,15 @@ set number
 hi LineNr ctermfg=DarkBlue
 "
 "
+" SEARCHING {{{
+"   Switching to interactive search, and using the screen refresh
+"   shortcut to remove highlighting once done.
+set incsearch
+set hlsearch
+nnoremap <C-L> :nohl<CR><C-L>
+"}}}
+"
+"
 " STATUS LINE
 "   Now I say I always want a status line, and I give its format.
 "   The format was originally based on one by Kim Schultz, but it has
