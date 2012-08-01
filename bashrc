@@ -96,7 +96,7 @@ function __nave_ps1() {
 #   such a long config line!
 launcher=""
 [ -z $RANGER_LEVEL ] || launcher="\[\e[35m\](ranging) "
-export PS1="\[\e]0;\w\a\]\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\[\e[0m\]\n\$ "
+export PS1="\[\e]0;\w\a\]\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\[\e[0m\]\n\$ "
 #}}}
 
 
