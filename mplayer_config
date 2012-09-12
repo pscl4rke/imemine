@@ -1,0 +1,24 @@
+
+#                                         vim:ft=mplayerconf:fdm=marker:
+#======================================================================#
+#                      MPLAYER CONFIGURATION FILE                      #
+#======================================================================#
+
+
+#       As a general rule mplayer satisfies me pretty well
+#       straight out of the box, but there's so many config
+#       options it seems a shame not to use any of them.
+
+
+# TERMINAL OUTPUT {{{
+#   This tries to minimise the text on the terminal to only proper errors.
+#   Except for the status line, which is actually useful.  Interestingly
+#   everything gets sent to stderr except for the status line, so some
+#   careful bitbucket usage could clean it up further.
+msgmodule=yes
+#msglevel=all=1:statusline=5
+msglevel=all=0:statusline=5
+#msglevel=all=3:statusline=5:cplayer=3
+#}}}
+
+
