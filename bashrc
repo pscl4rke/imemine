@@ -111,6 +111,7 @@ alias du1="du --max-depth=1"
 alias du2="du --max-depth=2"
 alias du3="du --max-depth=3"
 alias serveme="python -m SimpleHTTPServer"
+alias rr="ranger"
 
 
 # CUSTOM SCRIPTS
