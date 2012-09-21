@@ -1,0 +1,20 @@
+
+#                                                vim:ft=conf:fdm=marker:
+#======================================================================#
+#                         TIG PREFERENCES FILE                         #
+#======================================================================#
+
+
+#       Tig is a curses browser for Git repositories, and does
+#       a particularly good job of showing commit history.
+
+
+# KEYBINDINGS {{{
+#   By default some of the keybindings don't feel very useful to me.
+bind generic g move-first-line
+bind generic G move-last-line
+bind generic J next
+bind generic K previous
+#}}}
+
+
