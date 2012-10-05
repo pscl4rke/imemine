@@ -22,3 +22,10 @@ msglevel=all=0:statusline=5
 #}}}
 
 
+# DEACTIVATING THE SCREENSAVER {{{
+#   This assumes I'm using xscreensaver.  If I'm not it'll print out a
+#   little error every 30 seconds.
+heartbeat-cmd="xscreensaver-command -deactivate >>/dev/null"
+#}}}
+
+
