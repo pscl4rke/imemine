@@ -155,3 +155,17 @@ then
     [ -f ~/.bashrc-cygwin ] && source ~/.bashrc-cygwin
 fi
 
+# SHOW A FORTUNE {{{
+#   The last thing to do is to take the newly prepared shell and shove
+#   a pretty little fortune at the top.  Note it doesn't use the system
+#   fortune program, because I find it suboptimal.
+#   See https://github.com/pscl4rke/fortune2
+if [ -e "$HOME/bin/fortune" ]
+then
+    echo
+    $HOME/bin/fortune
+    echo
+fi
+#}}}
+
+
