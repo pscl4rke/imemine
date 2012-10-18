@@ -8,8 +8,12 @@
 #       NOTE: Some things like email address actually vary from
 #           repository to repository, so I don't set them with
 #           --global option.
+#       ALSO: To mimic the behaviour of `git config` the indents
+#           should be a single tab character.
 
 
+[core]
+    pager = less -+FX
 [color]
 	ui = auto
 [push]
