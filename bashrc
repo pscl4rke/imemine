@@ -70,6 +70,12 @@ export EDITOR=vi
 export VISUAL=vi
 
 
+# PYTHON'S VIRTUALENV {{{
+#   This is mostly to make the PS1 work better
+VIRTUAL_ENV_DISABLE_PROMPT="TRUE"
+#}}}
+
+
 # ENVIRONMENTAL STATUS FUNCTIONS
 #   These will be used in the PS1 etc to give the current settings,
 #   environment, etc.
@@ -87,6 +93,13 @@ function __nave_ps1() {
         echo " (nave:$NAVENAME)"
     fi
 }
+function __virtualenv_ps1() {
+    if [ ! -z "$VIRTUAL_ENV" ]
+    then
+        echo " (venv:$(basename "$VIRTUAL_ENV"))"
+        #echo " (venv:$VIRTUAL_ENV)"
+    fi
+}
 
 
 # THE PROMPT {{{
@@ -96,7 +109,7 @@ function __nave_ps1() {
 #   such a long config line!
 launcher=""
 [ -z $RANGER_LEVEL ] || launcher="\[\e[35m\](ranging) "
-export PS1="\[\e]0;\w\a\]\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\[\e[0m\]\n\$ "
+export PS1="\[\e]0;\w\a\]\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\$(__virtualenv_ps1)\[\e[0m\]\n\$ "
 #}}}
 
 
