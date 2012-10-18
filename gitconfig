@@ -1,0 +1,19 @@
+
+#                                           vim:ft=gitconfig:fdm=marker:
+#======================================================================#
+#                      USER-WIDE GIT CONFIG FILE                       #
+#======================================================================#
+
+
+#       NOTE: Some things like email address actually vary from
+#           repository to repository, so I don't set them with
+#           --global option.
+
+
+[color]
+	ui = auto
+[push]
+	default = current
+[diff "gpg"]
+	textconv = gpg -v
+	xfuncname = "^((pub|uid) .*)"
