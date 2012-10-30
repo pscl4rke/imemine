@@ -45,7 +45,7 @@ have() {
     PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
     have="yes"
 }
-for completer in git tig man ssh apt
+for completer in git tig man ssh apt virtualenvwrapper
 do
     source /etc/bash_completion.d/$completer
 done
@@ -70,9 +70,11 @@ export EDITOR=vi
 export VISUAL=vi
 
 
-# PYTHON'S VIRTUALENV {{{
-#   This is mostly to make the PS1 work better
+# PYTHON'S ENVIRONMENT AND PACKAGING {{{
+#   This is mostly to make the PS1 work better, and to handle
+#   offline environments.
 VIRTUAL_ENV_DISABLE_PROMPT="TRUE"
+alias pip-install-from-basket="pip install --no-index -f file://$HOME/.basket"
 #}}}
 
 
