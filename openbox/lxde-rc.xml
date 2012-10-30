@@ -252,11 +252,6 @@
         <command>lxpanelctl run</command>
       </action>
     </keybind>
-    <keybind key="A-F2">
-      <action name="Execute">
-        <command>lxpanelctl run</command>
-      </action>
-    </keybind>
     <keybind key="C-Escape">
       <action name="Execute">
         <command>lxpanelctl menu</command>
@@ -264,6 +259,11 @@
     </keybind>
 
     <!-- Launching stuff -->
+    <keybind key="A-F2">
+      <action name="Execute">
+        <command>/usr/bin/dmenu_run</command>
+      </action>
+    </keybind>
     <keybind key="C-A-space">
       <action name="Execute">
         <command>/home/psc/launchbear/launchbear</command>
