@@ -153,7 +153,7 @@ export GREP_OPTIONS='--color=auto'
 export LS_OPTIONS='-hF --color=tty'
 alias ls='ls $LS_OPTIONS'
 complete -f cdiff
-function cdiff() { colordiff -u $@ | less -R; }
+function cdiff() { colordiff -u "$@" | less -R; }
 
 
 # LOCAL CONFIGURATION
