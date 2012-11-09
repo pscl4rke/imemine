@@ -142,6 +142,8 @@ fi
 #   To avoid the parts that are likely to hold me back.
 alias sl="echo Boom! Train Crash!"
 alias LS="echo Boom! Train Crash!"
+alias :q="echo This is a shell!"
+alias :wq="echo This is a shell!"
 
 
 # STANDARD TOOLKIT
