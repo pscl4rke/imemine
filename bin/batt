@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#======================================================================#
+# BATTERY CHARGE CHECKER                         (c) 2012 P. S. Clarke #
+#======================================================================#
+
+(
+    cat /proc/acpi/battery/*/state
+    cat /proc/acpi/battery/*/info
+) | grep -e "^charging" -e "capacity:" | cat
+
+
