@@ -114,6 +114,7 @@ map <Up> gk
 "   to work!
 imap <F1> <ESC>
 map Q W
+noremap <Space> <C-F>
 "
 "
 " FILE-TYPE DETECTION {{{
