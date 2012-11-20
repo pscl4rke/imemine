@@ -129,5 +129,9 @@ color hdrdefault brightwhite default
 # These don't seem to make much difference:
 color signature white default
 color error white default
+# When HTML leeches into the emails:
+# (could use brightblack, but doesn't look as good)
+color body magenta default "<[^>@]*>"
+color body magenta default "&nbsp;"
 
 
