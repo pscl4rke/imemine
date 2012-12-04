@@ -129,6 +129,7 @@ alias serveme="python -m SimpleHTTPServer"
 alias rr="ranger"
 alias open="xdg-open"
 alias foreach="xargs -n 1 -d \\\n -r"
+alias xclip="xclip -selection clipboard"
 
 
 # CUSTOM SCRIPTS
