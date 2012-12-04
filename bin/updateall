@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#======================================================================#
+# REPOSITORY 'MIRROR' UPDATOR                    (c) 2012 P. S. Clarke #
+#======================================================================#
+
+for directory in $(ls)
+do
+
+    if [ -d "./$directory/.git" ]
+    then
+        echo "Updating Git Repository: $directory..."
+        cd "$directory"
+        git pull
+        cd ..
+        echo "DONE."
+        echo
+    fi
+
+    if [ -d "./$directory/.hg" ]
+    then
+        echo "Updating Mercurial Repository: $directory..."
+        cd "$directory"
+        hg pull
+        cd ..
+        echo "DONE."
+        echo
+    fi
+
+done
+
