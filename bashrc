@@ -128,6 +128,7 @@ alias du3="du --max-depth=3"
 alias serveme="python -m SimpleHTTPServer"
 alias rr="ranger"
 alias open="xdg-open"
+alias foreach="xargs -n 1 -d \\\n -r"
 
 
 # CUSTOM SCRIPTS
