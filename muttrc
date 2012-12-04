@@ -44,6 +44,14 @@ bind index,pager b noop
 #}}}
 
 
+# FILTERING KEY-BINDINGS {{{
+#   By using the tilde as a prefix I can give myself different
+#   views on the emails in a folder.
+macro index ~~ "<limit>!~D<enter><collapse-all>"
+macro index ~d "<limit>~D<enter><collapse-all>"
+macro index ~f "<limit>~F<enter><collapse-all>"
+
+
 # WRITING AND REPLYING
 #   Use vim as the editor for emails etc.  And ask it to use tabbed
 #   mode, because that should be its default anyway.  I also want
@@ -85,13 +93,14 @@ set status_format=" %f (%l) %> [%?V?%V&all?] (%M of %m)"
 #}}}
 
 
-# THREAD SUPPORT
+# THREAD SUPPORT {{{
 #   Make use of threads in the index, and give some nice key
 #   bindings for them.
 bind index - collapse-thread
-macro index _ '<limit>!~D<enter><collapse-all>'
+bind index _ collapse-all
 set sort="threads"
 set sort_aux="last-date-received"
+#}}}
 
 
 # VIEWING AN EMAIL {{{
