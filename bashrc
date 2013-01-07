@@ -47,7 +47,10 @@ have() {
 }
 for completer in git tig man ssh apt virtualenvwrapper
 do
-    source /etc/bash_completion.d/$completer
+    if [ -e /etc/bash_completion.d/$completer ]
+    then
+        source /etc/bash_completion.d/$completer
+    fi
 done
 
 
