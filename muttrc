@@ -47,9 +47,9 @@ bind index,pager b noop
 # FILTERING KEY-BINDINGS {{{
 #   By using the tilde as a prefix I can give myself different
 #   views on the emails in a folder.
-macro index ~~ "<limit>!~D<enter><collapse-all>"
-macro index ~d "<limit>~D<enter><collapse-all>"
-macro index ~f "<limit>~F<enter><collapse-all>"
+macro index ~~ "<limit>!~D<enter><collapse-all><current-middle>"
+macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
+macro index ~f "<limit>~F<enter><collapse-all><current-middle>"
 
 
 # WRITING AND REPLYING
