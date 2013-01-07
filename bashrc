@@ -75,6 +75,8 @@ export VISUAL=vi
 #   offline environments.
 VIRTUAL_ENV_DISABLE_PROMPT="TRUE"
 alias pip-install-from-basket="pip install --no-index -f file://$HOME/.basket"
+
+export PYTHONSTARTUP=$HOME/.pythonrc
 #}}}
 
 
