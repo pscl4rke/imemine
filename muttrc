@@ -50,15 +50,17 @@ bind index,pager b noop
 macro index ~~ "<limit>!~D<enter><collapse-all><current-middle>"
 macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
 macro index ~f "<limit>~F<enter><collapse-all><current-middle>"
+#}}}
 
 
-# WRITING AND REPLYING
+# WRITING AND REPLYING {{{
 #   Use vim as the editor for emails etc.  And ask it to use tabbed
 #   mode, because that should be its default anyway.  I also want
 #   to be able to edit the headers as well.
 set editor="vim -p"
 set forward_format="Fwd: %s"
 set edit_headers
+#}}}
 
 
 # RANDOM STUFF {{{
@@ -68,11 +70,12 @@ bind index R imap-fetch-mail
 #}}}
 
 
-# EXITING BEHAVIOUR
+# EXITING BEHAVIOUR {{{
 #   Don't delete anything, but do ask me if I want to leave
 #   (because reloading IMAP is particularly slow).
 set quit=ask-yes
 set delete=no
+#}}}
 
 
 # VIEWING THE INDEX {{{
@@ -111,7 +114,7 @@ set pager_stop
 #}}}
 
 
-# COLOURS
+# COLOURS {{{
 #   Here are a bunch of colours that make using Mutt a bit
 #   more agreeable than some of the defaults that I've seen.
 #   They aren't too disimilar from the default Tig colourings
@@ -142,5 +145,6 @@ color error white default
 # (could use brightblack, but doesn't look as good)
 color body magenta default "<[^>@]*>"
 color body magenta default "&nbsp;"
+#}}}
 
 
