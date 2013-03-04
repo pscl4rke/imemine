@@ -193,6 +193,18 @@
       </action>
     </keybind>
 
+    <!-- Create and destroy workspaces -->
+    <keybind key="C-A-Insert">
+      <action name="AddDesktop">
+        <where>current</where>
+      </action>
+    </keybind>
+    <keybind key="C-A-Delete">
+      <action name="RemoveDesktop">
+        <where>current</where>
+      </action>
+    </keybind>
+
     <!-- Keybindings for windows -->
     <keybind key="C-A-c">
       <action name="Close" />
