@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#======================================================================#
+# SCREENSAVER DEACTIVATOR                        (c) 2012 P. S. Clarke #
+#======================================================================#
+
+# Note that this isn't maintained anymore.
+
+while :
+do
+    echo "I've just wiggled your mouse"
+    xscreensaver-command -deactivate
+    sleep 60
+done
+
+
