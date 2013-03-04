@@ -101,6 +101,7 @@ set status_format=" %f (%l) %> [%?V?%V&all?] (%M of %m)"
 #   bindings for them.
 bind index - collapse-thread
 bind index _ collapse-all
+bind index <space> tag-thread
 set sort="threads"
 set sort_aux="last-date-received"
 #}}}
