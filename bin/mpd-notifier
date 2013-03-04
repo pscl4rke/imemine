@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+#======================================================================#
+# MPD-TO-LIBNOTIFY DAEMON                        (c) 2012 P. S. Clarke #
+#======================================================================#
+
+# Find a way to run this in the background when you log in.
+# For example, using $HOME/.config/autostart.
+
+# Dependencies:
+#   -   MPD and `python-mpd` package or equivalent
+#   -   libnotify and `python-notify` package or equivalent
+
+# Bugs:
+#   -   On launch, will always announce head of playlist even if
+#       not playing.
+#   -   Assumes MPD running on localhost
+
+import mpd
+import time
+import pynotify
+pynotify.init("mpdude")
+
+def notify(identifier):
+	n = pynotify.Notification(*identifier)
+	n.show()
+
+def cycle():
+    client = mpd.MPDClient()
+    client.connect("localhost", 6600)
+
+    last_identifier = (None, None)
+    while True:
+        time.sleep(2)
+        print "Checking"
+        song_data = client.currentsong()
+        if 'title' in song_data and 'album' in song_data:
+            identifier = (song_data['title'], song_data['album'])
+        else:
+            identifier = ("Not playing", "")
+        if identifier != last_identifier:
+            print "Notifying"
+            notify(identifier)
+            last_identifier = identifier
+
+while True:
+    try:
+        cycle()
+    except Exception, e:
+        print "%s: %s" % (type(e).__name__, e)
+        print "Having to restart"
+        time.sleep(10)
