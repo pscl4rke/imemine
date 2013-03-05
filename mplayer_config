@@ -10,6 +10,16 @@
 #       options it seems a shame not to use any of them.
 
 
+[default]
+
+
+# ON-SCREEN DISPLAY {{{
+#   This configures the progress information that the `o` and `P` keys
+#   display.  Only affects the digits - the progress bar is hard-coded.
+osd-duration=5000
+#}}}
+
+
 # TERMINAL OUTPUT {{{
 #   This tries to minimise the text on the terminal to only proper errors.
 #   Except for the status line, which is actually useful.  Interestingly
@@ -23,9 +33,8 @@ msglevel=all=0:statusline=5
 
 
 # DEACTIVATING THE SCREENSAVER {{{
-#   This assumes I'm using xscreensaver.  If I'm not it'll print out a
-#   little error every 30 seconds.
-heartbeat-cmd="xscreensaver-command -deactivate >>/dev/null"
+#   This assumes I'm using xscreensaver.  It will be silent either way.
+heartbeat-cmd="xscreensaver-command -deactivate >>/dev/null 2>&1"
 #}}}
 
 
