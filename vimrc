@@ -115,6 +115,7 @@ map <Up> gk
 imap <F1> <ESC>
 map Q W
 noremap <Space> <C-F>
+noremap g<Space> <Space>
 "
 "
 " FILE-TYPE DETECTION {{{
