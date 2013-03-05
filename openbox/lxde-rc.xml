@@ -110,12 +110,12 @@
        and back in -->
     <number>4</number>
     <firstdesk>1</firstdesk>
-    <names>
-      <name>work</name>
-      <name>comms</name>
-      <name>w1</name>
-      <name>psc</name>
-    </names>
+    <!-- <names>
+      <name>Workspace 1</name>
+      <name>Workspace 2</name>
+      <name>Workspace 3</name>
+      <name>Workspace 4</name>
+    </names> -->
     <popupTime>875</popupTime>
     <!-- The number of milliseconds to show the popup for when switching
        desktops.  Set this to 0 to disable the popup. -->
