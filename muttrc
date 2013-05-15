@@ -142,9 +142,16 @@ color hdrdefault brightwhite default
 # These don't seem to make much difference:
 color signature white default
 color error white default
+#
 # When HTML leeches into the emails:
 # (could use brightblack, but doesn't look as good)
+# Tags:
 color body magenta default "<[^>@]*>"
+# Tags split across lines:
+color body magenta default "<[[:alpha:]]*[[:space:]]*$"
+color body magenta default "<[^>@]*\"[[:space:]]*$"
+color body magenta default "^[^<>@]*\" ?>"
+# Entities:
 color body magenta default "&nbsp;"
 #}}}
 
