@@ -63,10 +63,13 @@ set showmode
 " INDENTATION
 "   Set to satisfy the Python conventions, but generally usable for
 "   everything else.  Note that when I really do want a tab character
-"   I can just use Ctrl+V Ctrl+I.
+"   I can just use Ctrl+V Ctrl+I.  The smarttab setting doesn't seem
+"   to make a difference when indenting, but does when dedenting with
+"   the backspace key.
 set expandtab
 set tabstop=4
 set shiftwidth=4
+set smarttab
 "
 "
 " WINDOW TITLE
