@@ -24,6 +24,7 @@ set nocompatible
 "   Some of them may be defaults, but I've encountered places where
 "   they aren't, so it's best to be explicit.
 set scrolloff=3
+set noautoindent
 set backspace=indent,eol,start
 set timeoutlen=250
 map Y y$
