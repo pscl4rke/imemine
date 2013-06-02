@@ -45,13 +45,18 @@ have() {
     PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
     have="yes"
 }
-for completer in git tig man ssh apt virtualenvwrapper
+for completer in git tig man ssh apt
 do
     if [ -e /etc/bash_completion.d/$completer ]
     then
         source /etc/bash_completion.d/$completer
     fi
 done
+function workon() {
+    echo Just sourcing...
+    source /etc/bash_completion.d/virtualenvwrapper
+    echo Please try that again
+}
 
 
 # BASIC OPTIONS
