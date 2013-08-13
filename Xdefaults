@@ -1,0 +1,32 @@
+
+!                                                      vim:ft=xdefaults:
+!======================================================================!
+!                       X CLIENT CONFIGURATIONS                        !
+!======================================================================!
+
+
+! Currently only used for urxvt (rxvt-unicode).
+! Note that this file gets ignored if an .Xresources one exists.
+! It is read every time an application starts up.
+! It needs a good tidy up.
+
+
+URxvt.iconFile: /usr/share/icons/oxygen/16x16/apps/utilities-terminal.png
+URxvt.backgroundPixmap: /home/psc/imemine/ctermbg/purple.gif;tile
+URxvt.scrollBar: false
+
+URxvt.background: #000000
+URxvt.foreground: gray90
+
+URxvt.perl-lib: /home/psc/.urxvt/perl
+URxvt.perl-ext-common: vtwheel
+!secondaryWheel: 
+
+URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=14
+
+! start with `urxvt -name foo` to activate these:
+foo*foreground: #FF0000
+
+! This seems to be ignored:
+#include /home/psc/foo.defaults
+

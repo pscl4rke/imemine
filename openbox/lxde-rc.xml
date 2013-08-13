@@ -293,7 +293,8 @@
     <keybind key="C-A-T">
       <action name="Execute">
         <!-- <command>lxterminal</command> -->
-        <command>gnome-terminal</command>
+        <!-- <command>gnome-terminal</command> -->
+        <command>urxvt</command>
       </action>
     </keybind>
 
