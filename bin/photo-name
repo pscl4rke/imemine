@@ -70,11 +70,16 @@ def build_shoot_name(words):
     return "".join(titled)
 
 
+def basename(path):
+    """Returns the file name at the end of a file path."""
+    return path.split('/')[-1]
+
+
 def usage(program_name):
     """Return a string explaining command line usage."""
     return "\n".join((
         "Usage:",
-        "  %s <directory> Name Of Photo Shoot..." % program_name,
+        "  %s <directory> Name Of Photo Shoot..." % basename(program_name),
     ))
 
 
