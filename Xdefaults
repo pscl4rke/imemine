@@ -12,7 +12,6 @@
 
 
 URxvt.iconFile: /usr/share/icons/oxygen/16x16/apps/utilities-terminal.png
-URxvt.backgroundPixmap: /home/psc/imemine/ctermbg/purple.gif;tile
 URxvt.scrollBar: false
 
 URxvt.background: #000000
@@ -23,6 +22,13 @@ URxvt.perl-ext-common: vtwheel
 !secondaryWheel: 
 
 URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=14
+
+
+! UNUSED THINGS
+!   A tiled background looks nice, but urxvt takes _ages_
+!   to repaint its screen, so it doesn't work.
+!URxvt.backgroundPixmap: /home/psc/imemine/ctermbg/purple.gif;tile
+
 
 ! start with `urxvt -name foo` to activate these:
 foo*foreground: #FF0000
