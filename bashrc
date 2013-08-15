@@ -114,6 +114,20 @@ function __virtualenv_ps1() {
 }
 
 
+# TITLING FUNCTIONS
+#   For setting the title of terminal emulators.
+function __set_title() {
+    newtitle="$(pwd)"
+    case "$TERM" in
+        rxvt-unicode)
+            printf '\33]2;%s\007' "$newtitle"
+            ;;
+        *)
+            ;;
+    esac
+}
+
+
 # THE PROMPT {{{
 #   The prompt is heavily influenced by the default Cygwin prompt.
 #   I just feel it is nicer to spread out your commands and make
@@ -121,7 +135,7 @@ function __virtualenv_ps1() {
 #   such a long config line!
 launcher=""
 [ -z $RANGER_LEVEL ] || launcher="\[\e[35m\](ranging) "
-export PS1="\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\$(__virtualenv_ps1)\[\e[0m\]\n\$ "
+export PS1="\$(__set_title)\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\$(__virtualenv_ps1)\[\e[0m\]\n\$ "
 #}}}
 
 

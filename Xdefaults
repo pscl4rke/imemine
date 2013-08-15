@@ -14,6 +14,14 @@
 URxvt.iconFile: /usr/share/icons/oxygen/16x16/apps/utilities-terminal.png
 URxvt.scrollBar: false
 
+
+! WINDOW TITLING
+!   This is almost always overridden by whatever is running
+!   inside (e.g. the PS1 of the shell), but it does appear
+!   briefly, so I make it look nicer than `urxvt`.
+URxvt.title: Terminal
+
+
 URxvt.background: #000000
 URxvt.foreground: gray90
 
