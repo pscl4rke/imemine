@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Create an archival tar of a source directory.
+
+[ -z "$1" ] && echo No source directory given && exit 1
+src="$1"
+dest="$src.tar"
+
+(echo "$src" | grep -q '/') && echo Contains a slash && exit 1
+[ ! -d "$src" ] && echo Not a directory: "$src" && exit 1
+[ -e "$dest" ] && echo Refusing to overwrite: "$dest" && exit 1
+
+asuser=nobody
+asgroup=nogroup
+
+tar --create \
+    --owner="$asuser" --group="$asgroup" \
+    --file "$dest" \
+    "$src"
+
+tar --diff --file "$dest" | grep -v '[GU]id differs$'
+md5sum "$dest"
+
