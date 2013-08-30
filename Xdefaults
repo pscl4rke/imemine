@@ -11,7 +11,10 @@
 ! It needs a good tidy up.
 
 
-URxvt.iconFile: /usr/share/icons/oxygen/16x16/apps/utilities-terminal.png
+
+! WINDOW STYLING
+!   Use a nice icon and keep things minimal.
+URxvt.iconFile: /home/psc/imemine/ctermbg/terminal.22x22.png
 URxvt.scrollBar: false
 
 
