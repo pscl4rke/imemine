@@ -25,6 +25,18 @@ URxvt.title: Terminal
 URxvt.background: #000000
 URxvt.foreground: gray90
 
+
+! INACTIVE WINDOWS
+!   Years ago I used a the Compiz 'ADD' plugin, which shaded
+!   inactive windows to make them less distracting.   I found
+!   it was helpful in making it obvious which window had the
+!   current focus, and I've wanted it back every since.  This
+!   only applies to terminal windows, but it does sort-of work.
+!   I'll probably adjust the percentage/colour over time.
+URxvt.fading: 25
+URxvt.fadeColor: #440066
+
+
 URxvt.perl-lib: /home/psc/.urxvt/perl
 URxvt.perl-ext-common: vtwheel
 !secondaryWheel: 
