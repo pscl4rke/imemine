@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Generate a 4096-bit self-signed SSL certificate (and key).
+[ -z "$1" ] && echo Missing common name >&2 && exit 1
+commonname="$1"
+openssl req \
+    -x509 -nodes \
+    -days 3650 \
+    -newkey rsa:4096 \
+    -subj /CN=$commonname \
+    -keyout $commonname.key \
+    -out $commonname.crt
