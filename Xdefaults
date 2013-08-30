@@ -15,6 +15,14 @@ URxvt.iconFile: /usr/share/icons/oxygen/16x16/apps/utilities-terminal.png
 URxvt.scrollBar: false
 
 
+! WINDOW SIZE
+!   It turns out that if I want to have four characters of
+!   line numbering in the left-hand margin then I need to
+!   have four characters more width!  I usually resize my
+!   windows into a grid layout anyway.
+URxvt.geometry: 84x25
+
+
 ! WINDOW TITLING
 !   This is almost always overridden by whatever is running
 !   inside (e.g. the PS1 of the shell), but it does appear
