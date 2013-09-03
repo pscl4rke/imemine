@@ -14,8 +14,11 @@
 
 ! WINDOW STYLING
 !   Use a nice icon and keep things minimal.
+!   Don't let the primary screen's scroll history get mangled
+!   by the secondary screen.
 URxvt.iconFile: /home/psc/imemine/ctermbg/terminal.22x22.png
 URxvt.scrollBar: false
+URxvt.secondaryScroll: false
 
 
 ! WINDOW SIZE
