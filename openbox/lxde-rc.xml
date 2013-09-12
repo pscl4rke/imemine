@@ -233,14 +233,9 @@
     <keybind key="C-A-N">
       <action name="Iconify" />
     </keybind>
-    <!--
-        Having to do this through QuickTile instead, because I'm still
-        using some versions of Openbox too old to understand this
-        action.
     <keybind key="C-A-M">
       <action name="ToggleMaximize" />
     </keybind>
-    -->
 
     <!-- Keybindings for window switching -->
     <keybind key="A-Tab">
