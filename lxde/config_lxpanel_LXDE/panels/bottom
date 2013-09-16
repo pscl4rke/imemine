@@ -85,10 +85,6 @@ Plugin {
 }
 
 Plugin {
-    type = cpu
-}
-
-Plugin {
     type = monitors
     Config {
         DisplayCPU=1
