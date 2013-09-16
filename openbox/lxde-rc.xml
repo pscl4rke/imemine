@@ -366,15 +366,25 @@
     </keybind>
 
     <!-- Fast access to filemanager -->
-    <keybind key="C-A-D">
+    <keybind key="C-A-Home">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
           <name>PCManFM</name>
         </startupnotify>
-        <command>pcmanfm</command>
+        <command>pcmanfm -n</command>
       </action>
     </keybind>
+    <keybind key="C-A-End">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>PCManFM</name>
+        </startupnotify>
+        <command>pcmanfm -n /</command>
+      </action>
+    </keybind>
+
     <!-- Launch scrot when Print is pressed -->
     <keybind key="Print">
       <action name="Execute">
