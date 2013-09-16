@@ -18,6 +18,9 @@
 	ui = auto
 [push]
 	default = current
+[color "diff"]
+	meta = cyan
+	frag = cyan
 [diff "gpg"]
 	textconv = gpg -v
 	xfuncname = "^((pub|uid) .*)"
