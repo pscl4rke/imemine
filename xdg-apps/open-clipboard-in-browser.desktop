@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Browse the clipboard
+Comment=Browse the World Wide Web
+GenericName=Clipboard Web Browser
+Exec=/home/psc/imemine/bin/open-in-browser CLIPBOARD
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=web
+Categories=Internet;Network;WebBrowser;
+StartupNotify=true

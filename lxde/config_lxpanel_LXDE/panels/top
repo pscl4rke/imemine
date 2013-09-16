@@ -41,7 +41,7 @@ Plugin {
             id=lxde-x-www-browser.desktop
         }
         Button {
-            id=/home/psc/.local/share/applications/browsing.desktop
+            id=/home/psc/.local/share/applications/imemine/open-clipboard-in-browser.desktop
         }
     }
 }
