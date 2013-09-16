@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#======================================================================#
+# WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2013 P. S. Clarke #
+#======================================================================#
+
+if [ "x$1" == "xCLIPBOARD" ]
+then
+    url="$(xclip -o)"
+else
+    url="$1"
+fi
+
+# --temp-profile must be first if it is to be obeyed:
+chromium-browser --temp-profile --no-first-run "$url"
