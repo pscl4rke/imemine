@@ -31,7 +31,6 @@ def cycle():
     last_identifier = (None, None)
     while True:
         time.sleep(2)
-        print "Checking"
         song_data = client.currentsong()
         if 'title' in song_data and 'album' in song_data:
             identifier = (song_data['title'], song_data['album'])
