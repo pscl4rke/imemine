@@ -43,6 +43,9 @@ Plugin {
         Button {
             id=/home/psc/.local/share/applications/imemine/open-clipboard-in-browser.desktop
         }
+        Button {
+            id=/home/psc/.local/share/applications/imemine/open-primary-in-browser.desktop
+        }
     }
 }
 
