@@ -318,7 +318,7 @@
     <!-- Music -->
     <keybind key="C-A-j">
       <action name="Execute">
-        <command>/home/psc/bin/jukebox</command>
+        <command>/home/psc/imemine/bin/jukebox</command>
       </action>
     </keybind>
     <keybind key="C-A-p">
