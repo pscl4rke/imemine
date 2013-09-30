@@ -127,6 +127,7 @@ noremap g<Space> <Space>
 "   gets things wrong (and it does have an obsession with modula2).
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+autocmd BufNewFile,BufRead *.pp set filetype=puppet
 "}}}
 "
 "
