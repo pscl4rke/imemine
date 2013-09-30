@@ -51,3 +51,26 @@ startup_message off
 bind x screen
 
 
+# WINDOW TITLES
+#   The `hardstatus` has got to be one of the most confusing
+#   parts of screen, and not just because of all the escape
+#   sequences.  It often runs along the bottom like the captions,
+#   but if it is turned 'off' and the right terminal sequences
+#   programmed in then it can set the window title as well.
+termcapinfo rxvt-unicode 'hs:ts=\E]2;:fs=\007:ds=\E]0;Untitled\007'
+hardstatus off
+hardstatus string '[screen] %t'
+
+
+# STATUS LINE
+#   The caption runs along the bottom of every window.
+#   If the screen has been split (horizontally or vertically)
+#   then multiple captions are shown.  It's mostly there as
+#   a reminder to me that I'm still inside a screen session.
+#   It's possible to fill this with different colours, and one
+#   day I might do that, but then the definition becomes
+#   impossible to read.
+caption always
+caption string ' %n: %t %= %Y-%m-%d %c '
+
+

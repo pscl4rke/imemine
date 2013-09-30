@@ -122,6 +122,9 @@ function __set_title() {
         rxvt-unicode)
             printf '\33]2;%s\007' "$newtitle"
             ;;
+        screen)
+            echo -ne "\ek$newtitle\e\\"
+            ;;
         *)
             ;;
     esac
