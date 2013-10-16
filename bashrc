@@ -18,8 +18,6 @@
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
 # COMMAND COMPLETION
@@ -157,6 +155,7 @@ alias rr="ranger"
 #alias open="xdg-open" #(replaced by `run` script)
 alias foreach="xargs -n 1 -d \\\n -r"
 alias xclip="xclip -selection clipboard"
+alias id3="id3v2 -l"
 
 
 # CUSTOM SCRIPTS
