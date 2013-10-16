@@ -1,0 +1,3 @@
+#!/bin/sh
+# Launch a file in the XDG-associated application
+(nohup xdg-open "$@" 2>&1 >>/dev/null) 2>&1 >>/dev/null &
