@@ -160,12 +160,12 @@ alias xclip="xclip -selection clipboard"
 
 
 # CUSTOM SCRIPTS
-#   If ~/bin/ exists it is given priority as a location for
-#   executables.
-if [ -d "$HOME/bin" ]
-then
-    export PATH="$HOME/bin:$PATH"
-fi
+#   If ~/bin/ exists it is added as a location for
+#   executables.  Also make use of imemine if it is there.
+#   However none of them should take priority over system
+#   paths.
+[ -d "$HOME/imemine/bin" ] && export PATH="$PATH:$HOME/imemine/bin"
+[ -d "$HOME/bin" ] && export PATH="$PATH:$HOME/bin"
 
 
 # PRODUCTIVITY IMPROVEMENTS
