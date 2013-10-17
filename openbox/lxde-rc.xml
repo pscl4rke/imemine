@@ -268,6 +268,98 @@
         </finalactions>
       </action>
     </keybind>
+    <!-- Keybindings for window tiling -->
+    <keybind key="C-A-KP_4"> <!-- Left -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
+        <height>98%</height>
+        <width>50%</width>
+      </action>
+    </keybind>
+    <keybind key="C-A-KP_6"> <!-- Right -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>-0</x>
+        <y>0</y>
+        <height>98%</height>
+        <width>50%</width>
+      </action>
+    </keybind>
+    <keybind key="C-A-KP_8"> <!-- Top-->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
+        <width>100%</width>
+        <height>50%</height>
+      </action>
+    </keybind>
+    <keybind key="C-A-KP_2"> <!-- Bottom -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>-0</y>
+        <width>100%</width>
+        <height>50%</height>
+      </action>
+    </keybind>
+    <keybind key="C-A-KP_7"> <!-- Top-Left -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
+        <width>50%</width>
+        <height>50%</height>
+      </action>
+    </keybind>
+    <keybind key="C-A-KP_9"> <!-- Top-Right -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>-0</x>
+        <y>0</y>
+        <width>50%</width>
+        <height>50%</height>
+      </action>
+    </keybind>
+    <keybind key="C-A-KP_1"> <!-- Bottom-Left -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>-0</y>
+        <width>50%</width>
+        <height>47%</height>
+      </action>
+    </keybind>
+    <keybind key="C-A-KP_3"> <!-- Bottom-Right -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>-0</x>
+        <y>-0</y>
+        <width>50%</width>
+        <height>47%</height>
+      </action>
+    </keybind>
+    <keybind key="C-A-bracketleft"> <!-- Another Left -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
+        <height>98%</height>
+        <width>50%</width>
+      </action>
+    </keybind>
+    <keybind key="C-A-bracketright"> <!-- Another Right -->
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>-0</x>
+        <y>0</y>
+        <height>98%</height>
+        <width>50%</width>
+      </action>
+    </keybind>
+
     <!-- Keybindings for running applications -->
     <keybind key="W-e">
       <action name="Execute">
