@@ -340,12 +340,12 @@
     <!-- Keybinding for Volume management -->
     <keybind key="C-A-plus">
       <action name="Execute">
-        <command>amixer -q sset Master 3%+</command>
+        <command>amixer -q sset Master 3%+ unmute</command>
       </action>
     </keybind>
     <keybind key="C-A-minus">
       <action name="Execute">
-        <command>amixer -q sset Master 3%-</command>
+        <command>amixer -q sset Master 3%- unmute</command>
       </action>
     </keybind>
 
@@ -679,7 +679,9 @@
     <!-- You can specify more than one menu file in here and they are all loaded,
        just don't make menu ids clash or, well, it'll be kind of pointless -->
     <!-- default menu file (or custom one in $HOME/.config/openbox/) -->
+    <file>/usr/share/lubuntu/openbox/menu.xml</file>
     <file>/usr/share/lxde/openbox/menu.xml</file>
+    <file>menu.xml</file>
     <hideDelay>200</hideDelay>
     <!-- if a press-release lasts longer than this setting (in milliseconds), the
        menu is hidden again -->
