@@ -8,7 +8,7 @@
 # DISPLAY
 #   Stuff to make it look a bit more familiar to someone used to
 #   working with grep.  And then page it to be confusing!
---pager=less -R
+--pager=less -R --chop-long-lines
 --color-filename=magenta
 --color-match=bold red
 --color-lineno=green
