@@ -1,0 +1,24 @@
+#
+#                                                         vim:ft=dosini:
+#======================================================================#
+#                  XDG PREFERENCE FOR FILE LAUNCHERS                   #
+#======================================================================#
+
+#   Annoyingly you need to add an entry to both sections.
+
+[Added Associations]
+application/octet-stream=gvim.desktop;
+application/xml=gvim.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
+application/epub+zip=FBReader.desktop;
+text/plain=gvim.desktop;
+text/vcard=gvim.desktop;
+
+[Default Applications]
+application/octet-stream=gvim.desktop;
+application/xml=gvim.desktop;
+application/epub+zip=FBReader.desktop;
+text/plain=gvim.desktop;
+text/vcard=gvim.desktop;
+
+
