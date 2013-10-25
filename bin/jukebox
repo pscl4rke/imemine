@@ -3,9 +3,12 @@
 # MPD ALBUM SELECTOR                             (c) 2012 P. S. Clarke #
 #======================================================================#
 
-album="$(mpc list album | shuf | sed 's/Disc .*$//' | dmenu)"
+album="$(mpc list album | shuf | cat <(echo "SHUFFLING") - | dmenu)"
 [ -z "$album" ] && exit 1
 mpc clear
-mpc search album "$album" | mpc add
+case "$album" in
+    SHUFFLING)  mpc listall | shuf          ;;
+    *)          mpc find album "$album"     ;;
+esac | mpc add
 mpc play
 
