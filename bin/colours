@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#======================================================================#
+# ANSI COLOUR PREVIEWER                          (c) 2012 P. S. Clarke #
+#======================================================================#
+
+echo "     Normal       Bold         Italic       Underline    Strikeout"
+for hue in 0 1 2 3 4 5 6 7
+do
+    echo -n "[$hue]"
+    echo -ne "  \\e[3${hue}mHello World\\e[0m"
+    echo -ne "  \\e[3${hue};1mHello World\\e[0m"
+    echo -ne "  \\e[3${hue};3mHello World\\e[0m"
+    echo -ne "  \\e[3${hue};4mHello World\\e[0m"
+    echo -ne "  \\e[3${hue};9mHello World\\e[0m"
+    echo
+done

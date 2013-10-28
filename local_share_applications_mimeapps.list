@@ -13,6 +13,8 @@ application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.
 application/epub+zip=FBReader.desktop;
 text/plain=gvim.desktop;
 text/vcard=gvim.desktop;
+text/x-asm=gvim.desktop;
+message/rfc822=gvim.desktop;
 
 [Default Applications]
 application/octet-stream=gvim.desktop;
@@ -20,5 +22,7 @@ application/xml=gvim.desktop;
 application/epub+zip=FBReader.desktop;
 text/plain=gvim.desktop;
 text/vcard=gvim.desktop;
+text/x-asm=gvim.desktop;
+message/rfc822=gvim.desktop;
 
 

@@ -58,6 +58,35 @@ URxvt.perl-ext-common: vtwheel
 URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=14
 
 
+# COLOURS
+#   The defaults can be found in urxvt(7).
+#   0-7 are "low-intensity", 8-15 are "high-intensity" (bold)
+# Black:
+URxvt.color0:   #333333
+URxvt.color8:   #484848
+# Red:
+URxvt.color1:   #DD0000
+URxvt.color9:   #FF0054
+# Green:
+URxvt.color2:   #00A800
+URxvt.color10:  #00FF54
+# Yellow:
+URxvt.color3:   #BBBB00
+URxvt.color11:  #FFFF54
+# Blue:
+URxvt.color4:   #0077FF
+URxvt.color12:  #3399FF
+# Magenta:
+URxvt.color5:   #CC00CC
+URxvt.color13:  #EE00EE
+# Cyan:
+URxvt.color6:   #00A8A8
+URxvt.color14:  #00EEEE
+# White:
+URxvt.color7:   #C8C8C8
+URxvt.color15:  #FFFFFF
+
+
 ! UNUSED THINGS
 !   A tiled background looks nice, but urxvt takes _ages_
 !   to repaint its screen, so it doesn't work.
