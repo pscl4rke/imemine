@@ -5,6 +5,9 @@
 #======================================================================#
 
 #   Annoyingly you need to add an entry to both sections.
+#   In the 'Added Associations' section you can specify multiple
+#   values, using semicolons as separators.  The leftmost applications
+#   take precedence.
 
 [Added Associations]
 application/octet-stream=gvim.desktop;
