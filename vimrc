@@ -100,6 +100,9 @@ set tabpagemax=20
 "   some preferences.
 syntax on
 hi Comment ctermfg=DarkGreen
+hi Statement ctermfg=Yellow
+hi Type ctermfg=Cyan
+hi Function ctermfg=Cyan
 hi ExtraWhitespace ctermbg=red guibg=red term=reverse
 au BufNewFile,BufRead * match ExtraWhitespace /\s\+$/
 let python_highlight_numbers = 1
