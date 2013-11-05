@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+#======================================================================#
+# MPD-TO-LIBNOTIFY CONTINUOUS SERVICE SCRIPT     (c) 2013 P. S. Clarke #
+#======================================================================#
+
+while :
+do
+    $HOME/imemine/bin/mpd-notifier | logger -t mpd-notifier
+    sleep 5
+done
+
+

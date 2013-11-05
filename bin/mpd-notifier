@@ -1,10 +1,13 @@
 #!/usr/bin/env python
+#
 #======================================================================#
-# MPD-TO-LIBNOTIFY DAEMON                        (c) 2012 P. S. Clarke #
+# MPD-TO-LIBNOTIFY TOOL                          (c) 2012 P. S. Clarke #
 #======================================================================#
 
 # Find a way to run this in the background when you log in.
 # For example, using $HOME/.config/autostart.
+# You probably should use run-mpd-notifier to wrap this and
+# automatically restart it when it (frequently) crashes.
 
 # Dependencies:
 #   -   MPD and `python-mpd` package or equivalent
@@ -24,10 +27,7 @@ def notify(identifier):
 	n = pynotify.Notification(*identifier)
 	n.show()
 
-def cycle():
-    client = mpd.MPDClient()
-    client.connect("localhost", 6600)
-
+def cycle(client):
     last_identifier = (None, None)
     while True:
         time.sleep(2)
@@ -37,14 +37,20 @@ def cycle():
         else:
             identifier = ("Not playing", "")
         if identifier != last_identifier:
-            print "Notifying"
             notify(identifier)
             last_identifier = identifier
 
-while True:
+def main():
     try:
-        cycle()
+        client = mpd.MPDClient()
+        client.connect("localhost", 6600)
+        cycle(client)
     except Exception, e:
+        print "Crash occurred:"
         print "%s: %s" % (type(e).__name__, e)
-        print "Having to restart"
-        time.sleep(10)
+        print "You should restart me now!"
+        del client
+
+if __name__ == '__main__':
+    main()
+
