@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Browse the primary selection
+Comment=Browse the currently selected text
+GenericName=Clipboard Web Browser
+Exec=/home/psc/imemine/bin/open-in-browser PRIMARY
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=web
+Categories=Internet;Network;WebBrowser;
+StartupNotify=true
