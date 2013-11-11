@@ -25,9 +25,18 @@ set nocompatible
 "   they aren't, so it's best to be explicit.
 set scrolloff=3
 set noautoindent
-set backspace=indent,eol,start
 set timeoutlen=250
 map Y y$
+"
+"
+" DELETING TEXT
+"   It's easier for me to alter vim to behave like the readline
+"   defaults than it is to go through every host I manage and
+"   alter readline to behave like vim.
+"   (To get ^[ type ctrl+v and then escape.)
+inoremap <BS> <C-W>
+inoremap <C-W> <ESC>vBc
+set backspace=indent,eol,start
 "
 "
 " LINE NUMBERING
