@@ -140,6 +140,8 @@ noremap g<Space> <Space>
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 autocmd BufNewFile,BufRead *.pp set filetype=puppet
+autocmd BufNewFile,BufRead *.csv set filetype=csv
+autocmd BufNewFile,BufRead *.crontab set filetype=crontab
 "}}}
 "
 "
