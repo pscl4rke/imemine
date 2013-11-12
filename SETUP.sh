@@ -35,6 +35,11 @@ die () {
 _ensureparentdir () {
     fullpath="$1"
     parentpath="$(dirname "$fullpath")"
+    if [ -d "$parentpath" ]
+    then
+        debug "Directory $parentpath already exists"
+        return 0
+    fi
     if mkdir -p "$parentpath"
     then
         info "Created directory $parentpath"
