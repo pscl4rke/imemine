@@ -108,7 +108,7 @@ set tabpagemax=20
 "   Surely the most important part!  I enable it here and then set
 "   some preferences.
 syntax on
-hi Comment ctermfg=DarkGreen
+hi Comment ctermfg=DarkGreen cterm=Italic gui=Italic guifg=DarkGreen
 hi Statement ctermfg=Yellow
 hi Type ctermfg=Cyan
 hi Function ctermfg=Cyan
