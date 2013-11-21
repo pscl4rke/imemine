@@ -5,10 +5,11 @@
 !======================================================================!
 
 
+
 ! Currently only used for urxvt (rxvt-unicode).
 ! Note that this file gets ignored if an .Xresources one exists.
 ! It is read every time an application starts up.
-! It needs a good tidy up.
+! It needs a little tidy up.
 
 
 
@@ -36,10 +37,6 @@ URxvt.geometry: 84x25
 URxvt.title: Terminal
 
 
-URxvt.background: #000000
-URxvt.foreground: gray90
-
-
 ! INACTIVE WINDOWS
 !   Years ago I used a the Compiz 'ADD' plugin, which shaded
 !   inactive windows to make them less distracting.   I found
@@ -51,16 +48,24 @@ URxvt.fading: 25
 URxvt.fadeColor: #440066
 
 
+! EXTENSIONS TO BE LOADED
+!   What should it add and where should it look?
 URxvt.perl-lib: /home/psc/.urxvt/perl
 URxvt.perl-ext-common: vtwheel
 !secondaryWheel: 
 
+
+! TEXT RENDERING
+!   This font is usually available.
 URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=14
 
 
 # COLOURS
 #   The defaults can be found in urxvt(7).
 #   0-7 are "low-intensity", 8-15 are "high-intensity" (bold)
+# Defaults:
+URxvt.background: #000000
+URxvt.foreground: gray90
 # Black:
 URxvt.color0:   #333333
 URxvt.color8:   #484848
