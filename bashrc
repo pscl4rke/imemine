@@ -110,6 +110,12 @@ function __virtualenv_ps1() {
         #echo " (venv:$VIRTUAL_ENV)"
     fi
 }
+function __fakeroot_ps1() {
+    if [ ! -z "$FAKED_MODE" ]
+    then
+        echo " (fake:$FAKED_MODE)"
+    fi
+}
 
 
 # TITLING FUNCTIONS
@@ -136,7 +142,7 @@ function __set_title() {
 #   such a long config line!
 launcher=""
 [ -z $RANGER_LEVEL ] || launcher="\[\e[35m\](ranging) "
-export PS1="\$(__set_title)\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\$(__virtualenv_ps1)\[\e[0m\]\n\$ "
+export PS1="\$(__set_title)\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(__git_ps1 ' (%s)')\[\e[35m\]$(__nave_ps1)\$(__virtualenv_ps1)\$(__fakeroot_ps1)\[\e[0m\]\n\$ "
 #}}}
 
 
