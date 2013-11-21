@@ -92,6 +92,13 @@ URxvt.color7:   #C8C8C8
 URxvt.color15:  #FFFFFF
 
 
+! KEYBINDINGS
+!   These disable the Ctrl+Shift unicode entering because it clashes
+!   with some of the keybindings in my window manager
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+
 ! UNUSED THINGS
 !   A tiled background looks nice, but urxvt takes _ages_
 !   to repaint its screen, so it doesn't work.
