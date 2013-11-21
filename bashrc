@@ -12,6 +12,14 @@
 [ -z "$PS1" ] && return
 
 
+# BASH'S BEHAVIOUR
+#   These set some values affecting bash.  Many are often the
+#   default, but it's good to be explicit.
+HISTCONTROL=ignoreboth
+HISTSIZE=5000
+HISTFILESIZE=5000
+
+
 # BORROWED FROM UBUNTU DEFAULTS
 #   I don't know how much these are needed, but I include them in
 #   case it reduces the usability that I've been accustomed to.
