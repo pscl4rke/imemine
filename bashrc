@@ -31,6 +31,11 @@ fi
 # COMMAND COMPLETION
 #   Command auto-completion is very handy, but I've had to do
 #   some performance tuning here.
+#
+#   Note that much of this is out-of-date, as bash completion
+#   is increasingly being handled by /usr/share/bash-completion,
+#   and not /etc/bash_completion.
+#
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     # This line is (relatively) very time-consuming, so I've
     # cancelled all of the files in /etc/bash_completion.d
@@ -97,6 +102,7 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 # ENVIRONMENTAL STATUS FUNCTIONS
 #   These will be used in the PS1 etc to give the current settings,
 #   environment, etc.
+[ -f /usr/lib/git-core/git-sh-prompt ] && source /usr/lib/git-core/git-sh-prompt
 if declare -F | grep -q __git_ps1
 then
     : #(already included from /etc/bash_completion.d/git)
