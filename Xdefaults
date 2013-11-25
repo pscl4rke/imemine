@@ -14,12 +14,11 @@
 
 
 ! WINDOW STYLING
-!   Use a nice icon and keep things minimal.
-!   Don't let the primary screen's scroll history get mangled
-!   by the secondary screen.
+!   Use a nice icon and keep things minimal.  The title is
+!   usually overriden by programs (esp. the bash $PS1)
 URxvt.iconFile: /home/psc/imemine/ctermbg/terminal.22x22.png
 URxvt.scrollBar: false
-URxvt.secondaryScroll: false
+URxvt.title: Terminal
 
 
 ! WINDOW SIZE
@@ -28,13 +27,6 @@ URxvt.secondaryScroll: false
 !   have four characters more width!  I usually resize my
 !   windows into a grid layout anyway.
 URxvt.geometry: 84x25
-
-
-! WINDOW TITLING
-!   This is almost always overridden by whatever is running
-!   inside (e.g. the PS1 of the shell), but it does appear
-!   briefly, so I make it look nicer than `urxvt`.
-URxvt.title: Terminal
 
 
 ! INACTIVE WINDOWS
@@ -46,6 +38,18 @@ URxvt.title: Terminal
 !   I'll probably adjust the percentage/colour over time.
 URxvt.fading: 25
 URxvt.fadeColor: #440066
+
+
+! SCROLLING
+!   Maintain a separate space for the secondary screen so it
+!   doesn't mangle the first one's history.  Then allow the
+!   user to browse through the history without new output
+!   causing it to jump to the bottom.  New input will make it
+!   jump.
+URxvt.secondaryScroll: false
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
 
 
 ! EXTENSIONS TO BE LOADED
