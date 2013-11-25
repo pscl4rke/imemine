@@ -12,14 +12,6 @@
 [ -z "$PS1" ] && return
 
 
-# BASH'S BEHAVIOUR
-#   These set some values affecting bash.  Many are often the
-#   default, but it's good to be explicit.
-HISTCONTROL=ignoreboth
-HISTSIZE=5000
-HISTFILESIZE=5000
-
-
 # BORROWED FROM UBUNTU DEFAULTS
 #   I don't know how much these are needed, but I include them in
 #   case it reduces the usability that I've been accustomed to.
@@ -70,15 +62,22 @@ function workon() {
 }
 
 
-# BASIC OPTIONS
-#   I ask bash not to overwrite an existing file using the
-#   redirects and to be nice with the history file.  Also play
-#   nicely with resizes.
+# EXPLICITLY DECLARE BASIC OPTIONS
+#   Don't overwrite an existing file using redirects:
 set -o noclobber
+#   Add history to file, but don't replace existing lines:
 shopt -s histappend
-HISTCONTROL=ignoreboth
-shopt -s checkwinsize
+#   Expand out things like !! and !:1 but don't immediately run:
 shopt -s histverify
+#   Don't add repeated commands or space-preceded ones to history:
+HISTCONTROL=ignoreboth
+#   Keep *loads* of history:
+HISTSIZE=5000
+HISTFILESIZE=5000
+#   Update $LINES and $COLUMNS after commands:
+shopt -s checkwinsize
+#   Ensure that the $PS1 gets properly evaluated:
+shopt -s promptvars
 
 
 # EDITING FILES
