@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Browse port 8000 on localhost
+Comment=Browse the World Wide Web
+GenericName=Localhost 8000 Web Browser
+Exec=/home/psc/imemine/bin/open-in-browser http://localhost:8000
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=web
+Categories=Internet;Network;WebBrowser;
+StartupNotify=true
