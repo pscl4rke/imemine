@@ -115,6 +115,7 @@ wantlink "pythonrc" ".pythonrc"
 wantlink "screenrc" ".screenrc"
 wantlink "tigrc" ".tigrc"
 wantlink "vimrc" ".vimrc"
+wantlink "w3m_config" ".w3m/config"
 wantlink "Xdefaults" ".Xdefaults"
 
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
