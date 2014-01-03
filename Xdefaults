@@ -45,8 +45,11 @@ URxvt.fadeColor: #440066
 !   doesn't mangle the first one's history.  Then allow the
 !   user to browse through the history without new output
 !   causing it to jump to the bottom.  New input will make it
-!   jump.
+!   jump.  By default it seems to have 1024 lines of scroll.
+!   I calculate the worst case is each terminal needs 1.5
+!   megabytes more RAM by increasing this.
 URxvt.secondaryScroll: false
+URxvt.saveLines: 10000
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
