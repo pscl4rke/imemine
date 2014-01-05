@@ -3,9 +3,17 @@
 # BATTERY CHARGE CHECKER                         (c) 2012 P. S. Clarke #
 #======================================================================#
 
-(
-    cat /proc/acpi/battery/*/state
-    cat /proc/acpi/battery/*/info
-) | grep -e "^charging" -e "capacity:" | cat
+if [ -e "/proc/acpi/battery" ]
+then
+    # This may be the old way of doing it...
+    (
+        cat /proc/acpi/battery/*/state
+        cat /proc/acpi/battery/*/info
+    ) | grep -e "^charging" -e "capacity:" | cat
+else
+    # And this may be the new...
+    grep '.' /sys/class/power_supply/BAT*/charge_*
+    grep '.' /sys/class/power_supply/BAT*/status
+fi
 
 
