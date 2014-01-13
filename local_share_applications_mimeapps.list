@@ -7,25 +7,33 @@
 #   Annoyingly you need to add an entry to both sections.
 #   In the 'Added Associations' section you can specify multiple
 #   values, using semicolons as separators.  The leftmost applications
-#   take precedence.
+#   take precedence.  Although tools like `xdg-open` get confused
+#   by this.
+
+#   This is a REALLY awful way of managing applications.
+#   Different programs interpret/ignore these in all sorts of
+#   inexplicable ways.  And if you symlink this file into place
+#   then it gets magically replaced with an ordinary file.
 
 [Added Associations]
-application/octet-stream=gvim.desktop;
-application/xml=gvim.desktop;
-application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
-application/epub+zip=FBReader.desktop;
-text/plain=gvim.desktop;
-text/vcard=gvim.desktop;
-text/x-asm=gvim.desktop;
-message/rfc822=gvim.desktop;
+application/octet-stream=gvim.desktop
+application/xml=gvim.desktop
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop
+application/epub+zip=FBReader.desktop
+text/plain=gvim.desktop
+text/vcard=gvim.desktop
+text/x-asm=gvim.desktop
+text/x-python=gvim.desktop
+message/rfc822=gvim.desktop
 
 [Default Applications]
-application/octet-stream=gvim.desktop;
-application/xml=gvim.desktop;
-application/epub+zip=FBReader.desktop;
-text/plain=gvim.desktop;
-text/vcard=gvim.desktop;
-text/x-asm=gvim.desktop;
-message/rfc822=gvim.desktop;
+application/octet-stream=gvim.desktop
+application/xml=gvim.desktop
+application/epub+zip=FBReader.desktop
+text/plain=gvim.desktop
+text/vcard=gvim.desktop
+text/x-asm=gvim.desktop
+text/x-python=gvim.desktop
+message/rfc822=gvim.desktop
 
 
