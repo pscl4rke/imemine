@@ -9,6 +9,9 @@
 #   Only continue with these preferences in an interactive session.
 #   Otherwise I shall stick to the defaults so that shell scripts
 #   behave as the author expected.
+#   Note that I check whether the prompt is set here, but it is also
+#   possible to test whether "i" appears in "$-" using something
+#   like a case statement.
 [ -z "$PS1" ] && return
 
 
@@ -101,6 +104,8 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 # ENVIRONMENTAL STATUS FUNCTIONS
 #   These will be used in the PS1 etc to give the current settings,
 #   environment, etc.
+#   Some people have an option to cat /etc/debian_chroot into their
+#   prompt if they spend a lot of time using chroot.
 [ -f /usr/lib/git-core/git-sh-prompt ] && source /usr/lib/git-core/git-sh-prompt
 if declare -F | grep -q __git_ps1
 then
