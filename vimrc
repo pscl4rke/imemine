@@ -25,7 +25,7 @@ set nocompatible
 "   they aren't, so it's best to be explicit.
 set scrolloff=3
 set noautoindent
-set timeoutlen=250
+set timeoutlen=350
 map Y y$
 "
 "
@@ -151,6 +151,23 @@ autocmd BufNewFile,BufRead *.crontab set filetype=crontab
 "   only one for the time being.
 "set guifont=Lucida_Sans_Typewriter:h14:cANSI
 set guifont=Monospace\ 11
+"
+"
+" PSEUDO-LEADER
+"   I tried out lots of different things for leaders, but eventually
+"   settled on defining everything twice using Ctrl+\
+"   -   This won't clash with plugins that use <Leader> because
+"       that is just a backslash without the Ctrl
+"   -   It is better than a comma because Ctrl+Comma can't
+"       be mapped
+"   -   WORRYINGLY: Ctrl+Backlash often gets mapped to SIGQUIT
+"   -   It works in both modes in the terminal (URXVT, Xterm, ST)
+noremap <C-\>n :set number!<CR>
+inoremap <C-\>n <C-O>:set number!<CR>
+noremap <C-\>p :filetype plugin on<CR>:do FileType<CR>
+inoremap <C-\>p <C-O>:filetype plugin on<CR><C-O>:do FileType<CR>
+noremap <C-\>s :set spell!<CR>
+inoremap <C-\>s <C-O>:set spell!<CR>
 "
 "
 " RARELY USED FEATURES
