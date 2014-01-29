@@ -1,0 +1,113 @@
+#!/usr/bin/env python2
+# -*- encoding: ascii -*-                   vim:ft=python:tw=72:et:ts=4:
+#======================================================================#
+# OCR2PDF - BUILD PDFS FROM TEXT AND IMAGES      (c) 2014 P. S. Clarke #
+#======================================================================#
+
+
+"""
+ocr2pdf
+=======
+
+:Author: P. S. Clarke
+:Licence: GNU Public Licence v2
+
+`ocr2pdf` wraps around the `reportlab` PDF libraries to provide a
+command-line tool for document archiving.  PDFs are generated that
+have a scanned image in the foreground, and the text from Optical
+Character Recognition hidden in the background.
+
+It deliberately emphasises keeping the OCR text untampered-with.
+Therefore it does not try clever positioning using hOCR.
+
+Usage
+-----
+
+Height and width options must currently be given.  The last
+argument is the PDF to create.  The preceding arguments come
+in pairs: a text file for the page background and then the image
+file for the page foreground.  For example::
+
+    $ ocr2pdf -x 210 -y 300 p1.txt p1.pnm p2.txt p2.pnm doc.pdf
+
+"""
+
+
+import sys
+import optparse
+
+from reportlab.pdfgen.canvas import Canvas
+from reportlab.lib.units import mm
+
+
+class Document:
+
+    def __init__(self, destination_path, width, height):
+        """Create a new Document that will save to the given path."""
+        self.destination_path = destination_path
+        self.width, self.height = width, height
+        self.canvas = Canvas(destination_path, pagesize=(width*mm, height*mm))
+        # find fonts inside reportlab.pdfbase.pdfmetrics.standardFonts
+        self.canvas.setFont('Times-Roman', 6)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, e1, e2, e3):
+        self.save_and_close()
+
+    def add_page(self, text_file, image_file):
+        """Add a page to the end of the document."""
+        for index, line in enumerate(open(text_file)):
+            position_x = (self.height - 6) - (index * 3)
+            self.canvas.drawString(3*mm, position_x*mm, line.strip())
+        self.canvas.drawImage(image_file, 0, 0, self.width*mm, self.height*mm)
+        self.canvas.showPage()
+
+    def save_and_close(self):
+        """Write the PDF to disk."""
+        self.canvas.save()
+
+
+def parse_arguments(arguments):
+    """Return (options, arguments) from given arguments."""
+    parser = optparse.OptionParser()
+    parser.add_option("-x", "--width",
+        help="Specify the page width in millimetres",
+        action="store", dest="width", type=int)
+    parser.add_option("-y", "--height",
+        help="Specify the page height in millimetres",
+        action="store", dest="height", type=int)
+    return parser.parse_args(arguments)
+
+
+def generate_page_pairs(arguments):
+    """Iterate over (textfile, imagefile) from arguments."""
+    arguments = iter(arguments)
+    while True:
+        try:
+            yield (next(arguments), next(arguments))
+        except StopIteration:
+            return
+
+
+def main():
+    """CLI entry point which acts on arguments."""
+    opts, arguments = parse_arguments(sys.argv[1:])
+    if None in (opts.width, opts.height):
+        print "Options width and height are not optional."
+        sys.exit(1)
+    if len(arguments) < 3:
+        print "Cowardly refusing to create an empty PDF."
+        sys.exit(1)
+    destination_file = arguments[-1]
+    page_pairs = list(generate_page_pairs(arguments[:-1]))
+    with Document(destination_file, opts.width, opts.height) as document:
+        for text_file, image_file in page_pairs:
+            document.add_page(text_file, image_file)
+
+
+if __name__ == '__main__':
+    main()
+
+
