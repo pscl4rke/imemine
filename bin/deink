@@ -1,0 +1,112 @@
+#!/bin/sh
+#======================================================================#
+# DEINK MULTI-PAGE SCANNER                       (c) 2014 P. S. Clarke #
+#======================================================================#
+
+
+# Utility Functions
+# -----------------
+
+paddedpage() {
+    printf "%03d" "$1"
+}
+
+
+# Parsing The Command Line
+# ------------------------
+
+invalidarguments=""
+while [ "$1" ]
+do
+    nextarg="$1"
+    shift
+    case "$nextarg" in
+        --a4)
+            width=210
+            #height="297.18"
+            height=300
+            ;;
+        *)
+            echo "$0: FATAL: Argument '$nextarg' not recognised"
+            invalidarguments="yes"
+    esac
+done
+[ "$invalidarguments" ] && exit 1
+
+
+# Validation
+# ----------
+
+[ -z "$height" ] && echo "$0: FATAL: Height unknown" && exit 1
+[ -z "$width" ] && echo "$0: FATAL: Width unknown" && exit 1
+
+
+# Setting Up
+# ----------
+
+originaldir="$(pwd)"
+tempdir="$(mktemp --directory)"
+cd "$tempdir"
+
+
+# Scanning Prompt Loop
+# --------------------
+
+currentpage="0"
+while :
+do
+    echo -n "Page ${currentpage}> "
+    read command
+    case "$command" in
+        add)
+            currentpage="$((currentpage + 1))"
+            echo "$0: Scanning page ${currentpage}..."
+            basefile="page-$(paddedpage $currentpage)"
+            imagefile="${basefile}.pnm"
+            scanimage \
+                -x "$width" -y "$height" \
+                --mode "gray" --resolution "300dpi" \
+                > "$imagefile"
+            echo "$0: OCRing page ${currentpage}..."
+            tesseract "$imagefile" "$basefile"
+            echo "$0: Resizing image..."
+            mogrify -resize "40%" "$imagefile"
+            ;;
+        edit)
+            basefile="page-$(paddedpage $currentpage)"
+            $EDITOR "${basefile}.txt"
+            ;;
+        'done')
+            buildargs=""
+            for page in $(seq 1 $currentpage)
+            do
+                imagefile="page-$(paddedpage $page).pnm"
+                textfile="page-$(paddedpage $page).txt"
+                buildargs="$buildargs $textfile $imagefile"
+            done
+            ocr2pdf -x $width -y $height $buildargs done.pdf
+            break
+            ;;
+        quit)
+            echo "$0: Cancelling document..."
+            break
+            ;;
+        kill)
+            echo "$0: Exiting without cleaning ${tempdir}..."
+            exit 1
+            ;;
+    esac
+done
+
+
+# Tearing Down
+# ------------
+
+filename="$originaldir/scanned-$(date -Iseconds | sed 's/:/-/g' | sed 's/T/---/g').pdf"
+cp done.pdf "$filename"
+echo "$0: Created $filename"
+cd "$originaldir"
+rm  -r "$tempdir"
+echo "$0: Done!"
+
+
