@@ -26,6 +26,10 @@ do
             #height="297.18"
             height=300
             ;;
+        --a5)
+            width=150
+            height=210
+            ;;
         *)
             echo "$0: FATAL: Argument '$nextarg' not recognised"
             invalidarguments="yes"
