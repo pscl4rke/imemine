@@ -50,6 +50,7 @@ bind index,pager b noop
 macro index ~~ "<limit>!~D<enter><collapse-all><current-middle>"
 macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
 macro index ~f "<limit>~F<enter><collapse-all><current-middle>"
+macro index ~n "<limit>~N | ~O<enter><collapse-all><current-middle>"
 #}}}
 
 
