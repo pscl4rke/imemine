@@ -12,6 +12,12 @@ paddedpage() {
 }
 
 
+# Setting Some Defaults
+# ---------------------
+
+colourmode="gray"
+
+
 # Parsing The Command Line
 # ------------------------
 
@@ -29,6 +35,9 @@ do
         --a5)
             width=150
             height=210
+            ;;
+        --colour)
+            colourmode="color"
             ;;
         *)
             echo "$0: FATAL: Argument '$nextarg' not recognised"
@@ -69,7 +78,7 @@ do
             imagefile="${basefile}.pnm"
             scanimage \
                 -x "$width" -y "$height" \
-                --mode "gray" --resolution "300dpi" \
+                --mode "$colourmode" --resolution "300dpi" \
                 > "$imagefile"
             echo "$0: OCRing page ${currentpage}..."
             tesseract "$imagefile" "$basefile"
