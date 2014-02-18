@@ -20,6 +20,7 @@ Character Recognition hidden in the background.
 It deliberately emphasises keeping the OCR text untampered-with.
 Therefore it does not try clever positioning using hOCR.
 
+
 Usage
 -----
 
@@ -29,6 +30,15 @@ in pairs: a text file for the page background and then the image
 file for the page foreground.  For example::
 
     $ ocr2pdf -x 210 -y 300 p1.txt p1.pnm p2.txt p2.pnm doc.pdf
+
+
+Limitations
+-----------
+
+There is a very real risk that an OCR engine detects text columns
+and represents them as one very long column.  When written into
+the PDF only the top of the column will fit on the page, and the
+bottom text could be lost entirely.
 
 """
 
@@ -47,8 +57,6 @@ class Document:
         self.destination_path = destination_path
         self.width, self.height = width, height
         self.canvas = Canvas(destination_path, pagesize=(width*mm, height*mm))
-        # find fonts inside reportlab.pdfbase.pdfmetrics.standardFonts
-        self.canvas.setFont('Times-Roman', 6)
 
     def __enter__(self):
         return self
@@ -58,9 +66,14 @@ class Document:
 
     def add_page(self, text_file, image_file):
         """Add a page to the end of the document."""
+        # We may need to set the font explicitly on every
+        # page to stop it resetting to the default.
+        # Find fonts inside reportlab.pdfbase.pdfmetrics.standardFonts
+        print "WARNING: Manually setting Font"
+        self.canvas.setFont('Times-Roman', 5)
         for index, line in enumerate(open(text_file)):
-            position_x = (self.height - 6) - (index * 3)
-            self.canvas.drawString(3*mm, position_x*mm, line.strip())
+            position_y = (self.height - 6) - (index * 2)
+            self.canvas.drawString(3*mm, position_y*mm, line.strip())
         self.canvas.drawImage(image_file, 0, 0, self.width*mm, self.height*mm)
         self.canvas.showPage()
 
