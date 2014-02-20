@@ -181,6 +181,8 @@ alias foreach="xargs -n 1 -d \\\n -r"
 alias xclip="xclip -selection clipboard"
 alias id3="id3v2 -l"
 alias w3mt="w3m -T text/html"
+alias ll="ls -l"
+alias la="ls -A"
 
 
 # CUSTOM SCRIPTS
