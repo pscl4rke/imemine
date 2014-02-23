@@ -1,0 +1,22 @@
+#!/usr/bin/python2
+#======================================================================#
+# JERKS EMAIL VIEWER                             (c) 2014 P. S. Clarke #
+#======================================================================#
+
+# Some people are incapable of sending emails with readable plain
+# text.  Machine-generated newsletters are the worst offenders.
+
+import sys
+import email
+import subprocess
+
+if __name__ == '__main__':
+    msg = email.message_from_string(sys.stdin.read())
+    for part in msg.walk():
+        if part.get_content_type() == 'text/html':
+            html = part.get_payload().replace("://", "---")
+            #html = html.replace("= ", "\n") # this last bit doesn't work
+            args = ("w3m", "-T", "text/html")
+            browser = subprocess.Popen(args, stdin=subprocess.PIPE)
+            browser.communicate(html)
+
