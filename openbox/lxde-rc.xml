@@ -274,7 +274,7 @@
       <action name="MoveResizeTo">
         <x>0</x>
         <y>0</y>
-        <height>98%</height>
+        <height>100%</height>
         <width>50%</width>
       </action>
     </keybind>
@@ -283,7 +283,7 @@
       <action name="MoveResizeTo">
         <x>-0</x>
         <y>0</y>
-        <height>98%</height>
+        <height>100%</height>
         <width>50%</width>
       </action>
     </keybind>
@@ -329,7 +329,7 @@
         <x>0</x>
         <y>-0</y>
         <width>50%</width>
-        <height>47%</height>
+        <height>50%</height>
       </action>
     </keybind>
     <keybind key="C-A-KP_3"> <!-- Bottom-Right -->
@@ -338,7 +338,7 @@
         <x>-0</x>
         <y>-0</y>
         <width>50%</width>
-        <height>47%</height>
+        <height>50%</height>
       </action>
     </keybind>
     <keybind key="C-A-bracketleft"> <!-- Another Left -->
@@ -346,7 +346,7 @@
       <action name="MoveResizeTo">
         <x>0</x>
         <y>0</y>
-        <height>98%</height>
+        <height>100%</height>
         <width>50%</width>
       </action>
     </keybind>
@@ -355,7 +355,7 @@
       <action name="MoveResizeTo">
         <x>-0</x>
         <y>0</y>
-        <height>98%</height>
+        <height>100%</height>
         <width>50%</width>
       </action>
     </keybind>
