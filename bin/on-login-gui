@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Do these things when I log in to a graphical environment.
+# Currently called from .config/lxsession/Lubuntu/autostart
+
+echo "Starting..." | logger -t "$(basename "$0")"
+
+# Try to disable the blanking screen saver:
+# (this rarely works)
+xset s 0 0
+
+# Launch my drop down terminal:
+tilda &
+
+echo "Done" | logger -t "$(basename "$0")"
+
