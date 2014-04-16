@@ -1,0 +1,23 @@
+
+
+# Instructions and inspiration:
+#   http://w3m.sourceforge.net/MANUAL
+#   https://github.com/davidhalter/dotfiles/blob/master/.w3m/keymap
+#   http://www.lafn.org/~aw585/keymap.html
+
+
+# These eight essentially swap behaviour of keys with and
+# without shift being pressed.
+
+# Scroll page:
+keymap j UP
+keymap k DOWN
+keymap h HELP
+keymap l NULL
+# Move cursor:
+keymap J MOVE_DOWN1
+keymap K MOVE_UP1
+keymap H MOVE_LEFT1
+keymap L MOVE_RIGHT1
+
+
