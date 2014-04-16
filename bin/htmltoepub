@@ -4,12 +4,59 @@
 #======================================================================#
 
 
+#TODO:
+#    -   Satisfy epubcheck.jar and other checkers
+#    -   Choose a licence
+#    -   Test with the proper java tester
+#    -   What do other tools say the 'standards' are?
+#            -   http://www.jedisaber.com/eBooks/Tutorial.shtml
+#            -   https://github.com/javierarce/epub-boilerplate
+#    -   Use chardet or equivalent
+#    -   Handle pre-existing epub file (prob delete)
+#    -   Work with only one argument
+#    -   Support multiple input files - one per chapter
+#    -   Support images
+#    -   Perhaps a nicer CSS
+#    -   Handle cover images
+
+
 import sys
 import zipfile
 import string
 import datetime
 import uuid
 import subprocess
+
+
+USAGE = """
+Usage:
+    htmltoepub [options...] inputfile.html outputfile.epub
+
+Htmltoepub is a self-contained script that takes an HTML file
+and puts its contents inside an Epub book file.
+
+Options:
+
+--title "Title"
+    Specify the title that will be recorded in the book's metadata.
+    If this is not given htmltoepub wants to do the intelligent thing
+    and work one out from the HTML input, but currently can't because
+    I'm not a good enough programmer.
+
+--author "Author's Name"
+    Specify the author that will be recorded in the book's metadata.
+    If this is not given htmltoepub will simply resort to "Unknown".
+
+--date "YYYY-MM-DD"
+    Specify the date that will be recorded in the book's metadata.
+    This should be in ISO 8601 format, and will default to the current
+    date.
+
+--tidy, --notidy
+    By default the --tidy option is enabled, and all incoming HTML
+    is fed through HTML Tidy to ensure it is valid XHTML.  This can
+    be disabled to avoid inadvertant corruption.
+"""
 
 
 CONTAINER = string.Template("""
@@ -90,6 +137,7 @@ class EpubBuilder:
         arguments = self.parsecli(all_arguments[1:])
         if len(arguments) < 2:
             sys.stderr.write("Insufficient Args\n")
+            sys.stderr.write(USAGE)
             sys.exit(1)
         self.infile_name = arguments[0]
         self.outfile_name = arguments[1]
