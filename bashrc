@@ -170,6 +170,7 @@ export PS1="\$(__set_title)\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(_
 #   little point in doing that.
 alias gdiff="git diff"
 alias gst="git status"
+alias qgit="git -c user.name='Demo' -c user.email='demo@example.com'"
 alias du0="du --max-depth=0"
 alias du1="du --max-depth=1"
 alias du2="du --max-depth=2"
