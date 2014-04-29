@@ -71,12 +71,17 @@ bind index R imap-fetch-mail
 #}}}
 
 
-# EXITING BEHAVIOUR {{{
+# ENTERING BEHAVIOUR
+#   Don't bother asking me whether I want to create ~/Mail
+#   every time I launch mutt with the -f option
+set folder="/dev/null"
+
+
+# EXITING BEHAVIOUR
 #   Don't delete anything, but do ask me if I want to leave
 #   (because reloading IMAP is particularly slow).
 set quit=ask-yes
 set delete=no
-#}}}
 
 
 # VIEWING THE INDEX {{{
