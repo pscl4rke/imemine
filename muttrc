@@ -98,7 +98,7 @@ color index red default ~D
 # With dates on the right:
 set index_format="%4C %Z %-15.15L (%?l?%4l&%4c?) %?M?+(%M)&? %s %*  %{%e %b}"
 # And the status line:
-set status_format=" %f (%l) %> [%?V?%V&all?] (%M of %m)"
+set status_format=" %f (%P) %> [%?V?%V&all?] (%?V?%M/%L of &?%m/%l)"
 #}}}
 
 
