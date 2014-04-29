@@ -6,7 +6,7 @@
 
 
 #     USAGE: This file contains Mutt preferences that are
-#       carried accross multiple sites.  Place host-specific
+#       carried across multiple sites.  Place host-specific
 #       information in your .muttrc, and then source these
 #       preferences with "source ~/.muttrc-prefs".
 
@@ -73,7 +73,7 @@ bind index R imap-fetch-mail
 
 # ENTERING BEHAVIOUR
 #   Don't bother asking me whether I want to create ~/Mail
-#   every time I launch mutt with the -f option
+#   every time I launch mutt with the -f option.
 set folder="/dev/null"
 
 
@@ -124,7 +124,7 @@ set pager_stop
 # COLOURS {{{
 #   Here are a bunch of colours that make using Mutt a bit
 #   more agreeable than some of the defaults that I've seen.
-#   They aren't too disimilar from the default Tig colourings
+#   They aren't too dissimilar from the default Tig colourings
 #   that I've seen.
 # The messages that get displayed below the status bar:
 color message white default
