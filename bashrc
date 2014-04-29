@@ -24,45 +24,11 @@ fi
 
 
 # COMMAND COMPLETION
-#   Command auto-completion is very handy, but I've had to do
-#   some performance tuning here.
-#
-#   Note that much of this is out-of-date, as bash completion
-#   is increasingly being handled by /usr/share/bash-completion,
-#   and not /etc/bash_completion.
-#
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    # This line is (relatively) very time-consuming, so I've
-    # cancelled all of the files in /etc/bash_completion.d
-    BASH_COMPLETION_DIR=foo
-    BASH_COMPLETION_COMPAT_DIR=foo
-    . /etc/bash_completion
-fi
-#   Now I manually include the completion files that I want
-#   (They can use uname, userland, have etc.)
-UNAME=$( uname -s )
-UNAME=${UNAME/CYGWIN_*/Cygwin}
-case ${UNAME} in
-    Linux|GNU|GNU/*) USERLAND=GNU ;;
-    *) USERLAND=${UNAME} ;;
-esac
-have() {
-    unset -v have
-    PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin type $1 &>/dev/null &&
-    have="yes"
-}
-for completer in git tig man ssh apt
-do
-    if [ -e /etc/bash_completion.d/$completer ]
-    then
-        source /etc/bash_completion.d/$completer
-    fi
-done
-function workon() {
-    echo Just sourcing...
-    source /etc/bash_completion.d/virtualenvwrapper
-    echo Please try that again
-}
+#   Eventually I will drop the echo statements, but I'm still
+#   concerned that the completion routines take too long.
+echo -n "Setting up completion... "
+source /usr/share/bash-completion/bash_completion
+echo "Done."
 
 
 # EXPLICITLY DECLARE BASIC OPTIONS
@@ -91,14 +57,17 @@ export EDITOR=vi
 export VISUAL=vi
 
 
-# PYTHON'S ENVIRONMENT AND PACKAGING {{{
+# PYTHON'S ENVIRONMENT AND PACKAGING
 #   This is mostly to make the PS1 work better, and to handle
 #   offline environments.
 VIRTUAL_ENV_DISABLE_PROMPT="TRUE"
 alias pip-install-from-basket="pip install --no-index -f file://$HOME/.basket"
-
 export PYTHONSTARTUP=$HOME/.pythonrc
-#}}}
+#function workon() {
+#    echo Just sourcing...
+#    source /etc/bash_completion.d/virtualenvwrapper
+#    echo Please try that again
+#}
 
 
 # ENVIRONMENTAL STATUS FUNCTIONS
