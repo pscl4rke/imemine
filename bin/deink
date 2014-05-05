@@ -4,6 +4,11 @@
 #======================================================================#
 
 
+# Notes:
+#   -   Use --landscape to control the dimemsions of scanning
+#   -   Use --spin to rotate image and control dimensions of output
+
+
 # Bugs and Limitations:
 #   -   Tesseract 'helpfully' uses ligatures like 'fi' which
 #       can confuse many tools.
@@ -24,6 +29,8 @@ paddedpage() {
 # ---------------------
 
 colourmode="gray"
+orientation="portrait"
+rotation="0"
 
 
 # Parsing The Command Line
@@ -36,16 +43,22 @@ do
     shift
     case "$nextarg" in
         --a4)
-            width=210
-            #height="297.18"
-            height=300
+            inwidth=210
+            #inheight="297.18"
+            inheight=300
             ;;
         --a5)
-            width=150
-            height=210
+            inwidth=150
+            inheight=210
             ;;
         --colour)
             colourmode="color"
+            ;;
+        --landscape)
+            orientation="landscape"
+            ;;
+        --spin)
+            rotation="270"
             ;;
         *)
             echo "$0: FATAL: Argument '$nextarg' not recognised"
@@ -58,9 +71,24 @@ done
 # Validation
 # ----------
 
-[ -z "$height" ] && echo "$0: FATAL: Height unknown" && exit 1
-[ -z "$width" ] && echo "$0: FATAL: Width unknown" && exit 1
+[ -z "$inheight" ] && echo "$0: FATAL: Height unknown" && exit 1
+[ -z "$inwidth" ] && echo "$0: FATAL: Width unknown" && exit 1
 
+if [ "$orientation" = "landscape" ]
+then
+    orientationtemp="$inheight"
+    inheight="$inwidth"
+    inwidth="$orientationtemp"
+fi
+
+if [ "$rotation" -eq "0" ]
+then
+    outheight="$inheight"
+    outwidth="$inwidth"
+else # bad: assumes 90 or 270! what about 180?
+    outwidth="$inheight"
+    outheight="$inwidth"
+fi
 
 # Setting Up
 # ----------
@@ -85,9 +113,13 @@ do
             basefile="page-$(paddedpage $currentpage)"
             imagefile="${basefile}.pnm"
             scanimage \
-                -x "$width" -y "$height" \
+                -x "$inwidth" -y "$inheight" \
                 --mode "$colourmode" --resolution "300dpi" \
                 > "$imagefile"
+            if [ "$rotation" -ne "0" ]; then
+                echo "$0: Rotating by $rotation degrees..."
+                mogrify -rotate "$rotation" "$imagefile"
+            fi
             echo "$0: OCRing page ${currentpage}..."
             tesseract "$imagefile" "$basefile"
             echo "$0: Resizing image..."
@@ -105,7 +137,7 @@ do
                 textfile="page-$(paddedpage $page).txt"
                 buildargs="$buildargs $textfile $imagefile"
             done
-            ocr2pdf -x $width -y $height $buildargs done.pdf
+            ocr2pdf -x $outwidth -y $outheight $buildargs done.pdf
             break
             ;;
         quit)
