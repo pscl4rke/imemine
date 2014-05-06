@@ -19,9 +19,12 @@ bind pager j next-line
 bind pager <down> next-line
 bind pager k previous-line
 bind pager <up> previous-line
+bind generic <left> noop
+bind generic <right> noop
 bind index,generic G last-entry
 bind pager G bottom
 bind pager } skip-quoted
+bind index,generic <space> next-page
 #}}}
 
 
@@ -105,9 +108,9 @@ set status_format=" %f (%P) %> [%?V?%V&all?] (%?V?%M/%L of &?%m/%l)"
 # THREAD SUPPORT {{{
 #   Make use of threads in the index, and give some nice key
 #   bindings for them.
+#bind index <space> tag-thread
 bind index - collapse-thread
 bind index _ collapse-all
-bind index <space> tag-thread
 set sort="threads"
 set sort_aux="last-date-received"
 #}}}
