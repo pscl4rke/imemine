@@ -16,6 +16,17 @@ do
         echo
     fi
 
+    if [ -d "./$directory/objects" ]
+    then
+        echo "Updating Bare Git Repository: $directory..."
+        cd "$directory"
+        #git fetch --verbose --all
+        git fetch --all
+        cd ..
+        echo "DONE."
+        echo
+    fi
+
     if [ -d "./$directory/.hg" ]
     then
         echo "Updating Mercurial Repository: $directory..."
