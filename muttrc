@@ -90,6 +90,7 @@ set delete=no
 # VIEWING THE INDEX {{{
 #   Here I highlight any unread or flagged messages, and try
 #   to ignore deleted ones.
+#   Note: these only make sense on a dark background.
 color index yellow default ~N
 color index yellow default ~O
 color index brightgreen default ~F
@@ -130,9 +131,9 @@ set pager_stop
 #   They aren't too dissimilar from the default Tig colourings
 #   that I've seen.
 # The messages that get displayed below the status bar:
-color message white default
+color message default default
 # This covers the normal email lists (index):
-color normal white default
+color normal default default
 # This is the tree for showing threads:
 color tree red default
 # This is the cursor which selects messages:
@@ -147,7 +148,7 @@ color tilde brightblack default
 # This is the indicator when a line is wrapped
 color markers brightblack default
 # This is for the mail headers in the pager:
-color hdrdefault brightwhite default
+color hdrdefault brightdefault default
 # These don't seem to make much difference:
 color signature white default
 color error white default
