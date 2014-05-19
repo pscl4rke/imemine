@@ -140,6 +140,7 @@ set pager_stop
 #   that I've seen.
 # The messages that get displayed below the status bar:
 color message default default
+color error default default
 # This covers the normal email lists (index):
 color normal default default
 # This is the tree for showing threads:
@@ -159,7 +160,6 @@ color markers brightblack default
 color hdrdefault brightdefault default
 # These don't seem to make much difference:
 color signature white default
-color error white default
 #
 # When HTML leeches into the emails:
 # (could use brightblack, but doesn't look as good)
