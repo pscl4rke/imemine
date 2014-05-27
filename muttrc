@@ -171,6 +171,10 @@ color body magenta default "<[^>@]*\"[[:space:]]*$"
 color body magenta default "^[^<>@]*\" ?>"
 # Entities:
 color body magenta default "&nbsp;"
+#
+# For patch emails containing unified diffs:
+color body green default "^[+].*"
+color body red default "^-.*"
 #}}}
 
 
