@@ -14,7 +14,11 @@ if __name__ == '__main__':
     msg = email.message_from_string(sys.stdin.read())
     for part in msg.walk():
         if part.get_content_type() == 'text/html':
-            html = part.get_payload().replace("://", "---")
+            html = part.get_payload()
+            if part.get('Content-Transfer-Encoding', '') == 'base64':
+                html = html.decode('base64')
+            html = html.replace("://", "---")
+            #
             #html = html.replace("= ", "\n") # this last bit doesn't work
             args = ("w3m", "-T", "text/html")
             browser = subprocess.Popen(args, stdin=subprocess.PIPE)
