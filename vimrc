@@ -147,6 +147,15 @@ autocmd BufNewFile,BufRead [Ss][Cc]onstruct set filetype=python
 "}}}
 "
 "
+" FILE-TYPE PREFERENCES
+"   Sometimes a file type tries to be 'helpful'.
+"   E.g. by default shell treats a dot as a word char
+"   And sometimes I just need different behaviour
+autocmd FileType sh setlocal iskeyword-=.
+autocmd FileType coffee setlocal shiftwidth=2
+autocmd FileType make setlocal noexpandtab
+"
+"
 " GUI OPTIONS
 "   They don't get much use, but I have some preferences for the GUI.
 "   I believe it is possible to set a list of fonts, but I'm picking
