@@ -138,6 +138,9 @@ noremap g<Space> <Space>
 " FILE-TYPE DETECTION {{{
 "   Vim's usually pretty good at this sort of thing, but sometimes it
 "   gets things wrong (and it does have an obsession with modula2).
+"   I don't know whether 'set filetype=foo' is the right thing to use
+"   here, or whether instead I should use 'setfiletype foo' or
+"   'setlocal filetype=foo'.
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 autocmd BufNewFile,BufRead *.pp set filetype=puppet
