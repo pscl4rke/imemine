@@ -8,6 +8,7 @@
 
 import sys
 import email
+import quopri
 import subprocess
 
 if __name__ == '__main__':
@@ -17,9 +18,8 @@ if __name__ == '__main__':
             html = part.get_payload()
             if part.get('Content-Transfer-Encoding', '') == 'base64':
                 html = html.decode('base64')
-            html = html.replace("://", "---")
-            #
-            #html = html.replace("= ", "\n") # this last bit doesn't work
+            html = quopri.decodestring(html) # Quoted-Printable using '='
+            html = html.replace("://", "---") # Break tracker links
             args = ("w3m", "-T", "text/html")
             browser = subprocess.Popen(args, stdin=subprocess.PIPE)
             browser.communicate(html)
