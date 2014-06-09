@@ -47,6 +47,14 @@ bind index,pager b noop
 #}}}
 
 
+# SAVING KEY-BINDINGS
+#   These apply to the command line 'editor' at the bottom of
+#   the screen, which is mostly used when choosing where to
+#   save messages and attachments.
+#   I disable "buffy-cycle" so that space actually works!!!
+bind editor <space> noop
+
+
 # PIPING MESSAGES INTO STUFF
 #   Note that "Press a key to continue" will follow these
 #   Disable wait_key setting to change this.
