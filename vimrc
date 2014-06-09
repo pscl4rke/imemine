@@ -147,6 +147,7 @@ autocmd BufNewFile,BufRead *.pp set filetype=puppet
 autocmd BufNewFile,BufRead *.csv set filetype=csv
 autocmd BufNewFile,BufRead *.crontab set filetype=crontab
 autocmd BufNewFile,BufRead [Ss][Cc]onstruct set filetype=python
+autocmd BufNewFile,BufRead requirements.txt set filetype=conf
 "}}}
 "
 "
