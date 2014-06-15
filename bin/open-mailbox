@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# For some stupid reason this doesn't work unless I
+# use bash and write something to the screen first!
+urxvt -e bash -c "echo hello; mutt -R -f $1"
+
+# So these ones fail:
+#urxvt -e mutt -R -f "$1"
+#urxvt -e watch /usr/bin/mutt -R -f "$1"
+
