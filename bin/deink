@@ -51,6 +51,10 @@ do
             inwidth=150
             inheight=210
             ;;
+        --a6)
+            inwidth=107
+            inheight=150
+            ;;
         --colour)
             colourmode="color"
             ;;
