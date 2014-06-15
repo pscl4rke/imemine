@@ -15,5 +15,16 @@ case "$1" in
         ;;
 esac
 
-# --temp-profile must be first if it is to be obeyed:
-chromium-browser --temp-profile --no-first-run "$url"
+browser="chrome"
+case "$browser" in
+    chrome)
+        # --temp-profile must be first if it is to be obeyed:
+        chromium-browser --temp-profile --no-first-run "$url"
+        ;;
+    firefox)
+        profilepath="$(mktemp --directory /tmp/firefox.$$.XXXXXXX)"
+        firefox -no-remote -profile "$profilepath" "$url"
+        rm -r "$profilepath"
+        ;;
+esac
+
