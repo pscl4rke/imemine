@@ -1,0 +1,18 @@
+#!/bin/sh
+#======================================================================#
+# FILE ARCHIVER                                  (c) 2014 P. S. Clarke #
+#======================================================================#
+
+attic="$HOME/attic"
+[ ! -d "$attic" ] && echo "$attic does not exist" && exit 1
+
+oldname="$1"
+[ -z "$oldname" ] && echo "Don't know what to attic" && exit 1
+[ ! -e "$oldname" ] && echo "$oldname non-existent" && exit 1
+
+newname="$attic/$(basename "$oldname")"
+[ -e "$newname" ] && echo "Already in attic" && exit 1
+
+echo "Moving '$oldname' to '$newname'..."
+mv "$oldname" "$newname" && echo "Done."
+
