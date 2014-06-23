@@ -403,7 +403,9 @@
       <action name="Execute">
         <!-- <command>lxterminal</command> -->
         <!-- <command>gnome-terminal</command> -->
-        <command>urxvt</command>
+        <!-- <command>urxvt</command> -->
+        <!-- <command>urxvt -name lightterm</command> -->
+        <command>/home/psc/imemine/bin/open-in-terminal</command>
       </action>
     </keybind>
 
