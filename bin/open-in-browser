@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #======================================================================#
-# WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2013 P. S. Clarke #
+# WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2014 P. S. Clarke #
 #======================================================================#
 
 case "$1" in
@@ -9,6 +9,9 @@ case "$1" in
         ;;
     CLIPBOARD)
         url="$(xclip -o -selection clipboard)"
+        ;;
+    PROMPT)
+        url="$(zenity --entry --text="URL" --title="URL")"
         ;;
     *)
         url="$1"
