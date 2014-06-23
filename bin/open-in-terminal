@@ -1,0 +1,17 @@
+#!/bin/bash
+#======================================================================#
+# TERMINAL LAUNCH WRAPPER                        (c) 2014 P. S. Clarke #
+#======================================================================#
+
+profile="urxvt"
+# (other options: lightterm, darkterm, etc.  See .Xdefaults)
+[ -e "$HOME/.term.env" ] && source "$HOME/.term.env"
+
+if [ -z "$1" ]
+then
+    urxvt -name "$profile"
+else
+    urxvt -name "$profile" -title "$1" -e "$@"
+fi
+
+
