@@ -56,9 +56,11 @@ bind editor <space> noop
 
 
 # PIPING MESSAGES INTO STUFF
-#   Note that "Press a key to continue" will follow these
-#   Disable wait_key setting to change this.
+#   These allow me to send messages into other programs.
+#   Note that I will still get a Wait Key prompt if the
+#   exit code is non-zero.
 #   See http://dev.mutt.org/trac/wiki/MuttGuide/Macros
+set wait_key="no"
 macro index,pager || "<pipe-message>"
 macro index,pager |j "<pipe-message>$HOME/imemine/bin/jerks<enter>"
 
