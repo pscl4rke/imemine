@@ -143,6 +143,14 @@ set pager_stop
 #}}}
 
 
+# WINDOW TITLING
+#   Note that these rely on the xtitles patch, which is usually
+#   compiled in.
+set xterm_set_titles="yes"
+# default: Mutt with %?m?%m messages&no messages?%?n? [%n NEW]?
+set xterm_title="%m emails in %f"
+
+
 # COLOURS {{{
 #   Here are a bunch of colours that make using Mutt a bit
 #   more agreeable than some of the defaults that I've seen.
