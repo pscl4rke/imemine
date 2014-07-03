@@ -268,6 +268,28 @@
         </finalactions>
       </action>
     </keybind>
+    <!-- Keybindings for window switching with the arrow keys -->
+    <keybind key="W-L">
+      <action name="DirectionalCycleWindows">
+        <direction>right</direction>
+      </action>
+    </keybind>
+    <keybind key="W-H">
+      <action name="DirectionalCycleWindows">
+        <direction>left</direction>
+      </action>
+    </keybind>
+    <keybind key="W-K">
+      <action name="DirectionalCycleWindows">
+        <direction>up</direction>
+      </action>
+    </keybind>
+    <keybind key="W-J">
+      <action name="DirectionalCycleWindows">
+        <direction>down</direction>
+      </action>
+    </keybind>
+
     <!-- Keybindings for window tiling -->
     <keybind key="C-A-KP_4"> <!-- Left -->
       <action name="UnmaximizeFull"/>
