@@ -12,6 +12,7 @@ case "$1" in
         ;;
     PROMPT)
         url="$(zenity --entry --text="URL" --title="URL")"
+        [ -z "$url" ] && exit 1
         ;;
     *)
         url="$1"
