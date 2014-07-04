@@ -134,12 +134,12 @@ set sort_aux="last-date-received"
 #}}}
 
 
-# VIEWING AN EMAIL {{{
+# VIEWING AN EMAIL
 #   Various behavioural tweaks for the pager mode.
 set pager_index_lines="8"
 set tilde=yes
 set pager_stop
-#}}}
+unignore Reply-To:
 
 
 # WINDOW TITLING
