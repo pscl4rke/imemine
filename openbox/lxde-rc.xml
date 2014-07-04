@@ -389,9 +389,17 @@
       </action>
     </keybind>
     <keybind key="C-A-i">
-      <action name="Execute">
-        <command>chromium-browser --temp-profile --no-first-run</command>
-      </action>
+      <!-- Chained -->
+      <keybind key="C-A-i">
+        <action name="Execute">
+          <command>/home/psc/imemine/bin/open-in-browser https://duckduckgo.com</command>
+        </action>
+      </keybind>
+      <keybind key="C-A-u">
+        <action name="Execute">
+          <command>/home/psc/imemine/bin/open-in-browser PROMPT</command>
+        </action>
+      </keybind>
     </keybind>
     <keybind key="C-A-T">
       <action name="Execute">
