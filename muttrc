@@ -85,11 +85,10 @@ set edit_headers
 #}}}
 
 
-# RANDOM STUFF {{{
+# RANDOM STUFF
 unset help
 set menu_scroll="yes"
-bind index R imap-fetch-mail
-#}}}
+bind index,pager R imap-fetch-mail
 
 
 # ENTERING BEHAVIOUR
