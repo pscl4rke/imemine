@@ -82,28 +82,28 @@ lightterm*cursorColor: #888888
 ! Black:
 darkterm*color0:   #333333
 darkterm*color8:   #484848
-lightterm*color0: #073642
+lightterm*color0: #272727
 lightterm*color8: #002b36
 ! Red:
 darkterm*color1:   #DD0000
 darkterm*color9:   #FF0054
-lightterm*color1: #d03020
-lightterm*color9: #eb4b16
+lightterm*color1: #c02010
+lightterm*color9: #db2b06
 ! Green:
 darkterm*color2:   #00A800
 darkterm*color10:  #00FF54
-lightterm*color2: #357900
-lightterm*color10: #55AB00
+lightterm*color2: #156900
+lightterm*color10: #358B00
 ! Yellow:
 darkterm*color3:   #BBBB00
 darkterm*color11:  #FFFF54
-lightterm*color3: #a56900
-lightterm*color11: #e59911
+lightterm*color3: #955900
+lightterm*color11: #d58901
 ! Blue:
 darkterm*color4:   #0077FF
 darkterm*color12:  #3399FF
-lightterm*color4: #2080d0
-lightterm*color12: #268bff
+lightterm*color4: #1050c0
+lightterm*color12: #166bef
 ! Magenta:
 darkterm*color5:   #CC00CC
 darkterm*color13:  #EE00EE
@@ -112,8 +112,8 @@ lightterm*color13: #f336a2
 ! Cyan:
 darkterm*color6:   #00A8A8
 darkterm*color14:  #00EEEE
-lightterm*color6: #039a90
-lightterm*color14: #2ac1b8
+lightterm*color6: #038a80
+lightterm*color14: #2aa1a8
 ! White:
 darkterm*color7:   #C8C8C8
 darkterm*color15:  #FFFFFF
@@ -140,4 +140,5 @@ foo*foreground: #FF0000
 
 ! This seems to be ignored:
 !include /home/psc/foo.defaults
+
 
