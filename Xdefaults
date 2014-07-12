@@ -133,6 +133,12 @@ URxvt.iso14755_52: false
 !   A tiled background looks nice, but urxvt takes _ages_
 !   to repaint its screen, so it doesn't work.
 !URxvt.backgroundPixmap: /home/psc/imemine/ctermbg/purple.gif;tile
+!   Transparency makes it hard to read, and tinting only makes the
+!   background darker, which doesn't work in lightterm mode.
+!URxvt.transparent: true
+!URxvt.tintColor: #eeeeee
+!Urxvt.shading: 190
+!Urxvt.blurRadius: 64
 
 
 ! start with `urxvt -name foo` to activate these:
