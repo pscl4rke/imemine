@@ -411,6 +411,15 @@
       </action>
     </keybind>
 
+    <!-- Injecting keystrokes into X server -->
+    <keybind key="W-e"> <!-- maybe W-AltGr? -->
+      <keybind key="W-d">
+        <action name="Execute">
+          <command>/home/psc/imemine/bin/enter-keystrokes +%Y-%m-%d</command>
+        </action>
+      </keybind>
+    </keybind>
+
     <!-- Music -->
     <keybind key="C-A-j">
       <action name="Execute">

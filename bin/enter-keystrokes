@@ -1,0 +1,16 @@
+#!/bin/bash
+#======================================================================#
+# X11 KEYSTROKE INJECTION TOOL                   (c) 2014 P. S. Clarke #
+#======================================================================#
+
+# Best used by setting up window manager keybindings
+
+[ -z "$1" ] && echo "Don't know what to enter" && exit 1
+
+[[ "$1" != +* ]] && echo "Can only support dates" && exit 1
+
+xmacroplay "$DISPLAY" <<EOF
+String $(date "$1")
+EOF
+
+
