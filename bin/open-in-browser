@@ -3,6 +3,14 @@
 # WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2014 P. S. Clarke #
 #======================================================================#
 
+browser="chrome-temp"
+case "$1" in
+    -p)
+        browser="chrome-profile" ; shift
+        profile="$1" ; shift
+        ;;
+esac
+
 case "$1" in
     PRIMARY)
         url="$(xclip -o -selection primary)"
@@ -19,13 +27,15 @@ case "$1" in
         ;;
 esac
 
-browser="chrome"
 case "$browser" in
-    chrome)
+    chrome-temp)
         # --temp-profile must be first if it is to be obeyed:
         chromium-browser --temp-profile --no-first-run "$url"
         ;;
-    firefox)
+    chrome-profile)
+        chromium-browser --user-data-dir="$HOME/.config/chromium-$profile" "$url"
+        ;;
+    firefox-temp)
         profilepath="$(mktemp --directory /tmp/firefox.$$.XXXXXXX)"
         firefox -no-remote -profile "$profilepath" "$url"
         rm -r "$profilepath"
