@@ -4,15 +4,22 @@
 #======================================================================#
 
 attic="$HOME/attic"
-[ ! -d "$attic" ] && echo "$attic does not exist" && exit 1
+[ ! -d "$attic" ] && echo "[FATAL] '$attic' does not exist" && exit 1
 
-oldname="$1"
-[ -z "$oldname" ] && echo "Don't know what to attic" && exit 1
-[ ! -e "$oldname" ] && echo "$oldname non-existent" && exit 1
+[ -z "$1" ] && echo "[FATAL] Don't know what to attic" && exit 1
 
-newname="$attic/$(basename "$oldname")"
-[ -e "$newname" ] && echo "Already in attic" && exit 1
+while [ "$1" ]
+do
+    oldname="$1"
+    shift
 
-echo "Moving '$oldname' to '$newname'..."
-mv "$oldname" "$newname" && echo "Done."
+    [ ! -e "$oldname" ] && echo "[WARN] '$oldname' non-existent" && continue
+
+    newname="$attic/$(basename "$oldname")"
+    [ -e "$newname" ] && echo "[WARN] '$oldname' already in attic" && continue
+
+    echo -n "Moving '$oldname' to '$newname'... "
+    mv "$oldname" "$newname" && echo "Done."
+
+done
 
