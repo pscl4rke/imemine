@@ -173,6 +173,11 @@
     <chainQuitKey>C-g</chainQuitKey>
 
     <!-- Keybindings for desktop switching -->
+    <keybind key="C-A-Up">
+      <action name="GoToDesktop">
+        <to>last</to>
+      </action>
+    </keybind>
     <keybind key="C-A-Left">
       <action name="DesktopLeft">
         <dialog>no</dialog>
