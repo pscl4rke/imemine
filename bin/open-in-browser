@@ -40,5 +40,8 @@ case "$browser" in
         firefox -no-remote -profile "$profilepath" "$url"
         rm -r "$profilepath"
         ;;
+    *)
+        echo "Unknown browser '$browser'"
+        ;;
 esac
 
