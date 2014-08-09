@@ -5,9 +5,22 @@
 
 echo "Starting..." | logger -t "$(basename "$0")"
 
-# Try to disable the blanking screen saver:
-# (this rarely works)
-xset s 0 0
+# X SCREENSAVER
+#   I had a lot of problems with the screen blanking after
+#   10 minutes, even when playing videos.  However, neither
+#   of the following worked from this script, even though
+#   they were fine when run from the terminal.
+#   I've stopped caring now, because mplayer seems to be
+#   temporarily disabling it anyway.
+#xset s 0 0
+#xset s 43200   # 12 hours
+#( sleep 30 && xset s 43200 ) &
+
+# Laptop:
+#   Use the menu key as the right-hand windows(tm) key (mod4):
+#   This doesn't work, but as long as I have DISPLAY=0:0 I can
+#   make it work in a cron job!
+#xmodmap -e "keycode 135 = Super_R"
 
 # Launch my drop down terminal:
 tilda &
