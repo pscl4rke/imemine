@@ -33,9 +33,11 @@ URxvt.geometry: 84x25
 !   Years ago I used a the Compiz 'ADD' plugin, which shaded
 !   inactive windows to make them less distracting.   I found
 !   it was helpful in making it obvious which window had the
-!   current focus, and I've wanted it back every since.  This
-!   only applies to terminal windows, but it does sort-of work.
-!   I'll probably adjust the percentage/colour over time.
+!   current focus, and I've wanted it back every since.
+!   The best way of doing this would be with compton, but I've
+!   found it buggy on some of my computers, so can't use it yet.
+!   So I use the following settings, which only apply to terminal
+!   windows, but they do sort-of work.
 darkterm*fading: 25
 darkterm*fadeColor: #440066
 lightterm*fading: 35
@@ -76,7 +78,7 @@ URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=14
 darkterm*background: #000000
 darkterm*foreground: #dddddd
 darkterm*cursorColor: #dddddd
-lightterm*background: #dfdfdf
+lightterm*background: #ffefdf
 lightterm*foreground: #001b26
 lightterm*cursorColor: #888888
 ! Black:
