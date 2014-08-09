@@ -147,7 +147,7 @@ unignore Reply-To:
 #   compiled in.
 set xterm_set_titles="yes"
 # default: Mutt with %?m?%m messages&no messages?%?n? [%n NEW]?
-set xterm_title="%m emails in %f"
+set xterm_title="%m emails in %f (%n new %o old)"
 
 
 # COLOURS {{{
