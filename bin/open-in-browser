@@ -33,7 +33,8 @@ case "$browser" in
         chromium-browser --temp-profile --no-first-run "$url"
         ;;
     chrome-profile)
-        chromium-browser --user-data-dir="$HOME/.config/chromium-$profile" "$url"
+        chromium-browser --user-data-dir="$HOME/.config/chromium-$profile" \
+            --new-window "$url"
         ;;
     firefox-temp)
         profilepath="$(mktemp --directory /tmp/firefox.$$.XXXXXXX)"
