@@ -217,10 +217,18 @@
 
     <!-- Keybindings for windows -->
     <keybind key="C-A-c">
-      <action name="Close" />
+      <keybind key="C-A-c">
+        <keybind key="C-A-c">
+          <action name="Close" />
+        </keybind>
+      </keybind>
     </keybind>
     <keybind key="W-C">
-      <action name="Close" />
+      <keybind key="W-C">
+        <keybind key="W-C">
+          <action name="Close" />
+        </keybind>
+      </keybind>
     </keybind>
     <keybind key="A-space">
       <action name="ShowMenu">
