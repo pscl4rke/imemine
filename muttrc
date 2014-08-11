@@ -107,11 +107,11 @@ set delete=no
 # VIEWING THE INDEX {{{
 #   Here I highlight any unread or flagged messages, and try
 #   to ignore deleted ones.
-#   Note: these only make sense on a dark background.
-color index yellow default ~N
-color index yellow default ~O
+color index blue default ~N
+color index blue default ~O
 color index brightgreen default ~F
 color index red default ~D
+color index brightmagenta default ~T
 #   I am undecided exactly how I like my index lines to be
 #   displayed, so here are some different options.
 # Default:
