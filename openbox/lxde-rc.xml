@@ -190,6 +190,18 @@
         <wrap>no</wrap>
       </action>
     </keybind>
+    <keybind key="W-comma">
+      <action name="DesktopLeft">
+        <dialog>no</dialog>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="W-period">
+      <action name="DesktopRight">
+        <dialog>no</dialog>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
     <keybind key="S-C-A-Left">
       <action name="SendToDesktopLeft">
         <dialog>no</dialog>
