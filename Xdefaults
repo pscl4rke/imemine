@@ -96,25 +96,25 @@ darkterm*color2:   #00A800
 darkterm*color10:  #00FF54
 lightterm*color2: #156900
 lightterm*color10: #358B00
-! Yellow:
+! Yellowy brown:
 darkterm*color3:   #BBBB00
 darkterm*color11:  #FFFF54
-lightterm*color3: #955900
+lightterm*color3: #854900
 lightterm*color11: #d58901
 ! Blue:
 darkterm*color4:   #0077FF
 darkterm*color12:  #3399FF
 lightterm*color4: #1050c0
 lightterm*color12: #166bef
-! Magenta:
+! Purply Magenta:
 darkterm*color5:   #CC00CC
 darkterm*color13:  #EE00EE
-lightterm*color5: #d03088
+lightterm*color5: #a00068
 lightterm*color13: #f336a2
 ! Cyan:
 darkterm*color6:   #00A8A8
 darkterm*color14:  #00EEEE
-lightterm*color6: #038a80
+lightterm*color6: #036a60
 lightterm*color14: #2aa1a8
 ! White:
 darkterm*color7:   #C8C8C8
