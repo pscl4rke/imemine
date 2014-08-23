@@ -40,6 +40,10 @@ do
     nextarg="$1"
     shift
     case "$nextarg" in
+        --help)
+            grep -e '^[[:space:]]*--.*)' "$0" | cat
+            exit 0
+            ;;
         --a4)
             inwidth=210
             #inheight="297.18"
@@ -64,6 +68,7 @@ do
             ;;
         *)
             echo "$0: FATAL: Argument '$nextarg' not recognised"
+            echo "$0: FATAL: Try using '--help' for known ones."
             invalidarguments="yes"
     esac
 done
