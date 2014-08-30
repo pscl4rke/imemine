@@ -12,6 +12,10 @@
 
 [[ "$1" != +* ]] && echo "Can only support dates" && exit 1
 
+# short delay allows me time to release mod keys
+# otherwise doesn't work in GTK text boxes
+sleep 0.2
+
 xmacroplay "$DISPLAY" <<EOF
 String $(date "$1")
 EOF
