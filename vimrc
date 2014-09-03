@@ -117,10 +117,18 @@ hi Comment ctermfg=DarkGreen cterm=Italic gui=Italic guifg=DarkGreen
 hi Statement ctermfg=Yellow
 hi Type ctermfg=Cyan
 hi Function ctermfg=Cyan
-hi ExtraWhitespace ctermbg=red guibg=red term=reverse
-au BufNewFile,BufRead * match ExtraWhitespace /\s\+$/
 let python_highlight_numbers = 1
 let python_highlight_builtins = 1
+"
+"
+" SPELLING AND FORMATTING ERRORS
+"   I hijack the syntax highlighting to make these clear.
+highlight ExtraWhitespace ctermbg=red guibg=red term=reverse
+autocmd BufNewFile,BufRead * match ExtraWhitespace /\s\+$/
+highlight SpellBad term=reverse ctermbg=1 ctermfg=7
+highlight SpellCap term=reverse ctermbg=4 ctermfg=7
+highlight SpellLocal term=reverse ctermbg=6 ctermfg=7
+highlight SpellRare term=reverse ctermbg=5 ctermfg=7
 "
 "
 " MANAGING EVIL
@@ -197,11 +205,6 @@ inoremap <C-\>s <C-O>:set spell!<CR>
 set foldmethod=indent
 " But don't fold by default:
 set nofoldenable
-" When highlighting spelling mistakes, use a different foreground:
-hi SpellBad term=reverse ctermbg=1 ctermfg=7
-hi SpellCap term=reverse ctermbg=4 ctermfg=7
-hi SpellLocal term=reverse ctermbg=6 ctermfg=7
-hi SpellRare term=reverse ctermbg=5 ctermfg=7
 "
 "
 " HISTORICAL
