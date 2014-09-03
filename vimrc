@@ -107,6 +107,11 @@ set tabpagemax=20
 " SYNTAX HIGHLIGHTING
 "   Surely the most important part!  I enable it here and then set
 "   some preferences.
+"   Note that setting the background needs to come early, because
+"   setting it automatically reloads the colour scheme ("default")
+"   and resets any previous `highlight` directives.
+"   One day I hope to have background autodetected from the
+"   terminal settings.
 syntax on
 hi Comment ctermfg=DarkGreen cterm=Italic gui=Italic guifg=DarkGreen
 hi Statement ctermfg=Yellow
