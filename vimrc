@@ -47,7 +47,6 @@ set backspace=indent,eol,start
 "   a :set nonu first.
 set numberwidth=4
 set number
-hi LineNr ctermfg=DarkBlue
 "
 "
 " SEARCHING {{{
@@ -66,7 +65,6 @@ nnoremap <C-L> :nohl<CR><C-L>
 "   insert/replace etc mode to be indicated when active.
 set laststatus=2
 set statusline=%t%m%r%h%w\ [%{&ff}\|%{&fenc}]\ (%Y)\ %=\ Ch\:\ \%03.3b\ (0x\%02.2B)\ %03lx%02v\ (%02.2p%%\ of\ %L)
-hi StatusLine term=reverse ctermbg=black ctermfg=gray
 set showmode
 "
 "
@@ -113,12 +111,28 @@ set tabpagemax=20
 "   One day I hope to have background autodetected from the
 "   terminal settings.
 syntax on
-hi Comment ctermfg=DarkGreen cterm=Italic gui=Italic guifg=DarkGreen
-hi Statement ctermfg=Yellow
-hi Type ctermfg=Cyan
-hi Function ctermfg=Cyan
+set background=light
 let python_highlight_numbers = 1
 let python_highlight_builtins = 1
+"
+"
+" POOR-MAN'S COLOUR SCHEME
+"   Creating a full colour scheme was too much hard work, so
+"   I stick with default and then tweak some things here.
+highlight Comment ctermfg=DarkGreen cterm=Italic gui=Italic guifg=DarkGreen
+highlight StatusLine term=reverse ctermbg=black ctermfg=gray
+if &background == "light"
+    highlight LineNr ctermfg=7
+    highlight Statement ctermfg=3 cterm=bold term=bold
+    highlight Type ctermfg=6 cterm=none
+    highlight Function ctermfg=14 cterm=bold
+    highlight pythonBuiltin ctermfg=6 cterm=bold
+else
+    highlight LineNr ctermfg=DarkBlue
+    highlight Statement ctermfg=Yellow cterm=bold term=bold
+    highlight Type ctermfg=Cyan
+    highlight Function ctermfg=Cyan
+endif
 "
 "
 " SPELLING AND FORMATTING ERRORS
