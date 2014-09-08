@@ -416,7 +416,7 @@
       </keybind>
       <keybind key="W-e">
         <action name="Execute">
-          <command>wmctrl -a /INBOX</command>
+          <command>wmctrl -a " emails in "</command>
         </action>
       </keybind>
       <keybind key="W-f">
