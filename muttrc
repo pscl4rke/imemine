@@ -63,6 +63,7 @@ bind editor <space> noop
 set wait_key="no"
 macro index,pager || "<pipe-message>"
 macro index,pager |j "<pipe-message>$HOME/imemine/bin/jerks<enter>"
+macro index,pager |s "<pipe-message>cat >"
 
 
 # FILTERING KEY-BINDINGS {{{

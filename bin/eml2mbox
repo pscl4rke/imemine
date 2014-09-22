@@ -1,0 +1,25 @@
+#!/bin/sh
+#======================================================================#
+# EMAIL-TO-MBOX CONVERTER                        (c) 2014 P. S. Clarke #
+#======================================================================#
+
+# Each argument is a path to a raw email file.  An mbox containing
+# them is dumped to stdout.
+
+# This may not conform perfectly to https://tools.ietf.org/html/rfc4155
+
+[ -z "$1" ] && echo "No files given" 1>&2
+
+while [ ! -z "$1" ]
+do
+    srcpath="$1"
+    shift
+
+    from="$(grep '^From: ' "$srcpath" | head -1 | sed 's/^From: //' \
+            | sed 's/^.*<//' | sed 's/>.*$//')"
+    date_rfc="$(grep '^Date: ' "$srcpath" | head -1 | sed 's/^Date: //')"
+    date_ctime="$(date --date="$date_rfc")"
+    echo "From $from $date_ctime"
+    cat "$srcpath" | sed 's/^From />From /'
+done
+
