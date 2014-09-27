@@ -3,10 +3,12 @@
 # WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2014 P. S. Clarke #
 #======================================================================#
 
-browser="chrome-temp"
+browser="chrome"
+mode="temp"
+
 case "$1" in
     -p)
-        browser="chrome-profile" ; shift
+        mode="profile" ; shift
         profile="$1" ; shift
         ;;
 esac
@@ -27,7 +29,7 @@ case "$1" in
         ;;
 esac
 
-case "$browser" in
+case "$browser-$mode" in
     chrome-temp)
         # --temp-profile must be first if it is to be obeyed:
         chromium-browser --temp-profile --no-first-run "$url"
@@ -41,8 +43,14 @@ case "$browser" in
         firefox -no-remote -profile "$profilepath" "$url"
         rm -r "$profilepath"
         ;;
+    firefox-profile)
+        profilepath="$HOME/.config/firefox-$profile"
+        mkdir "$profilepath"
+        firefox -no-remote -profile "$profilepath" "$url"
+        ;;
     *)
-        echo "Unknown browser '$browser'"
+        echo "Unknown: $browser-$mode"
+        zenity --error --title "$0" --text "Unknown: $browser-$mode"
         ;;
 esac
 
