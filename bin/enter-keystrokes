@@ -6,7 +6,9 @@
 # Best used by setting up window manager keybindings
 
 # I use `xmacro` here, but it is possible `xdotool` would
-# also work.  Or `xnee`.
+# also work.  Or `xnee`.  Or `xte`.
+# At least one of these may have a `--clear-modifiers`
+# option to fix the mod keys (avoiding the need for delay).
 
 [ -z "$1" ] && echo "Don't know what to enter" && exit 1
 
