@@ -22,6 +22,10 @@ paddedpage() {
     printf "%03d" "$1"
 }
 
+msg() {
+    echo "$(basename "$0"): $@"
+}
+
 
 # Setting Some Defaults
 # ---------------------
@@ -67,8 +71,8 @@ do
             rotation="270"
             ;;
         *)
-            echo "$0: FATAL: Argument '$nextarg' not recognised"
-            echo "$0: FATAL: Try using '--help' for known ones."
+            msg "FATAL: Argument '$nextarg' not recognised"
+            msg "FATAL: Try using '--help' for known ones."
             invalidarguments="yes"
     esac
 done
@@ -78,8 +82,8 @@ done
 # Validation
 # ----------
 
-[ -z "$inheight" ] && echo "$0: FATAL: Height unknown" && exit 1
-[ -z "$inwidth" ] && echo "$0: FATAL: Width unknown" && exit 1
+[ -z "$inheight" ] && msg "FATAL: Height unknown" && exit 1
+[ -z "$inwidth" ] && msg "FATAL: Width unknown" && exit 1
 
 if [ "$orientation" = "landscape" ]
 then
@@ -116,7 +120,7 @@ do
     case "$command" in
         add)
             currentpage="$((currentpage + 1))"
-            echo "$0: Scanning page ${currentpage}..."
+            msg "Scanning page ${currentpage}..."
             basefile="page-$(paddedpage $currentpage)"
             imagefile="${basefile}.pnm"
             scanimage \
@@ -124,13 +128,13 @@ do
                 --mode "$colourmode" --resolution "300dpi" \
                 > "$imagefile"
             if [ "$rotation" -ne "0" ]; then
-                echo "$0: Rotating by $rotation degrees..."
+                msg "Rotating by $rotation degrees..."
                 mogrify -rotate "$rotation" "$imagefile"
             fi
-            echo "$0: OCRing page ${currentpage}..."
+            msg "OCRing page ${currentpage}..."
             tesseract -c 'tessedit_char_blacklist=ﬀﬁﬂ' \
                 "$imagefile" "$basefile"
-            echo "$0: Resizing image..."
+            msg "Resizing image..."
             mogrify -resize "40%" "$imagefile"
             ;;
         edit)
@@ -149,11 +153,11 @@ do
             break
             ;;
         quit)
-            echo "$0: Cancelling document..."
+            msg "Cancelling document..."
             break
             ;;
         kill)
-            echo "$0: Exiting without cleaning ${tempdir}..."
+            msg "Exiting without cleaning ${tempdir}..."
             exit 1
             ;;
     esac
@@ -165,9 +169,9 @@ done
 
 filename="$originaldir/scanned-$(date -Iseconds | sed 's/:/-/g' | sed 's/T/---/g').pdf"
 cp done.pdf "$filename"
-echo "$0: Created $filename"
+msg "Created $filename"
 cd "$originaldir"
 rm  -r "$tempdir"
-echo "$0: Done!"
+msg "Done!"
 
 
