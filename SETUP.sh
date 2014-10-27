@@ -4,6 +4,10 @@
 # This really wants documenting!
 
 
+# It's been suggested that I could use GNU Stow for this
+# instead, but it isn't as flexible.
+
+
 ME="$0"
 
 
