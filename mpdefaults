@@ -1,0 +1,34 @@
+
+!                                                      vim:ft=xdefaults:
+!======================================================================!
+!                            MP PREFERENCES                            !
+!======================================================================!
+
+
+!   MP is the best (or least-worst) program I have found so far
+!   for taking an email and rendering it into postscript to be
+!   pretty-printed.
+
+!   It has a fair few issues - particularly with multipart
+!   messages.
+
+!   For some inexplicable reason the config format is "xdefaults".
+
+
+! Set the paper:
+mp*paperSize: A4
+
+! Configure the header and footer:
+mp*flipBanners: true
+mp*useFrom: true
+
+! Make good use of width:
+mp*tabSize: 4
+
+! Fit onto the page (units are points, 72 per inch):
+mp*topMargin: 36;
+mp*bottomMargin: 36;
+mp*leftMargin: 72;
+mp*rightMargin: 72;
+
+
