@@ -9,15 +9,20 @@
 #       a particularly good job of showing commit history.
 
 
-# KEYBINDINGS {{{
+# KEYBINDINGS
 #   By default some of the keybindings don't feel very useful to me.
 bind generic g move-first-line
 bind generic G move-last-line
 bind generic J next
 bind generic K previous
-#}}}
+# scroll, don't move cursor:
+bind diff j scroll-line-down
+bind diff k scroll-line-up
+bind diff down scroll-line-down
+bind diff up scroll-line-up
 
 
+# INITIAL APPEARANCE:
 set show-rev-graph = yes
 
 
