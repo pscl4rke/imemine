@@ -1,0 +1,5 @@
+#
+# This is CRIPPLED!!!!
+#   http://wiki.lxde.org/en/LXSession
+#
+/bin/bash /home/psc/imemine/bin/on-login-gui

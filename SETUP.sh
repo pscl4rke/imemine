@@ -127,6 +127,8 @@ wantlink "w3m_config" ".w3m/config"
 wantlink "w3m_keymap" ".w3m/keymap"
 wantlink "Xdefaults" ".Xdefaults"
 
+wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
+
 wantlink "../../../usr/bin/ack-grep" "bin/ack"
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
 
