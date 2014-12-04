@@ -26,9 +26,16 @@ mp*useFrom: true
 mp*tabSize: 4
 
 ! Fit onto the page (units are points, 72 per inch):
-mp*topMargin: 36;
-mp*bottomMargin: 36;
-mp*leftMargin: 72;
-mp*rightMargin: 72;
+mp*topMargin: 36
+mp*bottomMargin: 36
+mp*leftMargin: 72
+mp*rightMargin: 72
+
+! The number of lines to fit on a page:
+!   (By default it's too tall - stupid letter paper)
+mp*pageLength: 72
+
+! Don't chop words in half:
+mp*wrapWords: true
 
 
