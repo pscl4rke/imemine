@@ -1,0 +1,68 @@
+#!/usr/bin/env python2
+#======================================================================#
+# PRE-MP EMAIL CLEANSER                          (c) 2014 P. S. Clarke #
+#======================================================================#
+
+
+# `mp` is a program that reads an email from STDIN and writes a
+# postscript rendering of it to STDOUT.
+#
+# It is reasonable, but has many weaknesses, mostly because it
+# predates MIME encoding, attachments, HTML parts etc.
+#
+# This script sits in the pipeline before mp, and cleans it into
+# a state that mp can use.  E.g. scrubbing non plaintext parts.
+
+
+import email, email.header
+import quopri
+import StringIO as stringio
+import sys
+
+
+# Want to do:   handle non-ascii character encodings in content
+# Want to do:   stop using one line per address in headers
+# Maybe to do:  add local time
+# Maybe to do:  render html into text instead of bundled text/plain
+# Maybe to do:  hash the contents of attachments to find them again
+
+
+def cleanup(header):
+    """Fix the RFC 2047 Mime-Encoded-Word stuff in headers."""
+    parts = email.header.decode_header(header)
+    full = " ".join(txt.encode('ascii', 'replace') for (txt, enc) in parts)
+    return full.replace(", ", ",\n ")
+
+
+text = sys.stdin.read()
+msg = email.message_from_string(text)
+print "From: %s" % cleanup(msg['From'])
+print "To: %s" % cleanup(msg['To'])
+print "Cc: %s" % cleanup(msg['Cc'])
+print "Subject: %s" % cleanup(msg['Subject'])
+print "Date: %s" % msg['Date']
+print
+newload = stringio.StringIO()
+for part in msg.walk():
+    if part.get_content_maintype() == 'multipart':
+        continue
+    if part.get_content_type() == 'text/plain':
+        payload = part.get_payload()
+        if part.get("Content-Transfer-Encoding", "") == "quoted-printable":
+            payload = quopri.decodestring(payload)
+        if part.get("Content-Transfer-Encoding", "") == "base64":
+            payload = payload.decode('base64')
+        print >>newload, payload
+    else:
+        mtype = part.get_content_type()
+        size = len(part.get_payload())
+        print >>newload
+        print >>newload, "| A %r part was scrubbed (%i bytes)" % (mtype, size)
+        for key, value in part.items():
+            print >>newload, "|     %s: %s" % (key, value)
+        print >>newload
+msg.set_payload(newload.getvalue())
+
+print newload.getvalue()
+
+
