@@ -38,7 +38,8 @@ text = sys.stdin.read()
 msg = email.message_from_string(text)
 print "From: %s" % cleanup(msg['From'])
 print "To: %s" % cleanup(msg['To'])
-print "Cc: %s" % cleanup(msg['Cc'])
+if 'Cc' in msg:
+    print "Cc: %s" % cleanup(msg['Cc'])
 print "Subject: %s" % cleanup(msg['Subject'])
 print "Date: %s" % msg['Date']
 print
