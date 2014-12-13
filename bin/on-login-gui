@@ -25,5 +25,9 @@ echo "Starting..." | logger -t "$(basename "$0")"
 # Launch my drop down terminal:
 tilda &
 
+
+# Fix touchpad
+synclient TapButton1=1
+
 echo "Done" | logger -t "$(basename "$0")"
 
