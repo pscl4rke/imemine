@@ -76,7 +76,7 @@ URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=14
 !   0-7 are "low-intensity", 8-15 are "high-intensity" (bold)
 ! Defaults:
 darkterm*background: #000000
-darkterm*foreground: #dddddd
+darkterm*foreground: #cccccc
 darkterm*cursorColor: #dddddd
 lightterm*background: #ffefdf
 lightterm*foreground: #001b26
@@ -98,7 +98,7 @@ lightterm*color2: #156900
 lightterm*color10: #358B00
 ! Yellowy brown:
 darkterm*color3:   #BBBB00
-darkterm*color11:  #FFFF54
+darkterm*color11:  #DDDD32
 lightterm*color3: #854900
 lightterm*color11: #d58901
 ! Blue:
@@ -117,7 +117,7 @@ darkterm*color14:  #00EEEE
 lightterm*color6: #036a60
 lightterm*color14: #2aa1a8
 ! White:
-darkterm*color7:   #C8C8C8
+darkterm*color7:   #AAAAAA
 darkterm*color15:  #FFFFFF
 lightterm*color7: #AFAF9B
 lightterm*color15: #9F8F7B
