@@ -1,0 +1,17 @@
+
+# see /etc/dillo/keysrc for info
+# vim:ft=conf:
+
+j = line-down
+k = line-up
+g = top
+G = bottom
+
+/ = find
+
+R = reload
+q = close-all
+
+< = left-tab
+> = right-tab
+
