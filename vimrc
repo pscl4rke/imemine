@@ -162,7 +162,7 @@ noremap <Space> <C-F>
 noremap g<Space> <Space>
 "
 "
-" FILE-TYPE DETECTION {{{
+" FILE-TYPE DETECTION
 "   Vim's usually pretty good at this sort of thing, but sometimes it
 "   gets things wrong (and it does have an obsession with modula2).
 "   I don't know whether 'set filetype=foo' is the right thing to use
@@ -175,7 +175,7 @@ autocmd BufNewFile,BufRead *.csv set filetype=csv
 autocmd BufNewFile,BufRead *.crontab set filetype=crontab
 autocmd BufNewFile,BufRead [Ss][Cc]onstruct set filetype=python
 autocmd BufNewFile,BufRead requirements.txt set filetype=conf
-"}}}
+autocmd BufNewFile,BufRead *.rs set filetype=rust
 "
 "
 " FILE-TYPE PREFERENCES
