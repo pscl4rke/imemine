@@ -1,3 +1,10 @@
 
 save_dir=/home/psc/Downloads
 
+# A faking of GTK
+theme = gtk+
+#theme = plastic
+
+show_msg = no
+
+# vim:ft=conf:
