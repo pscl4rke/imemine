@@ -13,11 +13,16 @@ dest="$src.tar"
 asuser=nobody
 asgroup=nogroup
 
+# Create the stash:
 tar --create \
     --owner="$asuser" --group="$asgroup" \
     --file "$dest" \
     "$src"
 
-tar --diff --file "$dest" | grep -v '[GU]id differs$'
+# Verify the stash:
+#   (this increases disk io by about ~66% so is disabled)
+#tar --diff --file "$dest" | grep -v '[GU]id differs$'
+
+# Then emit hash for storage confirmation:
 md5sum "$dest"
 
