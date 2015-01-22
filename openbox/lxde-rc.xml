@@ -451,7 +451,7 @@
       <!-- Chained -->
       <keybind key="C-A-i">
         <action name="Execute">
-          <command>/home/psc/imemine/bin/open-in-browser https://duckduckgo.com</command>
+          <command>/home/psc/imemine/bin/open-in-browser https://duckduckgo.com/lite/</command>
         </action>
       </keybind>
       <keybind key="C-A-u">
