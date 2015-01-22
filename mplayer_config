@@ -38,11 +38,17 @@ heartbeat-cmd="xscreensaver-command -deactivate >>/dev/null 2>&1"
 #}}}
 
 
+# WINDOW APPEARANCE
+#   Use the filename of the current item as the window title.
+#   This is often easier than typing 'I' to use the OSD.
+use-filename-title=yes
+
+
 # PLAYING DVDS
 #  Use "-chapter n-n" on cmd line to play just chapter n.
 [protocol.dvd]
 alang=en
 slang=en
-title="A DVD" # For the window manager
+#title="A DVD" # For the window manager
 
 
