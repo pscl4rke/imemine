@@ -7,4 +7,7 @@ theme = gtk+
 
 show_msg = no
 
+# This causes new tabs to open in the background:
+focus_new_tab=NO
+
 # vim:ft=conf:
