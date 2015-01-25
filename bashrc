@@ -76,7 +76,8 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 #   Some people have an option to cat /etc/debian_chroot into their
 #   prompt if they spend a lot of time using chroot.
 [ -f /usr/lib/git-core/git-sh-prompt ] && source /usr/lib/git-core/git-sh-prompt
-if declare -F | grep -q __git_ps1
+# The extra sort below stops declare from moaning about broken pipes:
+if declare -F | sort | grep -q __git_ps1
 then
     : #(already included from /etc/bash_completion.d/git)
 else
