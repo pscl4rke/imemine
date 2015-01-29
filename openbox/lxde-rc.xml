@@ -514,9 +514,13 @@
     </keybind>
 
     <!-- Screen locker -->
+    <!-- Ctrl+Alt+L (as part of HJKL) is too useful to get used up
+          by screen locking, so cancel that behaviour and undo any
+          residual muscle-memory. -->
     <keybind key="C-A-l">
       <action name="Execute">
-        <command>lxlock</command>
+        <!-- <command>lxlock</command> -->
+        <command>/bin/true</command>
       </action>
     </keybind>
 
