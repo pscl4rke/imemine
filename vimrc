@@ -168,6 +168,8 @@ noremap g<Space> <Space>
 "   I don't know whether 'set filetype=foo' is the right thing to use
 "   here, or whether instead I should use 'setfiletype foo' or
 "   'setlocal filetype=foo'.
+"   Use setfiletype if you only want it to apply if there isn't
+"   one already.
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 autocmd BufNewFile,BufRead *.pp set filetype=puppet
