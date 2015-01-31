@@ -96,6 +96,7 @@ bind index,pager R imap-fetch-mail
 # ENTERING BEHAVIOUR
 #   Don't bother asking me whether I want to create ~/Mail
 #   every time I launch mutt with the -f option.
+#   The downside is that <c><?> folder switcher breaks.
 set folder="/dev/null"
 
 
