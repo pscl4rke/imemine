@@ -21,6 +21,15 @@
 [color "diff"]
 	meta = cyan
 	frag = cyan
+
+
+# DIFFING GNUPG FILES
+#   Note that to debinaryfy a GPG keyring you also need to add
+#   "*ring.gpg diff=gpg" to a .gitattributes file.
+#   See http://git-blame.blogspot.co.uk/2012/10/fun-with-running-textconv.html
 [diff "gpg"]
 	textconv = gpg -v
-	xfuncname = "^((pub|uid) .*)"
+	# My keyrings are not noisy enough to need this yet:
+	#xfuncname = "^((pub|uid) .*)"
+
+
