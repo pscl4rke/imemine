@@ -262,8 +262,9 @@
       <action name="ToggleMaximize" />
     </keybind>
 
-    <!-- Keybindings for window switching -->
-    <keybind key="A-Tab">
+    <!-- Keybindings for window switching by cycling -->
+    <!-- Using Win-Tab for consistency, not Alt-Tab -->
+    <keybind key="W-Tab">
       <action name="NextWindow">
         <dialog>icons</dialog>
         <finalactions>
@@ -273,7 +274,7 @@
         </finalactions>
       </action>
     </keybind>
-    <keybind key="A-S-Tab">
+    <keybind key="W-S-Tab">
       <action name="PreviousWindow">
         <finalactions>
           <action name="Focus"/>
@@ -282,17 +283,7 @@
         </finalactions>
       </action>
     </keybind>
-    <keybind key="C-A-Tab">
-      <action name="NextWindow">
-        <panels>yes</panels>
-        <desktop>yes</desktop>
-        <finalactions>
-          <action name="Focus"/>
-          <action name="Raise"/>
-          <action name="Unshade"/>
-        </finalactions>
-      </action>
-    </keybind>
+
     <!-- Keybindings for window switching with the arrow keys -->
     <keybind key="W-L">
       <action name="DirectionalCycleWindows">
