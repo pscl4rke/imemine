@@ -52,3 +52,9 @@ slang=en
 #title="A DVD" # For the window manager
 
 
+# AUDIO FILES
+#   Don't bother creating a window to display embedded images.
+[extension.mp3]
+novideo=yes
+
+
