@@ -50,10 +50,12 @@ for part in msg.walk():
     if part.get_content_type() == 'text/plain':
         payload = part.get_payload()
         if part.get("Content-Transfer-Encoding", "") == "quoted-printable":
-            payload = quopri.decodestring(payload)
-        if part.get("Content-Transfer-Encoding", "") == "base64":
-            payload = payload.decode('base64')
-        print >>newload, payload
+            payloadu = quopri.decodestring(payload).decode('utf8')
+        elif part.get("Content-Transfer-Encoding", "") == "base64":
+            payloadu = payload.decode('base64')
+        else:
+            payloadu = payload.decode('utf8')
+        print >>newload, payloadu.encode('ascii', 'replace')
     else:
         mtype = part.get_content_type()
         size = len(part.get_payload())
