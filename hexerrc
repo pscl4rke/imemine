@@ -1,6 +1,16 @@
 
 
+# These colours are least-worst for light backgrounds:
 set bg=7
 set fg=0
+
+# Tweaking the keybindings:
+map q :q
+
+# There appears to be no way to rebind <Space>, and
+# if there is I'm not sure how to scroll a page anyway:
+map \x20 j
+map ' ' PGDOWN
+map " " PGDOWN
 
 
