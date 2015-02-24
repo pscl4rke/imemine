@@ -167,9 +167,13 @@ done
 # Tearing Down
 # ------------
 
-filename="$originaldir/scanned-$(date -Iseconds | sed 's/:/-/g' | sed 's/T/---/g').pdf"
-cp done.pdf "$filename"
-msg "Created $filename"
+if [ -e done.pdf ]
+then
+    filename="$originaldir/scanned-$(date -Iseconds | sed 's/:/-/g' | sed 's/T/---/g').pdf"
+    cp done.pdf "$filename"
+    msg "Created $filename"
+fi
+
 cd "$originaldir"
 rm  -r "$tempdir"
 msg "Done!"
