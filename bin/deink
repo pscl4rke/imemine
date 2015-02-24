@@ -134,6 +134,7 @@ do
             msg "OCRing page ${currentpage}..."
             tesseract -c 'tessedit_char_blacklist=ﬀﬁﬂ' \
                 "$imagefile" "$basefile"
+            sed -i '/^ *$/d' "$basefile.txt"
             msg "Resizing image..."
             mogrify -resize "40%" "$imagefile"
             ;;
