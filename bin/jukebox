@@ -11,4 +11,7 @@ case "$album" in
     *)          mpc find album "$album"     ;;
 esac | mpc add
 mpc play
+# Try again because of a weird permissions issue
+# It still doesn't work :(
+#sleep 1 && mpc play
 
