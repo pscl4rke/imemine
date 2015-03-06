@@ -148,6 +148,9 @@ unignore Reply-To:
 # WINDOW TITLING
 #   Note that these rely on the xtitles patch, which is usually
 #   compiled in.
+#   NOTE: If one plans on managing multiple accounts with multiple
+#   mutt instances then it might be helpful to override this to
+#   enable better window-manager switching.
 set xterm_set_titles="yes"
 # default: Mutt with %?m?%m messages&no messages?%?n? [%n NEW]?
 set xterm_title="%m emails in %f (%n new %o old)"

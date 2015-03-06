@@ -407,7 +407,7 @@
       </keybind>
       <keybind key="W-e">
         <action name="Execute">
-          <command>wmctrl -a " emails in "</command>
+          <command>wmctrl -a {fastmail}</command>
         </action>
       </keybind>
       <keybind key="W-f">
@@ -417,7 +417,7 @@
       </keybind>
       <keybind key="W-g">
         <action name="Execute">
-          <command>wmctrl -a googlemail.com</command>
+          <command>wmctrl -a {gmail}</command>
         </action>
       </keybind>
       <keybind key="W-s">
