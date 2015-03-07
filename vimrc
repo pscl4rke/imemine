@@ -68,6 +68,15 @@ set statusline=%t%m%r%h%w\ [%{&ff}\|%{&fenc}]\ (%Y)\ %=\ Ch\:\ \%03.3b\ (0x\%02.
 set showmode
 "
 "
+" COMMAND ENTRY
+"   This tweaks this command line at the bottom of the screen to
+"   behave a little more like readline.
+"   (Unfortunately the command line only has whitespace-deletion and
+"   does not support wordchar-deletion (Alt-BS).)
+cnoremap <C-A> <Home>
+cnoremap <Esc><BS> <BS>
+"
+"
 " INDENTATION
 "   Set to satisfy the Python conventions, but generally usable for
 "   everything else.  Note that when I really do want a tab character
