@@ -44,6 +44,14 @@ heartbeat-cmd="xscreensaver-command -deactivate >>/dev/null 2>&1"
 use-filename-title=yes
 
 
+# STUPID BUG
+#   There's a bug in old versions of pulseaudio (like the one
+#   in Wheezy) that miscalculates durations and causes mplayer
+#   to not realise it's at the end of the file.  So bypass it.
+#   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=674145
+#ao=alsa
+
+
 # PLAYING DVDS
 #  Use "-chapter n-n" on cmd line to play just chapter n.
 [protocol.dvd]
