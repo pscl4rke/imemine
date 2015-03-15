@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# USAGE:
+#   Unlock the disc if necessary (and also choose titles):
+#       $ lsdvd /dev/mydrive
+#   Rip whole disc to a file:
+#       $ cat /dev/mydrive > foobar.disc03.iso
+#   Repeat for each desired title:
+#       $ iso2avi foobar.disc03.iso 4
+#       $ iso2avi foobar.disc03.iso 5
+#       $ iso2avi foobar.disc03.iso 6
+
+# THIS SCRIPT HANDLES:
+#   -   English audio
+#   -   No subtitles
+#   -   Audio and video in sync
+#   -   Plays on Raspberry Pi
+#   -   Skipping back and forwards
+#   -   Approximately the right bitrate
+#   -   A reasonable quality preset
+#   -   Deinterlacing
+
+# MAY WANT TO HANDLE:
+#   -   Options to adjust bitrate and presets
+#   -   Artificial volume amplification
+#   -   Setting metadata
+#   -   Converting to MP4 or MKV (currently an AVI)
+#       (it may detect from file ext if "-of lavf" is given)
+#       (however only AVI is properly supported say docs)
+
+#==== TUNABLE SETTINGS ====#
+
+bitrate=700 # kbps
+
+#preset=ultrafast
+preset=medium       # approx 4 mins encoding for 1 min of video
+#preset=slow
+# Don't bother with anything slower: "diminishing returns"
+#preset=veryslow
+
+deinterlace=lb
+
+#==== RIP FILE ====#
+
+[ -z "$2" ] && echo Incorrect usage && exit 1
+srciso="$1"
+title="$2"
+
+srcbase="${srciso%.iso}"
+destfile="$(printf "$srcbase.title%02i.$preset.$bitrate.$deinterlace.avi" $title)"
+
+#vidopts="bitrate=$bitrate:nointerlaced:preset=$preset:keyint=250:keyint_min=25:force_cfr "
+vidopts="bitrate=$bitrate:nointerlaced:preset=$preset:force_cfr"
+#vidopts="bitrate=$bitrate:nointerlaced:preset=$preset"
+
+time nice -n 10 /usr/bin/mencoder \
+    -alang en \
+    -slang en \
+    -nosub \
+    -dvd-device "$srciso" \
+    "dvd://$title" \
+    -o "$destfile" \
+    -mc 0 \
+    -noskip \
+    -oac copy \
+    -ovc x264 \
+    -vf softskip,pp=$deinterlace,harddup \
+    -x264encopts "$vidopts" \
+
