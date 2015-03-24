@@ -24,11 +24,7 @@ fi
 
 
 # COMMAND COMPLETION
-#   Eventually I will drop the echo statements, but I'm still
-#   concerned that the completion routines take too long.
-echo -n "Setting up completion... "
 source /usr/share/bash-completion/bash_completion
-echo "Done."
 
 
 # EXPLICITLY DECLARE BASIC OPTIONS
