@@ -525,23 +525,26 @@
     </keybind>
 
     <!-- Fast access to filemanager -->
-    <keybind key="C-A-Home">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>PCManFM</name>
-        </startupnotify>
-        <command>pcmanfm -n</command>
-      </action>
-    </keybind>
-    <keybind key="C-A-End">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>PCManFM</name>
-        </startupnotify>
-        <command>pcmanfm -n /</command>
-      </action>
+    <!-- Will probably make <W-X><W-X> launch the home one -->
+    <keybind key="W-x">
+      <keybind key="W-x">
+        <action name="Execute">
+          <startupnotify>
+            <enabled>true</enabled>
+            <name>PCManFM</name>
+          </startupnotify>
+          <command>pcmanfm -n</command>
+        </action>
+      </keybind>
+      <keybind key="W-r">
+        <action name="Execute">
+          <startupnotify>
+            <enabled>true</enabled>
+            <name>PCManFM</name>
+          </startupnotify>
+          <command>pcmanfm -n /</command>
+        </action>
+      </keybind>
     </keybind>
 
     <!-- Launch scrot when Print is pressed -->
