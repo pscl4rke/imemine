@@ -8,9 +8,9 @@ Global {
     widthtype=percent
     width=100
     height=26
-    transparent=0
-    tintcolor=#28102a
-    alpha=214
+    transparent=1
+    tintcolor=#595252
+    alpha=180
     autohide=0
     heightwhenhidden=2
     setdocktype=1
@@ -22,6 +22,7 @@ Global {
     background=0
     backgroundfile=/usr/share/lxpanel/images/background.png
     iconsize=24
+    loglevel=2
 }
 
 Plugin {
