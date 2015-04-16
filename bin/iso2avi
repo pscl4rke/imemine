@@ -55,6 +55,8 @@ destfile="$(printf "$srcbase.title%02i.$preset.$bitrate.$deinterlace.avi" $title
 vidopts="bitrate=$bitrate:nointerlaced:preset=$preset:force_cfr"
 #vidopts="bitrate=$bitrate:nointerlaced:preset=$preset"
 
+echo Starting at $(date)
+
 time nice -n 10 /usr/bin/mencoder \
     -alang en \
     -slang en \
@@ -68,4 +70,7 @@ time nice -n 10 /usr/bin/mencoder \
     -ovc x264 \
     -vf softskip,pp=$deinterlace,harddup \
     -x264encopts "$vidopts" \
+exitcode="$?"
+
+echo Completed at $(date) with code $exitcode
 
