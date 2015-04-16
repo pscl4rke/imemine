@@ -49,11 +49,11 @@ srciso="$1"
 title="$2"
 
 srcbase="${srciso%.iso}"
-destfile="$(printf "$srcbase.title%02i.$preset.$bitrate.$deinterlace.avi" $title)"
+destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace.avi" $title)"
 
-#vidopts="bitrate=$bitrate:nointerlaced:preset=$preset:keyint=250:keyint_min=25:force_cfr "
-vidopts="bitrate=$bitrate:nointerlaced:preset=$preset:force_cfr"
-#vidopts="bitrate=$bitrate:nointerlaced:preset=$preset"
+#vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:keyint=250:keyint_min=25:force_cfr "
+vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:force_cfr"
+#vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset"
 
 echo Starting at $(date)
 
