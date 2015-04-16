@@ -22,6 +22,7 @@
 
 # MAY WANT TO HANDLE:
 #   -   Options to adjust bitrate and presets
+#   -   Specify audio bitrate (maybe about 92kbps)
 #   -   Artificial volume amplification
 #   -   Setting metadata
 #   -   Converting to MP4 or MKV (currently an AVI)
@@ -33,10 +34,11 @@
 bitrate=700 # kbps
 
 #preset=ultrafast
-preset=medium       # approx 4 mins encoding for 1 min of video
-#preset=slow
+preset=medium       # approx 4 mins encoding for 1 min of video on netbook
+                    # or 20 seconds encoding for 1 min of video on office pc
+#preset=slow        # about 30 secs encoding for 1 min of video on office pc
 # Don't bother with anything slower: "diminishing returns"
-#preset=veryslow
+#preset=veryslow    # approx 2 mins encoding for 1 min of video on office pc
 
 deinterlace=lb
 
