@@ -31,7 +31,7 @@
 
 #==== TUNABLE SETTINGS ====#
 
-bitrate=700 # kbps
+videobitrate=700 # kbps
 
 #preset=ultrafast
 preset=medium       # approx 4 mins encoding for 1 min of video on netbook
