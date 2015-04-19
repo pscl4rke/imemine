@@ -70,7 +70,7 @@ time nice -n 10 /usr/bin/mencoder \
     -ovc x264 \
     -vf softskip,pp=$deinterlace,harddup \
     -x264encopts "$vidopts" \
-exitcode="$?"
 
+exitcode="$?"
 echo Completed at $(date) with code $exitcode
 
