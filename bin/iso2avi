@@ -21,6 +21,7 @@
 #   -   Deinterlacing
 
 # MAY WANT TO HANDLE:
+#   -   Should it overwrite an existing file?
 #   -   Options to adjust bitrate and presets
 #   -   Specify audio bitrate (maybe about 92kbps)
 #   -   Artificial volume amplification
@@ -31,7 +32,8 @@
 
 #==== TUNABLE SETTINGS ====#
 
-videobitrate=700 # kbps
+#videobitrate=700 # kbps
+videobitrate=685 # kbps
 
 #preset=ultrafast
 preset=medium       # approx 4 mins encoding for 1 min of video on netbook
