@@ -165,6 +165,7 @@ alias w3m="w3m -title"
 alias w3mt="w3m -title -T text/html"
 alias ll="ls -l"
 alias la="ls -A"
+dvdplayer() { mplayer -dvd-device "$1" "dvd://$2"; }
 
 
 # CUSTOM SCRIPTS
