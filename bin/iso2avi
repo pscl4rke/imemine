@@ -13,7 +13,7 @@
 # THIS SCRIPT HANDLES:
 #   -   English audio
 #   -   No subtitles
-#   -   Audio and video in sync
+#   -   Audio and video in sync (mostly)
 #   -   Plays on Raspberry Pi
 #   -   Skipping back and forwards
 #   -   Approximately the right bitrate
@@ -21,6 +21,7 @@
 #   -   Deinterlacing
 
 # MAY WANT TO HANDLE:
+#   -   Audio always in sync
 #   -   Should it overwrite an existing file?
 #   -   Options to adjust bitrate and presets
 #   -   Specify audio bitrate (maybe about 92kbps)
