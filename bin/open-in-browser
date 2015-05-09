@@ -40,6 +40,9 @@ case "$browser-$mode" in
         ;;
     firefox-temp)
         profilepath="$(mktemp --directory /tmp/firefox.$$.XXXXXXX)"
+        [ -e ~/.firefox.base.tar ] && (
+            cd "$profilepath"
+            tar xf ~/.firefox.base.tar)
         firefox -no-remote -profile "$profilepath" "$url"
         rm -r "$profilepath"
         ;;
