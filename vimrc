@@ -154,6 +154,15 @@ highlight SpellLocal term=reverse ctermbg=6 ctermfg=7
 highlight SpellRare term=reverse ctermbg=5 ctermfg=7
 "
 "
+" DIFFING FILES
+"   By default the vimdiff colours are unreadable.  These are
+"   better, but still need tweaking.
+highlight DiffAdd    cterm=bold ctermfg=Green   ctermbg=17
+highlight DiffDelete cterm=bold ctermfg=Red     ctermbg=17
+highlight DiffChange cterm=bold ctermfg=10      ctermbg=17
+highlight DiffText   cterm=bold ctermfg=10      ctermbg=88
+"
+"
 " MANAGING EVIL
 "   For those cases where a single line is far longer than it ever
 "   should be I set up the arrow keys to work to my advantage.
