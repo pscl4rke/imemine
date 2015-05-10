@@ -3,7 +3,7 @@
 # MPD ALBUM SELECTOR                             (c) 2012 P. S. Clarke #
 #======================================================================#
 
-album="$(mpc list album | shuf | cat <(echo "SHUFFLING") - | dmenu)"
+album="$(mpc list album | shuf | cat <(echo "SHUFFLING") - | dmenu -i)"
 [ -z "$album" ] && exit 1
 mpc clear
 case "$album" in
