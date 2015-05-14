@@ -261,7 +261,7 @@
         bind /   'macro m_search'
         bind M   'context grab'
         bind ..  'save_state'
-        bind  A  'action'
+        #bind  A  'action'
         bind k   up
         bind j   down
         bind h   right
