@@ -31,6 +31,9 @@ tilda &
 #   usually slower and fiddlier than just reaching for a mouse.
 #keynav &
 
+# What is mpd playing (only works on when mpd is installed)?
+(while true; do /home/psc/imemine/bin/mpd-notifier; sleep 5; done) &
+
 # Try conky
 #conky &
 
