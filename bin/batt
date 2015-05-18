@@ -3,6 +3,10 @@
 # BATTERY CHARGE CHECKER                         (c) 2012 P. S. Clarke #
 #======================================================================#
 
+
+# Quite frankly, I might as well just use the `acpi` program instead!
+
+
 if [ -e "/proc/acpi/battery" ]
 then
     # This may be the old way of doing it...
