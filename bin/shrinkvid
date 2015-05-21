@@ -1,0 +1,19 @@
+#!/bin/bash
+#======================================================================#
+# VIDEO FILE SHRINKER                            (c) 2015 P. S. Clarke #
+#======================================================================#
+
+# By reducing the number of pixels not only does the file take less
+# space but more importantly it also renders easier on ultra-low-power
+# devices.
+
+[ -z "$2" ] && echo Incorrect usage && exit 1
+src="$1"
+dest="$2"
+[ "$src" == "$dest" ] && echo Same! && exit 1
+
+
+# use mp3 because default aac errors
+#time avconv -i "$src" -strict experimental -s qvga "$dest"
+time avconv -i "$src" -c:a mp3 -s qvga "$dest"
+
