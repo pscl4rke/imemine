@@ -137,8 +137,9 @@ URxvt.iso14755_52: false
 !URxvt.backgroundPixmap: /home/psc/imemine/ctermbg/purple.gif;tile
 !   Transparency makes it hard to read, and tinting only makes the
 !   background darker, which doesn't work in lightterm mode.
-!URxvt.transparent: true
+darkterm*transparent: true
 !URxvt.tintColor: #eeeeee
+darkterm*tintColor: #444444
 !Urxvt.shading: 190
 !Urxvt.blurRadius: 64
 
