@@ -3,6 +3,7 @@
 # USAGE:
 #   Unlock the disc if necessary (and also choose titles):
 #       $ lsdvd /dev/mydrive
+#       (occasionally you may need to unmount it first (without ejecting))
 #   Rip whole disc to a file:
 #       $ cat /dev/mydrive > foobar.disc03.iso
 #   Repeat for each desired title:
