@@ -43,6 +43,7 @@ preset=medium       # approx 4 mins encoding for 1 min of video on netbook
 #preset=slow        # about 30 secs encoding for 1 min of video on office pc
 # Don't bother with anything slower: "diminishing returns"
 #preset=veryslow    # approx 2 mins encoding for 1 min of video on office pc
+                    # approx 4 mins encoding for 1 min of video on zenbook
 
 deinterlace=lb
 
