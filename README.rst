@@ -26,7 +26,13 @@ up symlinks from ~/imemine/filerc to ~/.filerc, although if there is
 host specific config then you might need fancier stuff using
 source statements etc.
 
-One day I might make an auto-installing script for frequent
-arrangements, but I haven't needed that yet.
+This is automated by `SETUP.sh`.  It has a preview mode to set what
+changes will be made without actually altering anything::
+
+    $ ./SETUP.sh simulate
+
+And then to make the changes::
+
+    $ ./SETUP.sh install
 
 
