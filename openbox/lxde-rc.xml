@@ -170,7 +170,7 @@
     <!-- 'Left', 'Middle', 'Right' -->
   </dock>
   <keyboard>
-    <chainQuitKey>C-g</chainQuitKey>
+    <chainQuitKey>Escape</chainQuitKey>
 
     <!-- Keybindings for desktop switching -->
     <keybind key="C-A-Left">
