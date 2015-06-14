@@ -10,8 +10,13 @@ profile="urxvt"
 if [ -z "$1" ]
 then
     urxvt -name "$profile"
+    exitcode=$?
 else
     urxvt -name "$profile" -title "$1" -e "$@"
+    exitcode=$?
 fi
+
+# Emergency default in case I don't have urxvt installed:
+[[ "$exitcode" != 0 ]] && x-terminal-emulator
 
 
