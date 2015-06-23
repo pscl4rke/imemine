@@ -1,0 +1,5 @@
+
+! This makes the menu key a "Windows" key for the window manager.
+! Very useful for laptops that only have a winkey on the left.
+keycode 135 = Super_R
+

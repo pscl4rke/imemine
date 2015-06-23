@@ -22,4 +22,7 @@ xmacroplay "$DISPLAY" <<EOF
 String $(date "$1")
 EOF
 
+# For some reason the keybindings get reset after running this, so
+# force them back to my preferences.
+xmodmap $HOME/.xmodmap.extra
 

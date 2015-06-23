@@ -40,5 +40,9 @@ tilda &
 # Fix touchpad
 synclient TapButton1=1
 
+# Try and fix keyboard: make menu a winkey
+#(sleep 5 && xmodmap -e 'keycode 135 = Super_R') &
+(sleep 5 && xmodmap /home/psc/.xmodmap.extra) &
+
 echo "Done" | logger -t "$(basename "$0")"
 

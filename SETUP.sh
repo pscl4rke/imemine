@@ -130,6 +130,7 @@ wantlink "vimrc" ".vimrc"
 wantlink "w3m_config" ".w3m/config"
 wantlink "w3m_keymap" ".w3m/keymap"
 wantlink "Xdefaults" ".Xdefaults"
+wantlink "xmodmap.extra" ".xmodmap.extra"
 
 wantlink "openbox/autostart" ".config/openbox/autostart"
 wantlink "openbox/autostart" ".config/openbox/autostart.sh"
