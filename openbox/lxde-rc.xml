@@ -221,6 +221,18 @@
         <where>current</where>
       </action>
     </keybind>
+    <keybind key="W-numbersign">
+      <keybind key="W-Return">
+        <action name="AddDesktop">
+          <where>current</where>
+        </action>
+      </keybind>
+      <keybind key="W-BackSpace">
+        <action name="RemoveDesktop">
+          <where>current</where>
+        </action>
+      </keybind>
+    </keybind>
 
     <!-- Keybindings for windows -->
     <keybind key="C-A-c">
