@@ -27,6 +27,7 @@ fi
 #   Most completion comes ready packaged:
 source /usr/share/bash-completion/bash_completion
 #   Though some needs specifying manually:
+complete -F _command rlwrap
 complete -F _command tsp
 
 
