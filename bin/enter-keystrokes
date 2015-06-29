@@ -5,22 +5,23 @@
 
 # Best used by setting up window manager keybindings
 
-# I use `xmacro` here, but it is possible `xdotool` would
-# also work.  Or `xnee`.  Or `xte`.
-# At least one of these may have a `--clear-modifiers`
-# option to fix the mod keys (avoiding the need for delay).
+# I used `xmacro` here, but found that `xdotool` would also work
+# and was quicker.  And didn't need a pause beforehand.
+# I could also try `xnee` or `xte` instead.
 
 [ -z "$1" ] && echo "Don't know what to enter" && exit 1
-
 [[ "$1" != +* ]] && echo "Can only support dates" && exit 1
 
-# short delay allows me time to release mod keys
-# otherwise doesn't work in GTK text boxes
-sleep 0.2
+# OLD XMACRO SYSTEM: REPLACED BY XDOTOOL
+#   #short delay allows me time to release mod keys
+#   #otherwise doesn't work in GTK text boxes
+#   sleep 0.2
+#   xmacroplay "$DISPLAY" <<EOF
+#   String $(date "$1")
+#   EOF
 
-xmacroplay "$DISPLAY" <<EOF
-String $(date "$1")
-EOF
+text="$(date "$1")"
+xdotool type --clearmodifiers "$text"
 
 # For some reason the keybindings get reset after running this, so
 # force them back to my preferences.
