@@ -221,7 +221,7 @@
         <where>current</where>
       </action>
     </keybind>
-    <keybind key="W-numbersign">
+    <keybind key="W-numbersign"> <!-- hash key -->
       <keybind key="W-Return">
         <action name="AddDesktop">
           <where>current</where>
