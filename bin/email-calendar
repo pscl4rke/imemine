@@ -35,8 +35,9 @@ then
     exit 1
 fi
 
-
-calendar -f "$calendarfile" -l 0 | while read month daystarred reminder
+date="today" # One day I will allow the getopts thing to override this
+ts=$(date -d "$date" +%Y%m%d)
+calendar -f "$calendarfile" -l 0 -t "$ts" | while read month daystar reminder
 do
     echo "Reminding about '$reminder'"
 
