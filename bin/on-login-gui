@@ -37,8 +37,12 @@ tilda &
 # Try conky
 #conky &
 
-# Fix touchpad
+# Fix touchpad (use synclient -l to find current settings)
+#   Tapping with 1 finger maps to button 1 (left)
 synclient TapButton1=1
+#   Tapping with 2 fingers maps to button 2 (middle)
+#   Tapping with 3 fingers maps to button 3 (right)
+synclient TapButton2=2 TapButton3=3
 
 # Try and fix keyboard: make menu a winkey
 #(sleep 5 && xmodmap -e 'keycode 135 = Super_R') &
