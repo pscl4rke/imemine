@@ -198,6 +198,13 @@ complete -f cdiff
 function cdiff() { colordiff -u "$@" | less -R; }
 
 
+# PACKAGING
+#   The debian toolkit for building packages works much better if
+#   you tell it who you are.
+export DEBFULLNAME="P. S. Clarke"
+export DEBEMAIL="debs@pscl4rke.net"
+
+
 # LOCAL CONFIGURATION
 #   If a config file exists containing machine specific config
 #   then load it at this point.
