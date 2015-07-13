@@ -1,0 +1,43 @@
+
+# vim:ft=conf:
+
+# First load this, then override my prefereces:
+#   (nothing works without it)
+include "/etc/wyrdrc"
+
+set quick_date_US="false"
+
+# Swap these:
+bind "q" quit
+bind "Q" quick_add
+
+#       object              foreground  background
+color   help                default     default
+# month view in the top right:
+color   calendar_labels     default     default
+# day view on left hand side:
+color   timed_default       default     default
+# all-day events on the bottom right:
+color   untimed_reminder    default     default
+# bottom?
+color   description         default     default
+
+
+# PSC - TRYING WITHOUT DURATIONS!
+# ...
+# templates for creating new appointments
+# %monname% -> month name, %mon% -> month number, %mday% -> day of the month, 
+# %year% -> year, %hour% -> hour, %min% -> minute, %wdayname% -> weekday name
+# %wday% -> weekday number
+set timed_template="REM %mday% %monname% %year% AT %hour%:%min% MSG "
+set untimed_template="REM %mday% %monname% %year% MSG "
+
+# weekly recurrence
+set template0="REM %wdayname% AT %hour%:%min% MSG "
+set template1="REM %wdayname% MSG "
+
+# monthly recurrence
+set template2="REM %mday% AT %hour%:%min% MSG "
+set template3="REM %mday% MSG "
+
+
