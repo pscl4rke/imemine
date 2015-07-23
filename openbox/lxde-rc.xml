@@ -405,6 +405,34 @@
       </action>
     </keybind>
 
+    <!-- Positioning with chaining -->
+    <keybind key="W-m">
+      <keybind key="W-h"> <!-- Left Half -->
+        <keybind key="W-h">
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>0</x> <y>0</y> <height>100%</height> <width>50%</width>
+          </action>
+        </keybind>
+      </keybind>
+      <keybind key="W-j"> <!-- Bottom Half -->
+        <keybind key="W-j">
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>0</x> <y>50%</y> <width>100%</width> <height>50%</height>
+          </action>
+        </keybind>
+      </keybind>
+      <keybind key="W-k"> <!-- Top Half -->
+        <keybind key="W-k">
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>0</x> <y>0</y> <width>100%</width> <height>50%</height>
+          </action>
+        </keybind>
+      </keybind>
+    </keybind>
+
     <!-- Finding windows -->
     <keybind key="W-f"> <!-- Chained -->
       <keybind key="W-space">
