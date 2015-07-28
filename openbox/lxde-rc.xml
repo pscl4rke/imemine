@@ -486,6 +486,13 @@
         </action>
       </keybind>
     </keybind>
+    <keybind key="W-W">
+      <keybind key="W-K">
+        <action name="Execute">
+          <command>/home/psc/imemine/bin/srprompt wikipedia</command>
+        </action>
+      </keybind>
+    </keybind>
     <keybind key="C-A-T">
       <action name="Execute">
         <!-- <command>lxterminal</command> -->
