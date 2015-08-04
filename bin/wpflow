@@ -17,6 +17,8 @@ def flowform(line):
         return "\n\n"
     if line[0] in "\n\t\r >":
         return line
+    if line[0] == '[' and ']:' in line: # or '](' not in line
+        return line
     return line.replace('\n', ' ')
 
 
