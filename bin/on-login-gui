@@ -43,6 +43,15 @@ synclient TapButton1=1
 #   Tapping with 2 fingers maps to button 2 (middle)
 #   Tapping with 3 fingers maps to button 3 (right)
 synclient TapButton2=2 TapButton3=3
+case "$HOSTNAME" in
+    UX305)
+        #   For Zenbook only - stop accidental taps (default about 2900ish)
+        synclient AreaRightEdge=2300
+        ;;
+    *)
+        true
+        ;;
+esac
 
 # Try and fix keyboard: make menu a winkey
 #(sleep 5 && xmodmap -e 'keycode 135 = Super_R') &
