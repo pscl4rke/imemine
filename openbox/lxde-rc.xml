@@ -546,6 +546,20 @@
       </action>
     </keybind>
 
+    <!-- These match the zenbook and netbook -->
+    <!-- Ideally brightness would either be handled by hardware or the -->
+    <!-- fn+F* keys would generate XF86MonBrightness{Up,Down} keysyms -->
+    <keybind key="W-F5">
+      <action name="Execute">
+        <command>xbacklight -dec 10</command>
+      </action>
+    </keybind>
+    <keybind key="W-F6">
+      <action name="Execute">
+        <command>xbacklight -inc 10</command>
+      </action>
+    </keybind>
+
     <!-- Screen locker -->
     <!-- Ctrl+Alt+L (as part of HJKL) is too useful to get used up
           by screen locking, so cancel that behaviour and undo any
