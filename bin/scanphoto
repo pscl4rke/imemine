@@ -1,0 +1,19 @@
+#!/bin/bash
+
+width="148mm"  # a5
+height="210mm"  # a5
+
+# could use getopts here to alter the above settings
+
+[ -z "$1" ] && echo Missing destination PNM file && exit 1
+dest="$1"
+
+echo "Warning: this is pretty low-res"
+scanimage \
+    --mode Color \
+    -x "$width" \
+    -y "$height" \
+    > "$dest"
+
+# could scan to /tmp/xxxx.pnm and then use `convert` to make $dest
+
