@@ -9,14 +9,17 @@ usage () {
     echo "  $ `basename "$0"` [options] /path/to/calendar.file foo@example.com"
     echo "Options (which must come first):"
     echo "  -m cmd      The command (and args) to use to send email"
+    echo "  -d date     The date to send reminders for (default 'today')"
 }
 
 mailcmd="mail"
+date="today"
 
-while getopts "m:" opt
+while getopts "m:d:" opt
 do
     case "$opt" in
         m) mailcmd="$OPTARG" ;;
+        d) date="$OPTARG" ;;
     esac
 done
 shift $((OPTIND-1))
@@ -35,7 +38,6 @@ then
     exit 1
 fi
 
-date="today" # One day I will allow the getopts thing to override this
 ts=$(date -d "$date" +%Y%m%d)
 calendar -f "$calendarfile" -l 0 -t "$ts" | while read month daystar reminder
 do
