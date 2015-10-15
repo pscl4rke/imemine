@@ -44,12 +44,15 @@ heartbeat-cmd="xscreensaver-command -deactivate >>/dev/null 2>&1"
 use-filename-title=yes
 
 
-# STUPID BUG
+# STUPID BUGS
 #   There's a bug in old versions of pulseaudio (like the one
 #   in Wheezy) that miscalculates durations and causes mplayer
 #   to not realise it's at the end of the file.  So bypass it.
 #   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=674145
 #ao=alsa
+#   If the right modeset isn't done at boot then videos aren't
+#   stretched to fill the window.  This fixes it.
+#zoom=yes
 
 
 # PLAYING DVDS
