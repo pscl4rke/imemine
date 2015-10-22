@@ -139,7 +139,7 @@ export PS1="\$(__set_title)\n$launcher\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]\$(_
 #   options that control it are not very handy.  Here I define
 #   some abbreviations.
 OOt=" -o page-top=36 -o page-bottom=36 -o page-left=36 "
-OOs=" -o lpi=8 -o cpi=12 "
+OOs=" -o lpi=8 -o cpi=14 "
 OO2=" -o number-up=2 "
 OO4=" -o number-up=4 "
 OOd=" -o sides=two-sided-long-edge "
