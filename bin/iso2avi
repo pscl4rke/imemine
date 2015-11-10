@@ -12,7 +12,7 @@
 #       $ iso2avi foobar.disc03.iso 6
 
 # THIS SCRIPT HANDLES:
-#   -   English audio
+#   -   English audio (but this can give me audio description)
 #   -   No subtitles
 #   -   Audio and video in sync (mostly)
 #   -   Plays on Raspberry Pi
