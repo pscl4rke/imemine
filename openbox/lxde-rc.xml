@@ -173,18 +173,6 @@
     <chainQuitKey>Escape</chainQuitKey>
 
     <!-- Keybindings for desktop switching -->
-    <keybind key="C-A-Left">
-      <action name="DesktopLeft">
-        <dialog>no</dialog>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-A-Right">
-      <action name="DesktopRight">
-        <dialog>no</dialog>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
     <keybind key="W-comma">
       <action name="DesktopLeft">
         <dialog>no</dialog>
@@ -211,16 +199,6 @@
     </keybind>
 
     <!-- Create and destroy workspaces -->
-    <keybind key="C-A-Insert">
-      <action name="AddDesktop">
-        <where>current</where>
-      </action>
-    </keybind>
-    <keybind key="C-A-Delete">
-      <action name="RemoveDesktop">
-        <where>current</where>
-      </action>
-    </keybind>
     <keybind key="W-numbersign"> <!-- hash key -->
       <keybind key="W-Return">
         <action name="AddDesktop">
