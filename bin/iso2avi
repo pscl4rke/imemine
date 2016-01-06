@@ -54,7 +54,12 @@ srciso="$1"
 title="$2"
 
 srcbase="${srciso%.iso}"
-destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace.avi" $title)"
+if [ -z "$3" ]
+then
+    destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace.avi" $title)"
+else
+    destfile="$3"
+fi
 
 #vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:keyint=250:keyint_min=25:force_cfr "
 vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:force_cfr"
