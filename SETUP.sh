@@ -129,6 +129,7 @@ wantlink "tigrc" ".tigrc"
 wantlink "vimrc" ".vimrc"
 wantlink "w3m_config" ".w3m/config"
 wantlink "w3m_keymap" ".w3m/keymap"
+wantlink "wyrdrc" ".wyrdrc"
 wantlink "Xdefaults" ".Xdefaults"
 wantlink "xmodmap.extra" ".xmodmap.extra"
 

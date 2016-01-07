@@ -6,6 +6,7 @@
 include "/etc/wyrdrc"
 
 set quick_date_US="false"
+set center_cursor="true"
 
 # Swap these:
 bind "q" quit
@@ -15,6 +16,7 @@ bind "Q" quick_add
 color   help                default     default
 # month view in the top right:
 color   calendar_labels     default     default
+color   calendar_level1     default     default
 # day view on left hand side:
 color   timed_default       default     default
 # all-day events on the bottom right:
@@ -39,5 +41,15 @@ set template1="REM %wdayname% MSG "
 # monthly recurrence
 set template2="REM %mday% AT %hour%:%min% MSG "
 set template3="REM %mday% MSG "
+
+set template4="REM %mday% %monname% %year% AT %hour%:%min% TAG app MSG "
+bind "A" new_template4
+
+set template5="REM %mday% %monname% %year% AT %hour%:%min% TAG note MSG "
+bind "N" new_template5
+
+# to avoid inserting untagged ones
+bind "<return>" refresh
+bind "<enter>" refresh
 
 
