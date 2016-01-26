@@ -12,11 +12,18 @@ set center_cursor="true"
 bind "q" quit
 bind "Q" quick_add
 
+
+set busy_level1="0"
+set busy_level2="1"
+set busy_level3="3"
+
 #       object              foreground  background
 color   help                default     default
 # month view in the top right:
 color   calendar_labels     default     default
 color   calendar_level1     default     default
+color   calendar_level2     green       default
+color   calendar_level3     blue        yellow
 # day view on left hand side:
 color   timed_default       default     default
 # all-day events on the bottom right:
