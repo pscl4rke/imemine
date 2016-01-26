@@ -56,32 +56,34 @@ _ensureparentdir () {
 installorsimulatelink () {
     srcrel="$1"
     destrel="$2"
-    if [ -e "$HOME/$destrel" ]
+    srcabs="$IMEMINE/$srcrel"
+    destabs="$HOME/$destrel"
+    if [ -e "$destabs" ]
     then
-        if [ -L "$HOME/$destrel" ]
+        if [ -L "$destabs" ]
         then
-            if [ "$(readlink "$HOME/$destrel")" = "$IMEMINE/$srcrel" ]
+            if [ "$(readlink "$destabs")" = "$srcabs" ]
             then
-                debug "Symlink $HOME/$destrel is already in place"
+                debug "Symlink $destabs is already in place"
             else
-                warning "A different symlink is a $HOME/$destrel"
+                warning "A different symlink is a $destabs"
             fi
         else
-            warning "Something already exists at $HOME/$destrel"
+            warning "Something already exists at $destabs"
         fi
     else
         case "$MODE" in
             install)
-                _ensureparentdir "$HOME/$destrel"
-                if ln -s "$IMEMINE/$srcrel" "$HOME/$destrel"
+                _ensureparentdir "$destabs"
+                if ln -s "$srcabs" "$destabs"
                 then
-                    info "Created symlink $HOME/$destrel"
+                    info "Created symlink $destabs"
                 else
-                    warning "Creation of symlink $HOME/$destrel failed"
+                    warning "Creation of symlink $destabs failed"
                 fi
                 ;;
             simulate)
-                info "Would create a symlink at $HOME/$destrel"
+                info "Would create a symlink at $destabs"
                 ;;
         esac
     fi
