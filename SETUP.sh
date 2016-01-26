@@ -11,7 +11,7 @@
 ME="$0"
 
 
-IMEMINE="$HOME/imemine"
+IMEMINE="$(dirname "$(realpath "$0")")"
 
 
 debug () {
@@ -56,7 +56,7 @@ _ensureparentdir () {
 installorsimulatelink () {
     srcrel="$1"
     destrel="$2"
-    srcabs="$IMEMINE/$srcrel"
+    srcabs="$(cd "$IMEMINE" && realpath "$srcrel")"
     destabs="$HOME/$destrel"
     if [ -e "$destabs" ]
     then
@@ -140,6 +140,6 @@ wantlink "openbox/autostart" ".config/openbox/autostart.sh"
 wantlink "openbox/autostart" ".config/lxsession/LXDE/autostart"
 wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
 
-wantlink "../../../usr/bin/ack-grep" "bin/ack"
+wantlink "/usr/bin/ack-grep" "bin/ack"
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
 
