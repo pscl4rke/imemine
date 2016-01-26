@@ -142,4 +142,5 @@ wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
 
 wantlink "/usr/bin/ack-grep" "bin/ack"
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
+wantlink "/usr/share/vim/addons/syntax" ".vim_addons/syntax"
 

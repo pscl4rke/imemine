@@ -19,6 +19,15 @@
 set nocompatible
 "
 "
+" EXTENDED RUNTIME PATH
+"   I add an additional path for vim to search in, which will only
+"   contain syntax, which will be a link to the vim addons syntax
+"   file provided by my package manager.  I do not add the addons
+"   path directly because then I would get plugins, which change
+"   vim's behaviour.  I only want the colours to be changed.
+set runtimepath+=~/.vim_addons
+"
+"
 " MISCELLANEOUS BEHAVIOUR
 "   Some of the things that don't seem to have gone anywhere else.
 "   Some of them may be defaults, but I've encountered places where
