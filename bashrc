@@ -206,19 +206,17 @@ export DEBFULLNAME="P. S. Clarke"
 export DEBEMAIL="debs@pscl4rke.net"
 
 
+# WORK CONFIGURATION
+#   If a config file exists containing lots of stuff for work then
+#   load it here.
+[ -f "$HOME/.bashrc-work" ] && source "$HOME/.bashrc-work"
+
+
 # LOCAL CONFIGURATION
 #   If a config file exists containing machine specific config
 #   then load it at this point.
 [ -f "$HOME/.bashrc-local" ] && source "$HOME/.bashrc-local"
 
-
-# CYGWIN SUPPORT
-#   It is handy to be able to pull in a load of Cygwin specific things
-#   when working in a Cygwin environment.
-if [[ "$TERM" == "cygwin" ]]
-then
-    [ -f ~/.bashrc-cygwin ] && source ~/.bashrc-cygwin
-fi
 
 # SHOW A FORTUNE {{{
 #   The last thing to do is to take the newly prepared shell and shove
