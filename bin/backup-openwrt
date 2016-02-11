@@ -1,0 +1,6 @@
+#!/bin/bash
+[ -z "$1" ] && echo "No host given" && exit 1
+outfile="backup.$1.$(date "+%Y-%m-%d.%H%M").config.tar.gz"
+echo "Connecting to root on $1..."
+ssh root@"$1" "tar c /etc/config" | gzip > "$outfile"
+echo "Created $outfile"
