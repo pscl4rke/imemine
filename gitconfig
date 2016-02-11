@@ -19,8 +19,8 @@
 [push]
 	default = current
 [color "diff"]
-	meta = cyan
-	frag = cyan
+	meta = blue bold white
+	frag = cyan white
 
 
 # DIFFING GNUPG FILES
