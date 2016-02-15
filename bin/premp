@@ -31,6 +31,7 @@ def cleanup(header):
     """Fix the RFC 2047 Mime-Encoded-Word stuff in headers."""
     parts = email.header.decode_header(header)
     full = " ".join(txt.encode('ascii', 'replace') for (txt, enc) in parts)
+    full = " ".join(word for word in full.split())
     return full.replace(", ", ",\n ")
 
 
