@@ -395,6 +395,14 @@
           </action>
         </keybind>
       </keybind>
+      <keybind key="W-l"> <!-- Right Half -->
+        <keybind key="W-l">
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>50%</x> <y>0</y> <height>100%</height> <width>50%</width>
+          </action>
+        </keybind>
+      </keybind>
       <keybind key="W-j"> <!-- Bottom Half -->
         <keybind key="W-j">
           <action name="UnmaximizeFull"/>
