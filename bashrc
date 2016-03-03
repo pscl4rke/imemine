@@ -206,16 +206,17 @@ export DEBFULLNAME="P. S. Clarke"
 export DEBEMAIL="debs@pscl4rke.net"
 
 
+# LOCAL CONFIGURATION
+#   If a config file exists containing machine specific config
+#   then load it at this point.  This is mostly environment variables
+#   that declare machine-specific paths.
+[ -f "$HOME/.bashrc-local" ] && source "$HOME/.bashrc-local"
+
+
 # WORK CONFIGURATION
 #   If a config file exists containing lots of stuff for work then
 #   load it here.
 [ -f "$HOME/.bashrc-work" ] && source "$HOME/.bashrc-work"
-
-
-# LOCAL CONFIGURATION
-#   If a config file exists containing machine specific config
-#   then load it at this point.
-[ -f "$HOME/.bashrc-local" ] && source "$HOME/.bashrc-local"
 
 
 # SHOW A FORTUNE {{{
