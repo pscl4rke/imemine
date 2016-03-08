@@ -1,0 +1,4 @@
+
+# Use the debian distro names even if we are on ubuntu:
+DEBCHANGE_VENDOR="Debian"
+
