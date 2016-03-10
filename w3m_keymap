@@ -10,6 +10,9 @@
 # without shift being pressed.
 
 # Scroll page:
+# (yes, the arrow keys do look the wrong way round!)
+keymap up DOWN
+keymap down UP
 keymap j UP
 keymap k DOWN
 keymap h HELP
