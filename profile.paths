@@ -1,0 +1,33 @@
+
+#                                                             vim:ft=sh:
+#======================================================================#
+#                         PER-SESSION ENV VARS                         #
+#======================================================================#
+
+
+# Updates environment variables at the start of each session to say
+# where certain resources live.
+# Sourced by ~/.profile, and also ~/.bashrc if you are impatient.
+
+
+# PRIVATE CONFIG
+#   If there is site-specific stuff then this is where to find it.
+[ -d "$HOME/rvimemine" ] && export RVIMEMINE="$HOME/rvimemine"
+[ -d "$HOME/rvgit/rvimemine" ] && export RVIMEMINE="$HOME/rvgit/rvimemine"
+
+
+# DEVELOPMENT TOOLKITS
+#   If any development tools use environment variables to find their
+#   files then these tell them where to look.
+[ -d "$HOME/.android-sdk" ] && export ANDROID_HOME="$HOME/.android-sdk"
+[ -d "$HOME/gopath" ] && export GOPATH="$HOME/gopath"
+[ -d "$HOME/goroot" ] && export GOROOT="$HOME/goroot"
+
+
+# CUSTOM PATH
+#   Assorted places that additional executables can live.
+[ -d "$HOME/imemine/bin" ] && export PATH="$PATH:$HOME/imemine/bin"
+[ -d "$HOME/bin" ] && export PATH="$PATH:$HOME/bin"
+[ -d "$RVIMEMINE/bin" ] && export PATH="$PATH:$RVIMEMINE/bin"
+
+

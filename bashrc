@@ -15,6 +15,13 @@
 [ -z "$PS1" ] && return
 
 
+# RELOAD LOCAL PATHS
+#   When the session was started ~/.profile would have loaded in
+#   the paths, but they are reloaded here just in case anything has
+#   changed and I'm not in a position to log out/in.
+if [ -f "$HOME/imemine/profile.paths" ]; then
+    . "$HOME/imemine/profile.paths"
+fi
 
 
 # COMMAND COMPLETION
@@ -57,11 +64,6 @@ export VISUAL=vi
 VIRTUAL_ENV_DISABLE_PROMPT="TRUE"
 alias pip-install-from-basket="pip install --no-index -f file://$HOME/.basket"
 export PYTHONSTARTUP=$HOME/.pythonrc
-#function workon() {
-#    echo Just sourcing...
-#    source /etc/bash_completion.d/virtualenvwrapper
-#    echo Please try that again
-#}
 
 
 # ENVIRONMENTAL STATUS FUNCTIONS
@@ -169,15 +171,6 @@ dvdplayer() { mplayer -dvd-device "$1" "dvd://$2"; }
 alias podget="wget --content-disposition"
 
 
-# CUSTOM SCRIPTS
-#   If ~/bin/ exists it is added as a location for
-#   executables.  Also make use of imemine if it is there.
-#   However none of them should take priority over system
-#   paths.
-[ -d "$HOME/imemine/bin" ] && export PATH="$PATH:$HOME/imemine/bin"
-[ -d "$HOME/bin" ] && export PATH="$PATH:$HOME/bin"
-
-
 # PRODUCTIVITY IMPROVEMENTS
 #   To avoid the parts that are likely to hold me back.
 alias sl="echo Boom! Train Crash!"
@@ -214,8 +207,7 @@ export DEBEMAIL="debs@pscl4rke.net"
 
 # LOCAL CONFIGURATION
 #   If a config file exists containing machine specific config
-#   then load it at this point.  This is mostly environment variables
-#   that declare machine-specific paths.
+#   then load it at this point.  Things like the local printer.
 [ -f "$HOME/.bashrc-local" ] && source "$HOME/.bashrc-local"
 
 
