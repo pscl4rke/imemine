@@ -26,8 +26,12 @@
 
 # CUSTOM PATH
 #   Assorted places that additional executables can live.
-[ -d "$HOME/imemine/bin" ] && export PATH="$PATH:$HOME/imemine/bin"
-[ -d "$HOME/bin" ] && export PATH="$PATH:$HOME/bin"
-[ -d "$RVIMEMINE/bin" ] && export PATH="$PATH:$RVIMEMINE/bin"
+#   Idempotency is handled with $PSC_PATHS_UPDATED.
+if [ -z "$PSC_PATHS_UPDATED" ]; then
+    [ -d "$HOME/imemine/bin" ] && export PATH="$PATH:$HOME/imemine/bin"
+    [ -d "$HOME/bin" ] && export PATH="$PATH:$HOME/bin"
+    [ -d "$RVIMEMINE/bin" ] && export PATH="$PATH:$RVIMEMINE/bin"
+    export PSC_PATHS_UPDATED="TRUE"
+fi
 
 
