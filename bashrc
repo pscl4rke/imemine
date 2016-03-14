@@ -15,12 +15,6 @@
 [ -z "$PS1" ] && return
 
 
-# BORROWED FROM UBUNTU DEFAULTS
-#   I don't know how much these are needed, but I include them in
-#   case it reduces the usability that I've been accustomed to.
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-fi
 
 
 # COMMAND COMPLETION
@@ -197,6 +191,13 @@ export LS_OPTIONS='-hF --color=tty'
 alias ls='ls $LS_OPTIONS'
 complete -f cdiff
 function cdiff() { colordiff -u "$@" | less -R; }
+
+
+# COLOURING IN LS
+#   The dircolors program emits LS_COLORS="...", which enables
+#   ls to highlight files, mostly based on extension.  I use the
+#   defaults so I get any new entries from the maintainers.
+eval "$(dircolors -b)"
 
 
 # PACKAGING
