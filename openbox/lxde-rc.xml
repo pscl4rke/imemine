@@ -458,7 +458,7 @@
     <!-- Launching stuff -->
     <keybind key="C-A-space">
       <action name="Execute">
-        <command>/home/psc/launchbear/launchbear</command>
+        <command>launchbear</command>
       </action>
     </keybind>
     <keybind key="C-A-i">
