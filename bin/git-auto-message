@@ -1,0 +1,39 @@
+#!/usr/bin/python2
+
+
+# This autogenerates a commit message from the currently staged changes.
+
+# The messages it generates are awful, and break all the best practices
+# for a software project.  However it is better than nothing for anything
+# that needs to prepare commits non-interactively.  For example, a cron
+# job synchronising a set of personal notes between machines.
+
+# Output example:
+#   "Add abc.txt, Edit def_eeeeeeeeeeee.html, Edit ghi.png"
+
+
+import subprocess
+
+
+def staged_changes():
+    proc = subprocess.Popen(["git", "status", "-s"], stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        staged_status = line[0]
+        unstaged_status = line[1]
+        path = line[3:-1] # strip trailing new line
+        if staged_status not in (" ", "?"):
+            yield (staged_status, path)
+
+
+def desc_of(status):
+    return {
+        "A": "Add",
+        "M": "Edit",
+        "D": "Delete",
+    }.get(status, "Other(%s)" % status)
+
+
+print ", ".join((
+    "%s %s" % (desc_of(status), path)
+    for (status, path) in staged_changes()
+))
