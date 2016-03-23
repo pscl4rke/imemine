@@ -9,13 +9,13 @@
 
 
 ME="$0"
-
-
 IMEMINE="$(dirname "$(realpath "$0")")"
+VERBOSE=""
 
 
 debug () {
     msg="$1"
+    [ -z "$VERBOSE" ] && return
     echo "$ME [Debug] $msg" >&2
 }
 
@@ -88,6 +88,13 @@ installorsimulatelink () {
         esac
     fi
 }
+
+
+if [ "x$1" = "x-v" ]
+then
+    VERBOSE="set"
+    shift
+fi
 
 
 MODE="$1"
