@@ -184,7 +184,7 @@ alias :wq="echo This is a shell!"
 #   human user.  This includes using colour and nice file sizes.
 #   I also override the standard colordiff wrapper with one that
 #   works better for me.
-export GREP_OPTIONS='--color=auto'
+alias grep="grep --color=auto"
 export LS_OPTIONS='-hF --color=tty'
 alias ls='ls $LS_OPTIONS'
 complete -f cdiff
