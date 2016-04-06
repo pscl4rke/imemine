@@ -19,7 +19,8 @@ do
 
     [ ! -e "$oldname" ] && echo "[WARN] '$oldname' non-existent" && continue
 
-    newname="$attic/$(basename "$oldname")"
+    # alternatively the date could be the modification ts of the object
+    newname="$attic/$(date "+%Y-%m-%d").$(basename "$oldname")"
     [ -e "$newname" ] && echo "[WARN] '$oldname' already in attic" && continue
 
     echo -n "Moving '$oldname' to '$newname'... "
