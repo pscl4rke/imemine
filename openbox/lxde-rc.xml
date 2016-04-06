@@ -486,6 +486,11 @@
           <command>/home/psc/imemine/bin/srprompt wikipedia</command>
         </action>
       </keybind>
+      <keybind key="W-W">
+        <action name="Execute">
+          <command>wikiselect</command>
+        </action>
+      </keybind>
     </keybind>
     <keybind key="C-A-T">
       <action name="Execute">
