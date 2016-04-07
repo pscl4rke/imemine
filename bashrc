@@ -214,7 +214,7 @@ export DEBEMAIL="debs@pscl4rke.net"
 # WORK CONFIGURATION
 #   If a config file exists containing lots of stuff for work then
 #   load it here.
-[ -f "$HOME/.bashrc-work" ] && source "$HOME/.bashrc-work"
+[ -f "$RVIMEMINE/bashrc-work" ] && source "$RVIMEMINE/bashrc-work"
 
 
 # SHOW A FORTUNE {{{
