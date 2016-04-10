@@ -1,0 +1,71 @@
+#!/usr/bin/python2
+
+
+import email.message
+import sqlite3
+import sys
+import time
+
+
+class SmsDb:
+
+    def __init__(self, filepath):
+        self._connection = sqlite3.connect(filepath)
+
+    def get_messages(self):
+        cursor = self._connection.cursor()
+        cursor.execute("""
+            SELECT _id, thread_id, address, date, date_sent, body
+            FROM sms
+        """)
+        return [Message(a, b, c, d, e, f)
+                for (a, b, c, d, e, f)
+                in cursor.fetchall()]
+
+
+class Message:
+
+    def __init__(self, message_id, thread_id, sender, ts_rcvd, ts_sent, body):
+        self._message_id = message_id
+        self._thread_id = thread_id
+        self._sender = sender
+        self._ts_rcvd = ts_rcvd / 1000.0
+        self._ts_sent = ts_sent / 1000.0
+        self._body = body
+
+    def guess_subject(self):
+        body = self._body.replace("\n", " ").replace("\r", " ")
+        if len(body) < 63:
+            return body
+        else:
+            return "%s..." % body[:60]
+
+    def format_date(self):
+        # This can't handle sent messages: FIXME
+        ts = self._ts_rcvd if (self._ts_sent == 0) else self._ts_sent
+        return time.ctime(ts) # use local time zone
+
+    def as_email(self):
+        eml = email.message.Message()
+        eml.set_unixfrom("From dummy %s" % self.format_date())
+        eml['Date'] = self.format_date()
+        eml['From'] = self._sender
+        eml['Subject'] = self.guess_subject()
+        eml['Status'] = "RO" # read and old
+        eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
+        return eml
+
+
+def main():
+    if len(sys.argv) != 2:
+        sys.stderr.write("Invalid usage\n")
+        sys.exit(1)
+    db = SmsDb(sys.argv[1])
+    messages = db.get_messages()
+    for message in messages:
+        eml = message.as_email()
+        print eml
+
+
+if __name__ == '__main__':
+    main()
