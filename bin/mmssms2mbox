@@ -66,6 +66,7 @@ class Message:
             eml['To'] = self._sender
             eml['From'] = ME
         eml['Subject'] = self.guess_subject()
+        eml['In-Reply-To'] = "<%06i@example.com>" % self._thread_id
         eml['Status'] = "RO" # read and old
         eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
         return eml
