@@ -7,6 +7,9 @@ import sys
 import time
 
 
+ME = "me@example.com"
+
+
 class SmsDb:
 
     def __init__(self, filepath):
@@ -15,23 +18,30 @@ class SmsDb:
     def get_messages(self):
         cursor = self._connection.cursor()
         cursor.execute("""
-            SELECT _id, thread_id, address, date, date_sent, body
+            SELECT _id, thread_id, type, address, date, date_sent, body
             FROM sms
         """)
-        return [Message(a, b, c, d, e, f)
-                for (a, b, c, d, e, f)
+        return [Message(a, b, c, d, e, f, g)
+                for (a, b, c, d, e, f, g)
                 in cursor.fetchall()]
 
 
 class Message:
 
-    def __init__(self, message_id, thread_id, sender, ts_rcvd, ts_sent, body):
+    def __init__(self, message_id, thread_id, inorout, sender, ts_rcvd, ts_sent, body):
         self._message_id = message_id
         self._thread_id = thread_id
+        self._inorout = inorout
         self._sender = sender
         self._ts_rcvd = ts_rcvd / 1000.0
         self._ts_sent = ts_sent / 1000.0
         self._body = body
+
+    def is_inbound(self):
+        return self._inorout == 1
+
+    def is_outbout(self):
+        return self._inorout == 2
 
     def guess_subject(self):
         body = self._body.replace("\n", " ").replace("\r", " ")
@@ -49,7 +59,12 @@ class Message:
         eml = email.message.Message()
         eml.set_unixfrom("From dummy %s" % self.format_date())
         eml['Date'] = self.format_date()
-        eml['From'] = self._sender
+        if self.is_inbound():
+            eml['From'] = self._sender
+            eml['To'] = ME
+        else:
+            eml['To'] = self._sender
+            eml['From'] = ME
         eml['Subject'] = self.guess_subject()
         eml['Status'] = "RO" # read and old
         eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
