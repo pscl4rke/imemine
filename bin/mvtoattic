@@ -5,8 +5,6 @@
 
 # FIXME Repeat for mvtocache
 
-# FIXME Add current date to the atticed file name
-
 attic="$HOME/attic"
 [ ! -d "$attic" ] && echo "[FATAL] '$attic' does not exist" && exit 1
 
