@@ -1,6 +1,7 @@
 #!/usr/bin/python2
 
 
+import argparse
 import email.message
 import sqlite3
 import sys
@@ -14,6 +15,13 @@ class SmsDb:
 
     def __init__(self, filepath):
         self._connection = sqlite3.connect(filepath)
+        self._contacts = {}
+
+    def load_contacts_from(self, contact_path):
+        with open(contact_path) as infile:
+            for line in infile:
+                name, number = line.rsplit(None, 1)
+                self._contacts[number.strip()] = name.strip()
 
     def get_messages(self):
         cursor = self._connection.cursor()
@@ -21,14 +29,15 @@ class SmsDb:
             SELECT _id, thread_id, type, address, date, date_sent, body
             FROM sms
         """)
-        return [Message(a, b, c, d, e, f, g)
+        return [Message(self._contacts, a, b, c, d, e, f, g)
                 for (a, b, c, d, e, f, g)
                 in cursor.fetchall()]
 
 
 class Message:
 
-    def __init__(self, message_id, thread_id, inorout, sender, ts_rcvd, ts_sent, body):
+    def __init__(self, contacts, message_id, thread_id, inorout, sender, ts_rcvd, ts_sent, body):
+        self._contacts = contacts
         self._message_id = message_id
         self._thread_id = thread_id
         self._inorout = inorout
@@ -50,6 +59,13 @@ class Message:
         else:
             return "%s..." % body[:60]
 
+    def sender_address(self):
+        address = "%s@example.com" % self._sender
+        if self._sender in self._contacts:
+            return "%s <%s>" % (self._contacts[self._sender], address)
+        else:
+            return address
+
     def format_date(self):
         # This can't handle sent messages: FIXME
         ts = self._ts_rcvd if (self._ts_sent == 0) else self._ts_sent
@@ -60,10 +76,10 @@ class Message:
         eml.set_unixfrom("From dummy %s" % self.format_date())
         eml['Date'] = self.format_date()
         if self.is_inbound():
-            eml['From'] = self._sender
+            eml['From'] = self.sender_address()
             eml['To'] = ME
         else:
-            eml['To'] = self._sender
+            eml['To'] = self.sender_address()
             eml['From'] = ME
         eml['Subject'] = self.guess_subject()
         eml['In-Reply-To'] = "<%06i@example.com>" % self._thread_id
@@ -73,10 +89,13 @@ class Message:
 
 
 def main():
-    if len(sys.argv) != 2:
-        sys.stderr.write("Invalid usage\n")
-        sys.exit(1)
-    db = SmsDb(sys.argv[1])
+    parser = argparse.ArgumentParser()
+    parser.add_argument("db", help="The path to the Android database file")
+    parser.add_argument("-c", "--contacts", help="The path to a contacts list")
+    options = parser.parse_args()
+    db = SmsDb(options.db)
+    if options.contacts is not None:
+        db.load_contacts_from(options.contacts)
     messages = db.get_messages()
     for message in messages:
         eml = message.as_email()
