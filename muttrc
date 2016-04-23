@@ -77,6 +77,13 @@ macro index ~n "<limit>~N | ~O<enter><collapse-all><current-middle>"
 #}}}
 
 
+# DISPLAYING SMSs
+#   The mmssms2mbox tool uses this address for 'my' address.  This tells
+#   mutt about it so that it displays them as "To <dest>" in the sender
+#   column of the index.
+alternates me@example.com
+
+
 # WRITING AND REPLYING {{{
 #   Use vim as the editor for emails etc.  And ask it to use tabbed
 #   mode, because that should be its default anyway.  I also want
