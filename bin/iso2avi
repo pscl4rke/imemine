@@ -44,19 +44,40 @@ preset=medium       # approx 4 mins encoding for 1 min of video on netbook
 # Don't bother with anything slower: "diminishing returns"
 #preset=veryslow    # approx 2 mins encoding for 1 min of video on office pc
                     # approx 4 mins encoding for 1 min of video on zenbook
+preset=veryslow
 
 deinterlace=lb
 
-#==== RIP FILE ====#
+subtitlearg="-nosub"
+subtitlesuffix=""
+
+#==== COMMAND LINE OPTIONS ====#
+
+while getopts "su" opt
+do
+    case "$opt" in
+        s)
+            subtitlearg=""
+            subtitlesuffix=".subtitled"
+            ;;
+        u)
+            preset=ultrafast
+            ;;
+    esac
+done
+shift $((OPTIND-1))
 
 [ -z "$2" ] && echo Incorrect usage && exit 1
+
 srciso="$1"
 title="$2"
+
+#==== RIP FILE ====#
 
 srcbase="${srciso%.iso}"
 if [ -z "$3" ]
 then
-    destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace.avi" $title)"
+    destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace$subtitlesuffix.avi" $title)"
 else
     destfile="$3"
 fi
@@ -70,7 +91,7 @@ echo Starting at $(date)
 time nice -n 10 /usr/bin/mencoder \
     -alang en \
     -slang en \
-    -nosub \
+    $subtitlearg \
     -dvd-device "$srciso" \
     "dvd://$title" \
     -o "$destfile" \
