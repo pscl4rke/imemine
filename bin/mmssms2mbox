@@ -11,6 +11,12 @@ import time
 ME = "me@example.com"
 
 
+def normalise(number):
+    if number.startswith("+44"):
+        return "0" + number[3:]
+    return number
+
+
 class SmsDb:
 
     def __init__(self, filepath):
@@ -21,7 +27,7 @@ class SmsDb:
         with open(contact_path) as infile:
             for line in infile:
                 name, number = line.rsplit(None, 1)
-                self._contacts[number.strip()] = name.strip()
+                self._contacts[normalise(number.strip())] = name.strip()
 
     def get_messages(self):
         cursor = self._connection.cursor()
@@ -61,8 +67,8 @@ class Message:
 
     def sender_address(self):
         address = "%s@example.com" % self._sender
-        if self._sender in self._contacts:
-            return "%s <%s>" % (self._contacts[self._sender], address)
+        if normalise(self._sender) in self._contacts:
+            return "%s <%s>" % (self._contacts[normalise(self._sender)], address)
         else:
             return address
 
