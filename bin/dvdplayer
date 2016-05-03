@@ -1,0 +1,9 @@
+#!/bin/bash
+#======================================================================#
+# MPLAYER WRAPPER FOR DVDS                       (c) 2016 P. S. Clarke #
+#======================================================================#
+[ -z "$2" ] && echo Invalid usage && exit 1
+device="$1"; shift
+title="$1"; shift
+# additional args given straight to mplayer
+mplayer -dvd-device "$device" "dvd://$title" "$@"
