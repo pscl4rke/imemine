@@ -1,0 +1,59 @@
+#!/usr/bin/python2
+#======================================================================#
+# TOUCHSCREEN-FRIENDLY PASSWORD GENERATOR        (c) 2016 P. S. Clarke #
+#======================================================================#
+
+
+# Similar to `newpass` but switches between different character
+# classes less often, to make it easier to type into touchscreen
+# keyboards.
+
+
+import random
+
+
+class KeyPad:
+
+    def __init__(self, chars):
+        self.chars = chars
+
+    def random_key(self):
+        return random.choice(self.chars)
+
+
+LOWER_CASE = KeyPad("abcdefghijkmnpqrstuvwxyz")
+UPPER_CASE = KeyPad("ABEFGHJKLMNQRTY")
+DIGITS = KeyPad("23456789")
+
+
+class CharacterSource:
+
+    def __init__(self):
+        self.current_keypad = LOWER_CASE
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        action = random.choice(("key", "key", "switch"))
+        if action == "switch":
+            self.current_keypad = random.choice((LOWER_CASE, UPPER_CASE, DIGITS))
+        return self.current_keypad.random_key()
+    next = __next__
+
+
+class PasswordGenerator:
+
+    def main(self):
+        print self.generate_password_of_length(12)
+
+    def generate_password_of_length(self, length):
+        src = CharacterSource()
+        chars = []
+        while len(chars) < length:
+            chars.append(next(src))
+        return "".join(chars)
+
+
+if __name__ == '__main__':
+    PasswordGenerator().main()
