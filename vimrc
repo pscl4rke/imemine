@@ -214,6 +214,7 @@ autocmd BufNewFile,BufRead *.rs set filetype=rust
 autocmd FileType sh setlocal iskeyword-=.
 autocmd FileType coffee setlocal shiftwidth=2
 autocmd FileType make setlocal noexpandtab
+autocmd FileType calendar setlocal tabstop=20
 "
 "
 " GUI OPTIONS
