@@ -62,7 +62,7 @@ URxvt.scrollTtyKeypress: true
 ! EXTENSIONS TO BE LOADED
 !   What should it add and where should it look?
 URxvt.perl-lib: /home/psc/.urxvt/perl
-URxvt.perl-ext-common: vtwheel
+URxvt.perl-ext-common: vtwheel,confirm-paste
 !secondaryWheel: 
 
 
