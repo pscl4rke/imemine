@@ -47,11 +47,11 @@ bind index,pager b noop
 #}}}
 
 
-# SAVING KEY-BINDINGS
-#   These apply to the command line 'editor' at the bottom of
-#   the screen, which is mostly used when choosing where to
-#   save messages and attachments.
+# SAVING ATTACHMENTS AND MESSAGES
+#   The "editor" is the command line prompt at the bottom of the screen.
 #   I disable "buffy-cycle" so that space actually works!!!
+bind attach S save-entry
+macro attach s "<save-entry><bol>~/Downloads/<eol>" "Save to ~/Downloads"
 bind editor <space> noop
 
 
