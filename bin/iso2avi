@@ -48,14 +48,18 @@ preset=veryslow
 
 deinterlace=lb
 
+cropopts=""
 subtitlearg="-nosub"
 subtitlesuffix=""
 
 #==== COMMAND LINE OPTIONS ====#
 
-while getopts "su" opt
+while getopts "c:su" opt
 do
     case "$opt" in
+        c)
+            cropopts=",crop=$OPTARG"
+            ;;
         s)
             subtitlearg=""
             subtitlesuffix=".subtitled"
@@ -99,7 +103,7 @@ time nice -n 10 /usr/bin/mencoder \
     -noskip \
     -oac copy \
     -ovc x264 \
-    -vf softskip,pp=$deinterlace,harddup \
+    -vf softskip,pp=$deinterlace,harddup$cropopts \
     -x264encopts "$vidopts" \
 
 exitcode="$?"
