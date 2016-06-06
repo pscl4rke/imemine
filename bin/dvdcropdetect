@@ -1,0 +1,6 @@
+#!/bin/bash
+for ts in 2 120 240 360 480 600 720 840 960 1080 1200 ; do
+    dvdplayer "$1" "$2" -vf cropdetect -frames 25 -ss "$ts" -ao null -vo null 2>/dev/null \
+    | grep '\[CROP\]' | tail -1
+done
+# remember that -vf rectangle=A:B:C:D allows you to preview it
