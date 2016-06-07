@@ -1,0 +1,10 @@
+#!/bin/bash
+limit="$1"
+[[ -z "$limit" ]] && limit="1"
+find . -iname '*.md5' | shuf | head -n "$limit" | while read hashfile; do
+    olddir="$(pwd)"
+    hashdir="$(dirname "$hashfile")"
+    cd "$hashdir"
+    cfv
+    cd "$olddir"
+done
