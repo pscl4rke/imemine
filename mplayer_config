@@ -25,11 +25,11 @@ osd-duration=5000
 #   Except for the status line, which is actually useful.  Interestingly
 #   everything gets sent to stderr except for the status line, so some
 #   careful bitbucket usage could clean it up further.
-#   vfilter: Used by -vf cropdetect
+#   vfilter: Used by -vf cropdetect and also -vf rectangle.
 msgmodule=yes
 #msglevel=all=1:statusline=5
-#msglevel=all=0:statusline=5
-msglevel=all=0:vfilter=5:statusline=5
+msglevel=all=0:statusline=5
+#msglevel=all=0:vfilter=5:statusline=5
 #msglevel=all=3:statusline=5:cplayer=3
 #}}}
 
