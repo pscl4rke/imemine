@@ -1,0 +1,13 @@
+#!/bin/bash
+# Remove all the ID3v2 comments that I don't care about
+eyeD3 \
+    --remove-images \
+    --remove-comments \
+    --set-user-text-frame="major_brand:" \
+    --set-user-text-frame="minor_version:" \
+    --set-user-text-frame="compatible_brands:" \
+    --set-user-text-frame="Software:" \
+    --set-user-text-frame="Release time:" \
+    --set-user-text-frame="Tagging time:" \
+    --no-tagging-time-frame \
+    "$@"
