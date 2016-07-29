@@ -1,0 +1,18 @@
+#!/bin/bash
+#======================================================================#
+# VIM-BASED PRINTING TOOL                        (c) 2016 P. S. Clarke #
+#======================================================================#
+# TODO
+#   Make line numbering optional
+#   Use custom colour scheme
+#   Prompt user for what to do with doc afterwards
+#       (save there, save to ~/Downloads, print somewhere, preview,...)
+[ -z "$1" ] && echo Missing source file && exit 1
+vim $1 \
+    -c "colorscheme morning" \
+    -c "set printfont=:h9" \ # always courier \
+    -c "set printoptions=left:15mm,right:15mm,top:15mm,bottom:25mm" \
+    -c "set printoptions+=number:y" \
+    -c "hardcopy > $1.ps" \
+    -c "quit!"
+echo "Saved into $1.ps"
