@@ -1,0 +1,24 @@
+#!/usr/bin/python2
+#======================================================================#
+# PP PRINTING PROMPT FOR PS DOCUMENTS            (c) 2016 P. S. Clarke #
+#======================================================================#
+
+
+import subprocess
+import sys
+import tempfile
+
+
+def main():
+    with tempfile.NamedTemporaryFile(suffix=".ps") as psfile:
+        for line in sys.stdin:
+            psfile.write(line)
+        psfile.flush()
+        print "I've saved that into %r" % psfile.name
+        print "Press enter to print or Ctrl+C to cancel"
+        open("/dev/tty").read(1)
+        subprocess.check_call(["lp", psfile.name])
+
+
+if __name__ == '__main__':
+    main()
