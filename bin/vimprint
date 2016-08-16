@@ -8,11 +8,13 @@
 #   Prompt user for what to do with doc afterwards
 #       (save there, save to ~/Downloads, print somewhere, preview,...)
 [ -z "$1" ] && echo Missing source file && exit 1
-vim $1 \
+src="$1"
+dest="$src.ps"
+vim "$src" \
     -c "colorscheme morning" \
     -c "set printfont=:h9" \ # always courier \
     -c "set printoptions=left:15mm,right:15mm,top:15mm,bottom:25mm" \
     -c "set printoptions+=number:y" \
-    -c "hardcopy > $1.ps" \
+    -c "hardcopy > $dest" \
     -c "quit!"
-echo "Saved into $1.ps"
+echo "Saved into $dest"
