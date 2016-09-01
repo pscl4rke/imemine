@@ -474,6 +474,11 @@
           <command>/home/psc/imemine/bin/open-in-browser PROMPT</command>
         </action>
       </keybind>
+      <keybind key="C-A-p">
+        <action name="Execute">
+          <command>/home/psc/imemine/bin/open-in-browser PRIMARY</command>
+        </action>
+      </keybind>
       <keybind key="C-A-l"> <!-- lite browser too... -->
         <action name="Execute">
           <command>dillo https://duckduckgo.com/lite/?kl=uk-en</command>
