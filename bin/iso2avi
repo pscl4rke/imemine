@@ -44,6 +44,7 @@ preset=medium       # approx 4 mins encoding for 1 min of video on netbook
 # Don't bother with anything slower: "diminishing returns"
 #preset=veryslow    # approx 2 mins encoding for 1 min of video on office pc
                     # approx 4 mins encoding for 1 min of video on zenbook
+                    # approx 1.5min encoding for 1 min of video on excalibur
 preset=veryslow
 
 deinterlace=lb
@@ -52,9 +53,11 @@ cropopts=""
 subtitlearg="-nosub"
 subtitlesuffix=""
 
+alang="en"
+
 #==== COMMAND LINE OPTIONS ====#
 
-while getopts "c:su" opt
+while getopts "c:sl:u" opt
 do
     case "$opt" in
         c)
@@ -63,6 +66,9 @@ do
         s)
             subtitlearg=""
             subtitlesuffix=".subtitled"
+            ;;
+        l)
+            alang="$OPTARG"
             ;;
         u)
             preset=ultrafast
@@ -81,7 +87,7 @@ title="$2"
 srcbase="${srciso%.iso}"
 if [ -z "$3" ]
 then
-    destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace$subtitlesuffix.avi" $title)"
+    destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace.$alang$subtitlesuffix.avi" $title)"
 else
     destfile="$3"
 fi
@@ -93,7 +99,7 @@ vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:force_cfr"
 echo Starting at $(date)
 
 time nice -n 10 /usr/bin/mencoder \
-    -alang en \
+    -alang "$alang" \
     -slang en \
     $subtitlearg \
     -dvd-device "$srciso" \
