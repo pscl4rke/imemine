@@ -13,10 +13,13 @@ def handle_postscript_file(psfilename):
     print "I've saved that into %r" % psfilename
     while True:
         print "  1p    Print one page per side"
+        print "  2p    Print two pages per side"
         print "  q     Quit"
         command = open("/dev/tty").readline().strip()
         if command == "1p":
             subprocess.check_call(["lp", psfilename])
+        if command == "2p":
+            subprocess.check_call(["lp", "-o", "number-up=2", psfilename])
         elif command == "q":
             break
         else:
