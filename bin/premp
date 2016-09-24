@@ -49,13 +49,16 @@ for part in msg.walk():
     if part.get_content_maintype() == 'multipart':
         continue
     if part.get_content_type() == 'text/plain':
+        encoding = "utf8"
+        if "Windows-1252" in part.get("Content-Type"):
+            encoding = "cp1252"
         payload = part.get_payload()
         if part.get("Content-Transfer-Encoding", "") == "quoted-printable":
-            payloadu = quopri.decodestring(payload).decode('utf8')
+            payloadu = quopri.decodestring(payload).decode(encoding)
         elif part.get("Content-Transfer-Encoding", "") == "base64":
             payloadu = payload.decode('base64')
         else:
-            payloadu = payload.decode('utf8')
+            payloadu = payload.decode(encoding)
         print >>newload, payloadu.encode('ascii', 'replace')
     else:
         mtype = part.get_content_type()
