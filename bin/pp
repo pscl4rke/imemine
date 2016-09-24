@@ -9,22 +9,29 @@ import sys
 import tempfile
 
 
+def handle_postscript_file(psfilename):
+    print "I've saved that into %r" % psfilename
+    while True:
+        print "  1p    Print one page per side"
+        print "  q     Quit"
+        command = open("/dev/tty").readline().strip()
+        if command == "1p":
+            subprocess.check_call(["lp", psfilename])
+        elif command == "q":
+            break
+        else:
+            print "Huh? %r" % command
+
+
 def main():
-    with tempfile.NamedTemporaryFile(suffix=".ps") as psfile:
-        for line in sys.stdin:
-            psfile.write(line)
-        psfile.flush()
-        print "I've saved that into %r" % psfile.name
-        while True:
-            print "  1p    Print one page per side"
-            print "  q     Quit"
-            command = open("/dev/tty").readline().strip()
-            if command == "1p":
-                subprocess.check_call(["lp", psfile.name])
-            elif command == "q":
-                break
-            else:
-                print "Huh? %r" % command
+    if len(sys.argv) == 2:
+        handle_postscript_file(sys.argv[1])
+    else:
+        with tempfile.NamedTemporaryFile(suffix=".ps") as psfile:
+            for line in sys.stdin:
+                psfile.write(line)
+            psfile.flush()
+            handle_postscript_file(psfile.name)
 
 
 if __name__ == '__main__':
