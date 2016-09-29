@@ -50,7 +50,8 @@ preset=veryslow
 deinterlace=lb
 
 cropopts=""
-subtitlearg="-nosub"
+#subtitlearg="-nosub"
+subtitlearg="-forcedsubsonly"
 subtitlesuffix=""
 
 alang="en"
