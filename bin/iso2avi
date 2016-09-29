@@ -115,4 +115,5 @@ time nice -n 10 /usr/bin/mencoder \
 
 exitcode="$?"
 echo Completed at $(date) with code $exitcode
+exit $exitcode
 
