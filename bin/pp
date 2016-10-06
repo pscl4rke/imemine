@@ -14,12 +14,15 @@ def handle_postscript_file(psfilename):
     while True:
         print "  1p    Print one page per side"
         print "  2p    Print two pages per side"
+        print "  ve    View in evince"
         print "  q     Quit"
         command = open("/dev/tty").readline().strip()
         if command == "1p":
             subprocess.check_call(["lp", psfilename])
-        if command == "2p":
+        elif command == "2p":
             subprocess.check_call(["lp", "-o", "number-up=2", psfilename])
+        elif command == "ve":
+            subprocess.check_call(["evince", psfilename])
         elif command == "q":
             break
         else:
