@@ -11,7 +11,7 @@
 src="$1"
 dest="$src.ps"
 vim "$src" \
-    -c "colorscheme morning" \
+    -c "colorscheme printmono" \
     -c "set printfont=:h9" \ # always courier \
     -c "set printoptions=left:15mm,right:15mm,top:15mm,bottom:25mm" \
     -c "set printoptions+=number:y" \
