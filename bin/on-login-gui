@@ -31,7 +31,10 @@ tilda &
 #   usually slower and fiddlier than just reaching for a mouse.
 #keynav &
 
-# Music player
+# MUSIC PLAYING
+#   Sound playback tends to run into a *lot* of permission issues if
+#   mpd is run as a system-level daemon, so run it as an ordinary user
+#   on login:
 [ -e "$HOME/.mpd.conf" ] && /usr/bin/mpd "$HOME/.mpd.conf" &
 
 # What is mpd playing (only works on when mpd is installed)?
