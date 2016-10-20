@@ -69,6 +69,7 @@ do
             subtitlesuffix=".subtitled"
             ;;
         l)
+            # this can set the alang and the aid options:
             alang="$OPTARG"
             ;;
         u)
@@ -93,6 +94,11 @@ else
     destfile="$3"
 fi
 
+if [[ "$alang" =~ ^[0-9]+$ ]]
+then audiotrackopts="-aid $alang"
+else audiotrackopts="-alang $alang"
+fi
+
 #vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:keyint=250:keyint_min=25:force_cfr "
 vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:force_cfr"
 #vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset"
@@ -100,7 +106,7 @@ vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:force_cfr"
 echo Starting at $(date)
 
 time nice -n 10 /usr/bin/mencoder \
-    -alang "$alang" \
+    $audiotrackopts \
     -slang en \
     $subtitlearg \
     -dvd-device "$srciso" \
