@@ -1,0 +1,43 @@
+#!/usr/bin/python2
+
+
+import subprocess
+import sys
+
+
+class Ripper:
+
+    def __init__(self, source, title, destination):
+        self.source = source
+        self.title = title
+        assert destination.endswith(".mkv")
+        self.destination = destination
+        self.verbose = True
+
+    def x264_options(self):
+        return []
+
+    def ripping_arguments(self):
+        args = ["HandBrakeCLI"]
+        if self.verbose:
+            args.append("--verbose")
+        args.append("--decomb")
+        args.extend(["--encoder", "x264"])
+        args.extend(["--x264-preset", "veryslow"])
+        #args.extend(["--x264-preset", "ultrafast"])
+        args.extend(["--encopts", ":".join(self.x264_options())])
+        args.extend(["--vb", "685"])  # bitrate, kbps
+        args.extend(["--gain", "10"])  # audio, dB
+        args.append("--markers")
+        args.extend(["--input", self.source])
+        args.extend(["--title", str(self.title)])
+        args.extend(["--output", self.destination])
+        return args
+
+    def rip(self):
+        subprocess.check_call(self.ripping_arguments())
+
+
+if __name__ == '__main__':
+    ripper = Ripper(sys.argv[1], int(sys.argv[2]), sys.argv[3])
+    ripper.rip()
