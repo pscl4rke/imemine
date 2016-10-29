@@ -50,6 +50,8 @@ preset=veryslow
 deinterlace=lb
 
 cropopts=""
+chapteropts=""
+chaptersuffix=""
 #subtitlearg="-nosub"
 subtitlearg="-forcedsubsonly"
 subtitlesuffix=""
@@ -58,11 +60,17 @@ alang="en"
 
 #==== COMMAND LINE OPTIONS ====#
 
-while getopts "c:sl:u" opt
+while getopts "c:C:sl:u" opt
 do
     case "$opt" in
         c)
+            # format is W:H:X:Y
             cropopts=",crop=$OPTARG"
+            ;;
+        C)
+            # format is start[-end]
+            chapteropts="-chapter $OPTARG"
+            chaptersuffix=".chapter$OPTARG"
             ;;
         s)
             subtitlearg=""
@@ -89,7 +97,7 @@ title="$2"
 srcbase="${srciso%.iso}"
 if [ -z "$3" ]
 then
-    destfile="$(printf "$srcbase.title%02i.$preset.$videobitrate.$deinterlace.$alang$subtitlesuffix.avi" $title)"
+    destfile="$(printf "$srcbase.title%02i$chaptersuffix.$preset.$videobitrate.$deinterlace.$alang$subtitlesuffix.avi" $title)"
 else
     destfile="$3"
 fi
@@ -111,6 +119,7 @@ time nice -n 10 /usr/bin/mencoder \
     $subtitlearg \
     -dvd-device "$srciso" \
     "dvd://$title" \
+    $chapteropts \
     -o "$destfile" \
     -mc 0 \
     -noskip \
