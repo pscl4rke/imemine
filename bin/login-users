@@ -1,0 +1,74 @@
+#!/usr/bin/python2
+#======================================================================#
+# HOST SCANNER FOR LOGIN ACCOUNTS                (c) 2016 P. S. Clarke #
+#======================================================================#
+
+
+# This is a somewhat crude scanning tool that examines the user
+# accounts on a system and shows if any of them have password or
+# SSH access.
+
+
+import os
+
+
+class ShadowFile:
+
+    def __init__(self):
+        self._users = {}
+        with open("/etc/shadow") as infile:
+            for line in infile:
+                parts = line.split(":")
+                user = parts[0]
+                no_valid_password = parts[1] in ("*", "!", "!!")
+                self._users[user] = not no_valid_password
+
+    def look_up(self, user):
+        return self._users[user]
+
+
+class User:
+
+    def __init__(self, name, home, has_password):
+        self.name = name
+        self.home = home
+        self.has_password = has_password
+        self.ssh_keys = self._load_ssh_keys()
+
+    def __str__(self):
+        return "<User %r>" % self.name
+
+    def _load_ssh_keys(self):
+        keys = []
+        keyfile = os.path.join(self.home, ".ssh", "authorized_keys")
+        if os.path.exists(keyfile):
+            for line in open(keyfile):
+                intro, key, description = line.split()
+                keys.append(description)
+        return keys
+
+    def can_log_in(self):
+        if self.has_password:
+            return True
+        if len(self.ssh_keys) > 0:
+            return True
+        return False
+
+
+def main():
+    shadow_file = ShadowFile()
+    for line in open("/etc/passwd"):
+        parts = line.split(":")
+        username = parts[0]
+        homedir = parts[5]
+        user = User(username, homedir, shadow_file.look_up(username))
+        if user.can_log_in():
+            print user.name
+            if user.has_password:
+                print "    Has a password"
+            for key in user.ssh_keys:
+                print "    SSH Key %s" % key
+
+
+if __name__ == '__main__':
+    main()
