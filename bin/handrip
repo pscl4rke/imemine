@@ -27,7 +27,7 @@ class Ripper:
         #args.extend(["--x264-preset", "ultrafast"])
         args.extend(["--encopts", ":".join(self.x264_options())])
         args.extend(["--vb", "685"])  # bitrate, kbps
-        args.extend(["--gain", "10"])  # audio, dB
+        args.extend(["--gain", "5"])  # audio, dB
         args.append("--markers")
         args.extend(["--input", self.source])
         args.extend(["--title", str(self.title)])
