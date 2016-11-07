@@ -3,6 +3,7 @@
 
 import subprocess
 import sys
+import time
 
 
 class Ripper:
@@ -35,7 +36,10 @@ class Ripper:
         return args
 
     def rip(self):
+        start = time.time()
         subprocess.check_call(self.ripping_arguments())
+        end = time.time()
+        print "That took %i seconds" % (end - start)
 
 
 if __name__ == '__main__':
