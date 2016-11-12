@@ -1,0 +1,12 @@
+#!/bin/bash
+#======================================================================#
+# SHIFT-AUDIO AV SYNC FIXER                      (c) 2016 P. S. Clarke #
+#======================================================================#
+[ -z "$2" ] && echo Missing args && exit 1
+ffmpeg=/usr/bin/ffmpeg
+time $ffmpeg \
+    -fflags genpts \
+    -i "$1" \
+    -c:v copy \
+    -af atrim=0.2 \
+    "$2"
