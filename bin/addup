@@ -1,0 +1,37 @@
+#!/usr/bin/python2
+
+import shlex
+import subprocess
+import sys
+import xml.etree.ElementTree as etree
+
+def get_duration(iso, title):
+    args = ["lsdvd", "-a", "-Ox", iso]
+    raw = subprocess.check_output(args)
+    fixed = raw.decode("ascii", "ignore")
+    xml = etree.fromstring(fixed)
+    for titlenode in xml.findall("track"):
+        if int(titlenode.find('ix').text) == title:
+            return float(titlenode.find('length').text)
+    raise KeyError(repr((iso, title)))
+
+def display(duration, description):
+    total_mins = int(duration / 60)
+    hours = int(total_mins / 60)
+    mins = total_mins - (60 * hours)
+    print "  %3ih %2im  %s" % (hours, mins, description)
+
+total = 0.0
+for line in sys.stdin:
+    line = line.strip()
+    if line == "":
+        continue
+    if line.startswith("#"):
+        continue
+    parts = shlex.split(line)
+    iso, title = parts[-2], int(parts[-1])
+    duration = get_duration(iso, title)
+    total += duration
+    display(duration, "%s(%i)" % (iso, title))
+display(total, "TOTAL")
+
