@@ -55,7 +55,7 @@ bind "A" new_template4
 set template5="REM %mday% %monname% %year% AT %hour%:%min% TAG note MSG "
 bind "N" new_template5
 
-set template6="REM %mday% %monname% %year% AT 12:00 TAG strikeout MSG foo"
+set template6="REM %mday% %monname% %year% AT 12:00 TAG strikeout MSG struckout"
 bind "S" new_template6
 
 # to avoid inserting untagged ones
