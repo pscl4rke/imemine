@@ -1,0 +1,64 @@
+#!/usr/bin/python2
+#======================================================================#
+# URL CLEANER                                    (c) 2016 P. S. Clarke #
+#======================================================================#
+
+
+# Rewrite URLs if necessary to strip out things.  Primarily to
+# prevent too much identifying information from leaking out.
+
+
+import unittest
+import urllib
+import urlparse
+import sys
+
+
+def clean_query(original):
+    return urllib.urlencode(tuple((key, value)
+        for (key, value) in urlparse.parse_qsl(original)
+        if not key.startswith('utm_')))
+
+
+def clean(original):
+    url = urlparse.urlparse(original)
+    url = url._replace(query=clean_query(url.query))
+    if url.fragment.startswith("."):
+        url = url._replace(fragment="")
+    return url.geturl()
+
+
+class TestClean(unittest.TestCase):
+
+    def test_http(self):
+        self.assertEqual(clean("http://www.foobar.com/"),
+                               "http://www.foobar.com/")
+
+    def test_https(self):
+        self.assertEqual(clean("https://www.foobar.com"),
+                               "https://www.foobar.com")
+
+    def test_params(self):
+        self.assertEqual(clean("http://www.foobar.com/path?q=foo+bar&id=6"),
+                               "http://www.foobar.com/path?q=foo+bar&id=6")
+
+    def test_bookmarks(self):
+        self.assertEqual(clean("http://www.foobar.com/abcde.foo#hello-world"),
+                               "http://www.foobar.com/abcde.foo#hello-world")
+
+    def test_medium(self):
+        self.assertEqual(clean("http://www.foobar.com/abcde.foo#.abcdefg"),
+                               "http://www.foobar.com/abcde.foo")
+
+    def test_utm(self):
+        self.assertEqual(clean("http://www.foobar.com/path?q=foo&utm_baz=quux"),
+                               "http://www.foobar.com/path?q=foo")
+
+
+if __name__ == '__main__':
+    if sys.argv[1] == "--test":
+        sys.argv = sys.argv[:1]
+        unittest.main()
+    else:
+        original = sys.argv[1]
+        print clean(original)

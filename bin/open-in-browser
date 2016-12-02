@@ -29,6 +29,10 @@ case "$1" in
         ;;
 esac
 
+urlclean="$(dirname "$0")/urlclean"
+url="$(urlclean "$url")"
+#zenity --info --text "$url"
+
 case "$browser-$mode" in
     chrome-temp)
         # --temp-profile must be first if it is to be obeyed:
