@@ -251,6 +251,14 @@ set foldmethod=indent
 set nofoldenable
 "
 "
+" WORK SETTINGS
+"   If I have additional commands in a work-specific file then
+"   also run them too.
+if filereadable($RVIMEMINE . "/vimrc.extra")
+    source $RVIMEMINE/vimrc.extra
+endif
+"
+"
 " HISTORICAL
 "   Some bits and pieces that were used, but not any more.
 "set showmatch [Not needed in non compat. mode]
