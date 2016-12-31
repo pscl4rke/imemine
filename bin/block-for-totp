@@ -1,0 +1,43 @@
+#!/usr/bin/python2
+#======================================================================#
+# TWO-FACTOR-AUTH JAMMING SCRIPT                 (c) 2016 P. S. Clarke #
+#======================================================================#
+
+
+import subprocess
+import sys
+import time
+
+
+def can_give_a_valid_code_for(key):
+    try:
+        attempt = raw_input()
+        args = ["oathtool", "--totp", "-w", "3", key, attempt]
+        subprocess.check_call(args)
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+
+def main():
+    while True:
+        try:
+            try:
+                if len(sys.argv) < 2:
+                    raise Exception("Invalid block-for-totp usage")
+                key = sys.argv[1]
+                sys.stderr.write("TOTP Code: ")
+                if can_give_a_valid_code_for(key):
+                    break
+                sys.stderr.write("Invalid! Try again...\n")
+            except Exception as exc:
+                sys.stderr.write("%r\n" % exc)
+                time.sleep(2)
+                pass
+        except KeyboardInterrupt:
+            sys.stderr.write("\n")
+            pass
+
+
+if __name__ == '__main__':
+    main()
