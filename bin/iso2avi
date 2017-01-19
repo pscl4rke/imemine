@@ -112,6 +112,7 @@ vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset:force_cfr"
 #vidopts="bitrate=$videobitrate:nointerlaced:preset=$preset"
 
 echo Starting at $(date)
+df -h .
 
 time nice -n 10 /usr/bin/mencoder \
     $audiotrackopts \
@@ -129,6 +130,7 @@ time nice -n 10 /usr/bin/mencoder \
     -x264encopts "$vidopts" \
 
 exitcode="$?"
+df -h .
 echo Completed at $(date) with code $exitcode
 exit $exitcode
 
