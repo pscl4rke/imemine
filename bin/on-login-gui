@@ -40,6 +40,8 @@ tilda &
 # What is mpd playing (only works on when mpd is installed)?
 (while true; do /home/psc/imemine/bin/mpd-notifier; sleep 5; done) &
 
+redshift -l 53:0 -t 5500:4300 &
+
 # Try conky
 #conky &
 
