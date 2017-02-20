@@ -168,6 +168,7 @@ alias w3mt="w3m -title -T text/html"
 alias ll="ls -l"
 alias la="ls -A"
 alias podget="wget --content-disposition"
+alias midentify="mplayer -frames 0 -identify"
 
 
 # PRODUCTIVITY IMPROVEMENTS
