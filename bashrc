@@ -30,6 +30,8 @@ source /usr/share/bash-completion/bash_completion
 #   Though some needs specifying manually:
 complete -F _command rlwrap
 complete -F _command tsp
+#   Stop the dodgy domains in /etc/hosts leaking in
+HOSTFILE=
 
 
 # EXPLICITLY DECLARE BASIC OPTIONS
