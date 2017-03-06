@@ -35,7 +35,7 @@ tilda &
 #   Sound playback tends to run into a *lot* of permission issues if
 #   mpd is run as a system-level daemon, so run it as an ordinary user
 #   on login:
-[ -e "$HOME/.mpd.conf" ] && /usr/bin/mpd "$HOME/.mpd.conf" &
+([ -e "$HOME/.mpd.conf" ] && /usr/bin/mpd "$HOME/.mpd.conf") &
 
 # What is mpd playing (only works on when mpd is installed)?
 (while true; do /home/psc/imemine/bin/mpd-notifier; sleep 5; done) &
@@ -64,6 +64,7 @@ esac
 # Try and fix keyboard: make menu a winkey
 #(sleep 5 && xmodmap -e 'keycode 135 = Super_R') &
 (sleep 5 && xmodmap /home/psc/.xmodmap.extra) &
+(while :; do xmodmap /home/psc/.xmodmap.extra; sleep 30; done)
 
 echo "Done" | logger -t "$(basename "$0")"
 
