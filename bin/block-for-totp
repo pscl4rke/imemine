@@ -4,6 +4,7 @@
 #======================================================================#
 
 
+import os
 import subprocess
 import sys
 import time
@@ -19,7 +20,7 @@ def can_give_a_valid_code_for(key):
         return False
 
 
-def main():
+def block():
     while True:
         try:
             try:
@@ -37,6 +38,12 @@ def main():
         except KeyboardInterrupt:
             sys.stderr.write("\n")
             pass
+
+
+def main():
+    if "NO_BLOCK_TOTP" in os.environ:
+        return
+    block()
 
 
 if __name__ == '__main__':
