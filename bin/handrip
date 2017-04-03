@@ -14,6 +14,8 @@ class Ripper:
         assert destination.endswith(".mkv")
         self.destination = destination
         self.verbose = True
+        #self.chapters = "31-36"
+        self.chapters = None
 
     def x264_options(self):
         return []
@@ -33,6 +35,8 @@ class Ripper:
         args.extend(["--input", self.source])
         args.extend(["--title", str(self.title)])
         args.extend(["--output", self.destination])
+        if self.chapters is not None:
+            args.extend(["-c", self.chapters])
         return args
 
     def rip(self):
