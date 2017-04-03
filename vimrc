@@ -206,6 +206,7 @@ autocmd BufNewFile,BufRead [Ss][Cc]onstruct set filetype=python
 autocmd BufNewFile,BufRead requirements.txt set filetype=conf
 autocmd BufNewFile,BufRead *.rs set filetype=rust
 autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
+autocmd BufNewFile,BufRead *.nfo set filetype=xml
 "
 "
 " FILE-TYPE PREFERENCES
