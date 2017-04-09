@@ -1,0 +1,179 @@
+#!/usr/bin/python2
+#======================================================================#
+# INI -> NFO GENERATION TOOLKIT                  (c) 2017 P. S. Clarke #
+#======================================================================#
+
+
+# Still to do:
+#   -   Add episode dates
+
+
+import argparse
+import ConfigParser as inifile
+import os
+import re
+import sys
+import unittest
+import xml.etree.ElementTree as etree
+
+
+def parse_filename(filename):
+    regex = re.compile(r"\bS(\d+)E(\d+)\b")
+    result = regex.search(filename)
+    if result is not None:
+        series_s, episode_s = result.groups()
+        extra = {'series': int(series_s, 10), 'episode': int(episode_s, 10)}
+        return (result.group(0), extra)
+    return None, {}
+
+
+class TestFilenameMatching(unittest.TestCase):
+
+    def test_absent(self):
+        fullmatch, extra = parse_filename("foo.bar.mkv")
+        self.assertEqual(fullmatch, None)
+        self.assertEqual(parse_filename("foo.bar.mkv"), (None, {}))
+
+    def test_short_form(self):
+        fullmatch, extra = parse_filename("foo.bar.S02E04.avi")
+        self.assertEqual(fullmatch, "S02E04")
+        self.assertEqual(extra['series'], 2)
+        self.assertEqual(extra['episode'], 4)
+
+    def test_long_form(self):
+        fullmatch, extra = parse_filename("FooBar.14.S1993E11.mp4")
+        self.assertEqual(fullmatch, "S1993E11")
+        self.assertEqual(extra['series'], 1993)
+        self.assertEqual(extra['episode'], 11)
+
+
+def nfo_path(media_file):
+    parts = media_file.split(".")
+    parts[-1] = "nfo"
+    return ".".join(parts)
+
+
+class TestNfoPath(unittest.TestCase):
+
+    def test_a_video_file(self):
+        self.assertEqual(nfo_path("foo.bar.S01E03.Something.mkv"),
+                                  "foo.bar.S01E03.Something.nfo")
+
+
+class Generator:
+
+    def scan(self, path):
+        folder = inifile.ConfigParser()
+        folder.add_section("tvshow")
+        folder.set("tvshow", "title", os.path.basename(os.path.realpath(path)))
+        for filename in sorted(os.listdir(path)):
+            fullmatch, details = parse_filename(filename)
+            if fullmatch is None:
+                self.debug("Skipping: %r" % filename)
+                continue
+            folder.add_section(fullmatch)
+            folder.set(fullmatch, "filename", filename)
+            folder.set(fullmatch, "title", "FIXME")
+            if "series" in details:
+                folder.set(fullmatch, "season", details["series"])
+            if "episode" in details:
+                folder.set(fullmatch, "episode", details["episode"])
+        folder.write(sys.stdout)
+
+    def write(self, datafile, path):
+        if not os.path.exists(datafile):
+            self.die_with("Cannot find %r" % datafile)
+        folder = inifile.ConfigParser()
+        folder.read([datafile])
+        tree = etree.Element("tvshow")
+        title = etree.Element("title")
+        title.text = folder.get("tvshow", "title")
+        tree.append(title)
+        self.maybe_write_xml(tree, os.path.join(path, "tvshow.nfo"))
+        for filename in sorted(os.listdir(path)):
+            fullmatch, details = parse_filename(filename)
+            if fullmatch is None:
+                self.debug("Skipping: %r" % filename)
+                continue
+            dest = nfo_path(os.path.join(path, filename))
+            tree = etree.Element("episodedetails")
+            title = etree.Element("title")
+            title.text = folder.get(fullmatch, "title")
+            tree.append(title)
+            season = etree.Element("season")
+            season.text = folder.get(fullmatch, "season")
+            tree.append(season)
+            episode = etree.Element("episode")
+            episode.text = folder.get(fullmatch, "episode")
+            tree.append(episode)
+            self.maybe_write_xml(tree, dest)
+
+    def maybe_write_xml(self, tree, destpath):
+        if os.path.exists(destpath):
+            self.debug("Will not overwrite %r" % destpath)
+            return
+        self.debug("Writing to %r" % destpath)
+        raw = etree.tostring(tree)
+        # This is a *VERY* crude indentation system:
+        xml = raw.replace("><", ">\n    <").replace("    </", "</")
+        xml = xml + "\n"
+        with open(destpath, "w") as outfile:
+            outfile.write(xml)
+
+    def debug(self, message):
+        sys.stderr.write("[DEBUG] %s\n" % message)
+
+    def die_with(self, message):
+        sys.stderr.write("[FATAL] %s\n" % message)
+        sys.exit(1)
+
+    def main(self):
+        args = argument_parser().parse_args(sys.argv[1:])
+        if args.command == "test":
+            sys.argv = [sys.argv[0]]
+            unittest.main()
+        elif args.command == "scan":
+            self.scan(args.path)
+        elif args.command == "write":
+            self.write(args.datafile, args.path)
+        else:
+            # should have been caught with the `choices` kwarg
+            self.die_with("Unknown command: %r" % args)
+
+
+def argument_parser():
+    parser = argparse.ArgumentParser()
+    commands = parser.add_subparsers(dest="command")
+    parser_test = commands.add_parser("test")
+    parser_scan = commands.add_parser("scan")
+    parser_scan.add_argument("path")
+    parser_write = commands.add_parser("write")
+    parser_write.add_argument("datafile")
+    parser_write.add_argument("path")
+    return parser
+
+
+class Unparsable(Exception):
+    pass
+
+
+class TestArgumentParser(unittest.TestCase):
+
+    def setUp(self):
+        self.parser = argument_parser()
+        def handle_error(message):
+            raise Unparsable(message)
+        self.parser.error = handle_error
+
+    def test_invalid_command_caught(self):
+        with self.assertRaises(Unparsable):
+            self.parser.parse_args(["ioieofeirfo"])
+
+    def test_scan_command(self):
+        args = self.parser.parse_args(["scan", "/path/to/dir"])
+        self.assertEqual(args.command, "scan")
+        self.assertEqual(args.path, "/path/to/dir")
+
+
+if __name__ == '__main__':
+    Generator().main()
