@@ -6,6 +6,17 @@ import sys
 import time
 
 
+def on_battery():
+    output = subprocess.check_output(["upower", "--dump"])
+    battery_line = [line.strip() for line in output.splitlines()
+                    if "on-battery" in line][0]
+    if "yes" in battery_line:
+        return True
+    if "no" in battery_line:
+        return False
+    raise Exception()
+
+
 class Ripper:
 
     def __init__(self, source, title, destination):
@@ -47,5 +58,10 @@ class Ripper:
 
 
 if __name__ == '__main__':
+    if on_battery():
+        print "You're running on BATTEERY!"
+        print "I'm not continuing!"
+        sys.exit(1)
     ripper = Ripper(sys.argv[1], int(sys.argv[2]), sys.argv[3])
     ripper.rip()
+    # sys.exit(...)
