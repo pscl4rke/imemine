@@ -74,6 +74,7 @@ class Generator:
             folder.add_section(fullmatch)
             folder.set(fullmatch, "filename", filename)
             folder.set(fullmatch, "title", "FIXME")
+            #folder.set(fullmatch, "aired", "FIXME")
             if "series" in details:
                 folder.set(fullmatch, "season", details["series"])
             if "episode" in details:
@@ -100,6 +101,10 @@ class Generator:
             title = etree.Element("title")
             title.text = folder.get(fullmatch, "title")
             tree.append(title)
+            #if True:
+            #    aired = etree.Element("aired")
+            #    aired.text = folder.get(fullmatch, "aired")
+            #    tree.append(aired)
             season = etree.Element("season")
             season.text = folder.get(fullmatch, "season")
             tree.append(season)
