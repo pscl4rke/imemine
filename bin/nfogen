@@ -66,6 +66,7 @@ class Generator:
         folder = inifile.ConfigParser()
         folder.add_section("tvshow")
         folder.set("tvshow", "title", os.path.basename(os.path.realpath(path)))
+        folder.set("tvshow", "plot", "Put the description here, all on one line")
         for filename in sorted(os.listdir(path)):
             fullmatch, details = parse_filename(filename)
             if fullmatch is None:
@@ -90,6 +91,10 @@ class Generator:
         title = etree.Element("title")
         title.text = folder.get("tvshow", "title")
         tree.append(title)
+        if folder.has_option("tvshow", "plot"):
+            plot = etree.Element("plot")
+            plot.text = folder.get("tvshow", "plot")
+            tree.append(plot)
         self.maybe_write_xml(tree, os.path.join(path, "tvshow.nfo"))
         for filename in sorted(os.listdir(path)):
             fullmatch, details = parse_filename(filename)
