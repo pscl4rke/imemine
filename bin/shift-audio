@@ -10,3 +10,5 @@ time $ffmpeg \
     -c:v copy \
     -af atrim=0.2 \
     "$2"
+    #-af atrim=0.2 \
+    #-af adelay="200|200" \
