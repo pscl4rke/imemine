@@ -3,6 +3,8 @@
 # REPOSITORY 'MIRROR' UPDATOR                    (c) 2012 P. S. Clarke #
 #======================================================================#
 
+errors=""
+
 for directory in $(ls)
 do
 
@@ -10,7 +12,10 @@ do
     then
         echo "Updating Git Repository: $directory..."
         cd "$directory"
-        git pull
+        if ! git pull; then
+            echo ERROR DETECTED
+            errors="$errors ($directory)"
+        fi
         cd ..
         echo "DONE."
         echo
@@ -21,7 +26,10 @@ do
         echo "Updating Bare Git Repository: $directory..."
         cd "$directory"
         #git fetch --verbose --all
-        git fetch --all
+        if ! git fetch --all; then
+            echo ERROR DETECTED
+            errors="$errors ($directory)"
+        fi
         cd ..
         echo "DONE."
         echo
@@ -38,4 +46,14 @@ do
     fi
 
 done
+
+if [ -z "$errors" ]
+then
+    echo "No errors detected"
+    exit 0
+else
+    echo "ERRORS:$errors"
+    exit 1
+fi
+
 
