@@ -23,6 +23,7 @@
 
 # MAY WANT TO HANDLE:
 #   -   Audio always in sync
+#   -   Checking if running on the battery
 #   -   Should it overwrite an existing file?
 #   -   Options to adjust bitrate and presets
 #   -   Specify audio bitrate (maybe about 92kbps)
