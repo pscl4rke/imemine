@@ -142,6 +142,10 @@ do
             basefile="page-$(paddedpage $currentpage)"
             $EDITOR "${basefile}.txt"
             ;;
+        view)
+            basefile="page-$(paddedpage $currentpage)"
+            sxiv "$basefile.pnm"
+            ;;
         'done')
             buildargs=""
             for page in $(seq 1 $currentpage)
