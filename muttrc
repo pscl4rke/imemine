@@ -152,6 +152,9 @@ set pager_index_lines="8"
 set tilde=yes
 set pager_stop
 unignore Reply-To:
+#   This gives me the Date header in my own timezone without needing
+#   to use `display_filter` to add in an extra header:
+set pager_format="Message date is %[!%a %-d %b %Y at %H:%M:%S %Z] in my own timezone"
 
 
 # WINDOW TITLING
@@ -170,6 +173,8 @@ set xterm_title="%m emails in %f (%n new %o old)"
 #   more agreeable than some of the defaults that I've seen.
 #   They aren't too dissimilar from the default Tig colourings
 #   that I've seen.
+# The status bar near the bottom:
+color status brightyellow blue
 # The messages that get displayed below the status bar:
 color message default default
 color error default default
