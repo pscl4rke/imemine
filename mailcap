@@ -1,0 +1,1 @@
+application/ms-tnef; echo ===== && tnef -t %s && tnef -w -C /home/psc/Downloads/ %s
