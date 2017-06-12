@@ -107,6 +107,7 @@ fi
 originaldir="$(pwd)"
 tempdir="$(mktemp --directory)"
 cd "$tempdir"
+starttime="$(date +%s)"
 
 
 # Scanning Prompt Loop
@@ -181,6 +182,9 @@ fi
 
 cd "$originaldir"
 rm  -r "$tempdir"
-msg "Done!"
+
+endtime="$(date +%s)"
+duration="$(($endtime - $starttime))"
+msg "Done in $duration seconds."
 
 
