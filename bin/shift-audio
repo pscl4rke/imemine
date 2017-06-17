@@ -1,14 +1,35 @@
-#!/bin/bash
+#!/usr/bin/python
 #======================================================================#
-# SHIFT-AUDIO AV SYNC FIXER                      (c) 2016 P. S. Clarke #
+# SHIFT-AUDIO AV SYNC FIXER                      (c) 2017 P. S. Clarke #
 #======================================================================#
-[ -z "$2" ] && echo Missing args && exit 1
-ffmpeg=/usr/bin/ffmpeg
-time $ffmpeg \
-    -fflags genpts \
-    -i "$1" \
-    -c:v copy \
-    -af atrim=0.2 \
-    "$2"
-    #-af atrim=0.2 \
-    #-af adelay="200|200" \
+
+
+import subprocess
+import sys
+import time
+
+
+class Shifter:
+
+    ffmpeg = "/usr/bin/ffmpeg"
+
+    def args(self, srcpath, destpath):
+        return [
+            self.ffmpeg,
+            "-fflags", "genpts",
+            "-i", srcpath,
+            "-c:v", "copy",
+            "-af", "atrim=0.2",
+            destpath,
+        ]
+
+    def main(self):
+        start = time.time()
+        srcpath, destpath = sys.argv[1], sys.argv[2]
+        exitcode = subprocess.call(self.args(srcpath, destpath))
+        duration = time.time() - start
+        print "That took %i:%02i with exit code %i" % (duration / 60, duration % 60, exitcode)
+
+
+if __name__ == '__main__':
+    Shifter().main()
