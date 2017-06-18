@@ -5,7 +5,7 @@
 
 
 # Still to do:
-#   -   Add episode dates
+#   -   Handle unicode
 
 
 import argparse
@@ -62,11 +62,11 @@ class TestNfoPath(unittest.TestCase):
 
 class Generator:
 
-    def scan(self, path):
+    def scan(self, path, withdate=False):
         folder = inifile.ConfigParser()
         folder.add_section("tvshow")
         folder.set("tvshow", "title", os.path.basename(os.path.realpath(path)))
-        folder.set("tvshow", "plot", "Put the description here, all on one line")
+        folder.set("tvshow", "plot", "FIXME Put the description here, all on one line")
         for filename in sorted(os.listdir(path)):
             fullmatch, details = parse_filename(filename)
             if fullmatch is None:
@@ -75,14 +75,15 @@ class Generator:
             folder.add_section(fullmatch)
             folder.set(fullmatch, "filename", filename)
             folder.set(fullmatch, "title", "FIXME")
-            #folder.set(fullmatch, "aired", "FIXME")
+            if withdate:
+                folder.set(fullmatch, "aired-AND-premiered", "FIXME")
             if "series" in details:
                 folder.set(fullmatch, "season", details["series"])
             if "episode" in details:
                 folder.set(fullmatch, "episode", details["episode"])
         folder.write(sys.stdout)
 
-    def write(self, datafile, path):
+    def write(self, datafile, path, withdate=False):
         if not os.path.exists(datafile):
             self.die_with("Cannot find %r" % datafile)
         folder = inifile.ConfigParser()
@@ -106,10 +107,13 @@ class Generator:
             title = etree.Element("title")
             title.text = folder.get(fullmatch, "title")
             tree.append(title)
-            #if True:
-            #    aired = etree.Element("aired")
-            #    aired.text = folder.get(fullmatch, "aired")
-            #    tree.append(aired)
+            if withdate:
+                aired = etree.Element("aired")
+                aired.text = folder.get(fullmatch, "aired-AND-premiered")
+                tree.append(aired)
+                premiered = etree.Element("premiered")
+                premiered.text = folder.get(fullmatch, "aired-AND-premiered")
+                tree.append(premiered)
             season = etree.Element("season")
             season.text = folder.get(fullmatch, "season")
             tree.append(season)
