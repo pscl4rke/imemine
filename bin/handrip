@@ -27,6 +27,8 @@ class Ripper:
         self.verbose = True
         #self.chapters = "31-36"
         self.chapters = None
+        self.subtitle_track = None
+        #self.subtitle_track = 1
         self.x264_preset = "veryslow"
         #self.x264_preset = "ultrafast"
 
@@ -46,6 +48,12 @@ class Ripper:
         args.append("--markers")
         args.extend(["--input", self.source])
         args.extend(["--title", str(self.title)])
+        #args.extend(["--native-language", "en"])
+        #args.extend(["--native-language", "ja"])
+        if self.subtitle_track is not None:
+            args.extend(["--subtitle", str(self.subtitle_track)])
+            args.extend(["--subtitle-burned"])
+        #args.extend(["--audio", "3"])
         args.extend(["--output", self.destination])
         if self.chapters is not None:
             args.extend(["-c", self.chapters])
