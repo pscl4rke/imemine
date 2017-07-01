@@ -27,6 +27,8 @@ class Ripper:
         self.verbose = True
         #self.chapters = "31-36"
         self.chapters = None
+        self.x264_preset = "veryslow"
+        #self.x264_preset = "ultrafast"
 
     def x264_options(self):
         return []
@@ -37,8 +39,7 @@ class Ripper:
             args.append("--verbose")
         args.append("--decomb")
         args.extend(["--encoder", "x264"])
-        args.extend(["--x264-preset", "veryslow"])
-        #args.extend(["--x264-preset", "ultrafast"])
+        args.extend(["--x264-preset", self.x264_preset])
         args.extend(["--encopts", ":".join(self.x264_options())])
         args.extend(["--vb", "685"])  # bitrate, kbps
         args.extend(["--gain", "5"])  # audio, dB
