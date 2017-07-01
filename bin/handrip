@@ -1,6 +1,7 @@
 #!/usr/bin/python2
 
 
+import argparse
 import subprocess
 import sys
 import time
@@ -17,13 +18,21 @@ def on_battery():
     raise Exception()
 
 
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("source")
+    parser.add_argument("title", type=int)
+    parser.add_argument("destination")
+    return parser.parse_args(args)
+
+
 class Ripper:
 
-    def __init__(self, source, title, destination):
-        self.source = source
-        self.title = title
-        assert destination.endswith(".mkv")
-        self.destination = destination
+    def __init__(self, args):
+        self.source = args.source
+        self.title = args.title
+        assert args.destination.endswith(".mkv")
+        self.destination = args.destination
         self.verbose = True
         #self.chapters = "31-36"
         self.chapters = None
@@ -71,6 +80,7 @@ if __name__ == '__main__':
         print "You're running on BATTEERY!"
         print "I'm not continuing!"
         sys.exit(1)
-    ripper = Ripper(sys.argv[1], int(sys.argv[2]), sys.argv[3])
+    args = parse_args(sys.argv[1:])
+    ripper = Ripper(args)
     ripper.rip()
     # sys.exit(...)
