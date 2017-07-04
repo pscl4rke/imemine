@@ -1,56 +1,70 @@
-#!/bin/sh
-#======================================================================#
-# CALENDAR-TO-EMAIL REMINDER SCRIPT              (c) 2014 P. S. Clarke #
-#======================================================================#
+#!/usr/bin/python2
 
 
-usage () {
-    echo "Usage:"
-    echo "  $ `basename "$0"` [options] /path/to/calendar.file foo@example.com"
-    echo "Options (which must come first):"
-    echo "  -m cmd      The command (and args) to use to send email"
-    echo "  -d date     The date to send reminders for (default 'today')"
-}
+import argparse
+import datetime
+import os
+import time
+import shlex
+import subprocess
+import sys
 
-mailcmd="mail"
-date="today"
-
-while getopts "m:d:" opt
-do
-    case "$opt" in
-        m) mailcmd="$OPTARG" ;;
-        d) date="$OPTARG" ;;
-    esac
-done
-shift $((OPTIND-1))
+from email.message import Message
+from email.utils import formatdate
 
 
-if [ -z "$2" ]
-then
-    usage
-    exit 1
-fi
-calendarfile="$1"
-destination="$2"
-if [ ! -e "$calendarfile" ]
-then
-    echo "Non-existent: '$calendarfile'"
-    exit 1
-fi
-
-ts=$(date -d "$date" +%Y%m%d)
-calendar -f "$calendarfile" -l 0 -t "$ts" | while read month daystar reminder
-do
-    echo "Reminding about '$reminder'"
-
-    # An empty echo stops mailcmd emptying stdin:
-    echo | $mailcmd -s "$reminder" "$destination"
-
-    # Leave time to ensure they come through in order:
-    sleep 5
-done
-
-echo "Done"
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("calendarfile")
+    parser.add_argument("toaddress")
+    parser.add_argument("--sendmail", default="/usr/sbin/sendmail")
+    today = datetime.date.today().strftime("%Y%m%d")
+    parser.add_argument("-d", "--date", default=today)
+    return parser.parse_args(args)
 
 
+class ReminderSender:
 
+    use_local_timezone = True
+
+    def __init__(self, args):
+        self.args = args
+
+    def run_sanity_checks(self):
+        # calendar does not error on missing file, just uses system files!
+        if not os.path.exists(self.args.calendarfile):
+            raise Exception("No file %r" % self.args.calendarfile)
+
+    def reminders_to_send(self):
+        args = ["calendar", "-f", self.args.calendarfile,
+                            "-l", "0", "-t", self.args.date]
+        raw_text = subprocess.check_output(args)
+        for line in raw_text.splitlines():
+            _month, _daystar, reminder = line.strip().split(None, 2)
+            yield reminder
+
+    def build_email_for(self, reminder):
+        email = Message()
+        email["To"] = "remind you <%s>" % self.args.toaddress
+        email["From"] = self.args.toaddress
+        email["Subject"] = reminder
+        email["Date"] = formatdate(None, self.use_local_timezone)
+        return email
+
+    def send_reminder(self, reminder):
+        email = self.build_email_for(reminder)
+        args = shlex.split(self.args.sendmail)
+        args.append(self.args.toaddress)
+        sendmail = subprocess.Popen(args, stdin=subprocess.PIPE)
+        sendmail.communicate(email.as_string())
+
+    def send_all(self):
+        self.run_sanity_checks()
+        for reminder in self.reminders_to_send():
+            self.send_reminder(reminder)
+            time.sleep(5) # to ensure they come through in order
+
+
+if __name__ == '__main__':
+    args = parse_args(sys.argv[1:])
+    ReminderSender(args).send_all()

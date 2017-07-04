@@ -1,0 +1,56 @@
+#!/bin/sh
+#======================================================================#
+# CALENDAR-TO-EMAIL REMINDER SCRIPT              (c) 2014 P. S. Clarke #
+#======================================================================#
+
+
+usage () {
+    echo "Usage:"
+    echo "  $ `basename "$0"` [options] /path/to/calendar.file foo@example.com"
+    echo "Options (which must come first):"
+    echo "  -m cmd      The command (and args) to use to send email"
+    echo "  -d date     The date to send reminders for (default 'today')"
+}
+
+mailcmd="mail"
+date="today"
+
+while getopts "m:d:" opt
+do
+    case "$opt" in
+        m) mailcmd="$OPTARG" ;;
+        d) date="$OPTARG" ;;
+    esac
+done
+shift $((OPTIND-1))
+
+
+if [ -z "$2" ]
+then
+    usage
+    exit 1
+fi
+calendarfile="$1"
+destination="$2"
+if [ ! -e "$calendarfile" ]
+then
+    echo "Non-existent: '$calendarfile'"
+    exit 1
+fi
+
+ts=$(date -d "$date" +%Y%m%d)
+calendar -f "$calendarfile" -l 0 -t "$ts" | while read month daystar reminder
+do
+    echo "Reminding about '$reminder'"
+
+    # An empty echo stops mailcmd emptying stdin:
+    echo | $mailcmd -s "$reminder" "$destination"
+
+    # Leave time to ensure they come through in order:
+    sleep 5
+done
+
+echo "Done"
+
+
+
