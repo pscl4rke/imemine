@@ -45,7 +45,7 @@ class Ripper:
         return []
 
     def ripping_arguments(self):
-        args = ["HandBrakeCLI"]
+        args = ["nice", "HandBrakeCLI"]
         if self.verbose:
             args.append("--verbose")
         args.append("--decomb")
