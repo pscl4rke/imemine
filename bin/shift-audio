@@ -14,9 +14,13 @@ class Shifter:
     ffmpeg = "/usr/bin/ffmpeg"
 
     def shift_args(self):
-        return [
-            "-af", "atrim=0.2",
-        ]
+        milliseconds = 200
+        if milliseconds > 0:
+            return ["-af", "atrim=%i" % (milliseconds / 1000)]
+        elif milliseconds < 0:
+            return ["-af", "adelay=%i|%i" % (-milliseconds, -milliseconds)]
+        else:
+            return []
 
     def args(self, srcpath, destpath):
         args = [
