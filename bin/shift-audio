@@ -13,15 +13,21 @@ class Shifter:
 
     ffmpeg = "/usr/bin/ffmpeg"
 
-    def args(self, srcpath, destpath):
+    def shift_args(self):
         return [
+            "-af", "atrim=0.2",
+        ]
+
+    def args(self, srcpath, destpath):
+        args = [
             self.ffmpeg,
             "-fflags", "genpts",
             "-i", srcpath,
             "-c:v", "copy",
-            "-af", "atrim=0.2",
-            destpath,
         ]
+        args.extend(self.shift_args())
+        args.append(destpath)
+        return args
 
     def main(self):
         start = time.time()
