@@ -36,7 +36,8 @@ url="$(urlclean "$url")"
 case "$browser-$mode" in
     chrome-temp)
         # --temp-profile must be first if it is to be obeyed:
-        chromium-browser --temp-profile --no-first-run "$url"
+        chromium-browser --temp-profile --no-first-run \
+            --no-default-browser-check "$url"
         ;;
     chrome-profile)
         chromium-browser --user-data-dir="$HOME/.config/chromium-$profile" \
