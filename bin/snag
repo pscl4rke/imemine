@@ -1,0 +1,59 @@
+#!/usr/bin/python
+#======================================================================#
+# REMOTE FILE SNAGGER                            (c) 2017 P. S. Clarke #
+#======================================================================#
+
+
+import shlex
+import subprocess
+import sys
+
+
+class Puller:
+
+    def main(self, arguments):
+        if len(arguments) != 2:
+            print "Usage error"
+            sys.exit(1)
+        filename = arguments[1]
+        self.pull_according_to(filename)
+
+    def pull_according_to(self, filename):
+        for line in open(filename):
+            self.handle_line(line.strip())
+
+    def handle_line(self, line):
+        if line == "":
+            return
+        if line.startswith("#"):
+            return
+        if line.startswith("!using "):
+            self.using = shlex.split(line[7:])
+            return
+        if line.startswith("!run "):
+            self.run(line[5:])
+            return
+        if "\t" in line:
+            destination, _tab, shell_cmd = line.strip().partition("\t")
+            self.pull(destination, shell_cmd)
+            return
+        print "Unknown line: %r" % line
+
+    def run(self, shell_cmd):
+        subprocess.check_call(shell_cmd, shell=True)
+
+    def pull(self, destination, shell_cmd):
+        try:
+            print "Snagging %s..." % destination
+            args = list(self.using)
+            args.append(shell_cmd)
+            output = subprocess.check_output(args)
+            # Note that we only overwrite the file if the cmd worked
+            with open(destination, "w") as destfile:
+                destfile.write(output)
+        except subprocess.CalledProcessError:
+            print "ERROR"
+
+
+if __name__ == '__main__':
+    Puller().main(sys.argv)
