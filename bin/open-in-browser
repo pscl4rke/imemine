@@ -41,7 +41,7 @@ case "$browser-$mode" in
         ;;
     chrome-profile)
         chromium-browser --user-data-dir="$HOME/.config/chromium-$profile" \
-            --new-window "$url"
+            --no-default-browser-check --new-window "$url"
         ;;
     firefox-temp)
         profilepath="$(mktemp --directory /tmp/firefox.$$.XXXXXXX)"
