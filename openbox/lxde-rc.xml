@@ -445,7 +445,7 @@
       </keybind>
       <keybind key="W-s">
         <action name="Execute">
-          <command>wmctrl -a "selfoss - "</command>
+          <command>wmctrl -a "Selfoss Feed Reader"</command>
         </action>
       </keybind>
       <keybind key="W-t">
