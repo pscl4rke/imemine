@@ -2,130 +2,108 @@
 # Use preference dialog in lxpanel to adjust config when you can.
 
 Global {
-    edge=top
-    allign=left
-    margin=0
-    widthtype=percent
-    width=100
-    height=26
-    transparent=1
-    tintcolor=#000000
-    alpha=110
-    autohide=0
-    heightwhenhidden=2
-    setdocktype=1
-    setpartialstrut=1
-    usefontcolor=1
-    fontsize=10
-    fontcolor=#ffffff
-    usefontsize=0
-    background=0
-    backgroundfile=/usr/share/lxpanel/images/background.png
-    iconsize=24
-    loglevel=2
+  edge=top
+  allign=left
+  margin=0
+  widthtype=percent
+  width=100
+  height=26
+  transparent=1
+  tintcolor=#000000
+  alpha=110
+  autohide=0
+  heightwhenhidden=2
+  setdocktype=1
+  setpartialstrut=1
+  usefontcolor=1
+  fontsize=10
+  fontcolor=#ffffff
+  usefontsize=0
+  background=0
+  backgroundfile=/usr/share/lxpanel/images/background.png
+  iconsize=24
+  loglevel=2
 }
-
 Plugin {
-    type = space
-    Config {
-        Size=2
+  type=space
+  Config {
+    Size=2
+  }
+}
+Plugin {
+  type=launchbar
+  Config {
+    Button {
+      id=pcmanfm.desktop
     }
-}
-
-Plugin {
-    type = launchbar
-    Config {
-        Button {
-            id=pcmanfm.desktop
-        }
-        Button {
-            id=lxde-x-www-browser.desktop
-        }
-        Button {
-            id=/home/psc/.local/share/applications/imemine/open-clipboard-in-browser.desktop
-        }
-        Button {
-            id=/home/psc/.local/share/applications/imemine/open-primary-in-browser.desktop
-        }
+    Button {
+      id=lxde-x-www-browser.desktop
     }
-}
-
-Plugin {
-    type = pager
-}
-
-Plugin {
-    type = space
-    Config {
-        Size=4
+    Button {
+      id=/home/psc/.local/share/applications/imemine/open-clipboard-in-browser.desktop
     }
-}
-
-Plugin {
-    type = deskno
-    Config {
-        BoldFont=1
-        WMLabels=1
+    Button {
+      id=/home/psc/.local/share/applications/imemine/open-primary-in-browser.desktop
     }
+  }
 }
-
 Plugin {
-    type = space
-    expand=1
-    Config {
-        Size=2
-    }
+  type=pager
+  Config {
+  }
 }
-
 Plugin {
-    type = dclock
-    Config {
-        ClockFmt=(%H:%M) (%a %d %b %Y)
-        TooltipFmt=%A %x
-        BoldFont=1
-        IconOnly=0
-        CenterText=0
-    }
+  type=space
+  Config {
+    Size=4
+  }
 }
-
 Plugin {
-    type = space
-    expand=1
-    Config {
-        Size=4
-    }
+  type=deskno
+  Config {
+    BoldFont=1
+    WMLabels=1
+  }
 }
-
 Plugin {
-    type = tray
+  type=space
+  expand=1
+  Config {
+    Size=2
+  }
 }
-
 Plugin {
-    type = netstatus
-    Config {
-        iface=eth0
-        configtool=network-admin --configure %i
-    }
+  type=dclock
+  Config {
+    ClockFmt=(%H:%M) (%a %d %b %Y)
+    TooltipFmt=%A %x
+    BoldFont=1
+    IconOnly=0
+    CenterText=0
+  }
 }
-
 Plugin {
-    type = kbled
-    Config {
-        ShowCapsLock=0
-        ShowNumLock=1
-        ShowScrollLock=1
-    }
+  type=space
+  expand=1
+  Config {
+    Size=4
+  }
 }
-
 Plugin {
-    type = launchbar
-    Config {
-        Button {
-            id=lxde-screenlock.desktop
-        }
-        Button {
-            id=lxde-logout.desktop
-        }
-    }
+  type=tray
+  Config {
+  }
 }
-
+Plugin {
+  type=kbled
+  Config {
+    ShowCapsLock=0
+    ShowNumLock=1
+    ShowScrollLock=1
+  }
+}
+Plugin {
+  type=launchbar
+  Config {
+  }
+}
