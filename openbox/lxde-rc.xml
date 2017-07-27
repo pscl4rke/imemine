@@ -1022,5 +1022,20 @@
     </application>
     -->
 
+
+  <!--  Bugfix annoying wine-based software that crashes when
+        it is minimised.  Which is what happens behind the scenes
+        when you switch workspaces.  -->
+  <application title="*VoIP2ALL System*">
+    <desktop>all</desktop>
+  </application>
+  <application title="*Gateway Monitor*">
+    <desktop>all</desktop>
+  </application>
+  <application name="*VoIP2ALL*" title="*Port*">
+    <desktop>all</desktop>
+  </application>
+
+
   </applications>
 </openbox_config>
