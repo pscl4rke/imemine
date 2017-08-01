@@ -18,11 +18,12 @@ bind generic K previous
 # scroll, don't move cursor:
 bind diff j scroll-line-down
 bind diff k scroll-line-up
-bind diff down scroll-line-down
-bind diff up scroll-line-up
+bind diff <Down> scroll-line-down
+bind diff <Up> scroll-line-up
 
 
 # INITIAL APPEARANCE:
-set show-rev-graph = yes
+#  (now the default)
+#set show-rev-graph = yes
 
 
