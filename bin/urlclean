@@ -15,9 +15,14 @@ import sys
 
 
 def clean_query(original):
-    return urllib.urlencode(tuple((key, value)
-        for (key, value) in urlparse.parse_qsl(original)
-        if not key.startswith('utm_')))
+    pairs = []
+    for key, value in urlparse.parse_qsl(original):
+        if key.startswith("utm_"):
+            continue
+        if key == "ftag":
+            continue
+        pairs.append((key, value))
+    return urllib.urlencode(pairs)
 
 
 def clean(original):
@@ -61,6 +66,10 @@ class TestClean(unittest.TestCase):
     def test_utm_with_whitespace(self):
         self.assertEqual(clean("http://www.foobar.com/path?utm_baz=quux\n"),
                                "http://www.foobar.com/path")
+
+    def test_ftag(self):
+        self.assertEqual(clean("http://www.foobar.com/path?q=foo&ftag=quux"),
+                               "http://www.foobar.com/path?q=foo")
 
 
 if __name__ == '__main__':
