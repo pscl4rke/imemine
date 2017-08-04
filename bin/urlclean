@@ -27,6 +27,9 @@ def clean_query(original):
 
 def clean(original):
     url = urlparse.urlparse(original.strip())
+    if url.scheme == "":
+        guess_scheme = "http://%s" % original.strip()
+        url = urlparse.urlparse(guess_scheme)
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
@@ -42,6 +45,11 @@ class TestClean(unittest.TestCase):
     def test_https(self):
         self.assertEqual(clean("https://www.foobar.com"),
                                "https://www.foobar.com")
+
+    def test_missing_schema_with_funny_port(self):
+        # annoying bug in chromium; doesn't understand this format:
+        self.assertEqual(clean("www.foobar.com:8000"),
+                               "http://www.foobar.com:8000")
 
     def test_whitespace(self):
         self.assertEqual(clean("  http://www.foobar.com\n  "),
