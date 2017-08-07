@@ -45,6 +45,9 @@ redshift -l 53:0 -t 5500:4300 &
 # Try conky
 #conky &
 
+# Because it's a teddy bear!!!
+#xteddy &
+
 # Fix touchpad (use synclient -l to find current settings)
 #   Tapping with 1 finger maps to button 1 (left)
 synclient TapButton1=1
