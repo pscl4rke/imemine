@@ -77,7 +77,7 @@ class Ripper:
 
 if __name__ == '__main__':
     if on_battery():
-        print "You're running on BATTEERY!"
+        print "You're running on BATTERY!"
         print "I'm not continuing!"
         sys.exit(1)
     args = parse_args(sys.argv[1:])
