@@ -32,7 +32,6 @@ class Ripper:
     def __init__(self, args):
         self.source = args.source
         self.title = args.title
-        assert args.destination.endswith(".mkv")
         self.destination = args.destination
         self.verbose = True
         #self.chapters = "31-36"
@@ -69,6 +68,7 @@ class Ripper:
         return args
 
     def rip(self):
+        assert self.destination.endswith(".mkv")
         start = time.time()
         subprocess.check_call(self.ripping_arguments())
         end = time.time()
