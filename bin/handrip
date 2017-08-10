@@ -22,7 +22,7 @@ def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("source")
     parser.add_argument("title", type=int)
-    parser.add_argument("destination")
+    parser.add_argument("destination", nargs='?', default=None)
     parser.add_argument("-u", "--ultrafast", action="store_true", default=False)
     return parser.parse_args(args)
 
@@ -42,6 +42,18 @@ class Ripper:
 
     def x264_options(self):
         return []
+
+    def guess_destination_path(self):
+        parts = []
+        if self.source.endswith(".iso"):
+            parts.append(self.source[:-4])
+        else:
+            raise Exception("Cannot guess destination for %r" % self.source)
+        parts.append("title%02i" % self.title)
+        parts.append(self.x264_preset)
+        parts.append("handrip")
+        parts.append("mkv")
+        return ".".join(parts)
 
     def ripping_arguments(self):
         args = ["nice", "HandBrakeCLI"]
@@ -82,5 +94,8 @@ if __name__ == '__main__':
         sys.exit(1)
     args = parse_args(sys.argv[1:])
     ripper = Ripper(args)
-    ripper.rip()
+    if args.destination is None:
+        print ripper.guess_destination_path()
+    else:
+        ripper.rip()
     # sys.exit(...)
