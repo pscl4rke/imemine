@@ -2,6 +2,7 @@
 
 
 import argparse
+import datetime
 import subprocess
 import sys
 import time
@@ -83,10 +84,15 @@ class Ripper:
 
     def rip(self):
         assert self.destination.endswith(".mkv")
-        start = time.time()
-        subprocess.check_call(self.ripping_arguments())
-        end = time.time()
-        print "That took %i seconds" % (end - start)
+        start = datetime.datetime.now()
+        try:
+            subprocess.check_call(self.ripping_arguments())
+        finally:
+            end = datetime.datetime.now()
+            time.sleep(1)
+            print "Started:        %s" % start
+            print "Finished:       %s" % end
+            print "Total duration: %s" % (end - start)
 
 
 if __name__ == '__main__':
