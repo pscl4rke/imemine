@@ -3,6 +3,7 @@
 
 import argparse
 import datetime
+import os
 import subprocess
 import sys
 import time
@@ -84,6 +85,7 @@ class Ripper:
 
     def rip(self):
         assert self.destination.endswith(".mkv")
+        assert not os.path.exists(self.destination)
         start = datetime.datetime.now()
         try:
             subprocess.check_call(self.ripping_arguments())
