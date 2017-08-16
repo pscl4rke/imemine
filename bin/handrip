@@ -41,6 +41,8 @@ class Ripper:
         self.chapters = None
         self.subtitle_track = args.subtitle
         self.x264_preset = "ultrafast" if args.ultrafast else "veryslow"
+        if self.destination is None:
+            self.destination = self.guess_destination_path()
 
     def x264_options(self):
         return []
@@ -104,8 +106,4 @@ if __name__ == '__main__':
         sys.exit(1)
     args = parse_args(sys.argv[1:])
     ripper = Ripper(args)
-    if args.destination is None:
-        print ripper.guess_destination_path()
-    else:
-        ripper.rip()
-    # sys.exit(...)
+    ripper.rip()
