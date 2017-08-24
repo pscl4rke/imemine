@@ -153,7 +153,10 @@ wantlink "openbox/autostart" ".config/openbox/autostart.sh"
 wantlink "openbox/autostart" ".config/lxsession/LXDE/autostart"
 wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
 
+# Recent versions of ack-grep don't need this, because they
+# have both /usr/bin/ack-grep and /usr/bin/ack...
 wantlink "/usr/bin/ack-grep" "bin/ack"
+
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
 wantlink "/usr/share/vim/addons/syntax" ".vim_addons/syntax"
 
