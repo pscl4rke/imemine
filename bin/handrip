@@ -44,6 +44,10 @@ class Ripper:
         if self.destination is None:
             self.destination = self.guess_destination_path()
 
+    def info(self, message):
+        sys.stdout.write("%s\n" % message)
+        sys.stdout.flush()
+
     def x264_options(self):
         return []
 
@@ -90,13 +94,15 @@ class Ripper:
         assert not os.path.exists(self.destination)
         start = datetime.datetime.now()
         try:
-            subprocess.check_call(self.ripping_arguments())
+            args = self.ripping_arguments()
+            self.info("Running: %r" % args)
+            subprocess.check_call(args)
         finally:
             end = datetime.datetime.now()
             time.sleep(1)
-            print "Started:        %s" % start
-            print "Finished:       %s" % end
-            print "Total duration: %s" % (end - start)
+            self.info("Started:        %s" % start)
+            self.info("Finished:       %s" % end)
+            self.info("Total duration: %s" % (end - start))
 
 
 if __name__ == '__main__':
