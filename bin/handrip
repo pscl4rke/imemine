@@ -57,7 +57,7 @@ class Ripper:
         if self.subtitle_track is not None:
             parts.append("sub%02i" % self.subtitle_track)
         parts.append(self.x264_preset)
-        parts.append("handrip")
+        #parts.append("handrip")
         parts.append("mkv")
         return ".".join(parts)
 
