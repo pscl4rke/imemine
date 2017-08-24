@@ -3,6 +3,7 @@
 
 import argparse
 import email.message
+import os
 import sqlite3
 import sys
 import time
@@ -20,6 +21,8 @@ def normalise(number):
 class SmsDb:
 
     def __init__(self, filepath):
+        if not os.path.exists(filepath):
+            raise Exception("Missing file %r" % filepath)
         self._connection = sqlite3.connect(filepath)
         self._contacts = {}
 
