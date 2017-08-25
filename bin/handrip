@@ -78,6 +78,8 @@ class Ripper:
         args.append("--markers")
         args.extend(["--input", self.source])
         args.extend(["--title", str(self.title)])
+        ##args.extend(["--aname", "en"]) # This should work but doesn't!
+        #args.extend(["--audio", "2"])
         #args.extend(["--native-language", "en"])
         #args.extend(["--native-language", "ja"])
         if self.subtitle_track is not None:
