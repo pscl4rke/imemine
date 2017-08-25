@@ -11,6 +11,12 @@ import sys
 
 class DummySource:
 
+    def set_up(self):
+        pass
+
+    def tear_down(self):
+        pass
+
     def pull(self, destination, shell_cmd):
         raise NotImplementedError("Unconfigured 'using' source")
 
@@ -19,6 +25,12 @@ class GenericSource:
 
     def __init__(self, prefix_args):
         self.prefix_args = prefix_args
+
+    def set_up(self):
+        pass
+
+    def tear_down(self):
+        pass
 
     def pull(self, destination, shell_cmd):
         args = list(self.prefix_args)
@@ -37,7 +49,11 @@ class Snagger:
             sys.exit(1)
         filename = arguments[1]
         self.current_source = DummySource()
-        self.pull_according_to(filename)
+        self.current_source.set_up()
+        try:
+            self.pull_according_to(filename)
+        finally:
+            self.current_source.tear_down()
 
     def pull_according_to(self, filename):
         for line in open(filename):
@@ -49,7 +65,9 @@ class Snagger:
         if line.startswith("#"):
             return
         if line.startswith("!using "):
+            self.current_source.tear_down()
             self.current_source = GenericSource(shlex.split(line[7:]))
+            self.current_source.set_up()
             return
         if line.startswith("!run "):
             self.run(line[5:])
