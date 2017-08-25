@@ -9,13 +9,34 @@ import subprocess
 import sys
 
 
-class Puller:
+class DummySource:
+
+    def pull(self, destination, shell_cmd):
+        raise NotImplementedError("Unconfigured 'using' source")
+
+
+class GenericSource:
+
+    def __init__(self, prefix_args):
+        self.prefix_args = prefix_args
+
+    def pull(self, destination, shell_cmd):
+        args = list(self.prefix_args)
+        args.append(shell_cmd)
+        output = subprocess.check_output(args)
+        # Note that we only overwrite the file if the cmd worked
+        with open(destination, "w") as destfile:
+            destfile.write(output)
+
+
+class Snagger:
 
     def main(self, arguments):
         if len(arguments) != 2:
             print "Usage error"
             sys.exit(1)
         filename = arguments[1]
+        self.current_source = DummySource()
         self.pull_according_to(filename)
 
     def pull_according_to(self, filename):
@@ -28,7 +49,7 @@ class Puller:
         if line.startswith("#"):
             return
         if line.startswith("!using "):
-            self.using = shlex.split(line[7:])
+            self.current_source = GenericSource(shlex.split(line[7:]))
             return
         if line.startswith("!run "):
             self.run(line[5:])
@@ -40,20 +61,16 @@ class Puller:
         print "Unknown line: %r" % line
 
     def run(self, shell_cmd):
+        print "Running %r..." % shell_cmd
         subprocess.check_call(shell_cmd, shell=True)
 
     def pull(self, destination, shell_cmd):
         try:
             print "Snagging %s..." % destination
-            args = list(self.using)
-            args.append(shell_cmd)
-            output = subprocess.check_output(args)
-            # Note that we only overwrite the file if the cmd worked
-            with open(destination, "w") as destfile:
-                destfile.write(output)
+            self.current_source.pull(destination, shell_cmd)
         except subprocess.CalledProcessError:
             print "ERROR"
 
 
 if __name__ == '__main__':
-    Puller().main(sys.argv)
+    Snagger().main(sys.argv)
