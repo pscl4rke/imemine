@@ -41,6 +41,27 @@ class GenericSource:
             destfile.write(output)
 
 
+class SshSource:
+
+    def __init__(self, prefix_args):
+        self.prefix_args = prefix_args
+
+    def set_up(self):
+        print "Want to launch the control master here"
+
+    def tear_down(self):
+        print "Want to shut down the control master here"
+
+    def pull(self, destination, shell_cmd):
+        args = ["ssh"]
+        args.extend(self.prefix_args)
+        args.append(shell_cmd)
+        output = subprocess.check_output(args)
+        # Note that we only overwrite the file if the cmd worked
+        with open(destination, "w") as destfile:
+            destfile.write(output)
+
+
 class Snagger:
 
     def main(self, arguments):
@@ -67,6 +88,11 @@ class Snagger:
         if line.startswith("!using "):
             self.current_source.tear_down()
             self.current_source = GenericSource(shlex.split(line[7:]))
+            self.current_source.set_up()
+            return
+        if line.startswith("!using-ssh "):
+            self.current_source.tear_down()
+            self.current_source = SshSource(shlex.split(line[11:]))
             self.current_source.set_up()
             return
         if line.startswith("!run "):
