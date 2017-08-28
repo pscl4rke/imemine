@@ -4,9 +4,15 @@
 #======================================================================#
 
 
+import random
 import shlex
 import subprocess
 import sys
+
+
+def random_code(length):
+    chars = "0123456789abcdefghijklmnopqrstuvwxyz"
+    return "".join(random.choice(chars) for i in range(length))
 
 
 class DummySource:
@@ -45,15 +51,26 @@ class SshSource:
 
     def __init__(self, prefix_args):
         self.prefix_args = prefix_args
+        self.socket = "./snag.%s.sock" % random_code(8)
 
     def set_up(self):
-        print "Want to launch the control master here"
+        print "Launching the control master on %s..." % self.socket
+        args = ["ssh", "-o", "ControlPath=%s" % self.socket,
+                       "-o", "ControlMaster=yes",
+                       "-o", "ControlPersist=yes"]
+        args.extend(self.prefix_args)
+        args.append("true")
+        subprocess.check_call(args)
 
     def tear_down(self):
-        print "Want to shut down the control master here"
+        print "Shutting down the control master..."
+        args = ["ssh", "-o", "ControlPath=%s" % self.socket]
+        args.extend(self.prefix_args)
+        args.extend(["-O", "exit"])
+        subprocess.check_call(args)
 
     def pull(self, destination, shell_cmd):
-        args = ["ssh"]
+        args = ["ssh", "-o", "ControlPath=%s" % self.socket]
         args.extend(self.prefix_args)
         args.append(shell_cmd)
         output = subprocess.check_output(args)
