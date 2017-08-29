@@ -2,6 +2,7 @@
 
 
 import argparse
+import datetime
 import email.message
 import os
 import sqlite3
@@ -75,15 +76,21 @@ class Message:
         else:
             return address
 
-    def format_date(self):
+    def timestamp(self):
         # This can't handle sent messages: FIXME
-        ts = self._ts_rcvd if (self._ts_sent == 0) else self._ts_sent
-        return time.ctime(ts) # use local time zone
+        return self._ts_rcvd if (self._ts_sent == 0) else self._ts_sent
+
+    def formatted_date(self):
+        return time.ctime(self.timestamp()) # use local time zone
+
+    def month_code(self):
+        dt = datetime.datetime.fromtimestamp(self.timestamp())
+        return dt.strftime("%Y%m")
 
     def as_email(self):
         eml = email.message.Message()
-        eml.set_unixfrom("From dummy %s" % self.format_date())
-        eml['Date'] = self.format_date()
+        eml.set_unixfrom("From dummy %s" % self.formatted_date())
+        eml['Date'] = self.formatted_date()
         if self.is_inbound():
             eml['From'] = self.sender_address()
             eml['To'] = ME
@@ -91,7 +98,7 @@ class Message:
             eml['To'] = self.sender_address()
             eml['From'] = ME
         eml['Subject'] = self.guess_subject()
-        eml['In-Reply-To'] = "<%06i@example.com>" % self._thread_id
+        eml['In-Reply-To'] = "<%06i.%s@example.com>" % (self._thread_id, self.month_code())
         eml['Status'] = "RO" # read and old
         eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
         return eml
