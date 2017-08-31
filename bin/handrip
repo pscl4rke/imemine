@@ -27,6 +27,7 @@ def parse_args(args):
     parser.add_argument("destination", nargs='?', default=None)
     parser.add_argument("-u", "--ultrafast", action="store_true", default=False)
     parser.add_argument("-s", "--subtitle", action="store", type=int)
+    parser.add_argument("--gain", action="store", type=int, default=0)
     return parser.parse_args(args)
 
 
@@ -39,6 +40,7 @@ class Ripper:
         self.verbose = True
         #self.chapters = "31-36"
         self.chapters = None
+        self.gain = args.gain # audio, dB
         self.subtitle_track = args.subtitle
         self.x264_preset = "ultrafast" if args.ultrafast else "veryslow"
         if self.destination is None:
@@ -74,7 +76,8 @@ class Ripper:
         args.extend(["--x264-preset", self.x264_preset])
         args.extend(["--encopts", ":".join(self.x264_options())])
         args.extend(["--vb", "685"])  # bitrate, kbps
-        #args.extend(["--gain", "5"])  # audio, dB
+        if self.gain > 0:
+            args.extend(["--gain", str(self.gain)])
         args.append("--markers")
         args.extend(["--input", self.source])
         args.extend(["--title", str(self.title)])
