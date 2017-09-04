@@ -1,6 +1,12 @@
 #!/usr/bin/python2
 
 
+# FIXME
+#   Note that although HandBrakeCLI can emit the following error
+#   ERROR: dvdnav: Read Error, Error reading from DVD
+#   it does not exit with a non-zero code.
+
+
 import argparse
 import datetime
 import os
