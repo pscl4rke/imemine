@@ -34,6 +34,7 @@ def parse_args(args):
     parser.add_argument("-u", "--ultrafast", action="store_true", default=False)
     parser.add_argument("-s", "--subtitle", action="store", type=int)
     parser.add_argument("--gain", action="store", type=int, default=0)
+    parser.add_argument("--audio", action="store", type=int)
     return parser.parse_args(args)
 
 
@@ -47,6 +48,7 @@ class Ripper:
         #self.chapters = "31-36"
         self.chapters = None
         self.gain = args.gain # audio, dB
+        self.audio_track = args.audio
         self.subtitle_track = args.subtitle
         self.x264_preset = "ultrafast" if args.ultrafast else "veryslow"
         if self.destination is None:
@@ -66,6 +68,8 @@ class Ripper:
         else:
             raise Exception("Cannot guess destination for %r" % self.source)
         parts.append("title%02i" % self.title)
+        if self.audio_track is not None:
+            parts.append("audio%02i" % self.audio_track)
         if self.subtitle_track is not None:
             parts.append("sub%02i" % self.subtitle_track)
         parts.append(self.x264_preset)
@@ -87,14 +91,14 @@ class Ripper:
         args.append("--markers")
         args.extend(["--input", self.source])
         args.extend(["--title", str(self.title)])
-        ##args.extend(["--aname", "en"]) # This should work but doesn't!
-        #args.extend(["--audio", "2"])
+        if self.audio_track is not None:
+            #args.extend(["--aname", "en"]) # This should work but doesn't!
+            args.extend(["--audio", str(self.audio_track)])
         #args.extend(["--native-language", "en"])
         #args.extend(["--native-language", "ja"])
         if self.subtitle_track is not None:
             args.extend(["--subtitle", str(self.subtitle_track)])
             args.extend(["--subtitle-burned"])
-        #args.extend(["--audio", "3"])
         args.extend(["--output", self.destination])
         if self.chapters is not None:
             args.extend(["-c", self.chapters])
