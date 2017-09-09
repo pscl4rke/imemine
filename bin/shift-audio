@@ -16,7 +16,8 @@ class Shifter:
     def shift_args(self):
         milliseconds = 200
         if milliseconds > 0:
-            return ["-af", "atrim=%i" % (milliseconds / 1000)]
+            #return ["-af", "atrim=%.3f" % (milliseconds / 1000.0)]
+            return ["-af", "atrim=start=%.3f" % (milliseconds / 1000.0)]
         elif milliseconds < 0:
             return ["-af", "adelay=%i|%i" % (-milliseconds, -milliseconds)]
         else:
@@ -36,6 +37,7 @@ class Shifter:
     def main(self):
         start = time.time()
         srcpath, destpath = sys.argv[1], sys.argv[2]
+        print "Will run %r..." % self.args(srcpath, destpath)
         exitcode = subprocess.call(self.args(srcpath, destpath))
         duration = time.time() - start
         print "That took %i:%02i with exit code %i" % (duration / 60, duration % 60, exitcode)
