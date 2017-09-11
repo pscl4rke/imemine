@@ -109,6 +109,9 @@ function __fakeroot_ps1() {
 function __set_title() {
     newtitle="$(pwd)"
     case "$TERM" in
+        xterm-256color)
+            printf '\33]0;%s\007' "$newtitle"
+            ;;
         rxvt-unicode)
             printf '\33]2;%s\007' "$newtitle"
             ;;
