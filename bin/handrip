@@ -118,6 +118,7 @@ class Ripper:
             self.info("Started:        %s" % start)
             self.info("Finished:       %s" % end)
             self.info("Total duration: %s" % (end - start))
+            self.info("Created:        %s" % self.destination)
 
 
 if __name__ == '__main__':
