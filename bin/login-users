@@ -9,6 +9,7 @@
 # SSH access.
 
 
+import hashlib
 import os
 
 
@@ -24,7 +25,7 @@ class ShadowFile:
                 self._users[user] = not no_valid_password
 
     def look_up(self, user):
-        return self._users[user]
+        return self._users.get(user, False)
 
 
 class User:
@@ -43,8 +44,12 @@ class User:
         keyfile = os.path.join(self.home, ".ssh", "authorized_keys")
         if os.path.exists(keyfile):
             for line in open(keyfile):
-                intro, key, description = line.split()
-                keys.append(description)
+                line = line.strip()
+                if (line == "") or line.startswith("#"):
+                    continue
+                intro, keydata, description = line.split(None, 2)
+                fingerprint = hashlib.md5(keydata.decode("base64")).hexdigest()
+                keys.append((fingerprint, description))
         return keys
 
     def can_log_in(self):
@@ -66,8 +71,8 @@ def main():
             print user.name
             if user.has_password:
                 print "    Has a password"
-            for key in user.ssh_keys:
-                print "    SSH Key %s" % key
+            for fingerprint, description in user.ssh_keys:
+                print "    SSH Key %s %s" % (fingerprint, description)
 
 
 if __name__ == '__main__':
