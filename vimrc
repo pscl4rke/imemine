@@ -207,6 +207,7 @@ autocmd BufNewFile,BufRead requirements.txt set filetype=conf
 autocmd BufNewFile,BufRead *.rs set filetype=rust
 autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 autocmd BufNewFile,BufRead *.nfo set filetype=xml
+autocmd BufNewFile,BufRead *.service set filetype=systemd
 "
 "
 " FILE-TYPE PREFERENCES
