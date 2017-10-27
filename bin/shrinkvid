@@ -9,6 +9,9 @@
 
 # Todo: Protect against overwriting?
 
+FFMPEG=avconv
+[ -e /usr/bin/ffmpeg ] && FFMPEG=ffmpeg
+
 [ -z "$1" ] && echo Incorrect usage && exit 1
 src="$1"
 #dest="$2"
@@ -21,6 +24,6 @@ dest="$basename.qvga.mp4"
 # and sometimes stops the video playing at all.
 
 # use mp3 because default aac errors
-#time avconv -i "$src" -strict experimental -s qvga "$dest"
-time avconv -i "$src" -c:a mp3 -s qvga "$dest"
+#time $FFMPEG -i "$src" -strict experimental -s qvga "$dest"
+time $FFMPEG -i "$src" -c:a mp3 -s qvga "$dest"
 
