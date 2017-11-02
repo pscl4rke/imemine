@@ -117,7 +117,7 @@ set wildmode=longest,list
 "   surprised that it's not the default, and have aliased the -p into
 "   my shell so that it is.)  It would normally have a maximum of 10
 "   tabs, but I sometimes need more.
-set tabpagemax=30
+set tabpagemax=40
 "
 "
 " SYNTAX HIGHLIGHTING
