@@ -466,7 +466,7 @@
       <keybind key="C-A-i">
         <action name="Execute">
           <!-- See https://duckduckgo.com/params for more info -->
-          <command>/home/psc/imemine/bin/open-in-browser https://duckduckgo.com/lite/?kl=uk-en</command>
+          <command>/home/psc/imemine/bin/open-in-browser https://duckduckgo.com/lite/?kl=uk-en&amp;kp=-2</command>
         </action>
       </keybind>
       <keybind key="C-A-u">
