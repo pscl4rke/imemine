@@ -26,7 +26,7 @@ def clean_query(original):
 
 
 def clean(original):
-    url = urlparse.urlparse(original.strip().lstrip('+'))
+    url = urlparse.urlparse(original.strip().lstrip('+').replace("\n+", ""))
     if url.scheme == "":
         guess_scheme = "http://%s" % original.strip()
         url = urlparse.urlparse(guess_scheme)
@@ -46,10 +46,6 @@ class TestClean(unittest.TestCase):
         self.assertEqual(clean("https://www.foobar.com"),
                                "https://www.foobar.com")
 
-    def test_plus_sign_from_mutts_wrapping(self):
-        self.assertEqual(clean("+https://www.foobar.com/"),
-                               "https://www.foobar.com/")
-
     def test_missing_schema_with_funny_port(self):
         # annoying bug in chromium; doesn't understand this format:
         self.assertEqual(clean("www.foobar.com:8000"),
@@ -58,6 +54,14 @@ class TestClean(unittest.TestCase):
     def test_whitespace(self):
         self.assertEqual(clean("  http://www.foobar.com\n  "),
                                "http://www.foobar.com")
+
+    def test_mutts_wrapping_at_the_start(self):
+        self.assertEqual(clean("+https://www.foobar.com/"),
+                               "https://www.foobar.com/")
+
+    def test_mutts_wrapping_in_the_middle(self):
+        self.assertEqual(clean("http://foobar.com/a5ed3268\n+80bb326a1"),
+                               "http://foobar.com/a5ed326880bb326a1")
 
     def test_params(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo+bar&id=6"),
