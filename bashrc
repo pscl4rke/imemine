@@ -175,6 +175,7 @@ alias la="ls -A"
 alias podget="wget --content-disposition"
 alias midentify="mplayer -frames 0 -identify"
 alias macs="grep -i apple /usr/share/nmap/nmap-mac-prefixes | shuf | head"
+alias eyeD3="eyeD3 --no-tagging-time-frame"
 
 
 # PRODUCTIVITY IMPROVEMENTS
