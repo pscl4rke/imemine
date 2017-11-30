@@ -157,6 +157,7 @@ wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
 # have both /usr/bin/ack-grep and /usr/bin/ack...
 wantlink "/usr/bin/ack-grep" "bin/ack"
 
+wantlink "vendor/ledger.vim" ".vim/syntax/ledger.vim"
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
 wantlink "/usr/share/vim/addons/syntax" ".vim_addons/syntax"
 
