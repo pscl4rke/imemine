@@ -5,6 +5,7 @@
 
 
 import random
+import sys
 import time
 
 
@@ -37,7 +38,8 @@ class Busy:
 
     def loop_forever_from(self, source):
         for line, pause in source:
-            print line
+            sys.stdout.write("%s\n" % line)
+            sys.stdout.flush()
             time.sleep(pause)
 
 
