@@ -32,6 +32,7 @@ bind index,browser,generic <space> next-page
 #   These rebind the commands that send messages so they are
 #   prefixed by an 'm'.  It frees up the bare keys to be used
 #   by things that are more useful to me.
+bind index,pager m noop
 macro index,pager mm "<mail>"
 macro index,pager me "<edit>"
 macro index,pager mr "<reply>"
@@ -61,6 +62,7 @@ bind editor <space> noop
 #   exit code is non-zero.
 #   See http://dev.mutt.org/trac/wiki/MuttGuide/Macros
 set wait_key="no"
+bind index,pager | noop
 macro index,pager || "<pipe-message>"
 macro index,pager |j "<pipe-message>$HOME/imemine/bin/jerks<enter>"
 macro index,pager |s "<pipe-message>cat >"
@@ -69,6 +71,7 @@ macro index,pager |s "<pipe-message>cat >"
 # FILTERING KEY-BINDINGS {{{
 #   By using the tilde as a prefix I can give myself different
 #   views on the emails in a folder.
+bind index ~ noop
 macro index ~~ "<limit>!~D<enter><collapse-all><current-middle>"
 macro index ~a "<limit>all<enter><collapse-all><current-middle>"
 macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
