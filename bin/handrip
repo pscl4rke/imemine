@@ -35,6 +35,7 @@ def parse_args(args):
     parser.add_argument("-s", "--subtitle", action="store", type=int)
     parser.add_argument("--gain", action="store", type=int, default=0)
     parser.add_argument("--audio", action="store", type=int)
+    parser.add_argument("--chapters", action="store", default=None)
     return parser.parse_args(args)
 
 
@@ -46,7 +47,8 @@ class Ripper:
         self.destination = args.destination
         self.verbose = True
         #self.chapters = "31-36"
-        self.chapters = None
+        #self.chapters = None
+        self.chapters = args.chapters  # FIXME - validate format!
         self.gain = args.gain # audio, dB
         self.audio_track = args.audio
         self.subtitle_track = args.subtitle
@@ -68,6 +70,8 @@ class Ripper:
         else:
             raise Exception("Cannot guess destination for %r" % self.source)
         parts.append("title%02i" % self.title)
+        if self.chapters is not None:
+            parts.append("chapters%s" % self.chapters)
         if self.audio_track is not None:
             parts.append("audio%02i" % self.audio_track)
         if self.subtitle_track is not None:
