@@ -1,0 +1,152 @@
+#!/usr/bin/python2
+#======================================================================#
+# SRTUNE - SUBTITLE ADJUSTER FOR SRT FILES       (c) 2017 P. S. Clarke #
+#======================================================================#
+
+
+import sys
+
+
+def parsetime(string):
+    assert len(string) == 12, repr(string)
+    hours = int(string[0:2], 10)
+    assert string[2] == ":"
+    minutes = int(string[3:5], 10)
+    assert string[5] == ":"
+    seconds = int(string[6:8], 10)
+    assert string[8] == ","
+    milliseconds = int(string[9:12], 10)
+    return (3600000 * hours) + (60000 * minutes) + (1000 * seconds) + milliseconds
+
+
+def render_ts(ts):
+    hours = int(ts / 3600000)
+    ts = ts % 3600000
+    minutes = int(ts / 60000)
+    ts = ts % 60000
+    seconds = int(ts / 1000)
+    milliseconds = ts % 1000
+    return "%02i:%02i:%02i,%03i" % (hours, minutes, seconds, milliseconds)
+
+
+class Subtitle:
+
+    def __init__(self, index, start, end, lines):
+        self.index = index
+        self.start = start
+        self.end = end
+        self.lines = lines
+
+    def render_to(self, outfile):
+        outfile.write("%i\n" % self.index)
+        outfile.write("%s --> %s\n" % (render_ts(self.start), render_ts(self.end)))
+        for line in self.lines:
+            outfile.write("%s\n" % line)
+        outfile.write("\n")
+
+
+class ScaleTime:
+
+    def __init__(self, factor):
+        self.factor = factor
+
+    def edit(self, subtitle):
+        subtitle.start = int(subtitle.start * self.factor)
+        subtitle.end = int(subtitle.end * self.factor)
+
+
+class OffsetTime:
+
+    def __init__(self, offset):
+        self.offset = offset
+
+    def edit(self, subtitle):
+        subtitle.start = subtitle.start + self.offset
+        subtitle.end = subtitle.end + self.offset
+
+
+class PushableLines:
+
+    def __init__(self, seed):
+        self._seed = iter(seed)
+        self._peeked = []
+
+    def __next__(self):
+        if len(self._peeked) > 0:
+            return self._peeked.pop(0).rstrip("\n\r")
+        return next(self._seed).rstrip("\n\r")
+    next = __next__
+
+    def push(self, value):
+        self._peeked.append(value)
+
+
+class Reader:
+
+    def __init__(self, infile):
+        self.infile = infile
+        self.lines = PushableLines(infile)
+
+    def consume_any_blank_lines(self):
+        while True:
+            line = next(self.lines)
+            if line != "":
+                self.lines.push(line)
+                break
+
+    def consume_index_number(self):
+        line = next(self.lines)
+        return int(line)
+
+    def consume_timestamps(self):
+        line = next(self.lines)
+        startstr, _arrow, endstr = line.partition(" --> ")
+        return (parsetime(startstr), parsetime(endstr))
+
+    def consume_nonblank_lines(self):
+        outlines = []
+        while True:
+            try:
+                line = next(self.lines)
+            except StopIteration:
+                break
+            if line == "":
+                self.lines.push(line)
+                break
+            outlines.append(line)
+        return outlines
+
+    def consume_a_blank_line_or_eof(self):
+        try:
+            line = next(self.lines)
+            assert line == ""
+        except StopIteration:
+            pass
+
+
+class Srtune:
+
+    def main(self):
+        edit_chain = [
+            # FIXME - currently hardcoded - change to cmdline args:
+            ScaleTime(1.0422),
+            OffsetTime(21286),
+        ]
+        for subtitle in self.read_subtitles_from(sys.stdin):
+            for editor in edit_chain:
+                editor.edit(subtitle)
+            subtitle.render_to(sys.stdout)
+
+    def read_subtitles_from(self, infile):
+        reader = Reader(infile)
+        while True:
+            reader.consume_any_blank_lines()  # probably never needed
+            index = reader.consume_index_number()
+            start, end = reader.consume_timestamps()
+            lines = reader.consume_nonblank_lines()
+            reader.consume_a_blank_line_or_eof()
+            yield Subtitle(index, start, end, lines)
+
+
+if __name__ == '__main__':
+    Srtune().main()
