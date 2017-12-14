@@ -176,6 +176,9 @@ alias podget="wget --content-disposition"
 alias midentify="mplayer -frames 0 -identify"
 alias macs="grep -i apple /usr/share/nmap/nmap-mac-prefixes | shuf | head"
 alias eyeD3="eyeD3 --no-tagging-time-frame"
+alias mkpasswd.md5="mkpasswd -m md5"
+alias mkpasswd.256="mkpasswd -m sha-256"
+alias mkpasswd.512="mkpasswd -m sha-512"
 
 
 # PRODUCTIVITY IMPROVEMENTS
