@@ -33,3 +33,11 @@
 	#xfuncname = "^((pub|uid) .*)"
 
 
+# NORMALISING ASPELL WORD LISTS
+#   See `normalise-aspell` for rationale.
+[diff "aspell"]
+    #textconv = sort
+    textconv = /home/psc/imemine/bin/normalise-aspell
+[filter "aspell"]
+    #clean = sort
+    clean = /home/psc/imemine/bin/normalise-aspell

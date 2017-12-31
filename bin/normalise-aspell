@@ -1,0 +1,22 @@
+#!/usr/bin/python2
+#======================================================================#
+# NORMALISE ASPELL                               (c) 2017 P. S. Clarke #
+#======================================================================#
+
+# Sigh. Aspell writes out its personal dictionary files in a seemingly
+# random order.  This makes it a nightmare to track in version control,
+# as the diffs are full of noise.  This script sorts the lines (in a
+# case-insensitive manner), leaving the header line intact.
+
+import sys
+
+infile = open(sys.argv[1]) if (len(sys.argv) > 1) else sys.stdin
+lines = iter(infile)
+
+header = next(lines)
+sys.stdout.write(header)
+
+words = list(lines)
+words.sort(key=lambda w: w.lower())
+for word in words:
+    sys.stdout.write(word)
