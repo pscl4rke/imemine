@@ -5,7 +5,7 @@
 Photograph Directory Renamer
 ----------------------------
 
-(c) 2013 P S Clarke
+(c) 2013,2017 P S Clarke
 
 This is a highly opiniated script that I can use for renaming a directory
 and all the photos contained in it to match my standard format:
@@ -17,6 +17,7 @@ Windows tool that I had been using.
 """
 
 
+import datetime
 import sys
 import os
 
@@ -43,7 +44,10 @@ def rename_photoshoot(directory, shoot_name):
             print "%s doesn't look like a photo to me!" % repr(filename)
             return 1
     # Find out the date of the photos:
-    print "HELP! I can't find of the date of the photos myself"
+    all_dates = all_dates_of_files_in(directory)
+    print "HELP! I can't be sure of the date of the photos"
+    for date in all_dates:
+        print "  I see some photos from %s" % date
     print "Please look for me and give it in YYMMDD format:"
     shoot_date = raw_input("Date: ")
     if len(shoot_date) != 6:
@@ -62,6 +66,15 @@ def rename_photoshoot(directory, shoot_name):
         os.rename(os.path.join(shoot_directory, current_filename),
                   os.path.join(shoot_directory, new_filename))
     return 0
+
+
+def all_dates_of_files_in(source_directory):
+    dates = set()
+    for filename in os.listdir(source_directory):
+        mtime = os.path.getmtime(os.path.join(source_directory, filename))
+        date = datetime.datetime.fromtimestamp(mtime).strftime("%y%m%d")
+        dates.add(date)
+    return dates
 
 
 def build_shoot_name(words):
