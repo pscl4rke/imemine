@@ -241,3 +241,6 @@ fi
 #}}}
 
 
+# TRACK HISTORY AGE
+#   As of Dec 2017 I am doing about 2-3k commands per month.
+#echo "echo LAUNCHED AT $(date)" >> $HOME/.bash_history
