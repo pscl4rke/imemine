@@ -4,6 +4,10 @@
 #======================================================================#
 
 
+# Honestly, I don't think this actually works, because I think ffmpeg
+# is just ignoring the options.
+
+
 import subprocess
 import sys
 import time
