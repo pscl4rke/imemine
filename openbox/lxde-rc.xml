@@ -542,11 +542,15 @@
     <keybind key="C-A-plus">
       <action name="Execute">
         <command>amixer -q sset Master 3%+ unmute</command>
+        <!-- List available devices with "aplay -l" -->
+        <!-- <command>amixer -D pulse -q sset Master 3%+ unmute</command> -->
       </action>
     </keybind>
     <keybind key="C-A-minus">
       <action name="Execute">
         <command>amixer -q sset Master 3%- unmute</command>
+        <!-- List available devices with "aplay -l" -->
+        <!-- <command>amixer -D pulse -q sset Master 3%- unmute</command> -->
       </action>
     </keybind>
 
