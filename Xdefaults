@@ -68,7 +68,9 @@ URxvt.perl-ext-common: vtwheel,confirm-paste
 
 ! TEXT RENDERING
 !   This font is usually available.
-URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=14
+!   Normally this is 14pt, but underscores are invisible on excalibur.
+!   Strangely they are fine at 13pt and 15pt.
+URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=15
 
 
 ! COLOURS
