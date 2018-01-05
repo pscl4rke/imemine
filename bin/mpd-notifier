@@ -20,8 +20,12 @@
 
 import mpd
 import time
+
+# This script is using the `python-notify` package, which may in
+# time get replaced with `python-notify2`.  (or the Py3 equivalent!)
 import pynotify
 pynotify.init("mpdude")
+#import notify2
 
 def notify(identifier):
 	n = pynotify.Notification(*identifier)
