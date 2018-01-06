@@ -210,9 +210,11 @@ eval "$(dircolors -b)"
 
 # PACKAGING
 #   The debian toolkit for building packages works much better if
-#   you tell it who you are.
-export DEBFULLNAME="P. S. Clarke"
-export DEBEMAIL="debs@pscl4rke.net"
+#   you tell it who you are.  I used to simply export these envvars
+#   but I disliked personal data being inherited by every process.
+debdetails="DEBFULLNAME='P. S. Clarke' DEBEMAIL='debs@pscl4rke.net'"
+alias dch="$debdetails dch"
+alias dh_make="$debdetails dh_make"
 
 
 # LOCAL CONFIGURATION
