@@ -1039,6 +1039,9 @@
   <application name="*VoIP2ALL*" title="*Port*">
     <desktop>all</desktop>
   </application>
+  <application name="*VoIP2ALL*" title="*Connect To*">
+    <desktop>all</desktop>
+  </application>
 
 
   </applications>
