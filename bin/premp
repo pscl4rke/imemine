@@ -30,7 +30,9 @@ import sys
 def cleanup(header):
     """Fix the RFC 2047 Mime-Encoded-Word stuff in headers."""
     parts = email.header.decode_header(header)
-    full = " ".join(txt.encode('ascii', 'replace') for (txt, enc) in parts)
+    full = " ".join(txt.decode('ascii' if (enc is None) else enc)
+                       .encode('ascii', 'replace')
+                    for (txt, enc) in parts)
     full = " ".join(word for word in full.split())
     return full.replace(", ", ",\n ")
 
@@ -51,14 +53,14 @@ for part in msg.walk():
     if part.get_content_maintype() == 'multipart':
         continue
     if part.get_content_type() == 'text/plain':
-        encoding = "utf8"
+        encoding = "utf8"  # really should parse Content-Type properly
         if "Windows-1252" in part.get("Content-Type"):
             encoding = "cp1252"
         payload = part.get_payload()
         if part.get("Content-Transfer-Encoding", "") == "quoted-printable":
             payloadu = quopri.decodestring(payload).decode(encoding)
         elif part.get("Content-Transfer-Encoding", "") == "base64":
-            payloadu = payload.decode('base64')
+            payloadu = payload.decode('base64').decode(encoding)
         else:
             payloadu = payload.decode(encoding)
         print >>newload, payloadu.encode('ascii', 'replace')
@@ -73,5 +75,3 @@ for part in msg.walk():
 msg.set_payload(newload.getvalue())
 
 print newload.getvalue()
-
-
