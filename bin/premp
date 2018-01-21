@@ -36,6 +36,8 @@ def cleanup(header):
 
 
 text = sys.stdin.read()
+if len(text) == 0:
+    raise Exception("Read message of zero length")
 msg = email.message_from_string(text)
 print "From: %s" % cleanup(msg['From'])
 print "To: %s" % cleanup(msg['To'])
