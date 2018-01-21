@@ -97,6 +97,14 @@ set edit_headers
 #}}}
 
 
+# PRINTING
+#   Send emails through my own custom script, which itself calls
+#   my own custom decoding script.
+set print_decode=no
+set print_command=/home/psc/imemine/bin/print-email
+set print_split=yes
+
+
 # RANDOM STUFF
 unset help
 set menu_scroll="yes"
