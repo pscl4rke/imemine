@@ -11,7 +11,7 @@
 #       preferences with "source ~/.muttrc-prefs".
 
 
-# NAVIGATION KEY-BINDINGS {{{
+# NAVIGATION KEY-BINDINGS
 #   For some crazy reason the keys in the pager jump around
 #   different messages instead of just scrolling up and down.
 #   Generally speaking, making this more less-like.
@@ -25,10 +25,9 @@ bind index,generic G last-entry
 bind pager G bottom
 bind pager } skip-quoted
 bind index,browser,generic <space> next-page
-#}}}
 
 
-# ACTION KEY-BINDINGS {{{
+# ACTION KEY-BINDINGS
 #   These rebind the commands that send messages so they are
 #   prefixed by an 'm'.  It frees up the bare keys to be used
 #   by things that are more useful to me.
@@ -45,7 +44,6 @@ bind index,generic g first-entry
 bind pager g top
 bind index,pager f noop
 bind index,pager b noop
-#}}}
 
 
 # SAVING ATTACHMENTS AND MESSAGES
@@ -68,7 +66,7 @@ macro index,pager |j "<pipe-message>$HOME/imemine/bin/jerks<enter>"
 macro index,pager |s "<pipe-message>cat >"
 
 
-# FILTERING KEY-BINDINGS {{{
+# FILTERING KEY-BINDINGS
 #   By using the tilde as a prefix I can give myself different
 #   views on the emails in a folder.
 bind index ~ noop
@@ -77,7 +75,6 @@ macro index ~a "<limit>all<enter><collapse-all><current-middle>"
 macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
 macro index ~f "<limit>~F<enter><collapse-all><current-middle>"
 macro index ~n "<limit>~N | ~O<enter><collapse-all><current-middle>"
-#}}}
 
 
 # DISPLAYING SMSs
@@ -87,14 +84,13 @@ macro index ~n "<limit>~N | ~O<enter><collapse-all><current-middle>"
 alternates me@example.com
 
 
-# WRITING AND REPLYING {{{
+# WRITING AND REPLYING
 #   Use vim as the editor for emails etc.  And ask it to use tabbed
 #   mode, because that should be its default anyway.  I also want
 #   to be able to edit the headers as well.
 set editor="vim -p"
 set forward_format="Fwd: %s"
 set edit_headers
-#}}}
 
 
 # PRINTING
@@ -147,7 +143,7 @@ set status_format=" %f (%P) %> [%?V?%V&all?] %?V?%M/?%m msgs (%?V?%L/?%l)"
 #}}}
 
 
-# THREAD SUPPORT {{{
+# THREAD SUPPORT
 #   Make use of threads in the index, and give some nice key
 #   bindings for them.
 #bind index <space> tag-thread
@@ -155,7 +151,6 @@ bind index - collapse-thread
 bind index _ collapse-all
 set sort="threads"
 set sort_aux="last-date-received"
-#}}}
 
 
 # VIEWING AN EMAIL
@@ -180,7 +175,7 @@ set xterm_set_titles="yes"
 set xterm_title="%m emails in %f (%n new %o old)"
 
 
-# COLOURS {{{
+# COLOURS
 #   Here are a bunch of colours that make using Mutt a bit
 #   more agreeable than some of the defaults that I've seen.
 #   They aren't too dissimilar from the default Tig colourings
@@ -224,6 +219,3 @@ color body magenta default "&nbsp;"
 # For patch emails containing unified diffs:
 color body green default "^[+].*"
 color body red default "^-.*"
-#}}}
-
-
