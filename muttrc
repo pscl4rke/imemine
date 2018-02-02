@@ -115,11 +115,11 @@ set folder="/dev/null"
 
 
 # EXITING BEHAVIOUR
-#   Don't delete anything, but do ask me if I want to leave
+#   Ask me whether I really want to delete messages or exit
 #   (because reloading IMAP is particularly slow).  And stop
 #   making a distinction between Old and New unread messages.
 set quit=ask-yes
-set delete=no
+set delete=ask-no
 set mark_old=no
 
 
