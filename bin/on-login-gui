@@ -69,5 +69,8 @@ esac
 (sleep 5 && xmodmap /home/psc/.xmodmap.extra) &
 (while :; do xmodmap /home/psc/.xmodmap.extra; sleep 30; done) &
 
+# Reminders
+(sleep 1 && $HOME/potwiki/MonthlyPopUp 2>&1 | logger -t MonthlyPopUp) &
+
 echo "Done" | logger -t "$(basename "$0")"
 
