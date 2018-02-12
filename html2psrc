@@ -34,3 +34,9 @@ pre, blockquote {
   margin-left: 2pt;
 }
 
+/*
+p {
+  font-size: 10pt;
+}
+*/
+
