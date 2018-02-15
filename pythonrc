@@ -78,8 +78,3 @@ def errorhook(type_, value, tb):
                 sys.stderr.write(_yellow(line) + "\n")
     sys.stderr.write(_red("%s: %s\n" % (type_.__name__, value)))
 sys.excepthook = errorhook
-
-print
-print "(Using readline etc)"
-print
-
