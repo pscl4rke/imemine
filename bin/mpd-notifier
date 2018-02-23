@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 #======================================================================#
-# MPD-TO-LIBNOTIFY TOOL                          (c) 2012 P. S. Clarke #
+# MPD-TO-LIBNOTIFY TOOL                     (c) 2012,2018 P. S. Clarke #
 #======================================================================#
 
 # Find a way to run this in the background when you log in.
@@ -14,47 +14,73 @@
 #   -   libnotify and `python-notify` package or equivalent
 
 # Bugs:
+#   -   Assumes Python 2.
 #   -   On launch, will always announce head of playlist even if
 #       not playing.
 #   -   Assumes MPD running on localhost
 
-import mpd
+
+import os
 import time
+
+import mpd
 
 # This script is using the `python-notify` package, which may in
 # time get replaced with `python-notify2`.  (or the Py3 equivalent!)
 import pynotify
-pynotify.init("mpdude")
+pynotify.init("mpd-notifier")
 #import notify2
+
 
 def notify(identifier):
 	n = pynotify.Notification(*identifier)
 	n.show()
+
+
+def image_for(relative_song_path):
+    if relative_song_path is None:
+        return ""  # FIXME
+    relative_dir = os.path.dirname(relative_song_path)
+    patterns = [
+        "/srv/music/DIR/Folder.jpg", "/srv/Music/DIR/Folder.jpg",
+        "/srv/jukebox/DIR/Folder.jpg", "/srv/Jukebox/DIR/Folder.jpg",
+        "/home/psc/imemine/vendor/audio-x-generic.png",
+    ]
+    for pattern in patterns:
+        path = pattern.replace("DIR", relative_dir)
+        if os.path.exists(path):
+            return path
+    raise Exception("Absolutely no image possible for %r" % relative_song_path)
+
 
 def cycle(client):
     last_identifier = (None, None)
     while True:
         time.sleep(2)
         song_data = client.currentsong()
-        if 'title' in song_data and 'album' in song_data:
-            identifier = (song_data['title'], song_data['album'])
+        icon = image_for(song_data.get('file', None))
+        title = song_data.get("title", "Unknown")
+        track = song_data.get("track", "??/??")
+        album = song_data.get("album", "Unknown")
+        artist = song_data.get("artist", "Unknown")
+        albumartist = song_data.get("albumartist", "Unknown")
+        if len(song_data) > 0:
+            identifier = (title, "%s\n%s" % (album, artist), icon)
         else:
-            identifier = ("Not playing", "")
+            identifier = ("Playlist Empty", "", icon)
         if identifier != last_identifier:
             notify(identifier)
             last_identifier = identifier
+
 
 def main():
     try:
         client = mpd.MPDClient()
         client.connect("localhost", 6600)
         cycle(client)
-    except Exception, e:
-        print "Crash occurred:"
-        print "%s: %s" % (type(e).__name__, e)
-        print "You should restart me now!"
-        del client
+    finally:
+        del client  # FIXME won't this happen anyway???
+
 
 if __name__ == '__main__':
     main()
-
