@@ -186,5 +186,5 @@ rm  -r "$tempdir"
 endtime="$(date +%s)"
 duration="$(($endtime - $starttime))"
 msg "Done in $duration seconds."
-
-
+mins="$(($duration / 60))"
+msg "That is $mins minutes."
