@@ -1,0 +1,24 @@
+#!/bin/bash
+#======================================================================#
+# FEH WRAPPER FOR IMAGE FILING                   (c) 2018 P. S. Clarke #
+#======================================================================#
+
+test -z "$1" && echo Need an argument && exit 1
+
+for i in 0 1 2 3 4 5 6 7 8 9; do
+    test -d ./$i--* || mkdir ./$i--folder
+done
+
+exec feh \
+    --scale-down \
+    --action  'mv %F 0--*/.' \
+    --action1 'mv %F 1--*/.' \
+    --action2 'mv %F 2--*/.' \
+    --action3 'mv %F 3--*/.' \
+    --action4 'mv %F 4--*/.' \
+    --action5 'mv %F 5--*/.' \
+    --action6 'mv %F 6--*/.' \
+    --action7 'mv %F 7--*/.' \
+    --action8 'mv %F 8--*/.' \
+    --action9 'mv %F 9--*/.' \
+    "$@"
