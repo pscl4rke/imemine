@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # URL CLEANER                                    (c) 2016 P. S. Clarke #
 #======================================================================#
@@ -9,27 +9,26 @@
 
 
 import unittest
-import urllib
-import urlparse
+import urllib.parse
 import sys
 
 
 def clean_query(original):
     pairs = []
-    for key, value in urlparse.parse_qsl(original):
+    for key, value in urllib.parse.parse_qsl(original):
         if key.startswith("utm_"):
             continue
         if key == "ftag":
             continue
         pairs.append((key, value))
-    return urllib.urlencode(pairs)
+    return urllib.parse.urlencode(pairs)
 
 
 def clean(original):
-    url = urlparse.urlparse(original.strip().lstrip('+').replace("\n+", ""))
+    url = urllib.parse.urlparse(original.strip().lstrip('+').replace("\n+", ""))
     if url.scheme == "":
         guess_scheme = "http://%s" % original.strip()
-        url = urlparse.urlparse(guess_scheme)
+        url = urllib.parse.urlparse(guess_scheme)
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
@@ -94,4 +93,4 @@ if __name__ == '__main__':
         unittest.main()
     else:
         original = sys.argv[1]
-        print clean(original)
+        print(clean(original))

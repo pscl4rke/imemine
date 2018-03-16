@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # HOST SCANNER FOR LOGIN ACCOUNTS                (c) 2016 P. S. Clarke #
 #======================================================================#
@@ -9,6 +9,7 @@
 # SSH access.
 
 
+import base64
 import hashlib
 import os
 
@@ -47,8 +48,9 @@ class User:
                 line = line.strip()
                 if (line == "") or line.startswith("#"):
                     continue
-                intro, keydata, description = line.split(None, 2)
-                fingerprint = hashlib.md5(keydata.decode("base64")).hexdigest()
+                intro, key_encoded, description = line.split(None, 2)
+                key_decoded = base64.b64decode(key_encoded)
+                fingerprint = hashlib.md5(key_decoded).hexdigest()
                 keys.append((fingerprint, description))
         return keys
 
@@ -68,11 +70,11 @@ def main():
         homedir = parts[5]
         user = User(username, homedir, shadow_file.look_up(username))
         if user.can_log_in():
-            print user.name
+            print(user.name)
             if user.has_password:
-                print "    Has a password"
+                print("    Has a password")
             for fingerprint, description in user.ssh_keys:
-                print "    SSH Key %s %s" % (fingerprint, description)
+                print("    SSH Key %s %s" % (fingerprint, description))
 
 
 if __name__ == '__main__':
