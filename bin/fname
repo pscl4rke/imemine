@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # EASY FILE RENAMER                              (c) 2015 P. S. Clarke #
 #======================================================================#
@@ -55,18 +55,18 @@ def destination_of(arguments):
 
 def main(args):
     if not valid_arguments(args[1:]):
-        print usage(args[0])
+        print(usage(args[0]))
         sys.exit(1)
     src_path = args[1]
     if not os.path.exists(src_path):
-        print "Path does not exist: %r" % src_path
+        print("Path does not exist: %r" % src_path)
         sys.exit(1)
     dest_path = destination_of(args[1:])
     if os.path.exists(dest_path):
-        print "Path already exists: %r" % dest_path
+        print("Path already exists: %r" % dest_path)
         sys.exit(1)
     os.rename(src_path, dest_path)
-    print "Moved %r to %r." % (src_path, dest_path)
+    print("Moved %r to %r." % (src_path, dest_path))
 
 
 class TestFname(unittest.TestCase):
