@@ -33,6 +33,7 @@ msg() {
 colourmode="gray"
 orientation="portrait"
 rotation="0"
+usetesseract="true"
 
 
 # Parsing The Command Line
@@ -69,6 +70,9 @@ do
             ;;
         --spin)
             rotation="270"
+            ;;
+        --no-ocr)
+            usetesseract="false"
             ;;
         *)
             msg "FATAL: Argument '$nextarg' not recognised"
@@ -132,10 +136,15 @@ do
                 msg "Rotating by $rotation degrees..."
                 mogrify -rotate "$rotation" "$imagefile"
             fi
-            msg "OCRing page ${currentpage}..."
-            tesseract -c 'tessedit_char_blacklist=ﬀﬁﬂ' \
-                "$imagefile" "$basefile"
-            sed -i '/^ *$/d' "$basefile.txt"
+            if [ "$usetesseract" = true ]; then
+                msg "OCRing page ${currentpage}..."
+                tesseract -c 'tessedit_char_blacklist=ﬀﬁﬂ' \
+                    "$imagefile" "$basefile"
+                sed -i '/^ *$/d' "$basefile.txt"
+            else
+                msg "Not OCRing page!"
+                touch "$basefile.txt"
+            fi
             msg "Resizing image..."
             mogrify -resize "40%" "$imagefile"
             ;;
