@@ -1,0 +1,17 @@
+
+# See /usr/share/doc/ncmpcpp/examples/bindings.gz for more
+
+def_key "j"
+  scroll_down
+def_key "k"
+  scroll_up
+
+def_key "J"
+  page_down
+def_key "K"
+  page_up
+
+def_key "g"
+  move_home
+def_key "G"
+  move_end
