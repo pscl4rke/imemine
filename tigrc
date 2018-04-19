@@ -13,6 +13,7 @@
 #   By default some of the keybindings don't feel very useful to me.
 bind generic g move-first-line
 bind generic G move-last-line
+bind main G move-last-line  # need to override /etc/tigrc
 bind generic J next
 bind generic K previous
 # scroll, don't move cursor:
