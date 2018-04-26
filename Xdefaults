@@ -12,7 +12,6 @@
 ! It needs a little tidy up.
 
 
-
 ! WINDOW STYLING
 !   Use a nice icon and keep things minimal.  The title is
 !   usually overriden by programs (esp. the bash $PS1)
@@ -57,6 +56,13 @@ URxvt.saveLines: 10000
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
+
+
+! DOUBLE-CLICK SELECTING
+!   The default set is: `"'&()*,;<=>?@[]^{|}
+!   I remove "@" so I can select whole email addresses.
+!   (I don't add ":" because of selecting urls.)
+URxvt.cutchars: `"'&()*,;<=>?[]^{|}
 
 
 ! EXTENSIONS TO BE LOADED
