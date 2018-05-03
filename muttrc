@@ -46,6 +46,15 @@ bind index,pager f noop
 bind index,pager b noop
 
 
+# VIEWING ATTACHMENTS AND MESSAGES
+#   By default Mutt will get the MIME type of a file from the header.
+#   Some senders have badly behaved clients (e.g. thinking a CSV is
+#   actually an Excel file).  This tells Mutt to ignore certain
+#   types from the header, and instead use mime.types to look up the
+#   MIME type from the file extension.
+mime_lookup application/vnd.ms-excel
+
+
 # SAVING ATTACHMENTS AND MESSAGES
 #   The "editor" is the command line prompt at the bottom of the screen.
 #   I disable "buffy-cycle" so that space actually works!!!

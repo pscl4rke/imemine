@@ -10,3 +10,6 @@ application/ms-tnef; echo ===== && tnef -t %s && tnef -w -C /home/psc/Downloads/
 text/html; dillo --local %s; test=test -n "$DISPLAY"
 text/xml; dillo --local %s; test=test -n "$DISPLAY"
 application/xhtml+xml; dillo --local %s; test=test -n "$DISPLAY"
+
+# Save first if you want a GUI spreadsheet program:
+text/csv; tabview %s
