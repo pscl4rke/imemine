@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 
+import os
 import subprocess
 import sys
 
-#WIDTH = "148mm"  # a5
-#HEIGHT = "210mm"  # a5
-WIDTH = "149mm"  # 6x4 photo
-HEIGHT = "100mm"  # 6x4 photo
+#SHORT = "148mm"  # a5
+#LONG = "210mm"  # a5
+SHORT = "100mm"  # 6x4 photo
+LONG = "149mm"  # 6x4 photo
 
 # the default res is 75, opts found with `scanimage -A`
 #print("Warning: this is pretty low-res")
@@ -15,16 +16,28 @@ RESOLUTION = 300  # 6x4 inch PNM is about 6MB
 
 class Scanner:
 
+    def exit_with_usage(self):
+        exe = os.path.basename(sys.argv[0])
+        sys.stderr.write("Usage:\n")
+        sys.stderr.write("  %s p[ortrait] filenamewithoutextension\n" % exe)
+        sys.stderr.write("  %s l[andscape] filenamewithoutextension\n" % exe)
+        sys.exit(1)
+
     def main(self):
 
-        if len(sys.argv) < 2:
-            sys.stderr.write("Missing destination base filename (no .ext needed)\n")
-            sys.exit(1)
-        base_name = sys.argv[1]
+        if len(sys.argv) < 3:
+            self.exit_with_usage()
+        orientation = sys.argv[1]
+        base_name = sys.argv[2]
         pnm_file = "%s.pnm" % base_name
         jpg_file = "%s.jpg" % base_name
 
-        # could use sys.argv here to alter the above settings
+        if orientation.lower().startswith("p"):
+            width, height = SHORT, LONG
+        elif orientation.lower().startswith("l"):
+            width, height = LONG, SHORT
+        else:
+            self.exit_with_usage()
 
         with open(pnm_file, "wb") as outfile:
             subprocess.check_call([
@@ -32,8 +45,8 @@ class Scanner:
                 "--progress",
                 "--resolution", str(RESOLUTION),
                 "--mode", "Color",
-                "-x", WIDTH,
-                "-y", HEIGHT,
+                "-x", width,
+                "-y", height,
             ], stdout=outfile)
 
         # Missing \n after progress meter
