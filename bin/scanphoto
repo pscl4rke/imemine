@@ -18,13 +18,15 @@ class Scanner:
     def main(self):
 
         if len(sys.argv) < 2:
-            sys.stderr.write("Missing destination PNM file\n")
+            sys.stderr.write("Missing destination base filename (no .ext needed)\n")
             sys.exit(1)
-        dest = sys.argv[1]
+        base_name = sys.argv[1]
+        pnm_file = "%s.pnm" % base_name
+        jpg_file = "%s.jpg" % base_name
 
         # could use sys.argv here to alter the above settings
 
-        with open(dest, "wb") as outfile:
+        with open(pnm_file, "wb") as outfile:
             subprocess.check_call([
                 "scanimage",
                 "--progress",
@@ -37,7 +39,11 @@ class Scanner:
         # Missing \n after progress meter
         sys.stderr.write("\n")
 
-        # could scan to /tmp/xxxx.pnm and then use `convert` to make $dest
+        subprocess.check_call([
+            "convert",
+            pnm_file,
+            jpg_file,
+        ])
 
 if __name__ == '__main__':
     Scanner().main()
