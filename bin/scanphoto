@@ -1,30 +1,43 @@
-#!/bin/bash
+#!/usr/bin/python3
 
-#width="148mm"  # a5
-#height="210mm"  # a5
-width="149mm"  # 6x4 photo
-height="100mm"  # 6x4 photo
+import subprocess
+import sys
 
-# could use getopts here to alter the above settings
-
-[ -z "$1" ] && echo Missing destination PNM file && exit 1
-dest="$1"
+#WIDTH = "148mm"  # a5
+#HEIGHT = "210mm"  # a5
+WIDTH = "149mm"  # 6x4 photo
+HEIGHT = "100mm"  # 6x4 photo
 
 # the default res is 75, opts found with `scanimage -A`
-#echo "Warning: this is pretty low-res"
-resolution=300  # 6x4 inch PNM is about 6MB
-#resolution=1200  # 6x4 inch PNM is about 100MB
+#print("Warning: this is pretty low-res")
+RESOLUTION = 300  # 6x4 inch PNM is about 6MB
+#RESOLUTION = 1200  # 6x4 inch PNM is about 100MB
 
-scanimage \
-    --progress \
-    --resolution $resolution \
-    --mode Color \
-    -x "$width" \
-    -y "$height" \
-    > "$dest"
+class Scanner:
 
-# Missing \n after progress meter
-echo
+    def main(self):
 
-# could scan to /tmp/xxxx.pnm and then use `convert` to make $dest
+        if len(sys.argv) < 2:
+            sys.stderr.write("Missing destination PNM file\n")
+            sys.exit(1)
+        dest = sys.argv[1]
 
+        # could use sys.argv here to alter the above settings
+
+        with open(dest, "wb") as outfile:
+            subprocess.check_call([
+                "scanimage",
+                "--progress",
+                "--resolution", str(RESOLUTION),
+                "--mode", "Color",
+                "-x", WIDTH,
+                "-y", HEIGHT,
+            ], stdout=outfile)
+
+        # Missing \n after progress meter
+        sys.stderr.write("\n")
+
+        # could scan to /tmp/xxxx.pnm and then use `convert` to make $dest
+
+if __name__ == '__main__':
+    Scanner().main()
