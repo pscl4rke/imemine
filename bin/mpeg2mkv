@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# For taking raw dumps of mpeg streams and converting them to more
+# usable video files...
+
+# Adjust as necessary! (Use `ffplay` to work out what's needed)
+crop='-vf crop=in_w:in_h-150'
+
+time ffmpeg             \
+    -i $1               \
+    -c:v libx264        \
+    -b:v 685k           \
+    -preset veryslow    \
+    $crop               \
+    -c:a mp3            \
+    $1.mkv
