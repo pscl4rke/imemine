@@ -1,0 +1,10 @@
+#!/bin/sh
+# elvis: moviedb         -- Search films on The Movie DB
+. surfraw || exit 1
+
+w3_config
+w3_parse_args "$@"
+# now in $w3_args
+
+escaped=$(w3_url_of_arg "$w3_args")
+w3_browse_url "https://www.themoviedb.org/search?query=${escaped}"
