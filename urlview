@@ -7,8 +7,8 @@
 
 # Based upon /etc/urlview/system.urlview
 
-# regular expression to use to match URLs
-REGEXP (((http|https|ftp|gopher)|mailto):(//)?[^ <>"\t]*|(www|ftp)[0-9]?\.[-a-z0-9.]+)[^ .,;\t\n\r<">\):]?[^, <>"\t]*[^ .,;\t\n\r<">\):]
+# regular expression to use to match URLs (tweaked a bit by me!)
+REGEXP (((http|https|ftp|gopher)|mailto):(//)?[^ <>"\t]*|(www|ftp)[0-9]?\.[-a-z0-9.]+)[^ .,;\t\n\r<">\):]?[^, <>"\t]*[^] .,;\t\n\r<">\):]
 
 # command to invoke for selected URL
 #COMMAND /etc/urlview/url_handler.sh
