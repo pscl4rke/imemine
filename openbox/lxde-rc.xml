@@ -453,6 +453,11 @@
           <command>wmctrl -a Tasks</command>
         </action>
       </keybind>
+      <keybind key="W-y">
+        <action name="Execute">
+          <command>wmctrl -a "Skype - "</command>
+        </action>
+      </keybind>
     </keybind>
 
     <!-- Launching stuff -->
