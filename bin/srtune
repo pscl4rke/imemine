@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # SRTUNE - SUBTITLE ADJUSTER FOR SRT FILES       (c) 2017 P. S. Clarke #
 #======================================================================#
@@ -129,8 +129,9 @@ class Srtune:
     def main(self):
         edit_chain = [
             # FIXME - currently hardcoded - change to cmdline args:
-            ScaleTime(1.0422),
-            OffsetTime(21286),
+            #ScaleTime(1.0422),
+            #OffsetTime(21286),
+            OffsetTime(11000),
         ]
         for subtitle in self.read_subtitles_from(sys.stdin):
             for editor in edit_chain:
