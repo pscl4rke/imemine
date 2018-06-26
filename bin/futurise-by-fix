@@ -1,0 +1,11 @@
+#!/bin/bash
+#======================================================================#
+# SEPARATE FUTURISE FIX RESULTS TO OWN FILES     (c) 2018 P. S. Clarke #
+#======================================================================#
+destdir="futurise-by-fix"
+[ -e "$destdir" ] && echo "Already exists: $destdir" 1>&2 && exit 1
+mkdir "$destdir"
+for fixname in $(futurise -l | grep -v Available); do
+    echo "$fixname"
+    futurise -f "$fixname" . >"$destdir/$fixname" 2>&1
+done
