@@ -7,5 +7,5 @@ destdir="futurise-by-fix"
 mkdir "$destdir"
 for fixname in $(futurise -l | grep -v Available); do
     echo "$fixname"
-    futurise -f "$fixname" . >"$destdir/$fixname" 2>&1
+    futurise -f "$fixname" . >"$destdir/$fixname.diff" 2>&1
 done
