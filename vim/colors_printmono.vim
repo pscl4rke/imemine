@@ -26,4 +26,6 @@ hi studyQ2 ctermfg=DarkRed cterm=Bold
 hi studyQ3 ctermfg=DarkRed cterm=Bold
 hi studyQ4 ctermfg=DarkRed cterm=Bold
 hi studyQ5 ctermfg=DarkRed cterm=Bold
+hi studyImportant ctermfg=Black cterm=Bold,Underline,Italic
+hi studyHeading ctermfg=Black cterm=Bold,Underline,Italic
 
