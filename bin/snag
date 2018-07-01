@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #======================================================================#
 # REMOTE FILE SNAGGER                            (c) 2017 P. S. Clarke #
 #======================================================================#
@@ -43,7 +43,7 @@ class GenericSource:
         args.append(shell_cmd)
         output = subprocess.check_output(args)
         # Note that we only overwrite the file if the cmd worked
-        with open(destination, "w") as destfile:
+        with open(destination, "wb") as destfile:
             destfile.write(output)
 
 
@@ -53,8 +53,12 @@ class SshSource:
         self.prefix_args = prefix_args
         self.socket = "./snag.%s.sock" % random_code(8)
 
+    def info(self, message):
+        sys.stdout.write("%s\n" % message)
+        sys.stdout.flush()
+
     def set_up(self):
-        print "Launching the control master on %s..." % self.socket
+        self.info("Launching the control master on %s..." % self.socket)
         args = ["ssh", "-o", "ControlPath=%s" % self.socket,
                        "-o", "ControlMaster=yes",
                        "-o", "ControlPersist=yes"]
@@ -63,7 +67,7 @@ class SshSource:
         subprocess.check_call(args)
 
     def tear_down(self):
-        print "Shutting down the control master..."
+        self.info("Shutting down the control master...")
         args = ["ssh", "-o", "ControlPath=%s" % self.socket]
         args.extend(self.prefix_args)
         args.extend(["-O", "exit"])
@@ -75,15 +79,19 @@ class SshSource:
         args.append(shell_cmd)
         output = subprocess.check_output(args)
         # Note that we only overwrite the file if the cmd worked
-        with open(destination, "w") as destfile:
+        with open(destination, "wb") as destfile:
             destfile.write(output)
 
 
 class Snagger:
 
+    def info(self, message):
+        sys.stdout.write("%s\n" % message)
+        sys.stdout.flush()
+
     def main(self, arguments):
         if len(arguments) != 2:
-            print "Usage error"
+            self.info("Usage error")
             sys.exit(1)
         filename = arguments[1]
         self.current_source = DummySource()
@@ -119,18 +127,18 @@ class Snagger:
             destination, _tab, shell_cmd = line.strip().partition("\t")
             self.pull(destination, shell_cmd)
             return
-        print "Unknown line: %r" % line
+        self.info("Unknown line: %r" % line)
 
     def run(self, shell_cmd):
-        print "Running %r..." % shell_cmd
+        self.info("Running %r..." % shell_cmd)
         subprocess.check_call(shell_cmd, shell=True)
 
     def pull(self, destination, shell_cmd):
         try:
-            print "Snagging %s..." % destination
+            self.info("Snagging %s..." % destination)
             self.current_source.pull(destination, shell_cmd)
         except subprocess.CalledProcessError:
-            print "ERROR"
+            self.info("ERROR")
 
 
 if __name__ == '__main__':
