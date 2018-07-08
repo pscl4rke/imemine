@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #======================================================================#
 # COMPRESSED BYTESTREAM INFLATOR                 (c) 2017 P. S. Clarke #
 #======================================================================#
@@ -6,4 +6,4 @@
 # This decompresses data compressed with the DEFLATE algorithm
 
 import sys, zlib
-sys.stdout.write(zlib.decompress(sys.stdin.read()))
+sys.stdout.buffer.write(zlib.decompress(sys.stdin.buffer.read()))
