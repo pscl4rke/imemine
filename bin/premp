@@ -1,6 +1,6 @@
-#!/usr/bin/env python2
+#!/usr/bin/python2
 #======================================================================#
-# PRE-MP EMAIL CLEANSER                          (c) 2014 P. S. Clarke #
+# PRE-MP EMAIL CLEANSER                     (c) 2014,2018 P. S. Clarke #
 #======================================================================#
 
 
@@ -37,41 +37,47 @@ def cleanup(header):
     return full.replace(", ", ",\n ")
 
 
-text = sys.stdin.read()
-if len(text) == 0:
-    raise Exception("Read message of zero length")
-msg = email.message_from_string(text)
-print "From: %s" % cleanup(msg['From'])
-print "To: %s" % cleanup(msg['To'])
-if 'Cc' in msg:
-    print "Cc: %s" % cleanup(msg['Cc'])
-print "Subject: %s" % cleanup(msg['Subject'])
-print "Date: %s" % msg['Date']
-print
-newload = stringio.StringIO()
-for part in msg.walk():
-    if part.get_content_maintype() == 'multipart':
-        continue
-    if part.get_content_type() == 'text/plain':
-        encoding = "utf8"  # really should parse Content-Type properly
-        if "Windows-1252" in part.get("Content-Type"):
-            encoding = "cp1252"
-        payload = part.get_payload()
-        if part.get("Content-Transfer-Encoding", "") == "quoted-printable":
-            payloadu = quopri.decodestring(payload).decode(encoding)
-        elif part.get("Content-Transfer-Encoding", "") == "base64":
-            payloadu = payload.decode('base64').decode(encoding)
-        else:
-            payloadu = payload.decode(encoding)
-        print >>newload, payloadu.encode('ascii', 'replace')
-    else:
-        mtype = part.get_content_type()
-        size = len(part.get_payload())
-        print >>newload
-        print >>newload, "| A %r part was scrubbed (%i bytes)" % (mtype, size)
-        for key, value in part.items():
-            print >>newload, "|     %s: %s" % (key, value)
-        print >>newload
-msg.set_payload(newload.getvalue())
+class PreMP:
 
-print newload.getvalue()
+    def main(self):
+        text = sys.stdin.read()
+        if len(text) == 0:
+            raise Exception("Read message of zero length")
+        msg = email.message_from_string(text)
+        print "From: %s" % cleanup(msg['From'])
+        print "To: %s" % cleanup(msg['To'])
+        if 'Cc' in msg:
+            print "Cc: %s" % cleanup(msg['Cc'])
+        print "Subject: %s" % cleanup(msg['Subject'])
+        print "Date: %s" % msg['Date']
+        print
+        newload = stringio.StringIO()
+        for part in msg.walk():
+            if part.get_content_maintype() == 'multipart':
+                continue
+            if part.get_content_type() == 'text/plain':
+                encoding = "utf8"  # really should parse Content-Type properly
+                if "Windows-1252" in part.get("Content-Type"):
+                    encoding = "cp1252"
+                payload = part.get_payload()
+                if part.get("Content-Transfer-Encoding", "") == "quoted-printable":
+                    payloadu = quopri.decodestring(payload).decode(encoding)
+                elif part.get("Content-Transfer-Encoding", "") == "base64":
+                    payloadu = payload.decode('base64').decode(encoding)
+                else:
+                    payloadu = payload.decode(encoding)
+                print >>newload, payloadu.encode('ascii', 'replace')
+            else:
+                mtype = part.get_content_type()
+                size = len(part.get_payload())
+                print >>newload
+                print >>newload, "| A %r part was scrubbed (%i bytes)" % (mtype, size)
+                for key, value in part.items():
+                    print >>newload, "|     %s: %s" % (key, value)
+                print >>newload
+        msg.set_payload(newload.getvalue())
+        print newload.getvalue()
+
+
+if __name__ == '__main__':
+    PreMP().main()
