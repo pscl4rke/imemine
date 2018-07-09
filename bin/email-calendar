@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 
 import argparse
@@ -40,7 +40,7 @@ class ReminderSender:
                             "-l", "0", "-t", self.args.date]
         raw_text = subprocess.check_output(args)
         for line in raw_text.splitlines():
-            _month, _daystar, reminder = line.strip().split(None, 2)
+            _month, _daystar, reminder = line.decode("utf8").strip().split(None, 2)
             yield reminder
 
     def build_email_for(self, reminder):
@@ -56,7 +56,7 @@ class ReminderSender:
         args = shlex.split(self.args.sendmail)
         args.append(self.args.toaddress)
         sendmail = subprocess.Popen(args, stdin=subprocess.PIPE)
-        sendmail.communicate(email.as_string())
+        sendmail.communicate(email.as_bytes())
 
     def send_all(self):
         self.run_sanity_checks()
