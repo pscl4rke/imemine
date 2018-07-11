@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # BUSY TERMINAL FILLER                           (c) 2017 P. S. Clarke #
 #======================================================================#
@@ -17,10 +17,10 @@ class DictionarySource:
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         size = random.randint(0, 10)
         sentence = [random.choice(self.words) for i in range(size)]
-        pause = random.randint(0, 5) / 20.0
+        pause = random.randint(0, 5) / 20
         return (" ".join(sentence), pause)
 
 
