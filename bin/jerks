@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # JERKS EMAIL VIEWER                        (c) 2014,2018 P. S. Clarke #
 #======================================================================#
@@ -15,9 +15,10 @@ if __name__ == '__main__':
     msg = email.message_from_string(sys.stdin.read())
     for part in msg.walk():
         if part.get_content_type() == 'text/html':
+            # Possibly Python3 wants get_content(...) not get_payload(...)
             # Built-in decode, instead of examining Content-Transfer-Encoding:
             html = part.get_payload(decode=True)
-            html = html.replace("://", "---") # Break tracker links
+            html = html.replace(b"://", b"---") # Break tracker links
             args = ("w3m", "-T", "text/html")
             browser = subprocess.Popen(args, stdin=subprocess.PIPE)
             browser.communicate(html)
