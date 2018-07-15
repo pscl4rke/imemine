@@ -3,15 +3,18 @@
 # JERKS EMAIL VIEWER                        (c) 2014,2018 P. S. Clarke #
 #======================================================================#
 
+
 # Some people are incapable of sending emails with readable plain
 # text.  Machine-generated newsletters are the worst offenders.
+
 
 import sys
 import email
 import quopri
 import subprocess
 
-if __name__ == '__main__':
+
+def main():
     msg = email.message_from_string(sys.stdin.read())
     for part in msg.walk():
         if part.get_content_type() == 'text/html':
@@ -23,3 +26,6 @@ if __name__ == '__main__':
             browser = subprocess.Popen(args, stdin=subprocess.PIPE)
             browser.communicate(html)
 
+
+if __name__ == '__main__':
+    main()
