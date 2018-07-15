@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 #======================================================================#
-# JERKS EMAIL VIEWER                             (c) 2014 P. S. Clarke #
+# JERKS EMAIL VIEWER                        (c) 2014,2018 P. S. Clarke #
 #======================================================================#
 
 # Some people are incapable of sending emails with readable plain
@@ -15,10 +15,8 @@ if __name__ == '__main__':
     msg = email.message_from_string(sys.stdin.read())
     for part in msg.walk():
         if part.get_content_type() == 'text/html':
-            html = part.get_payload()
-            if part.get('Content-Transfer-Encoding', '') == 'base64':
-                html = html.decode('base64')
-            html = quopri.decodestring(html) # Quoted-Printable using '='
+            # Built-in decode, instead of examining Content-Transfer-Encoding:
+            html = part.get_payload(decode=True)
             html = html.replace("://", "---") # Break tracker links
             args = ("w3m", "-T", "text/html")
             browser = subprocess.Popen(args, stdin=subprocess.PIPE)
