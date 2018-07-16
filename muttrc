@@ -103,6 +103,9 @@ set include=yes
 set editor="vim -p"
 set forward_format="Fwd: %s"
 set edit_headers
+#   particularly useful for attribution (i.e. before quoted reply)
+#   put a "!" at the beginning to use C locale (en-us)
+set date_format="%a %-d %b %Y at %H:%M:%S %Z"
 
 
 # PRINTING
