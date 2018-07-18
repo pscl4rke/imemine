@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 
 # This autogenerates a commit message from the currently staged changes.
@@ -11,15 +11,19 @@
 # Output example:
 #   "Add abc.txt, Edit def_eeeeeeeeeeee.html, Edit ghi.png"
 
+# Note that it deliberately keeps everything as bytes to avoid
+# having to worry about what encoding the filesystem is using.
+
 
 import subprocess
+import sys
 
 
 def staged_changes():
     proc = subprocess.Popen(["git", "status", "-s"], stdout=subprocess.PIPE)
     for line in proc.stdout:
-        staged_status = line[0]
-        unstaged_status = line[1]
+        staged_status = line[0:1]
+        unstaged_status = line[1:2]
         path = line[3:-1] # strip trailing new line
         if staged_status not in (" ", "?"):
             yield (staged_status, path)
@@ -27,13 +31,14 @@ def staged_changes():
 
 def desc_of(status):
     return {
-        "A": "Add",
-        "M": "Edit",
-        "D": "Delete",
-    }.get(status, "Other(%s)" % status)
+        b"A": b"Add",
+        b"M": b"Edit",
+        b"D": b"Delete",
+    }.get(status, b"Other(%r)" % status)
 
 
-print ", ".join((
-    "%s %s" % (desc_of(status), path)
+sys.stdout.buffer.write(b", ".join((
+    b"%s %s" % (desc_of(status), path)
     for (status, path) in staged_changes()
-))
+)))
+sys.stdout.buffer.write(b"\n")
