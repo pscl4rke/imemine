@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 #======================================================================#
-# WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2014 P. S. Clarke #
+# WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2018 P. S. Clarke #
 #======================================================================#
 
 browser="chrome"
 mode="temp"
 
 case "$1" in
+    -b)
+        shift
+        browser="$1" ; shift
+        ;;
     -p)
         mode="profile" ; shift
         profile="$1" ; shift
