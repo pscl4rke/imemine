@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # TWO-FACTOR-AUTH JAMMING SCRIPT                 (c) 2016 P. S. Clarke #
 #======================================================================#
@@ -12,7 +12,7 @@ import time
 
 def can_give_a_valid_code_for(key):
     try:
-        attempt = raw_input()
+        attempt = input()
         args = ["oathtool", "--totp", "-w", "3", key, attempt]
         subprocess.check_call(args)
         return True
