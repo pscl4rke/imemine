@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 
 import os
@@ -19,9 +19,9 @@ def differences_between(path_one, path_two):
 
 def menu(current_path, suggested_path):
     while True:
-        print "What do you want to do?"
-        print "[d]iff, [i]nstall, [c]ancel"
-        selection = raw_input()[:1].lower()
+        print("What do you want to do?")
+        print("[d]iff, [i]nstall, [c]ancel")
+        selection = input()[:1].lower()
         if selection == 'c':
             return
         elif selection == 'd':
@@ -31,23 +31,23 @@ def menu(current_path, suggested_path):
             shutil.copy(suggested_path, "config")
             return
         else:
-            print "Unknown"
+            print("Unknown")
 
 
 def main():
     os.chdir(os.path.join(os.environ['HOME'], '.ssh'))
     if not os.path.exists(SCRIPT_FILE):
-        print "Script missing: %r" % os.path.abspath(SCRIPT_FILE)
+        print("Script missing: %r" % os.path.abspath(SCRIPT_FILE))
         sys.exit(1)
     if not os.access(SCRIPT_FILE, os.X_OK):
-        print "Script not executable: %r" % os.path.abspath(SCRIPT_FILE)
+        print("Script not executable: %r" % os.path.abspath(SCRIPT_FILE))
         sys.exit(1)
     with tempfile.NamedTemporaryFile() as generated:
         subprocess.call([SCRIPT_FILE], stdout=generated.file)
         if not os.path.exists("config"):
             menu("/dev/null", generated.name)
         elif not differences_between("config", generated.name):
-            print "The config file is already up to date"
+            print("The config file is already up to date")
         else:
             menu("config", generated.name)
 
