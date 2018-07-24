@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 
 import argparse
@@ -6,7 +6,6 @@ import datetime
 import email.message
 import os
 import sqlite3
-import sys
 import time
 
 
@@ -52,8 +51,8 @@ class Message:
         self._thread_id = thread_id
         self._inorout = inorout
         self._sender = sender
-        self._ts_rcvd = ts_rcvd / 1000.0
-        self._ts_sent = ts_sent / 1000.0
+        self._ts_rcvd = ts_rcvd / 1000
+        self._ts_sent = ts_sent / 1000
         self._body = body
 
     def is_inbound(self):
@@ -63,11 +62,11 @@ class Message:
         return self._inorout == 2
 
     def guess_subject(self):
-        body = self._body.replace("\n", " ").replace("\r", " ")
+        body = self._body.replace("\n", " ").replace("\r", " ").strip(" ")
         if len(body) < 63:
             return body
         else:
-            return "%s..." % body[:60]
+            return "%s..." % body[:60].rstrip(" ")
 
     def sender_address(self):
         address = "%s@example.com" % self._sender
@@ -115,7 +114,7 @@ def main():
     messages = db.get_messages()
     for message in messages:
         eml = message.as_email()
-        print eml
+        print(eml.as_string(unixfrom=True, maxheaderlen=77))
 
 
 if __name__ == '__main__':
