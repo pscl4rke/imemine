@@ -215,6 +215,8 @@ autocmd BufNewFile,BufRead *.service set filetype=systemd
 "   E.g. by default shell treats a dot as a word char
 "   And sometimes I just need different behaviour
 autocmd FileType sh setlocal iskeyword-=.
+autocmd FileType nginx setlocal iskeyword-=/
+autocmd FileType nginx setlocal iskeyword-=.
 autocmd FileType coffee setlocal shiftwidth=2
 autocmd FileType make setlocal noexpandtab
 autocmd FileType calendar setlocal noexpandtab tabstop=20
