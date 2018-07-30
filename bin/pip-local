@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+#======================================================================#
+# PIP OFFLINE CACHE MANAGER                      (c) 2018 P. S. Clarke #
+#======================================================================#
+
+
+import sys
+import subprocess
+
+
+class PipLocal:
+
+    local_dir = "/home/psc/pip-local"
+
+    def main(self, args):
+        # FIXME: Please replace with proper argparse stuff
+        command = args[1]
+        if command == "fetch":
+            version = args[2].lstrip("-")
+            requirements = args[3]
+            pip = "/home/psc/.virtualenvs/pip%s/bin/pip%s" % (version, version)
+            self.run([pip, "download", "-r", requirements, "-d", self.local_dir])
+        elif command == "install":
+            requirements = args[2]
+            self.run(["pip", "install", "--no-index", "-r", requirements,
+                      "-f", "file://%s" % self.local_dir])
+
+    def run(self, args):
+        print(repr(args))
+        subprocess.check_call(args)
+
+
+if __name__ == '__main__':
+    PipLocal().main(sys.argv)
