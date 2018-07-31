@@ -61,10 +61,8 @@ export VISUAL=vi
 
 
 # PYTHON'S ENVIRONMENT AND PACKAGING
-#   This is mostly to make the PS1 work better, and to handle
-#   offline environments.
+#   This is mostly to make the PS1 work better.
 VIRTUAL_ENV_DISABLE_PROMPT="TRUE"
-alias pip-install-from-basket="pip install --no-index -f file://$HOME/.basket"
 export PYTHONSTARTUP=$HOME/.pythonrc
 
 
