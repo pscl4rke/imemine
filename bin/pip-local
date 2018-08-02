@@ -24,6 +24,14 @@ class PipLocal:
             requirements = args[2]
             self.run(["pip", "install", "--no-index", "-r", requirements,
                       "-f", "file://%s" % self.local_dir])
+        elif command == "new":
+            version = args[2].lstrip("-")
+            # this is newer than the one from APT, so works offline:
+            virtualenv = "/home/psc/.virtualenvs/virtualenv/bin/virtualenv"
+            dest = "/home/psc/.virtualenvs/%s" % args[3]
+            self.run([virtualenv, "-p", "/usr/bin/python%s" % version, dest])
+            print("Remember to source...")
+            print("  %s/bin/activate" % dest)
 
     def run(self, args):
         print(repr(args))
