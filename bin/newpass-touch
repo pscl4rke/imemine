@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # TOUCHSCREEN-FRIENDLY PASSWORD GENERATOR        (c) 2016 P. S. Clarke #
 #======================================================================#
@@ -10,6 +10,7 @@
 
 
 import random
+import sys
 
 
 class KeyPad:
@@ -45,7 +46,7 @@ class CharacterSource:
 class PasswordGenerator:
 
     def main(self):
-        print self.generate_password_of_length(12)
+        sys.stdout.write("%s\n" % self.generate_password_of_length(12))
 
     def generate_password_of_length(self, length):
         src = CharacterSource()
