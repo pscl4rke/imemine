@@ -50,6 +50,10 @@ from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.units import mm
 
 
+def msg(message):
+    sys.stderr.write("ocr2pdf: Warning: %s\n" % message)
+
+
 class Document:
 
     def __init__(self, destination_path, width, height):
@@ -69,7 +73,7 @@ class Document:
         # We may need to set the font explicitly on every
         # page to stop it resetting to the default.
         # Find fonts inside reportlab.pdfbase.pdfmetrics.standardFonts
-        print "WARNING: Manually setting Font"
+        #msg("Warning: Manually setting font")
         self.canvas.setFont('Times-Roman', 5)
         for index, line in enumerate(open(text_file)):
             position_y = (self.height - 6) - (index * 2)
@@ -108,10 +112,10 @@ def main():
     """CLI entry point which acts on arguments."""
     opts, arguments = parse_arguments(sys.argv[1:])
     if None in (opts.width, opts.height):
-        print "Options width and height are not optional."
+        msg("Options width and height are not optional")
         sys.exit(1)
     if len(arguments) < 3:
-        print "Cowardly refusing to create an empty PDF."
+        msg("Cowardly refusing to create an empty PDF")
         sys.exit(1)
     destination_file = arguments[-1]
     page_pairs = list(generate_page_pairs(arguments[:-1]))
@@ -122,5 +126,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
