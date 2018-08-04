@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/python3
 # -*- encoding: ascii -*-                   vim:ft=python:tw=72:et:ts=4:
 #======================================================================#
 # OCR2PDF - BUILD PDFS FROM TEXT AND IMAGES      (c) 2014 P. S. Clarke #
