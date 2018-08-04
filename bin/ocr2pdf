@@ -51,7 +51,7 @@ from reportlab.lib.units import mm
 
 
 def msg(message):
-    sys.stderr.write("ocr2pdf: Warning: %s\n" % message)
+    sys.stderr.write("ocr2pdf: %s\n" % message)
 
 
 class Document:
@@ -61,6 +61,7 @@ class Document:
         self.destination_path = destination_path
         self.width, self.height = width, height
         self.canvas = Canvas(destination_path, pagesize=(width*mm, height*mm))
+        self.page_count = 0
 
     def __enter__(self):
         return self
@@ -80,10 +81,12 @@ class Document:
             self.canvas.drawString(3*mm, position_y*mm, line.strip())
         self.canvas.drawImage(image_file, 0, 0, self.width*mm, self.height*mm)
         self.canvas.showPage()
+        self.page_count += 1
 
     def save_and_close(self):
         """Write the PDF to disk."""
         self.canvas.save()
+        msg("Wrote document with %i page(s)" % self.page_count)
 
 
 def parse_arguments(arguments):
