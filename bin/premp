@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # PRE-MP EMAIL CLEANSER                     (c) 2014,2018 P. S. Clarke #
 #======================================================================#
@@ -19,7 +19,8 @@ import quopri
 import sys
 
 
-# Want to do:   handle non-ascii character encodings in content
+# Need to do:   handle emails that are only text/html, not multipart
+# Want to do:   handle non-ascii encodings in content/headers (esp apostrophes)
 # Want to do:   stop using one line per address in headers
 # Maybe to do:  add local time
 # Maybe to do:  render html into text instead of bundled text/plain
@@ -29,9 +30,8 @@ import sys
 def cleanup(header):
     """Fix the RFC 2047 Mime-Encoded-Word stuff in headers."""
     parts = email.header.decode_header(header)
-    full = " ".join(txt.decode('ascii' if (enc is None) else enc)
-                       .encode('ascii', 'replace')
-                    for (txt, enc) in parts)
+    full = " ".join(part if (enc is None) else part.decode(enc)
+                    for (part, enc) in parts)
     full = " ".join(word for word in full.split())
     return full.replace(", ", ",\n ")
 
@@ -39,7 +39,7 @@ def cleanup(header):
 class PreMP:
 
     def writeln(self, line):
-        sys.stdout.write("%s\n" % line)
+        sys.stdout.buffer.write(b"%s\n" % line.encode('ascii', 'replace'))
 
     def main(self):
         text = sys.stdin.read()
@@ -57,17 +57,11 @@ class PreMP:
             if part.get_content_maintype() == 'multipart':
                 continue
             if part.get_content_type() == 'text/plain':
-                encoding = "utf8"  # really should parse Content-Type properly
-                if "Windows-1252" in part.get("Content-Type"):
-                    encoding = "cp1252"
-                payload = part.get_payload()
-                if part.get("Content-Transfer-Encoding", "") == "quoted-printable":
-                    payloadu = quopri.decodestring(payload).decode(encoding)
-                elif part.get("Content-Transfer-Encoding", "") == "base64":
-                    payloadu = payload.decode('base64').decode(encoding)
-                else:
-                    payloadu = payload.decode(encoding)
-                self.writeln(payloadu.encode('ascii', 'replace'))
+                payload = part.get_payload(decode=True)
+                # or use get_content_charset() or get_param('charset')!!!
+                _type, _sc, rest = part.get('Content-Type', ';ascii').partition(';')
+                charset = rest.strip().replace('charset=', '')
+                self.writeln(payload.decode(charset))
             else:
                 mtype = part.get_content_type()
                 size = len(part.get_payload())
