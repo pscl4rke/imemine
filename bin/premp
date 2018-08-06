@@ -16,7 +16,6 @@
 
 import email, email.header
 import quopri
-import StringIO as stringio
 import sys
 
 
@@ -39,19 +38,21 @@ def cleanup(header):
 
 class PreMP:
 
+    def writeln(self, line):
+        sys.stdout.write("%s\n" % line)
+
     def main(self):
         text = sys.stdin.read()
         if len(text) == 0:
             raise Exception("Read message of zero length")
         msg = email.message_from_string(text)
-        print "From: %s" % cleanup(msg['From'])
-        print "To: %s" % cleanup(msg['To'])
+        self.writeln("From: %s" % cleanup(msg['From']))
+        self.writeln("To: %s" % cleanup(msg['To']))
         if 'Cc' in msg:
-            print "Cc: %s" % cleanup(msg['Cc'])
-        print "Subject: %s" % cleanup(msg['Subject'])
-        print "Date: %s" % msg['Date']
-        print
-        newload = stringio.StringIO()
+            self.writeln("Cc: %s" % cleanup(msg['Cc']))
+        self.writeln("Subject: %s" % cleanup(msg['Subject']))
+        self.writeln("Date: %s" % msg['Date'])
+        self.writeln("")
         for part in msg.walk():
             if part.get_content_maintype() == 'multipart':
                 continue
@@ -66,17 +67,15 @@ class PreMP:
                     payloadu = payload.decode('base64').decode(encoding)
                 else:
                     payloadu = payload.decode(encoding)
-                print >>newload, payloadu.encode('ascii', 'replace')
+                self.writeln(payloadu.encode('ascii', 'replace'))
             else:
                 mtype = part.get_content_type()
                 size = len(part.get_payload())
-                print >>newload
-                print >>newload, "| A %r part was scrubbed (%i bytes)" % (mtype, size)
+                self.writeln("")
+                self.writeln("| A %r part was scrubbed (%i bytes)" % (mtype, size))
                 for key, value in part.items():
-                    print >>newload, "|     %s: %s" % (key, value)
-                print >>newload
-        msg.set_payload(newload.getvalue())
-        print newload.getvalue()
+                    self.writeln("|     %s: %s" % (key, value))
+                self.writeln("")
 
 
 if __name__ == '__main__':
