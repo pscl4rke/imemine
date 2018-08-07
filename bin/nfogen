@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # INI -> NFO GENERATION TOOLKIT                  (c) 2017 P. S. Clarke #
 #======================================================================#
@@ -9,7 +9,7 @@
 
 
 import argparse
-import ConfigParser as inifile
+import configparser as inifile
 import os
 import re
 import sys
@@ -129,9 +129,9 @@ class Generator:
         self.debug("Writing to %r" % destpath)
         raw = etree.tostring(tree)
         # This is a *VERY* crude indentation system:
-        xml = raw.replace("><", ">\n    <").replace("    </", "</")
-        xml = xml + "\n"
-        with open(destpath, "w") as outfile:
+        xml = raw.replace(b"><", b">\n    <").replace(b"    </", b"</")
+        xml = xml + b"\n"
+        with open(destpath, "wb") as outfile:
             outfile.write(xml)
 
     def debug(self, message):
