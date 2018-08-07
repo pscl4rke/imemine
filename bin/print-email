@@ -1,10 +1,10 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # PRINT-EMAIL FORMATTING SCRIPT                  (c) 2018 P. S. Clarke #
 #======================================================================#
 
 
-import email
+import email, email.header
 import os
 import re
 import subprocess
@@ -14,6 +14,14 @@ import sys
 PREMP = ["/home/psc/imemine/bin/premp"]
 MP = ["/usr/bin/mp"]
 PS2PDF = ["/usr/bin/ps2pdf", "-", "-"]
+
+
+def cleanup(header):
+    """Fix the RFC 2047 Mime-Encoded-Word stuff in headers."""
+    parts = email.header.decode_header(header)
+    full = " ".join(part if (enc is None) else part.decode(enc)
+                    for (part, enc) in parts)
+    return " ".join(word for word in full.split())
 
 
 def run(cmdline, data_in):
@@ -27,18 +35,19 @@ def run(cmdline, data_in):
 
 
 def main():
-    raw_message = sys.stdin.read()
-    email_message = email.message_from_string(raw_message)
-    title = email_message['Subject']
+    raw_message = sys.stdin.buffer.read()
+    email_message = email.message_from_bytes(raw_message)
+    title = cleanup(email_message['Subject'])
     clean_message = run(PREMP, raw_message)
     raw_postscript = run(MP, clean_message)
-    clean_postscript = re.sub("\$Header.*\$", title, raw_postscript)
+    clean_postscript = re.sub(b"\$Header.*\$",
+        title.encode('ascii', 'replace'), raw_postscript)
     pdf_message = run(PS2PDF, clean_postscript)
     outfile_name = "%s.pdf" % title
     outfile_path = os.path.join(os.environ["HOME"], "Desktop", outfile_name)
     if os.path.exists(outfile_path):
         raise Exception("%r already exists" % outfile_path)
-    with open(outfile_path, "w") as outfile:
+    with open(outfile_path, "wb") as outfile:
         outfile.write(pdf_message)
 
 
