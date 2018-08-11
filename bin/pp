@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 #======================================================================#
 # PP PRINTING PROMPT FOR PS DOCUMENTS            (c) 2016 P. S. Clarke #
 #======================================================================#
@@ -9,21 +9,33 @@ import sys
 import tempfile
 
 
+# FIXME if I add "-t/--title" then I could save to the desktop as $title.pdf
+# and take over part of the `print-email` command.
+
+# FIXME if I want it to replace using "lp" directly I need to make it handle
+# things other than just postscript.
+
+
+def info(message):
+    sys.stderr.write("%s\n" % message)
+    sys.stderr.flush()  # maybe superfluous
+
+
 def handle_postscript_file(psfilename):
-    print "I've saved that into %r" % psfilename
+    info("I've saved that into %r" % psfilename)
     with tempfile.NamedTemporaryFile(suffix=".pdf") as pdffile:
         pdffilename = pdffile.name
         subprocess.check_call(["ps2pdf", psfilename, pdffilename])
-        print "I've saved that into %r" % pdffilename
+        info("I've saved that into %r" % pdffilename)
         handle_pdf_file(pdffilename)
 
 
 def handle_pdf_file(pdffilename):
     while True:
-        print "  1p    Print one page per side"
-        print "  2p    Print two pages per side"
-        print "  ve    View in evince"
-        print "  q     Quit"
+        info("  1p    Print one page per side")
+        info("  2p    Print two pages per side")
+        info("  ve    View in evince")
+        info("  q     Quit")
         command = open("/dev/tty").readline().strip()
         if command == "1p":
             subprocess.check_call(["lp", pdffilename])
@@ -34,7 +46,7 @@ def handle_pdf_file(pdffilename):
         elif command == "q":
             break
         else:
-            print "Huh? %r" % command
+            info("Huh? %r" % command)
 
 
 def main():
@@ -42,8 +54,7 @@ def main():
         handle_postscript_file(sys.argv[1])
     else:
         with tempfile.NamedTemporaryFile(suffix=".ps") as psfile:
-            for line in sys.stdin:
-                psfile.write(line)
+            psfile.write(sys.stdin.buffer.read())
             psfile.flush()
             handle_postscript_file(psfile.name)
 
