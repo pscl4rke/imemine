@@ -41,6 +41,7 @@ def image_for(relative_song_path):
     patterns = [
         "/srv/music/DIR/Folder.jpg", "/srv/Music/DIR/Folder.jpg",
         "/srv/jukebox/DIR/Folder.jpg", "/srv/Jukebox/DIR/Folder.jpg",
+        "/mnt/juke/box/DIR/Folder.jpg",
         "/home/psc/imemine/vendor/audio-x-generic.png",
     ]
     for pattern in patterns:
