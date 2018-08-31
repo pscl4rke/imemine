@@ -36,6 +36,7 @@ def parse_args(args):
     parser.add_argument("--gain", action="store", type=int, default=0)
     parser.add_argument("--audio", action="store", type=int)
     parser.add_argument("--chapters", action="store", default=None)
+    parser.add_argument("--crop", action="store", default=None)
     return parser.parse_args(args)
 
 
@@ -49,6 +50,7 @@ class Ripper:
         #self.chapters = "31-36"
         #self.chapters = None
         self.chapters = args.chapters  # FIXME - validate format!
+        self.crop = args.crop
         self.gain = args.gain # audio, dB
         self.audio_track = args.audio
         self.subtitle_track = args.subtitle
@@ -106,6 +108,8 @@ class Ripper:
         args.extend(["--output", self.destination])
         if self.chapters is not None:
             args.extend(["-c", self.chapters])
+        if self.crop is not None:
+            args.extend(["--crop", self.crop])
         return args
 
     def rip(self):
