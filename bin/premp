@@ -42,10 +42,10 @@ class PreMP:
         sys.stdout.buffer.write(b"%s\n" % line.encode('ascii', 'replace'))
 
     def main(self):
-        text = sys.stdin.read()
+        text = sys.stdin.buffer.read()
         if len(text) == 0:
             raise Exception("Read message of zero length")
-        msg = email.message_from_string(text)
+        msg = email.message_from_bytes(text)
         self.writeln("From: %s" % cleanup(msg['From']))
         self.writeln("To: %s" % cleanup(msg['To']))
         if 'Cc' in msg:
