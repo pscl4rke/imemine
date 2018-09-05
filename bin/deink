@@ -51,13 +51,17 @@ do
             exit 0
             ;;
         --a4)
-            inwidth=210
-            #inheight="297.18"
-            inheight=300
+            #inwidth=210
+            ##inheight="297.18"
+            #inheight=300
+            inwidth=208
+            inheight=295
             ;;
         --a5)
-            inwidth=150
-            inheight=210
+            #inwidth=150
+            #inheight=210
+            inwidth=143
+            inheight=205
             ;;
         --a6)
             inwidth=107
