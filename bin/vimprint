@@ -7,6 +7,7 @@
 #   Use custom colour scheme
 #   Prompt user for what to do with doc afterwards
 #       (save there, save to ~/Downloads, print somewhere, preview,...)
+set -eu
 [ -z "$1" ] && echo Missing source file && exit 1
 src="$1"
 dest="$src.ps"
