@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# For trying to work out which chromium window/process is guzzling
+# all my system resources.
+
+for dir in /tmp/tmp.*; do
+    echo
+    echo $dir
+    if [ -e "$dir/Default/History" ]; then
+        cp "$dir/Default/History" /tmp/History
+        sqlite3 /tmp/History 'select title, url from urls where id in (1, 2)'
+        rm /tmp/History
+    fi
+done
