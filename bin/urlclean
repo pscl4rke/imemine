@@ -20,6 +20,10 @@ def clean_query(original):
             continue
         if key == "ftag":
             continue
+        if key == "ocid":
+            continue
+        if key.startswith("ns_"):
+            continue
         pairs.append((key, value))
     return urllib.parse.urlencode(pairs)
 
@@ -84,6 +88,14 @@ class TestClean(unittest.TestCase):
 
     def test_ftag(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&ftag=quux"),
+                               "http://www.foobar.com/path?q=foo")
+
+    def test_ocid(self):
+        self.assertEqual(clean("http://www.foobar.com/path?q=foo&ocid=quux"),
+                               "http://www.foobar.com/path?q=foo")
+
+    def test_ns(self):
+        self.assertEqual(clean("http://www.foobar.com/path?q=foo&ns_foo=quux"),
                                "http://www.foobar.com/path?q=foo")
 
 
