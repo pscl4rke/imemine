@@ -8,6 +8,7 @@
 # prevent too much identifying information from leaking out.
 
 
+import os
 import unittest
 import urllib.parse
 import sys
@@ -29,10 +30,15 @@ def clean_query(original):
 
 
 def clean(original):
-    url = urllib.parse.urlparse(original.strip().lstrip('+').replace("\n+", ""))
-    if url.scheme == "":
-        guess_scheme = "http://%s" % original.strip()
-        url = urllib.parse.urlparse(guess_scheme)
+    splitfixed = original.strip().lstrip('+').replace("\n+", "")
+    if "://" in splitfixed:
+        guess_scheme = splitfixed
+    else:
+        if os.path.exists(splitfixed):
+            guess_scheme = "file://%s" % splitfixed.strip()
+        else:
+            guess_scheme = "http://%s" % splitfixed.strip()
+    url = urllib.parse.urlparse(guess_scheme)
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
@@ -97,6 +103,10 @@ class TestClean(unittest.TestCase):
     def test_ns(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&ns_foo=quux"),
                                "http://www.foobar.com/path?q=foo")
+
+    def test_local_paths(self):
+        self.assertEqual(clean("/etc/fstab"),
+                               "file:///etc/fstab")
 
 
 if __name__ == '__main__':
