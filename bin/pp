@@ -15,6 +15,8 @@ import tempfile
 # FIXME if I want it to replace using "lp" directly I need to make it handle
 # things other than just postscript.
 
+# FIXME how about counting up the page numbers (e.g. with pdfinfo)
+
 
 def info(message):
     sys.stderr.write("%s\n" % message)
@@ -22,11 +24,10 @@ def info(message):
 
 
 def handle_postscript_file(psfilename):
-    info("I've saved that into %r" % psfilename)
     with tempfile.NamedTemporaryFile(suffix=".pdf") as pdffile:
         pdffilename = pdffile.name
+        info("I'm converting that into %r..." % pdffilename)
         subprocess.check_call(["ps2pdf", psfilename, pdffilename])
-        info("I've saved that into %r" % pdffilename)
         handle_pdf_file(pdffilename)
 
 
@@ -54,6 +55,7 @@ def main():
         handle_postscript_file(sys.argv[1])
     else:
         with tempfile.NamedTemporaryFile(suffix=".ps") as psfile:
+            info("I'm saving that into %r..." % psfile.name)
             psfile.write(sys.stdin.buffer.read())
             psfile.flush()
             handle_postscript_file(psfile.name)
