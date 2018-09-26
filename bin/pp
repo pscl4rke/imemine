@@ -23,6 +23,10 @@ def info(message):
     sys.stderr.flush()  # maybe superfluous
 
 
+def best_printer():
+    return "HL1110"
+
+
 def handle_postscript_file(psfilename):
     with tempfile.NamedTemporaryFile(suffix=".pdf") as pdffile:
         pdffilename = pdffile.name
@@ -33,15 +37,16 @@ def handle_postscript_file(psfilename):
 
 def handle_pdf_file(pdffilename):
     while True:
-        info("  1p    Print one page per side")
-        info("  2p    Print two pages per side")
+        info("  1p    Print one page per side to %s" % best_printer())
+        info("  2p    Print two pages per side to %s" % best_printer())
         info("  ve    View in evince")
         info("  q     Quit")
         command = open("/dev/tty").readline().strip()
         if command == "1p":
-            subprocess.check_call(["lp", pdffilename])
+            subprocess.check_call(["lp", "-d", best_printer(), pdffilename])
         elif command == "2p":
-            subprocess.check_call(["lp", "-o", "number-up=2", pdffilename])
+            subprocess.check_call(["lp", "-d", best_printer(),
+                                   "-o", "number-up=2", pdffilename])
         elif command == "ve":
             subprocess.check_call(["evince", pdffilename])
         elif command == "q":
