@@ -19,3 +19,5 @@ vim "$src" \
     -c "hardcopy > $dest" \
     -c "quit!"
 echo "Saved into $dest"
+pp $dest
+rm -i $dest
