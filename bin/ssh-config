@@ -43,7 +43,10 @@ def main():
         print("Script not executable: %r" % os.path.abspath(SCRIPT_FILE))
         sys.exit(1)
     with tempfile.NamedTemporaryFile() as generated:
-        subprocess.call([SCRIPT_FILE], stdout=generated.file)
+        exitcode = subprocess.call([SCRIPT_FILE], stdout=generated.file)
+        if exitcode != 0:
+            print("Script failed (code %i)" % exitcode)
+            sys.exit(1)
         if not os.path.exists("config"):
             menu("/dev/null", generated.name)
         elif not differences_between("config", generated.name):
