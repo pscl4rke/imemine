@@ -8,6 +8,7 @@
 # prevent too much identifying information from leaking out.
 
 
+import contextlib
 import os
 import unittest
 import urllib.parse
@@ -35,7 +36,7 @@ def clean(original):
         guess_scheme = splitfixed
     else:
         if os.path.exists(splitfixed):
-            guess_scheme = "file://%s" % splitfixed.strip()
+            guess_scheme = "file://%s" % os.path.abspath(splitfixed.strip())
         else:
             guess_scheme = "http://%s" % splitfixed.strip()
     url = urllib.parse.urlparse(guess_scheme)
@@ -43,6 +44,16 @@ def clean(original):
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
     return url.geturl()
+
+
+@contextlib.contextmanager
+def pushd(nested):
+    cwd = os.getcwd()
+    try:
+        os.chdir(nested)
+        yield
+    finally:
+        os.chdir(cwd)
 
 
 class TestClean(unittest.TestCase):
@@ -104,9 +115,15 @@ class TestClean(unittest.TestCase):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&ns_foo=quux"),
                                "http://www.foobar.com/path?q=foo")
 
-    def test_local_paths(self):
+    def test_local_but_absolute_paths(self):
         self.assertEqual(clean("/etc/fstab"),
                                "file:///etc/fstab")
+
+    def test_local_but_relative_paths(self):
+        with pushd("/etc"):
+            self.assertEqual(clean("fstab"),
+                                   "file:///etc/fstab")
+
 
 
 if __name__ == '__main__':
