@@ -191,11 +191,7 @@ set xterm_set_titles="yes"
 set xterm_title="%m emails in %f (%n new %o old)"
 
 
-# COLOURS
-#   Here are a bunch of colours that make using Mutt a bit
-#   more agreeable than some of the defaults that I've seen.
-#   They aren't too dissimilar from the default Tig colourings
-#   that I've seen.
+# COLOURS IN INDEX
 # The status bar near the bottom:
 color status brightyellow blue
 # The messages that get displayed below the status bar:
@@ -207,7 +203,12 @@ color normal default default
 color tree red default
 # This is the cursor which selects messages:
 color indicator white green
+
+
+# COLOURS IN PAGER
 # These set the quotation levels:
+color body blue default "^On .* wrote:$"
+color body blue default "^On .* said:$"
 color quoted  blue default
 color quoted1 blue default
 color quoted2 blue default
