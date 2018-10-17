@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+#======================================================================#
+# LOCALMAIL EMAIL MANAGEMENT SHELL               (c) 2018 P. S. Clarke #
+#======================================================================#
+
+
+"""
+Easiest way is to use this as the interpreter in the hashbang of
+your config file:
+
+    #!/path/to/localmail
+    # vim:ft=dosini:
+
+    [paths]
+    offlineimaprc = /path/to/offlineimap_config_file
+    muttrc = /path/to/mutt_config_file
+"""
+
+
+import configparser
+import subprocess
+import sys
+
+
+class LocalMail:
+
+    def __init__(self):
+        self.config = configparser.ConfigParser()
+
+    def main(self):
+        config_path = sys.argv[1]
+        self.config.read(config_path)
+        self.keep_prompting()
+
+    def keep_prompting(self):
+        while True:
+            print("1: sync")
+            print("2: manage-ro")
+            print("3: manage-rw")
+            cmd = input("#? ")
+            if cmd == "1":
+                self.handle_sync()
+            elif cmd == "2":
+                self.handle_manage_ro()
+            elif cmd == "3":
+                self.handle_manage_rw()
+            else:
+                print("Huh??")
+
+    def handle_sync(self):
+        offlineimaprc = self.config['paths']['offlineimaprc']
+        subprocess.call(["offlineimap", "-c", offlineimaprc])
+
+    def handle_manage_ro(self):
+        muttrc = self.config['paths']['muttrc']
+        subprocess.call(["mutt", "-R", "-F", muttrc])
+
+    def handle_manage_rw(self):
+        muttrc = self.config['paths']['muttrc']
+        subprocess.call(["mutt", "-F", muttrc])
+
+
+if __name__ == '__main__':
+    LocalMail().main()
