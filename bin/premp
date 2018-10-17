@@ -39,6 +39,10 @@ def cleanup(header):
 class PreMP:
 
     def writeln(self, line):
+        # Postscript files have a very weird character encoding (CP-1276):
+        #   https://en.wikipedia.org/wiki/PostScript_Standard_Encoding
+        # The most flexible way to show "unicode" is to use `glyphshow`.
+        #sys.stdout.buffer.write(b"%se\xb4\x08e\xa3\n" % line.encode('ascii', 'replace'))
         sys.stdout.buffer.write(b"%s\n" % line.encode('ascii', 'replace'))
 
     def main(self):
