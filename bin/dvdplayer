@@ -6,4 +6,5 @@
 device="$1"; shift
 title="$1"; shift
 # additional args given straight to mplayer
-mplayer -dvd-device "$device" "dvd://$title" "$@"
+#mplayer -dvd-device "$device" "dvd://$title" "$@"
+mpv -dvd-device "$device" "dvd://$title" "$@"
