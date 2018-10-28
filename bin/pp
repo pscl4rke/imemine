@@ -40,6 +40,7 @@ def handle_pdf_file(pdffilename):
         info("  1p    Print one page per side to %s" % best_printer())
         info("  2p    Print two pages per side to %s" % best_printer())
         info("  ve    View in evince")
+        info("  vm    View in mupdf")
         info("  q     Quit")
         command = open("/dev/tty").readline().strip()
         if command == "1p":
@@ -49,6 +50,8 @@ def handle_pdf_file(pdffilename):
                                    "-o", "number-up=2", pdffilename])
         elif command == "ve":
             subprocess.check_call(["evince", pdffilename])
+        elif command == "vm":
+            subprocess.check_call(["mupdf", pdffilename])
         elif command == "q":
             break
         else:
