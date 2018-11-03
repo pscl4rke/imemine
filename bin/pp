@@ -7,6 +7,7 @@
 import subprocess
 import sys
 import tempfile
+import traceback
 
 
 # FIXME if I add "-t/--title" then I could save to the desktop as $title.pdf
@@ -43,6 +44,13 @@ def handle_pdf_file(pdffilename):
         info("  vm    View in mupdf")
         info("  q     Quit")
         command = open("/dev/tty").readline().strip()
+        carry_on = run_command(pdffilename, command)
+        if not carry_on:
+            break
+
+
+def run_command(pdffilename, command):
+    try:
         if command == "1p":
             subprocess.check_call(["lp", "-d", best_printer(), pdffilename])
         elif command == "2p":
@@ -53,9 +61,12 @@ def handle_pdf_file(pdffilename):
         elif command == "vm":
             subprocess.check_call(["mupdf", pdffilename])
         elif command == "q":
-            break
+            return False
         else:
             info("Huh? %r" % command)
+    except:
+        traceback.print_exc()
+    return True
 
 
 def main():
