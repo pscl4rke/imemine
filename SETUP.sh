@@ -162,7 +162,7 @@ wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
 
 # Recent versions of ack-grep don't need this, because they
 # have both /usr/bin/ack-grep and /usr/bin/ack...
-wantlink "/usr/bin/ack-grep" "bin/ack"
+#wantlink "/usr/bin/ack-grep" "bin/ack"
 
 # Stop thumbnail caching...
 wantlink "/tmp" ".cache/sxiv"
