@@ -3,7 +3,12 @@
 # WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2018 P. S. Clarke #
 #======================================================================#
 
-browser="chrome"
+if [[ -e /usr/bin/firefox ]]
+then
+    browser="firefox"
+else
+    browser="chrome"
+fi
 mode="temp"
 
 case "$1" in
