@@ -81,6 +81,7 @@ macro index,pager |u "<pipe-message>mailtextbody | urlview<enter>"
 #   views on the emails in a folder.  Using ~(...) will show an
 #   entire thread where one message matches.
 bind index ~ noop
+macro index '~ ' "<limit>~C "
 macro index ~~ "<limit>!~D<enter><collapse-all><current-middle>"
 macro index ~a "<limit>all<enter><collapse-all><current-middle>"
 macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
