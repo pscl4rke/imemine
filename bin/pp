@@ -4,6 +4,7 @@
 #======================================================================#
 
 
+import os
 import subprocess
 import sys
 import tempfile
@@ -12,6 +13,7 @@ import traceback
 
 # FIXME if I add "-t/--title" then I could save to the desktop as $title.pdf
 # and take over part of the `print-email` command.
+# I could also look for "%%Title: LastMinuteHostingList" lines in the postscript
 
 # FIXME if I want it to replace using "lp" directly I need to make it handle
 # things other than just postscript.
@@ -28,20 +30,35 @@ def best_printer():
     return "HL1110"
 
 
-def handle_postscript_file(psfilename):
+def get_title_from_header_of(psfilename):
+    with open(psfilename) as psfile:
+        for line in psfile:
+            if line.startswith("%%Title: "):
+                return line[9:].strip()
+    return None
+
+
+def handle_postscript_file(psfilename, title):
+    if title is None:
+        title = get_title_from_header_of(psfilename)
+    if title is None:
+        title = "FIXME"  # FIXME
     with tempfile.NamedTemporaryFile(suffix=".pdf") as pdffile:
         pdffilename = pdffile.name
         info("I'm converting that into %r..." % pdffilename)
         subprocess.check_call(["ps2pdf", psfilename, pdffilename])
-        handle_pdf_file(pdffilename)
+        handle_pdf_file(pdffilename, title)
 
 
-def handle_pdf_file(pdffilename):
+def handle_pdf_file(pdffilename, title):
+    info("Title: %s" % title)
     while True:
         info("  1p    Print one page per side to %s" % best_printer())
         info("  2p    Print two pages per side to %s" % best_printer())
         info("  ve    View in evince")
         info("  vm    View in mupdf")
+        #info("  sh    Save a copy here")
+        info("  sd    Save a copy to Desktop/Downloads")
         info("  q     Quit")
         command = open("/dev/tty").readline().strip()
         carry_on = run_command(pdffilename, command)
@@ -60,6 +77,16 @@ def run_command(pdffilename, command):
             subprocess.check_call(["evince", pdffilename])
         elif command == "vm":
             subprocess.check_call(["mupdf", pdffilename])
+        #elif command == "sh":
+        #    info("FIXME")
+        #    pass # FIXME save here
+        elif command == "sd":
+            outfile_name = "%s.pdf" % title
+            outfile_path = os.path.join(os.environ["HOME"], "Desktop", outfile_name)
+            if os.path.exists(outfile_path):
+                info("%r already exists" % outfile_path)
+            else:
+                subprocess.check_call(["cp", pdffilename, outfile_path])
         elif command == "q":
             return False
         else:
@@ -71,13 +98,13 @@ def run_command(pdffilename, command):
 
 def main():
     if len(sys.argv) == 2:
-        handle_postscript_file(sys.argv[1])
+        handle_postscript_file(sys.argv[1], None)
     else:
         with tempfile.NamedTemporaryFile(suffix=".ps") as psfile:
             info("I'm saving that into %r..." % psfile.name)
             psfile.write(sys.stdin.buffer.read())
             psfile.flush()
-            handle_postscript_file(psfile.name)
+            handle_postscript_file(psfile.name, None)
 
 
 if __name__ == '__main__':
