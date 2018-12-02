@@ -37,15 +37,26 @@ class LocalMail:
             print("1: sync")
             print("2: manage-ro")
             print("3: manage-rw")
-            cmd = input("#? ")
+            cmd = self.ask_for_command()
             if cmd == "1":
                 self.handle_sync()
             elif cmd == "2":
                 self.handle_manage_ro()
             elif cmd == "3":
                 self.handle_manage_rw()
+            elif cmd == "q":
+                print("Exiting...")
+                break
             else:
                 print("Huh??")
+
+    def ask_for_command(self):
+        try:
+            return input("#? ")
+        except EOFError:
+            return "q"
+        except KeyboardInterrupt:
+            return "q"
 
     def handle_sync(self):
         offlineimaprc = self.config['paths']['offlineimaprc']
