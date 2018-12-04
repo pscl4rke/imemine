@@ -11,8 +11,10 @@ your config file:
     #!/path/to/localmail
     # vim:ft=dosini:
 
-    [paths]
+    [sync]
     offlineimaprc = /path/to/offlineimap_config_file
+
+    [manage]
     muttrc = /path/to/mutt_config_file
 """
 
@@ -59,15 +61,15 @@ class LocalMail:
             return "q"
 
     def handle_sync(self):
-        offlineimaprc = self.config['paths']['offlineimaprc']
+        offlineimaprc = self.config['sync']['offlineimaprc']
         subprocess.call(["offlineimap", "-c", offlineimaprc])
 
     def handle_manage_ro(self):
-        muttrc = self.config['paths']['muttrc']
+        muttrc = self.config['manage']['muttrc']
         subprocess.call(["mutt", "-R", "-F", muttrc])
 
     def handle_manage_rw(self):
-        muttrc = self.config['paths']['muttrc']
+        muttrc = self.config['manage']['muttrc']
         subprocess.call(["mutt", "-F", muttrc])
 
 
