@@ -23,6 +23,9 @@ import configparser
 import subprocess
 import sys
 
+import readline
+assert readline
+
 
 class LocalMail:
 
