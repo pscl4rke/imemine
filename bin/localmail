@@ -16,6 +16,12 @@ your config file:
 
     [manage]
     muttrc = /path/to/mutt_config_file
+
+    [search]
+    muhome = /path/to/indexing/dir
+    maildir = /path/to/email/folders
+    ; NOTE: don't put results into base directory or it will get synced!
+    linksdir = /path/to/results/folder
 """
 
 
@@ -42,6 +48,7 @@ class LocalMail:
             print("1: sync")
             print("2: manage-ro")
             print("3: manage-rw")
+            print("4: search")
             cmd = self.ask_for_command()
             if cmd == "1":
                 self.handle_sync()
@@ -49,6 +56,8 @@ class LocalMail:
                 self.handle_manage_ro()
             elif cmd == "3":
                 self.handle_manage_rw()
+            elif cmd == "4":
+                self.handle_search()
             elif cmd == "q":
                 print("Exiting...")
                 break
@@ -74,6 +83,24 @@ class LocalMail:
     def handle_manage_rw(self):
         muttrc = self.config['manage']['muttrc']
         subprocess.call(["mutt", "-F", muttrc])
+
+    def handle_search(self):
+        # Warning - what if this checks the index into version control!
+        # Warning - what if this syncs the results onto the remote server!
+        muhome = self.config['search']['muhome']
+        maildir = self.config['search']['maildir']
+        linksdir = self.config['search']['linksdir']
+        subprocess.call(["mu", "index", "--muhome", muhome, "-m", maildir])
+        query = input("Query: ")
+        query_parts = query.split()
+        #cmd = ["mu", "find", "--muhome", muhome, "-u"]
+        #cmd.extend(query.split())
+        #subprocess.call(cmd)
+        cmd = ["mu", "find", "--muhome", muhome, "-u", "--format", "links", "--linksdir", linksdir]  #--clearlinks
+        cmd.extend(query.split())
+        subprocess.call(cmd)
+        muttrc = self.config['manage']['muttrc']
+        subprocess.call(["mutt", "-R", "-F", muttrc, "-f", linksdir])
 
 
 if __name__ == '__main__':
