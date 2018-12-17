@@ -1,0 +1,7 @@
+
+
+# Ignore mouse events because they are only accidental and they
+# stop me copying and pasting.
+mouse_support = no
+
+
