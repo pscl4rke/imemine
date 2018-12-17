@@ -96,7 +96,7 @@ class LocalMail:
         #cmd = ["mu", "find", "--muhome", muhome, "-u"]
         #cmd.extend(query.split())
         #subprocess.call(cmd)
-        cmd = ["mu", "find", "--muhome", muhome, "-u", "--format", "links", "--linksdir", linksdir]  #--clearlinks
+        cmd = ["mu", "find", "--muhome", muhome, "-u", "--format", "links", "--linksdir", linksdir, "--clearlinks"]
         cmd.extend(query.split())
         subprocess.call(cmd)
         muttrc = self.config['manage']['muttrc']
