@@ -5,6 +5,7 @@
 
 
 # FIXME: doesn't reflow block quotes properly
+# FIXME: leaves a space on the end of paragraphs
 
 
 import sys
@@ -22,10 +23,13 @@ def flowform(line):
     return line.replace('\n', ' ')
 
 
-def main():
-    for line in sys.stdin:
-        sys.stdout.write(flowform(line))
+def wpflow(src):
+    chunks = []
+    for line in src.splitlines():
+        chunks.append(flowform(line + "\n"))
+        chunks.append("")
+    return "".join(chunks)
 
 
 if __name__ == '__main__':
-    main()
+    sys.stdout.write(wpflow(sys.stdin.read()))
