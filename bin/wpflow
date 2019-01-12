@@ -9,6 +9,7 @@
 
 
 import sys
+import unittest
 
 
 def flowform(line):
@@ -31,5 +32,18 @@ def wpflow(src):
     return "".join(chunks)
 
 
+class TestWpflow(unittest.TestCase):
+
+    def test_paragraphs(self):
+        text_in = "foo\nbar\n\nbaz\nquux\n"
+        #text_out = "foo bar\n\nbaz quux\n"
+        text_out = "foo bar \n\nbaz quux "  # FIXME
+        self.assertEqual(text_out, wpflow(text_in))
+
+
 if __name__ == '__main__':
-    sys.stdout.write(wpflow(sys.stdin.read()))
+    if "--test" in sys.argv:
+        sys.argv = [sys.argv[0]]
+        unittest.main()
+    else:
+        sys.stdout.write(wpflow(sys.stdin.read()))
