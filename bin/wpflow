@@ -24,12 +24,37 @@ def flowform(line):
     return line.replace('\n', ' ')
 
 
-def wpflow(src):
+def reflow(paragraph):
     chunks = []
-    for line in src.splitlines():
+    for line in paragraph:
         chunks.append(flowform(line + "\n"))
         chunks.append("")
     return "".join(chunks)
+
+
+def split_into_paragraphs(lines):
+    paragraphs = []
+    current_paragraph = []
+    currently_whitespace = True
+    for line in lines:
+        if line.strip() == "":
+            if not currently_whitespace:
+                paragraphs.append(current_paragraph)
+                current_paragraph = []
+            currently_whitespace = True
+        else:
+            current_paragraph.append(line)
+            currently_whitespace = False
+    if len(current_paragraph) > 0:
+        paragraphs.append(current_paragraph)
+    return paragraphs
+
+
+def wpflow(src):
+    pars = []
+    for paragraph in split_into_paragraphs(src.splitlines()):
+        pars.append(reflow(paragraph))
+    return "\n\n".join(pars)
 
 
 class TestWpflow(unittest.TestCase):
