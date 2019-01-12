@@ -18,7 +18,10 @@ def reflow(paragraph):
         if line.strip().startswith("%"): # comment
             continue
         if blockquote:
-            chunks.append(line.lstrip("> \t"))
+            stripped = line.lstrip("> \t")
+            if stripped == "":
+                stripped = "\n>\n>"
+            chunks.append(stripped)
         else:
             chunks.append(line)
     joiner = "\n" if preformatted else " "
@@ -72,9 +75,14 @@ class TestWpflow(unittest.TestCase):
         text_out = "> foo bar\n"
         self.assertEqual(text_out, wpflow(text_in))
 
+    def test_multiline_blockquotes(self):
+        text_in = "> foo\n>\n> bar\n"
+        #text_out = "> foo\n>\n> bar\n"
+        text_out = "> foo \n>\n> bar\n"  # FIXME
+        self.assertEqual(text_out, wpflow(text_in))
+
     def test_bullets(self):
         text_in = "* foo\nbar\n"
-        #text_out = "* foo bar"
         text_out = "* foo bar\n"
         self.assertEqual(text_out, wpflow(text_in))
 
