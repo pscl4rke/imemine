@@ -4,20 +4,23 @@
 #======================================================================#
 
 
-# FIXME: doesn't reflow block quotes properly
-
-
 import sys
 import unittest
 
 
 def reflow(paragraph):
-    preformatted = paragraph[0][0] in " \t>"
+    preformatted = paragraph[0][0] in " \t"
+    blockquote = paragraph[0][0] in ">"
     chunks = []
+    if blockquote:
+        chunks.append(">")
     for line in paragraph:
         if line.strip().startswith("%"): # comment
             return ""
-        chunks.append(line)
+        if blockquote:
+            chunks.append(line.lstrip("> \t"))
+        else:
+            chunks.append(line)
     joiner = "\n" if preformatted else " "
     return joiner.join(chunks) + "\n"
 
@@ -61,8 +64,7 @@ class TestWpflow(unittest.TestCase):
 
     def test_blockquotes(self):
         text_in = "> foo\n> bar\n"
-        #text_out = "> foo bar\n"
-        text_out = "> foo\n> bar\n"  # FIXME
+        text_out = "> foo bar\n"
         self.assertEqual(text_out, wpflow(text_in))
 
     def test_bullets(self):
