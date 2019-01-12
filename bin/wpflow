@@ -16,7 +16,7 @@ def reflow(paragraph):
         chunks.append(">")
     for line in paragraph:
         if line.strip().startswith("%"): # comment
-            return ""
+            continue
         if blockquote:
             chunks.append(line.lstrip("> \t"))
         else:
@@ -51,6 +51,11 @@ def wpflow(src):
 
 
 class TestWpflow(unittest.TestCase):
+
+    def test_comments(self):
+        text_in = "foo\n%bar\nbaz\n"
+        text_out = "foo baz\n"
+        self.assertEqual(text_out, wpflow(text_in))
 
     def test_paragraphs(self):
         text_in = "foo\nbar\n\nbaz\nquux\n"
