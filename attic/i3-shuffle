@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+
+
+import json
+import subprocess
+import sys
+
+
+def call(args):
+    #print(args)
+    subprocess.call(args)
+
+
+def insert():
+    x = subprocess.check_output(["i3-msg", "-t", "get_workspaces"])
+    y = json.loads(x.decode())
+    num = 1
+    for ws in reversed(y):
+        num = ws['num']
+        call(["i3-msg", "rename", "workspace", str(num), "to", str(num + 1)])
+        if ws['focused']:
+            break
+    subprocess.call(["i3-msg", "workspace", str(num)])
+
+
+def renumber():
+    x = subprocess.check_output(["i3-msg", "-t", "get_workspaces"])
+    y = json.loads(x.decode())
+    desired = 1
+    for ws in y:
+        current = ws['num']
+        if current != desired:
+            call(["i3-msg", "rename", "workspace", str(current),
+                                                 "to", str(desired)])
+        desired = desired + 1
+
+
+def main():
+    if sys.argv[1] == "insert":
+        insert()
+        renumber()
+    else:
+        raise Exception("Unknown")
+
+
+if __name__ == '__main__':
+    main()
