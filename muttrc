@@ -46,6 +46,23 @@ bind index,pager f noop
 bind index,pager b noop
 
 
+# DELETING
+#   I don't want deleting enabled by default.  Partly to stop me
+#   accidentally deleting things from accounts where that isn't
+#   desired, but also because services like Gmail carry out an
+#   "archive" action instead of a "bin" one, making things messy.
+#   On accounts where I do want to delete the `delete-message`
+#   binding can be re-enabled in the config file.
+# Was delete-thread:
+bind index,pager \Cd noop
+# Was delete-subthread:
+bind index,pager <ESC>d noop
+# Was delete-pattern
+bind index,pager D noop
+# Was delete-message:
+bind index,pager d noop
+
+
 # VIEWING ATTACHMENTS AND MESSAGES
 #   By default Mutt will get the MIME type of a file from the header.
 #   Some senders have badly behaved clients (e.g. thinking a CSV is
