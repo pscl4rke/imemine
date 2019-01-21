@@ -1,3 +1,32 @@
-#!/bin/bash
-beepfile="$(dirname $(dirname $(realpath $0)))/vendor/beep-02.mp3"
-mplayer -quiet "$beepfile"
+#!/usr/bin/python3
+#======================================================================#
+# BEEP PROGRAM, WITH OPTIONAL ENDLESS LOOP       (c) 2019 P. S. Clarke #
+#======================================================================#
+
+
+from os.path import dirname, realpath, join
+import subprocess
+import sys
+import time
+
+
+BEEPFILE = join(dirname(dirname(realpath(sys.argv[0]))), "vendor", "beep-02.mp3")
+
+
+def beep():
+    subprocess.check_call(["mplayer", "-quiet", BEEPFILE])
+
+
+def main():
+    if len(sys.argv) == 2:
+        pause = int(sys.argv[1])
+        while True:
+            beep()
+            time.sleep(pause)
+    else:
+        print("Beeping only once!")
+        beep()
+
+
+if __name__ == '__main__':
+    main()
