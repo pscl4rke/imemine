@@ -22,6 +22,9 @@ your config file:
     maildir = /path/to/email/folders
     ; NOTE: don't put results into base directory or it will get synced!
     linksdir = /path/to/results/folder
+
+    [gitrepo]
+    path = /path/to/git/repo
 """
 
 
@@ -43,12 +46,17 @@ class LocalMail:
         self.config.read(config_path)
         self.keep_prompting()
 
+    def has_config_for(self, section):
+        return section in self.config
+
     def keep_prompting(self):
         while True:
             print("1: sync")
             print("2: manage-ro")
             print("3: manage-rw")
             print("4: search")
+            if self.has_config_for("gitrepo"):
+                print("5: commit")
             cmd = self.ask_for_command()
             if cmd == "1":
                 self.handle_sync()
@@ -58,6 +66,8 @@ class LocalMail:
                 self.handle_manage_rw()
             elif cmd == "4":
                 self.handle_search()
+            elif cmd == "5":
+                self.handle_commit()
             elif cmd == "q":
                 print("Exiting...")
                 break
@@ -101,6 +111,12 @@ class LocalMail:
         subprocess.call(cmd)
         muttrc = self.config['manage']['muttrc']
         subprocess.call(["mutt", "-R", "-F", muttrc, "-f", linksdir])
+
+    def handle_commit(self):
+        basedir = self.config['gitrepo']['path']
+        subprocess.call(["git", "add", "-A"], cwd=basedir)
+        subprocess.call(["git", "commit", "-m", "Manual"], cwd=basedir)
+        subprocess.call(["git", "push"], cwd=basedir)
 
 
 if __name__ == '__main__':
