@@ -1,2 +1,2 @@
 #!/bin/bash
-"$(dirname "$0")"/open-in-browser "$@" &
+"$(dirname "$0")"/open-in-browser "$@" >>/dev/null 2>&1 &
