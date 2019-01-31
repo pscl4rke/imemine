@@ -24,7 +24,9 @@ bind generic <right> noop
 bind index,generic G last-entry
 bind pager G bottom
 bind pager } skip-quoted
-bind index,browser,generic <space> next-page
+bind generic <space> next-page
+bind browser <tab> view-file
+bind browser l select-entry
 
 
 # ACTION KEY-BINDINGS
