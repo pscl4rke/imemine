@@ -32,6 +32,11 @@ class PipLocal:
             self.run([virtualenv, "-p", "/usr/bin/python%s" % version, dest])
             print("Remember to source...")
             print("  %s/bin/activate" % dest)
+        else:
+            print("Usage:")
+            print("  pip-local fetch -2|-3 /path/to/requirements.txt")
+            print("  pip-local new -2|-3 name")
+            print("  pip-local install /path/to/requirements.txt")
 
     def run(self, args):
         print(repr(args))
