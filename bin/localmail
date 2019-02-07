@@ -54,7 +54,8 @@ class LocalMail:
             print("1: sync")
             print("2: manage-ro")
             print("3: manage-rw")
-            print("4: search")
+            if self.has_config_for("search"):
+                print("4: search")
             if self.has_config_for("gitrepo"):
                 print("5: commit")
             cmd = self.ask_for_command()
