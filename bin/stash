@@ -7,7 +7,7 @@ set -eu
 # Create an archival tar of a source directory.
 
 [ $# -ne 1 ] && echo No source directory given && exit 1
-src="$1"
+src="${1%/}"  # Strip trailing slash
 dest="$src.tar"
 
 (echo "$src" | grep -q '/') && echo Contains a slash && exit 1
