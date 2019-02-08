@@ -1,8 +1,12 @@
-#!/usr/bin/env bash
+#!/bin/bash
+#======================================================================#
+# FILE STASHING ARCHIVER                         (c) 2013 P. S. Clarke #
+#======================================================================#
+set -eu
 
 # Create an archival tar of a source directory.
 
-[ -z "$1" ] && echo No source directory given && exit 1
+[ $# -ne 1 ] && echo No source directory given && exit 1
 src="$1"
 dest="$src.tar"
 
@@ -25,4 +29,3 @@ tar --create \
 
 # Then emit hash for storage confirmation:
 md5sum "$dest"
-
