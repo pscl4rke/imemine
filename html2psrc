@@ -30,6 +30,10 @@ h2 {
   font-size: 13pt;
 }
 
+h3 {
+  font-size: 11pt;
+}
+
 pre, blockquote {
   margin-left: 2pt;
 }
