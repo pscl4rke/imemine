@@ -558,6 +558,12 @@
         <command>amixer -D pulse -q sset Master 3%- unmute</command>
       </action>
     </keybind>
+    <keybind key="C-A-0">
+      <action name="Execute">
+        <!-- List available devices with "aplay -l" -->
+        <command>amixer -D pulse -q sset Master toggle</command>
+      </action>
+    </keybind>
 
     <!-- These match the zenbook and netbook -->
     <!-- Ideally brightness would either be handled by hardware or the -->
