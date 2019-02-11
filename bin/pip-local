@@ -14,7 +14,7 @@ class PipLocal:
 
     def main(self, args):
         # FIXME: Please replace with proper argparse stuff
-        command = args[1]
+        command = args[1] if len(args)> 1 else "usage"
         if command == "fetch":
             version = args[2].lstrip("-")
             requirements = args[3]
