@@ -32,6 +32,7 @@ def clean_query(original):
 
 def clean(original):
     splitfixed = original.strip().lstrip('+').replace("\n+", "")
+    splitfixed = "".join(c for c in splitfixed if 31 < ord(c) < 127)
     if "://" in splitfixed:
         guess_scheme = splitfixed
     else:
@@ -74,6 +75,10 @@ class TestClean(unittest.TestCase):
     def test_whitespace(self):
         self.assertEqual(clean("  http://www.foobar.com\n  "),
                                "http://www.foobar.com")
+
+    def test_picture_characters(self):
+        self.assertEqual(clean("￼https://www.foobar.com"),
+                               "https://www.foobar.com")
 
     def test_mutts_wrapping_at_the_start(self):
         self.assertEqual(clean("+https://www.foobar.com/"),
