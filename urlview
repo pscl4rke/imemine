@@ -16,3 +16,6 @@ COMMAND /home/psc/imemine/bin/open-in-browser-bg
 
 # set to yes to enable menu wrapping
 #WRAP Yes
+
+# needs patching in
+QUITONLAUNCH
