@@ -68,8 +68,16 @@ URxvt.cutchars: `"'&()*,;<=>?[]^{|}
 ! EXTENSIONS TO BE LOADED
 !   What should it add and where should it look?
 URxvt.perl-lib: /home/psc/.urxvt/perl
-URxvt.perl-ext-common: vtwheel,confirm-paste
+! maybe try selection-to-clipboard too???
+URxvt.perl-ext-common: vtwheel,confirm-paste,resize-font
 !secondaryWheel: 
+
+
+URxvt.keysym.C-minus: resize-font:smaller
+URxvt.keysym.C-plus: resize-font:bigger
+URxvt.keysym.C-equal: resize-font:bigger
+URxvt.keysym.C-0: resize-font:reset
+URxvt.keysym.C-question: resize-font:show
 
 
 ! TEXT RENDERING
