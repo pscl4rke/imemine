@@ -64,17 +64,25 @@ def _green(msg):
     return "\033[32m%s\033[0m" % msg
 def _yellow(msg):
     return "\033[33m%s\033[0m" % msg
+def _blue(msg):
+    return "\033[34m%s\033[0m" % msg
 
 import sys
 import traceback
 def errorhook(type_, value, tb):
-    sys.stderr.write(_red("Traceback (most recent call last):\n"))
-    for all_lines in traceback.format_tb(tb):
-        lines = all_lines.splitlines()
-        for line in lines:
-            if line.startswith("    "):
-                sys.stderr.write(line + "\n")
-            else:
-                sys.stderr.write(_yellow(line) + "\n")
-    sys.stderr.write(_red("%s: %s\n" % (type_.__name__, value)))
+    for chunk in traceback.format_exception(type_, value, tb):
+        if chunk == "Traceback (most recent call last):\n":
+            sys.stderr.write(_red(chunk))
+        elif chunk.startswith("\n"): # exception chaining
+            sys.stderr.write(_blue(chunk))
+        elif chunk.startswith(" "):
+            for line in chunk.splitlines():
+                if line.startswith("    "): # code snippet
+                    sys.stderr.write(line + "\n")
+                else: # filename etc
+                    sys.stderr.write(_yellow(line + "\n"))
+        elif chunk.split()[0].endswith(":"): # exception types
+            sys.stderr.write(_red(chunk))
+        else:
+            sys.stderr.write(_green(chunk)) # should never happen
 sys.excepthook = errorhook
