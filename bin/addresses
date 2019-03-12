@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+#======================================================================#
+# EMAIL-TO-ADDRESS SCRAPER                       (c) 2019 P. S. Clarke #
+#======================================================================#
+
+
+# Pipe an email message in one end.  Out pops a list of email addresses
+# at the other.  Handy for keeping contact groups in your address book
+# synchronised with with what's happening in the rest of the world as
+# new addresses are added and old ones dropped off.
+
+
+import email
+from email.utils import getaddresses
+import sys
+
+
+def main():
+    addresses = set()
+    msg = email.message_from_bytes(sys.stdin.buffer.read())
+    for header in ["From", "Reply-To", "To", "Cc", "Bcc"]:
+        foundheaders = msg.get_all(header)
+        if foundheaders is None:
+            continue
+        for addresspair in getaddresses(foundheaders):
+            addresses.add(addresspair[1])
+    for address in sorted(addresses):
+        print(address)
+
+
+if __name__ == '__main__':
+    main()
