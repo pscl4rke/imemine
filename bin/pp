@@ -57,6 +57,7 @@ def handle_pdf_file(pdffilename, title):
         info("  2p    Print two pages per side to %s" % best_printer())
         info("  ve    View in evince")
         info("  vm    View in mupdf")
+        info("  vz    View in zathura")
         #info("  sh    Save a copy here")
         info("  sd    Save a copy to Desktop/Downloads")
         info("  q     Quit")
@@ -77,6 +78,8 @@ def run_command(pdffilename, command):
             subprocess.check_call(["evince", pdffilename])
         elif command == "vm":
             subprocess.check_call(["mupdf", pdffilename])
+        elif command == "vz":
+            subprocess.check_call(["zathura", pdffilename])
         #elif command == "sh":
         #    info("FIXME")
         #    pass # FIXME save here
