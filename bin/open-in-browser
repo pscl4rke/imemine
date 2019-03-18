@@ -11,6 +11,7 @@ else
 fi
 mode="temp"
 
+while [[ ! -z "$1" ]]; do
 case "$1" in
     -b)
         shift
@@ -20,7 +21,11 @@ case "$1" in
         mode="profile" ; shift
         profile="$1" ; shift
         ;;
+    *)
+        break
+        ;;
 esac
+done
 
 case "$1" in
     PRIMARY)
