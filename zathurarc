@@ -1,0 +1,5 @@
+
+# Use darkish grey for the empty space around the page instead
+# of an uncomfortable jet black:
+set default-bg "#444444"
+
