@@ -31,10 +31,10 @@ def best_printer():
 
 
 def get_title_from_header_of(psfilename):
-    with open(psfilename) as psfile:
+    with open(psfilename, "rb") as psfile:
         for line in psfile:
-            if line.startswith("%%Title: "):
-                return line[9:].strip()
+            if line.startswith(b"%%Title: "):
+                return line.decode()[9:].strip()
     return None
 
 
