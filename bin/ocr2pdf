@@ -125,6 +125,9 @@ def main():
     with Document(destination_file, opts.width, opts.height) as document:
         for text_file, image_file in page_pairs:
             document.add_page(text_file, image_file)
+            sys.stderr.write(".")
+            sys.stderr.flush()
+        sys.stderr.write("\n")
 
 
 if __name__ == '__main__':
