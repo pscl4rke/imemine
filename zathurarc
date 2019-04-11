@@ -1,5 +1,21 @@
+#
+#======================================================================#
+#                   ZATHURA PDF VIEWER CONFIGURATION                   #
+#======================================================================#
+
+
+# Did you know, you can type a colon while zathura is running
+# and try some of these out running live.
+
 
 # Use darkish grey for the empty space around the page instead
 # of an uncomfortable jet black:
 set default-bg "#444444"
+
+
+# The default keybindings don't work for zooming on UK keyboards
+# because the plus sign needs shift.
+map 0 zoom best-fit
+map = zoom in
+
 
