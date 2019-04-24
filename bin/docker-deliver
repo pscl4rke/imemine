@@ -12,13 +12,43 @@ import tempfile
 
 
 class pushd:
+
     def __init__(self, path):
         self.path = path
+
     def __enter__(self):
         self.original = os.getcwd()
         os.chdir(self.path)
+
     def __exit__(self, *errs):
         os.chdir(self.original)
+
+
+class StatusTracker:
+
+    def __init__(self, prefix):
+        self.prefix = prefix
+        self.out = sys.stdout
+        self.width = 80
+
+    def __enter__(self):
+        self.set_text("")
+        return self
+
+    def __exit__(self, *errs):
+        self.out.write("\n")
+        self.out.flush()
+
+    def set_text(self, text):
+        if self.out.isatty():
+            self.out.write("\r")
+        line = (self.prefix + text)[:self.width]
+        self.out.write(line)
+        if self.out.isatty():
+            self.out.write(" " * (self.width - len(line)))
+        else:
+            self.out.write("\n")
+        self.out.flush()
 
 
 class DirectoryDestination:
@@ -26,6 +56,9 @@ class DirectoryDestination:
     def __init__(self, path):
         self.path = os.path.realpath(path)
         os.mkdir(self.path)
+
+    def __str__(self):
+        return self.path
 
     def needed(self, image_id):
         return True
@@ -41,6 +74,9 @@ class SshDestination:
     def __init__(self, host):
         self.host = host
         self._ping()
+
+    def __str__(self):
+        return self.host
 
     def _ping(self):
         #output = self.check_output(["ssh", self.host, "echo pong"])
@@ -86,21 +122,23 @@ class Exporter:
     def export(self, topname, destination):
         layers_exported = []
         image_names = self.get_image_names()
-        #print("%i local images" % len(image_names))
         for i_minus, image in enumerate(self.images_to_export(topname)):
-            print(image, " ", end="")
-            sys.stdout.flush()
-            if not destination.needed(image):
-                print("(not needed)")
-                continue
-            name = image_names.get(image, "N:N").split(":")[0]
-            filenamemade = "%02i.%s.%s.tar" % ((i_minus + 1), image, name)
-            identifier = image_names.get(image, image)
-            with tempfile.NamedTemporaryFile() as f:
-                self.export_except(identifier, layers_exported, f.name)
-                layers_exported.extend(self.layers_in(f.name))
-                result = destination.deliver(f.name, filenamemade)
-            print(result)
+            with StatusTracker(image + "  ") as tracker:
+                tracker.set_text("Checking if needed...")
+                if not destination.needed(image):
+                    tracker.set_text("(not needed)")
+                    continue
+                name = image_names.get(image, "N:N").split(":")[0]
+                filenamemade = "%02i.%s.%s.tar" % ((i_minus + 1), image, name)
+                identifier = image_names.get(image, image)
+                with tempfile.NamedTemporaryFile() as f:
+                    tracker.set_text("Saving from docker...")
+                    self.export_except(identifier, layers_exported, f.name)
+                    tracker.set_text("Examining layers...")
+                    layers_exported.extend(self.layers_in(f.name))
+                    tracker.set_text("Delivering to %s..." % destination)
+                    result = destination.deliver(f.name, filenamemade)
+                tracker.set_text("Delivered. [%s]" % result)
 
     def images_to_export(self, topname):
         images = []
