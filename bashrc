@@ -203,8 +203,14 @@ function cdiff() { colordiff -u "$@" | less -R; }
 # COLOURING IN LS
 #   The dircolors program emits LS_COLORS="...", which enables
 #   ls to highlight files, mostly based on extension.  I use the
-#   defaults so I get any new entries from the maintainers.
-eval "$(dircolors -b)"
+#   defaults so I get any new entries from the maintainers,
+#   but then I tweak the colouring of "other_writable" files
+#   so that directory names on USB drives are actually readable!
+eval "$(dircolors --bourne-shell <( \
+    dircolors --print-database \
+    | sed 's/34;42/01;04;34/g' \
+    | sed 's/30;42/01;04;34;47/g' \
+))"
 
 
 # PACKAGING
