@@ -7,6 +7,11 @@
 # To the best of my knowledge only mutt uses this these days!
 
 
+# Definitions used by mutt's auto_view settings to automatically
+# convert parts into plain text to show in the pager:
+text/calendar; vcal -all -; copiousoutput
+
+
 # Definitions that give a quick terminal-based view of a file.
 # Save first if you want a GUI spreadsheet program:
 text/csv; tabview %s

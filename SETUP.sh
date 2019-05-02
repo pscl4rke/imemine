@@ -174,3 +174,5 @@ wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
 wantlink "vendor/urxvt_perl_resize-font" ".urxvt/perl/resize-font"
 wantlink "/usr/share/vim/addons/syntax" ".vim_addons/syntax"
 
+wantlink "vendor/vcal.pl" "bin/vcal"
+
