@@ -1,15 +1,25 @@
 
-# to the best of my knowledge only mutt uses this these days
+########################################################################
+# MAILCAP ATTACHMENT-VIEWING RULES                    (c) P. S. Clarke #
+########################################################################
+
+
+# To the best of my knowledge only mutt uses this these days!
+
+
+# Definitions that give a quick terminal-based view of a file.
+# Save first if you want a GUI spreadsheet program:
+text/csv; tabview %s
+
+
+# Definitions for extracting winmail.dat attachments:
+application/ms-tnef; echo ===== && tnef -t %s && read x && tnef -w -C /home/psc/Downloads/ %s
+
 
 #image/jpeg; sxiv %s
 image/jpeg; sxiv %s; test=test -x /usr/bin/sxiv
-
-application/ms-tnef; echo ===== && tnef -t %s && tnef -w -C /home/psc/Downloads/ %s
 
 # Use --local to not load remote images etc
 text/html; dillo --local %s; test=test -n "$DISPLAY"
 text/xml; dillo --local %s; test=test -n "$DISPLAY"
 application/xhtml+xml; dillo --local %s; test=test -n "$DISPLAY"
-
-# Save first if you want a GUI spreadsheet program:
-text/csv; tabview %s
