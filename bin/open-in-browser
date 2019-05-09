@@ -51,24 +51,24 @@ case "$browser-$mode" in
     chrome-temp)
         # --temp-profile must be first if it is to be obeyed:
         chromium-browser --temp-profile --no-first-run \
-            --no-default-browser-check "$url"
+            --no-default-browser-check "$url" 2>&1 >/dev/null
         ;;
     chrome-profile)
         chromium-browser --user-data-dir="$HOME/.config/chromium-$profile" \
-            --no-default-browser-check --new-window "$url"
+            --no-default-browser-check --new-window "$url" 2>&1 >/dev/null
         ;;
     firefox-temp)
         profilepath="$(mktemp --directory /tmp/firefox.$$.XXXXXXX)"
         [ -e ~/.firefox.base.tar ] && (
             cd "$profilepath"
             tar xf ~/.firefox.base.tar)
-        firefox -no-remote -profile "$profilepath" "$url"
+        firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
     firefox-profile)
         profilepath="$HOME/.config/firefox-$profile"
         mkdir "$profilepath"
-        firefox -no-remote -profile "$profilepath" "$url"
+        firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         ;;
     *)
         echo "Unknown: $browser-$mode"
