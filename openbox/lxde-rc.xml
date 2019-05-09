@@ -529,17 +529,17 @@
     </keybind>
     <keybind key="C-A-p">
       <action name="Execute">
-        <command>mpc toggle</command>
+        <command>mpc -q toggle</command>
       </action>
     </keybind>
     <keybind key="C-A-comma">
       <action name="Execute">
-        <command>mpc prev</command>
+        <command>mpc -q prev</command>
       </action>
     </keybind>
     <keybind key="C-A-period">
       <action name="Execute">
-        <command>mpc next</command>
+        <command>mpc -q next</command>
       </action>
     </keybind>
 
