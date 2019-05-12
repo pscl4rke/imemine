@@ -62,12 +62,12 @@ def handle_pdf_file(pdffilename, title):
         info("  sd    Save a copy to Desktop/Downloads")
         info("  q     Quit")
         command = open("/dev/tty").readline().strip()
-        carry_on = run_command(pdffilename, command)
+        carry_on = run_command(pdffilename, command, title)
         if not carry_on:
             break
 
 
-def run_command(pdffilename, command):
+def run_command(pdffilename, command, title):
     try:
         if command == "1p":
             subprocess.check_call(["lp", "-d", best_printer(), pdffilename])
