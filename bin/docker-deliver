@@ -4,6 +4,7 @@
 #======================================================================#
 
 
+import argparse
 import os
 import shutil
 import subprocess
@@ -177,9 +178,17 @@ class Exporter:
         return layers
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Docker host-to-host push tool")
+    parser.add_argument("image", help="Name or ID of local image to push")
+    parser.add_argument("destination", help="SSH identity of destination machine")
+    return parser.parse_args()
+
+
 def main():
-    destination = get_destination_from(sys.argv[2])
-    Exporter().export(sys.argv[1], destination)
+    args = parse_args()
+    destination = get_destination_from(args.destination)
+    Exporter().export(args.image, destination)
 
 
 if __name__ == '__main__':
