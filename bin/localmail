@@ -29,6 +29,7 @@ your config file:
 
 
 import configparser
+import os
 import subprocess
 import sys
 
@@ -49,8 +50,13 @@ class LocalMail:
     def has_config_for(self, section):
         return section in self.config
 
+    def set_title(self):
+        title = "Localmail: %s" % os.path.basename(sys.argv[1])
+        print("\033]0;%s\007" % title, end="")
+
     def keep_prompting(self):
         while True:
+            self.set_title() # esp after mutt has tweaked it
             print("1: sync")
             print("2: manage-ro")
             print("3: manage-rw")
