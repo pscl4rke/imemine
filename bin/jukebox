@@ -3,7 +3,16 @@
 # MPD ALBUM SELECTOR                             (c) 2012 P. S. Clarke #
 #======================================================================#
 
-album="$(mpc list album | shuf | cat <(echo "SHUFFLING") - | dmenu -i)"
+# From MPD v0.21 (out in Ubuntu 19.04) there is a much more powerful
+# filtering syntax which should handle the variety of spellings of
+# "classical" (see `mpc list genre` for more info).  Although it won't
+# throw in things like soundtracks.  Until then...
+filters=""
+if [[ "$1" == "--classical" ]]; then
+    filters="Genre (32)Classical"
+fi
+
+album="$(mpc list album $filters | shuf | cat <(echo "SHUFFLING") - | dmenu -i)"
 [ -z "$album" ] && exit 1
 mpc clear
 case "$album" in
@@ -11,7 +20,3 @@ case "$album" in
     *)          mpc find album "$album"     ;;
 esac | mpc add
 mpc play
-# Try again because of a weird permissions issue
-# It still doesn't work :(
-#sleep 1 && mpc play
-
