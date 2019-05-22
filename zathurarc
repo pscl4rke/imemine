@@ -15,7 +15,9 @@ set default-bg "#444444"
 
 # The default keybindings don't work for zooming on UK keyboards
 # because the plus sign needs shift.
-map 0 zoom best-fit
-map = zoom in
+map [normal]        0 zoom best-fit
+map [fullscreen]    0 zoom best-fit
+map [normal]        = zoom in
+map [fullscreen]    = zoom in
 
 
