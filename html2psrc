@@ -19,6 +19,9 @@
       file: "/usr/share/texmf-texlive/tex/generic/hyphen/hyphen.tex";
     }
   }
+  option {
+    underline: 1;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -36,6 +39,10 @@ h3 {
 
 pre, blockquote {
   margin-left: 2pt;
+}
+
+a {
+  /* underline actually controlled in option block above */
 }
 
 /*
