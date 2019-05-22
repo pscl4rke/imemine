@@ -38,7 +38,16 @@ def get_title_from_header_of(psfilename):
     return None
 
 
+def looks_like_a_postscript(psfilename):
+    expected = "%!PS"
+    with open(psfilename) as psfile:
+        start = psfile.read(len(expected))
+    return start == expected
+
+
 def handle_postscript_file(psfilename, title):
+    if not looks_like_a_postscript(psfilename):
+        raise Exception("Is that really a postscript!?!?")
     if title is None:
         title = get_title_from_header_of(psfilename)
     if title is None:
