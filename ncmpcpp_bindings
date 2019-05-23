@@ -30,3 +30,9 @@ def_key "."
 def_key "."
     move_selected_items_up
 
+# disable most lyrics stuff:
+def_key "l"
+    dummy
+def_key "F"
+    dummy
+
