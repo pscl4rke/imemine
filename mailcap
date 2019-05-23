@@ -24,6 +24,8 @@ application/ms-tnef; echo ===== && tnef -t %s && read x && tnef -w -C /home/psc/
 #image/jpeg; sxiv %s
 image/jpeg; sxiv %s; test=test -x /usr/bin/sxiv
 
+application/pdf; zathura %s; test=test -x /usr/bin/zathura
+
 # Use --local to not load remote images etc
 text/html; dillo --local %s; test=test -n "$DISPLAY"
 text/xml; dillo --local %s; test=test -n "$DISPLAY"
