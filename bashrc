@@ -100,6 +100,13 @@ function __fakeroot_ps1() {
         echo " (fake:$FAKED_MODE)"
     fi
 }
+function __quilt_ps1() {
+    # guard condtion, builtins only for speed.
+    # messy, should also check parent dirs
+    # and $QUILT_PC if it exists.
+    [ ! -d .pc ] && return
+    echo " ($(quilt top 2>&1))"
+}
 
 
 # TITLING FUNCTIONS
@@ -133,6 +140,7 @@ PS1="${PS1}\$(__set_title)\n"
 PS1="${PS1}$launcher"
 PS1="${PS1}\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]"
 PS1="${PS1}\$(__git_ps1 ' (%s)')"
+PS1="${PS1}\$(__quilt_ps1 ' (%s)')"
 PS1="${PS1}\[\e[35m\]$(__nave_ps1)\$(__virtualenv_ps1)\$(__fakeroot_ps1)\[\e[0m\]"
 PS1="${PS1}\n\$ "
 export PS1
