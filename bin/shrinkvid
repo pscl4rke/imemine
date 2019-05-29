@@ -3,6 +3,8 @@
 # VIDEO FILE SHRINKER                            (c) 2015 P. S. Clarke #
 #======================================================================#
 
+set -eu
+
 # By reducing the number of pixels not only does the file take less
 # space but more importantly it also renders easier on ultra-low-power
 # devices.
@@ -12,7 +14,7 @@
 FFMPEG=avconv
 [ -e /usr/bin/ffmpeg ] && FFMPEG=ffmpeg
 
-[ -z "$1" ] && echo Incorrect usage && exit 1
+[ $# -eq 0 ] && echo Incorrect usage && exit 1
 src="$1"
 #dest="$2"
 # Guess dest...
