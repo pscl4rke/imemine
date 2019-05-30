@@ -14,9 +14,9 @@ fi
 
 album="$(mpc list album $filters | shuf | cat <(echo "SHUFFLING") - | dmenu -i)"
 [ -z "$album" ] && exit 1
-mpc clear
+mpc -q clear
 case "$album" in
     SHUFFLING)  mpc listall | shuf          ;;
     *)          mpc find album "$album"     ;;
 esac | mpc add
-mpc play
+mpc -q play
