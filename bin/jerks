@@ -21,10 +21,14 @@ def main():
             # Possibly Python3 wants get_content(...) not get_payload(...)
             # Built-in decode, instead of examining Content-Transfer-Encoding:
             html = part.get_payload(decode=True)
-            html = html.replace(b"://", b"---") # Break tracker links
-            args = ("w3m", "-T", "text/html")
-            browser = subprocess.Popen(args, stdin=subprocess.PIPE)
-            browser.communicate(html)
+            handle_html(html)
+
+
+def handle_html(html):
+    html = html.replace(b"://", b"---") # Break tracker links
+    args = ("w3m", "-T", "text/html")
+    browser = subprocess.Popen(args, stdin=subprocess.PIPE)
+    browser.communicate(html)
 
 
 if __name__ == '__main__':
