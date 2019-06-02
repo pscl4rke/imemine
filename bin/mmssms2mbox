@@ -82,6 +82,10 @@ class Message:
     def formatted_date(self):
         return time.ctime(self.timestamp()) # use local time zone
 
+    def formatted_date_at_my_end(self):
+        timestamp = 0 if (self._ts_sent == 0) else self._ts_rcvd
+        return time.ctime(timestamp) # use local time zone
+
     def month_code(self):
         dt = datetime.datetime.fromtimestamp(self.timestamp())
         return dt.strftime("%Y%m")
@@ -91,6 +95,7 @@ class Message:
         eml.set_unixfrom("From dummy %s" % self.formatted_date())
         eml['Date'] = self.formatted_date()
         if self.is_inbound():
+            eml['Rcvd'] = self.formatted_date_at_my_end()
             eml['From'] = self.sender_address()
             eml['To'] = ME
         else:
