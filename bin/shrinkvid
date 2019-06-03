@@ -22,10 +22,15 @@ basename="${src%.mp4}"
 dest="$basename.qvga.mp4"
 [ "$src" == "$dest" ] && echo Same! && exit 1
 
+if [[ "$(tput cols)" -lt 95 ]]; then
+    echo "You should resize your window to be wider before $FFMPEG runs"
+    echo "Let me wait a moment for you to do that..."
+    sleep 5
+fi
+
 # You can use -r to set the frame rate, but it makes little difference,
 # and sometimes stops the video playing at all.
 
 # use mp3 because default aac errors
 #time $FFMPEG -i "$src" -strict experimental -s qvga "$dest"
 time $FFMPEG -i "$src" -c:a mp3 -s qvga "$dest"
-
