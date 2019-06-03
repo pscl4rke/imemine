@@ -21,3 +21,12 @@ map [normal]        = zoom in
 map [fullscreen]    = zoom in
 
 
+# Normally this is "follow links" but I can't control the browser
+# it launches with.
+map [normal]        f toggle_fullscreen
+map [fullscreen]    f toggle_fullscreen
+# Normally this is "display a link"
+#map [normal]        F follow
+#map [fullscreen]    F follow
+
+
