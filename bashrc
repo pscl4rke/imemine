@@ -107,6 +107,12 @@ function __quilt_ps1() {
     [ ! -d .pc ] && return
     echo " ($(quilt top 2>&1))"
 }
+function __private_ps1() {
+    if [ -z "$HISTFILE" ]
+    then
+        echo "(hush) "
+    fi
+}
 
 
 # TITLING FUNCTIONS
@@ -142,7 +148,7 @@ PS1="${PS1}\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]"
 PS1="${PS1}\$(__git_ps1 ' (%s)')"
 PS1="${PS1}\$(__quilt_ps1 ' (%s)')"
 PS1="${PS1}\[\e[35m\]$(__nave_ps1)\$(__virtualenv_ps1)\$(__fakeroot_ps1)\[\e[0m\]"
-PS1="${PS1}\n\$ "
+PS1="${PS1}\n\\[\e[34;1m\]\$(__private_ps1)\[\e[0m\]$ "
 export PS1
 
 
@@ -186,6 +192,8 @@ alias eyeD3="eyeD3 --no-tagging-time-frame"
 alias mkpasswd.md5="mkpasswd -m md5"
 alias mkpasswd.256="mkpasswd -m sha-256"
 alias mkpasswd.512="mkpasswd -m sha-512"
+alias hush="unset HISTFILE"
+alias ooops="unset HISTFILE"
 
 
 # PRODUCTIVITY IMPROVEMENTS
