@@ -16,6 +16,10 @@ import subprocess
 
 def main():
     msg = email.message_from_bytes(sys.stdin.buffer.read())
+    handle_email(msg)
+
+
+def handle_email(msg):
     for part in msg.walk():
         if part.get_content_type() == 'text/html':
             # Possibly Python3 wants get_content(...) not get_payload(...)
