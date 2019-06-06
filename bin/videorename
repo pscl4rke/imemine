@@ -56,17 +56,42 @@ def move_file(old, new):
         os.rename(old, new)
 
 
+def handle_list(paths):
+    for path in sorted(paths):
+        if os.path.isdir(path):
+            yield from handle_dir(path)
+        else:
+            yield from handle_file(path)
+
+
+def handle_dir(path):
+    contents = [os.path.join(path, element)
+                for element in os.listdir(path)]
+    yield from handle_list(contents)
+
+
+def handle_file(filepath):
+    try:
+        handle_file_or_error(filepath)
+    except Exception as exc:
+        yield (filepath, exc)
+
+
+def handle_file_or_error(filepath):
+    metadata = get_metadata_of(filepath)
+    tags = determine_tags(metadata)
+    newpath = desired_path(filepath, tags)
+    #print()
+    #print(filepath)
+    #print(newpath)
+    move_file(filepath, newpath)
+
+
 def main():
-    for filepath in sys.argv[1:]:
-        metadata = get_metadata_of(filepath)
-        #print([s.get("duration") for s in metadata["streams"]])
-        #print([s.get("width") for s in metadata["streams"]])
-        tags = determine_tags(metadata)
-        newpath = desired_path(filepath, tags)
-        #print()
-        #print(filepath)
-        #print(newpath)
-        move_file(filepath, newpath)
+    errors = list(handle_list(sys.argv[1:]))
+    if len(errors) > 0:
+        print("There were %i errors" % len(errors))
+        print(errors)
 
 
 if __name__ == '__main__':
