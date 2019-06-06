@@ -1,0 +1,73 @@
+#!/usr/bin/python3
+#======================================================================#
+# RENAME VIDEOS TO SHOW TECHNICAL METADATA       (c) 2019 P. S. Clarke #
+#======================================================================#
+
+
+import json
+import os
+import subprocess
+import sys
+
+
+class OrderedSet:
+    def __init__(self):
+        self.tags = []
+    def __iter__(self):
+        return iter(self.tags)
+    def add(self, value):
+        if value not in self.tags:
+            self.tags.append(value)
+
+
+def get_metadata_of(filepath):
+    args = ["ffprobe", "-of", "json", "-show_streams", "-show_format", filepath]
+    metadata = subprocess.check_output(args, stderr=subprocess.DEVNULL).decode()
+    #metadata = subprocess.check_output(args).decode()
+    return json.loads(metadata)
+
+
+def format_seconds(total):
+    minutes = int(total) // 60
+    seconds = int(total) % 60
+    return "%im%02is" % (minutes, seconds)
+
+
+def determine_tags(metadata):
+    tags = OrderedSet()
+    for stream in metadata["streams"]:
+        if "width" in stream and "height" in stream:
+            tags.add("%sx%s" % (stream["width"], stream["height"]))
+    if "duration" in metadata["format"]:
+        tags.add(format_seconds(float(metadata["format"]["duration"])))
+    return tags
+
+
+def desired_path(original, tags):
+    parts = original.split(".")
+    for tag in tags:
+        if tag not in parts:
+            parts.insert(-1, tag)
+    return ".".join(parts)
+
+
+def move_file(old, new):
+    if old != new:
+        os.rename(old, new)
+
+
+def main():
+    for filepath in sys.argv[1:]:
+        metadata = get_metadata_of(filepath)
+        #print([s.get("duration") for s in metadata["streams"]])
+        #print([s.get("width") for s in metadata["streams"]])
+        tags = determine_tags(metadata)
+        newpath = desired_path(filepath, tags)
+        #print()
+        #print(filepath)
+        #print(newpath)
+        move_file(filepath, newpath)
+
+
+if __name__ == '__main__':
+    main()
