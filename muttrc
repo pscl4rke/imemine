@@ -65,6 +65,14 @@ bind index,pager D noop
 bind index,pager d noop
 
 
+# ARCHIVING
+#   Actual rules will be defined in account-specific config files.
+#   These double-check if archiving would create a new folder, but
+#   don't if I'm filing into an existing folder.
+set confirmappend=no
+set confirmcreate=yes
+
+
 # VIEWING ATTACHMENTS AND MESSAGES
 #   By default Mutt will get the MIME type of a file from the header.
 #   Some senders have badly behaved clients (e.g. thinking a CSV is
