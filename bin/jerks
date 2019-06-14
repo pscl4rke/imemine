@@ -15,8 +15,12 @@ import subprocess
 
 
 def main():
-    msg = email.message_from_bytes(sys.stdin.buffer.read())
-    handle_email(msg)
+    if "--raw-html" in sys.argv:
+        html = sys.stdin.buffer.read()
+        handle_html(html)
+    else:
+        msg = email.message_from_bytes(sys.stdin.buffer.read())
+        handle_email(msg)
 
 
 def handle_email(msg):
