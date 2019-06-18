@@ -4,10 +4,24 @@
 commonname="$1"
 bits="$2"
 [ -z "$bits" ] && echo Assuming 4096 bits >&2 && bits=4096
+cat >$commonname.cnf <<EOF
+[req]
+prompt = no
+x509_extensions = x509_extensions_section
+distinguished_name = distinguished_name_section
+[distinguished_name_section]
+CN = $commonname
+[x509_extensions_section]
+subjectAltName = DNS:$commonname
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = CA:TRUE
+#keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+EOF
 openssl req \
     -x509 -nodes \
     -days 3650 \
     -newkey rsa:$bits \
-    -subj /CN=$commonname \
+    -config $commonname.cnf \
     -keyout $commonname.key \
     -out $commonname.crt
