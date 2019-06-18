@@ -1,9 +1,17 @@
-#!/usr/bin/env bash
-# Generate a self-signed SSL certificate (and key).
-[ -z "$1" ] && echo "Usage: $0 the.common.name [bits]" >&2 && exit 1
+#!/bin/bash
+#======================================================================#
+# GENERATE SELF-SIGNED SSL CERT AND KEY     (c) 2013,2019 P. S. Clarke #
+#======================================================================#
+set -eu
+
+[ $# -ne 1 ] && echo "Usage: $(basename "$0") <the.common.name>" && exit 1
 commonname="$1"
-bits="$2"
-[ -z "$bits" ] && echo Assuming 4096 bits >&2 && bits=4096
+
+#bits="$2"
+#[ -z "$bits" ] && echo Assuming 4096 bits >&2 && bits=4096
+echo Assuming 4096 bits
+bits=4096
+
 cat >$commonname.cnf <<EOF
 [req]
 prompt = no
@@ -18,6 +26,7 @@ authorityKeyIdentifier = keyid:always,issuer
 basicConstraints = CA:TRUE
 #keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 EOF
+
 openssl req \
     -x509 -nodes \
     -days 3650 \
