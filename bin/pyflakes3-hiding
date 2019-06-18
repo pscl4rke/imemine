@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+
+
+TO_HIDE = [
+    "attic",
+    "historical",
+]
+
+
+from os import walk as original_walk
+def walk_except_hiding(*args, **kwargs):
+    for (dirpath, dirnames, filenames) in original_walk(*args, **kwargs):
+        parts = dirpath.split("/")
+        should_yield = True
+        for hiding in TO_HIDE:
+            if hiding in parts:
+                should_yield = False
+        if should_yield:
+            yield (dirpath, dirnames, filenames)
+
+
+import os
+os.walk = walk_except_hiding
+
+
+from pyflakes.scripts.pyflakes import main
+main()
