@@ -5,11 +5,14 @@
 
 
 # To the best of my knowledge only mutt uses this these days!
+# Note that /etc/mailcap also exists.
 
 
 # Definitions used by mutt's auto_view settings to automatically
 # convert parts into plain text to show in the pager:
 text/calendar; vcal -all -; copiousoutput
+# I don't trust browsers not to load remotes without preprocessing
+text/html; jerks --raw-html; copiousoutput
 
 
 # Definitions that give a quick terminal-based view of a file.

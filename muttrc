@@ -210,13 +210,17 @@ unignore Reply-To:
 set pager_format="Message date is %[!%a %-d %b %Y at %H:%M:%S %Z] in my own timezone"
 
 
-# MICROSOFT EXCHANGE INVITES
+# MICROSOFT EXCHANGE INVITES AND HTML-ONLY EMAILS
 #   Mutt only shows one part from multipart/alternative messages.
+#   When I receive calendar invites they should be the first choice.
 #   This uses a vcal script (as defined in mailcap) to show it instead
 #   of the text/plain part (which always seems to be the description
 #   anyway).
+#   Then I read the plain text, and only render html if there's
+#   nothing else.
 alternative_order text/calendar text/plain text/*
 auto_view text/calendar
+auto_view text/html
 
 
 # WINDOW TITLING
