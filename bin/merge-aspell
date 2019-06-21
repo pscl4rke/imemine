@@ -1,0 +1,55 @@
+#!/usr/bin/python3
+#======================================================================#
+# MERGE ASPELL                                   (c) 2019 P. S. Clarke #
+#======================================================================#
+
+# For more information read gitattributes(5), especially the Custom
+# Merge Driver section.
+
+# See also `normalise-aspell`.
+
+
+import sys
+
+
+class WordList:
+
+    def __init__(self, version, lang):
+        self.version = version
+        self.lang = lang
+        self.words = set()
+
+    def read_from(self, srcpath):
+        with open(srcpath) as srcfile:
+            lines = iter(srcfile)
+            header = next(lines).split(" ")
+            if header[0] != self.version:
+                raise Exception("Version mismatch!")
+            if header[1] != self.lang:
+                raise Exception("Language mismatch!")
+            if header[3] != "\n":
+                raise Exception("Missing trailing space!")
+            to_add = []
+            for line in lines:
+                to_add.append(line.rstrip("\n"))
+            if len(to_add) != int(header[2]):
+                raise Exception("%r != %r" % (len(to_add), int(header[2])))
+        self.words.update(to_add)
+
+    def write_to(self, destpath):
+        with open(destpath, "w") as destfile:
+            destfile.write("%s %s %i \n" % (self.version, self.lang, len(self.words)))
+            for word in sorted(self.words, key=lambda w: w.lower()):
+                destfile.write("%s\n" % word)
+
+
+def main():
+    executable, ancestor, currentanddest, otherbranch = sys.argv
+    wordlist = WordList("personal_ws-1.1", "en")
+    wordlist.read_from(currentanddest)
+    wordlist.read_from(otherbranch)
+    wordlist.write_to(currentanddest)
+
+
+if __name__ == '__main__':
+    main()

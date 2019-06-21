@@ -41,3 +41,7 @@
 [filter "aspell"]
     #clean = sort
     clean = /home/psc/imemine/bin/normalise-aspell
+[merge "aspell"]
+	name = Automatically merge Aspell dictionaries
+	#driver = /home/psc/imemine/bin/merge-aspell %O %A %B %L %P
+	driver = /home/psc/imemine/bin/merge-aspell %O %A %B

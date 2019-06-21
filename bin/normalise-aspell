@@ -8,6 +8,8 @@
 # as the diffs are full of noise.  This script sorts the lines (in a
 # case-insensitive manner), leaving the header line intact.
 
+# See also `merge-aspell`.
+
 import sys
 
 infile = open(sys.argv[1]) if (len(sys.argv) > 1) else sys.stdin
