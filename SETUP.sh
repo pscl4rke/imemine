@@ -118,6 +118,7 @@ esac
 
 wantlink "abcde.conf" ".abcde.conf"
 wantlink "ackrc" ".ackrc"
+wantlink "aspell.conf" ".aspell.conf"
 wantlink "bashrc" ".bashrc"
 wantlink "colordiffrc" ".colordiffrc"
 wantlink "devscripts" ".devscripts"
