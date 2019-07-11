@@ -8,6 +8,13 @@
 # and try some of these out running live.
 
 
+# By default windows will open 800x600 (landscape).  I want to
+# fill most of one half of a 1920x1080 HD display (in portrait).
+# (Except that my work monitor is actually 1920 x 1200!)
+set window-width 950
+set window-height 1000
+
+
 # Use darkish grey for the empty space around the page instead
 # of an uncomfortable jet black:
 set default-bg "#444444"
