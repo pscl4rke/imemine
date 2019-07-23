@@ -252,6 +252,11 @@ color indicator white green
 # These set the quotation levels:
 color body blue default "^On .* wrote:$"
 color body blue default "^On .* said:$"
+color body blue default "^.* <.*@.*> writes:$"
+color body blue default "^Le .* a écrit :$"
+color body blue default "^Am .* schrieb .*:$"
+color body blue default "^.* via .* wrote:$"
+color body blue default "^.*\\[.*\] wrote:$"
 color quoted  blue default
 color quoted1 blue default
 color quoted2 blue default
