@@ -197,6 +197,7 @@ bind index _ collapse-all
 set sort="threads"
 set sort_aux="last-date-received"
 set strict_threads=yes
+set narrow_tree=yes
 
 
 # VIEWING AN EMAIL
