@@ -59,12 +59,12 @@ do
         --a5)
             #inwidth=150
             #inheight=210
-            inwidth=143
-            inheight=205
+            inwidth=144
+            inheight=206
             ;;
         --a6)
-            inwidth=107
-            inheight=150
+            inwidth=103
+            inheight=146
             ;;
         --colour)
             colourmode="color"
