@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+
+#   Using python to simplify multiple layers of shell/cmdline escaping.
+
+#   https://github.com/jremmen/vim-ripgrep
+
+import subprocess
+import sys
+
+vim_command_args = ["Rg"]
+for arg in sys.argv[1:]:
+    vim_command_args.append("'%s'" % arg)
+vim_command = " ".join(vim_command_args)
+subprocess.call(["vim", "-c", vim_command])
