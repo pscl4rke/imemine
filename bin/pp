@@ -27,6 +27,9 @@ def info(message):
 
 
 def best_printer():
+    printers = subprocess.check_output(["lpstat", "-p"])
+    if b"envy5010" in printers:
+        return "envy5010"  # FIXME what about the duplex version
     return "HL1110"
 
 
