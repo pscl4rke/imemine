@@ -48,6 +48,12 @@ bind index,pager f noop
 bind index,pager b noop
 
 
+# REFRESHING
+#   By all means add a binding like this when setting IMAP config:
+#bind index R imap-fetch-mail
+bind index R noop
+
+
 # DELETING
 #   I don't want deleting enabled by default.  Partly to stop me
 #   accidentally deleting things from accounts where that isn't
@@ -149,7 +155,6 @@ set print_split=yes
 # RANDOM STUFF
 unset help
 set menu_scroll="yes"
-bind index,pager R imap-fetch-mail
 
 
 # ENTERING BEHAVIOUR
