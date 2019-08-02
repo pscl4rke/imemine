@@ -95,7 +95,9 @@ class SshDestination:
 
     def deliver(self, srcpath, filenamemade):
         with open(srcpath, "rb") as srcfile:
-            subprocess.check_call(["ssh", self.host, "docker load"], stdin=srcfile)
+            output = subprocess.check_output(["ssh", self.host, "docker load"], stdin=srcfile)
+            #for line in output.splitlines():
+            #    print("> %s" % line.rstrip())
             return "Loaded in"
 
 
