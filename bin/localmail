@@ -57,29 +57,23 @@ class LocalMail:
     def keep_prompting(self):
         while True:
             self.set_title() # esp after mutt has tweaked it
-            print("1: sync")
-            print("2: manage-ro")
-            print("3: manage-rw")
-            if self.has_config_for("search"):
-                print("4: search")
-            if self.has_config_for("gitrepo"):
-                print("5: commit")
+            self.display_options()
             cmd = self.ask_for_command()
-            if cmd == "1":
-                self.handle_sync()
-            elif cmd == "2":
-                self.handle_manage_ro()
-            elif cmd == "3":
-                self.handle_manage_rw()
-            elif cmd == "4":
-                self.handle_search()
-            elif cmd == "5":
-                self.handle_commit()
-            elif cmd == "q":
-                print("Exiting...")
+            try:
+                self.handle(cmd)
+            except SystemExit:
                 break
-            else:
-                print("Huh??")
+            except Exception as exc:
+                print(repr(exc))
+
+    def display_options(self):
+        print("1: sync")
+        print("2: manage-ro")
+        print("3: manage-rw")
+        if self.has_config_for("search"):
+            print("4: search")
+        if self.has_config_for("gitrepo"):
+            print("5: commit")
 
     def ask_for_command(self):
         try:
@@ -88,6 +82,23 @@ class LocalMail:
             return "q"
         except KeyboardInterrupt:
             return "q"
+
+    def handle(self, cmd):
+        if cmd == "1":
+            self.handle_sync()
+        elif cmd == "2":
+            self.handle_manage_ro()
+        elif cmd == "3":
+            self.handle_manage_rw()
+        elif cmd == "4":
+            self.handle_search()
+        elif cmd == "5":
+            self.handle_commit()
+        elif cmd == "q":
+            print("Exiting...")
+            raise SystemExit()
+        else:
+            print("Huh??")
 
     def handle_sync(self):
         offlineimaprc = self.config['sync']['offlineimaprc']
