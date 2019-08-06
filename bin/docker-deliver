@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 
 
 class pushd:
@@ -127,6 +128,7 @@ class Exporter:
         image_names = self.get_image_names()
         for i_minus, image in enumerate(self.images_to_export(topname)):
             with StatusTracker(image + "  ") as tracker:
+                start = time.time()
                 tracker.set_text("Checking if needed...")
                 if not destination.needed(image):
                     tracker.set_text("(not needed)")
@@ -141,7 +143,8 @@ class Exporter:
                     layers_exported.extend(self.layers_in(f.name))
                     tracker.set_text("Delivering to %s..." % destination)
                     result = destination.deliver(f.name, filenamemade)
-                tracker.set_text("Delivered. [%s]" % result)
+                duration = time.time() - start
+                tracker.set_text("Delivered in %-2is. [%s]" % (duration, result))
 
     def images_to_export(self, topname):
         images = []
