@@ -61,6 +61,8 @@ class LocalMail:
             cmd = self.ask_for_command()
             try:
                 self.handle(cmd)
+            except KeyboardInterrupt:
+                print()  # force new line
             except SystemExit:
                 break
             except Exception as exc:
