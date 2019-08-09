@@ -197,6 +197,7 @@ noremap g<Space> <Space>
 "   'setlocal filetype=foo'.
 "   Use setfiletype if you only want it to apply if there isn't
 "   one already.
+"   ALSO - What if newer vims already have these automatically?
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 autocmd BufNewFile,BufRead *.pp set filetype=puppet
@@ -208,6 +209,7 @@ autocmd BufNewFile,BufRead *.rs set filetype=rust
 autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 autocmd BufNewFile,BufRead *.nfo set filetype=xml
 autocmd BufNewFile,BufRead *.service set filetype=systemd
+autocmd BufNewFile,BufRead *.env set filetype=dockerenv
 "
 "
 " FILE-TYPE PREFERENCES
