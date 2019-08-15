@@ -32,6 +32,7 @@ import configparser
 import os
 import subprocess
 import sys
+import time
 
 import readline
 assert readline
@@ -70,6 +71,7 @@ class LocalMail:
 
     def display_options(self):
         print("1: sync")
+        #print("1*: sync forever")
         print("2: manage-ro")
         print("3: manage-rw")
         if self.has_config_for("search"):
@@ -88,6 +90,10 @@ class LocalMail:
     def handle(self, cmd):
         if cmd == "1":
             self.handle_sync()
+        elif cmd == "1*":
+            while True:
+                self.handle_sync()
+                time.sleep(20)
         elif cmd == "2":
             self.handle_manage_ro()
         elif cmd == "3":
