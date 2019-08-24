@@ -55,7 +55,7 @@ shopt -s promptvars
 # EDITING FILES
 #   I expect my editor to be vi (technically vim), and expect it to
 #   run in tabbed mode when opening multiple files.
-alias vi="vi -p"
+[ -e /usr/bin/vim ] && alias vi="vim -p"
 export EDITOR=vi
 export VISUAL=vi
 
