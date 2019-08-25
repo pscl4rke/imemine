@@ -11,6 +11,13 @@ import tempfile
 SCRIPT_FILE = "./config.script"
 
 
+def choose_diff_tool():
+    if os.path.exists("/usr/bin/colordiff"):
+        return "colordiff -u"
+    print("WARNING: Coloured diffs are not available")
+    return "diff -u"
+
+
 def differences_between(path_one, path_two):
     text_one = open(path_one).read()
     text_two = open(path_two).read()
@@ -25,7 +32,8 @@ def menu(current_path, suggested_path):
         if selection == 'c':
             return
         elif selection == 'd':
-            cmd = "colordiff -u %s %s | less -R" % (current_path, suggested_path)
+            diff = choose_diff_tool()
+            cmd = "%s %s %s | less -R" % (diff, current_path, suggested_path)
             subprocess.call(cmd, shell=True)
         elif selection == 'i':
             shutil.copy(suggested_path, "config")
