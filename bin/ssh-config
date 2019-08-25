@@ -12,6 +12,8 @@ SCRIPT_FILE = "./config.script"
 
 
 def choose_diff_tool():
+    # FIXME: Newer versions of diff understand --color=always, so
+    # colordiff wouldn't be needed.
     if os.path.exists("/usr/bin/colordiff"):
         return "colordiff -u"
     print("WARNING: Coloured diffs are not available")
