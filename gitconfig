@@ -31,6 +31,8 @@
 	textconv = gpg -v
 	# My keyrings are not noisy enough to need this yet:
 	#xfuncname = "^((pub|uid) .*)"
+[diff "keybox"]
+	textconv = kbxutil
 
 
 # NORMALISING ASPELL WORD LISTS
