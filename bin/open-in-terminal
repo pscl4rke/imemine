@@ -16,7 +16,9 @@ else
     exitcode=$?
 fi
 
-# Emergency default in case I don't have urxvt installed:
-[[ "$exitcode" != 0 ]] && x-terminal-emulator
-
-
+# Emergency defaults in case I don't have urxvt installed:
+[[ "$exitcode" == 0 ]] \
+    || x-terminal-emulator \
+    || i3-sensible-terminal \
+    || xterm \
+    || echo "I cannot find a terminal emulator"
