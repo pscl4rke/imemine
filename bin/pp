@@ -18,6 +18,8 @@ import traceback
 # FIXME if I want it to replace using "lp" directly I need to make it handle
 # things other than just postscript.
 
+# FIXME what if lpstat isn't available
+
 # FIXME how about counting up the page numbers (e.g. with pdfinfo)
 
 
@@ -27,7 +29,10 @@ def info(message):
 
 
 def best_printer():
-    printers = subprocess.check_output(["lpstat", "-p"])
+    try:
+        printers = subprocess.check_output(["lpstat", "-p"])
+    except subprocess.CalledProcessError:
+        printers = b""
     if b"envy5010" in printers:
         return "envy5010"  # FIXME what about the duplex version
     return "HL1110"
