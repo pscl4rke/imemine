@@ -53,11 +53,16 @@ shopt -s promptvars
 
 
 # EDITING FILES
-#   I expect my editor to be vi (technically vim), and expect it to
-#   run in tabbed mode when opening multiple files.
-[ -e /usr/bin/vim ] && alias vi="vim -p"
+#   I expect my editor to be vi, although really that should
+#   be vim when it's available.  It should run in tabbed mode
+#   when opening multiple files.
 export EDITOR=vi
 export VISUAL=vi
+if [[ -e /usr/bin/vim ]]; then
+    export EDITOR=vim
+    export VISUAL=vim
+    alias vi="vim -p"
+fi
 
 
 # PYTHON'S ENVIRONMENT AND PACKAGING
