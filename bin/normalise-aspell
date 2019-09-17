@@ -12,13 +12,13 @@
 
 import sys
 
-infile = open(sys.argv[1]) if (len(sys.argv) > 1) else sys.stdin
+infile = open(sys.argv[1], "rb") if (len(sys.argv) > 1) else sys.stdin.buffer
 lines = iter(infile)
 
 header = next(lines)
-sys.stdout.write(header)
+sys.stdout.buffer.write(header)
 
 words = list(lines)
 words.sort(key=lambda w: w.lower())
 for word in words:
-    sys.stdout.write(word)
+    sys.stdout.buffer.write(word)
