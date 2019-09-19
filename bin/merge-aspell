@@ -20,32 +20,32 @@ class WordList:
         self.words = set()
 
     def read_from(self, srcpath):
-        with open(srcpath) as srcfile:
+        with open(srcpath, "rb") as srcfile:
             lines = iter(srcfile)
-            header = next(lines).split(" ")
+            header = next(lines).split(b" ")
             if header[0] != self.version:
                 raise Exception("Version mismatch!")
             if header[1] != self.lang:
                 raise Exception("Language mismatch!")
-            if header[3] != "\n":
+            if header[3] != b"\n":
                 raise Exception("Missing trailing space!")
             to_add = []
             for line in lines:
-                to_add.append(line.rstrip("\n"))
+                to_add.append(line.rstrip(b"\n"))
             if len(to_add) != int(header[2]):
                 raise Exception("%r != %r" % (len(to_add), int(header[2])))
         self.words.update(to_add)
 
     def write_to(self, destpath):
-        with open(destpath, "w") as destfile:
-            destfile.write("%s %s %i \n" % (self.version, self.lang, len(self.words)))
+        with open(destpath, "wb") as destfile:
+            destfile.write(b"%s %s %i \n" % (self.version, self.lang, len(self.words)))
             for word in sorted(self.words, key=lambda w: w.lower()):
-                destfile.write("%s\n" % word)
+                destfile.write(b"%s\n" % word)
 
 
 def main():
     executable, ancestor, currentanddest, otherbranch = sys.argv
-    wordlist = WordList("personal_ws-1.1", "en")
+    wordlist = WordList(b"personal_ws-1.1", b"en")
     wordlist.read_from(currentanddest)
     wordlist.read_from(otherbranch)
     wordlist.write_to(currentanddest)
