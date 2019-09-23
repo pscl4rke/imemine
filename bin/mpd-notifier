@@ -20,7 +20,7 @@
 
 
 import os
-import time
+#import time
 
 import musicpd
 
@@ -54,7 +54,9 @@ def image_for(relative_song_path):
 def cycle(client):
     last_identifier = (None, None)
     while True:
-        time.sleep(2)
+        #time.sleep(2)
+        #client.idle("player")
+        client.idle()
         song_data = client.currentsong()
         icon = image_for(song_data.get('file', None))
         title = song_data.get("title", "Unknown")
