@@ -6,8 +6,6 @@
 
 # Find a way to run this in the background when you log in.
 # For example, using $HOME/.config/autostart.
-# You probably should use run-mpd-notifier to wrap this and
-# automatically restart it when it (frequently) crashes.
 
 # Dependencies:
 #   -   MPD and `python3-musicpd` package or equivalent
@@ -21,6 +19,7 @@
 
 import os
 #import time
+import traceback
 
 import musicpd
 
@@ -29,9 +28,12 @@ notify2.init("mpd-notifier")
 
 
 def notify(identifier):
-	#n = pynotify.Notification(*identifier)
-	n = notify2.Notification(*identifier)
-	n.show()
+    try:
+        #n = pynotify.Notification(*identifier)
+        n = notify2.Notification(*identifier)
+        n.show()
+    except Exception:
+        traceback.print_exp()
 
 
 def image_for(relative_song_path):
