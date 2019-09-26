@@ -80,23 +80,25 @@ class SshDestination:
     def __str__(self):
         return self.host
 
+    def ssh_args(self, *cmd_etc):
+        args = ["ssh", self.host]
+        args.extend(cmd_etc)
+        return args
+
     def _ping(self):
-        #output = self.check_output(["ssh", self.host, "echo pong"])
-        #if output != "pong":
-        #    raise Exception("No connection to %r" % self.host)
-        subprocess.check_call(["ssh", "-o", "BatchMode=yes", self.host, "docker images"], stdout=subprocess.DEVNULL)
+        subprocess.check_call(self.ssh_args("-o", "BatchMode=yes", "docker images"), stdout=subprocess.DEVNULL)
 
     def needed(self, image_id):
         cmd = "docker image inspect %s" % image_id
         try:
-            subprocess.check_call(["ssh", self.host, cmd], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.check_call(self.ssh_args(cmd), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             return False
         except subprocess.CalledProcessError:
             return True
 
     def deliver(self, srcpath, filenamemade):
         with open(srcpath, "rb") as srcfile:
-            output = subprocess.check_output(["ssh", self.host, "docker load"], stdin=srcfile)
+            output = subprocess.check_output(self.ssh_args("docker load"), stdin=srcfile)
             #for line in output.splitlines():
             #    print("> %s" % line.rstrip())
             return "Loaded in"
