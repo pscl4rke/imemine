@@ -162,7 +162,7 @@ class Exporter:
                 identifier = image_names.get(image, image)
                 with tempfile.NamedTemporaryFile() as f:
                     tracker.set_text("Saving from docker...")
-                    self.export_except(identifier, layers_exported, f.name)
+                    self.export_except([identifier], layers_exported, f.name)
                     tracker.set_text("Examining layers...")
                     layers_exported.extend(self.layers_in(f.name))
                     tracker.set_text("Delivering to %s..." % destination)
@@ -184,11 +184,13 @@ class Exporter:
         images.reverse()
         return images
 
-    def export_except(self, identifier, layers_exported, outputpath):
+    def export_except(self, identifiers, layers_exported, outputpath):
         with tempfile.TemporaryDirectory() as tempdirpath:
             with pushd(tempdirpath):
                 tar = subprocess.Popen(["tar", "x"], stdin=subprocess.PIPE)
-                subprocess.check_call(["docker", "image", "save", identifier], stdout=tar.stdin)
+                save_args = ["docker", "image", "save"]
+                save_args.extend(identifiers)
+                subprocess.check_call(save_args, stdout=tar.stdin)
                 tar.stdin.close()
                 if tar.wait() != 0:
                     raise Exception()
