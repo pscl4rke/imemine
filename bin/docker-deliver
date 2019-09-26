@@ -57,7 +57,13 @@ class DirectoryDestination:
 
     def __init__(self, path):
         self.path = os.path.realpath(path)
+
+    def __enter__(self):
         os.mkdir(self.path)
+        return self
+
+    def __exit__(self, *errs):
+        pass
 
     def __str__(self):
         return self.path
@@ -75,18 +81,34 @@ class SshDestination:
 
     def __init__(self, host):
         self.host = host
-        self._ping()
+        self.socket = "~/.deliver.%C.sock"
+
+    def __enter__(self):
+        args = ["ssh", "-o", "ControlMaster=auto",
+                       "-o", "ControlPath=%s" % self.socket,
+                       "-o", "ControlPersist=yes",
+                       self.host, "true"]
+        subprocess.check_call(args)
+        self.ping()
+        return self
+
+    def __exit__(self, *errs):
+        subprocess.check_call(self.ssh_args("-O", "exit"), stderr=subprocess.DEVNULL)
 
     def __str__(self):
         return self.host
 
     def ssh_args(self, *cmd_etc):
-        args = ["ssh", self.host]
+        args = ["ssh", "-o", "ControlPath=%s" % self.socket, self.host]
         args.extend(cmd_etc)
         return args
 
-    def _ping(self):
-        subprocess.check_call(self.ssh_args("-o", "BatchMode=yes", "docker images"), stdout=subprocess.DEVNULL)
+    def ping(self):
+        # We do this firstly to check the host is up, secondly to check that it
+        # it works without human interaction, and thirdly do ensure the user has
+        # permission to use the docker control socket.
+        subprocess.check_call(self.ssh_args("-o", "BatchMode=yes", "docker images"),
+            stdout=subprocess.DEVNULL)
 
     def needed(self, image_id):
         cmd = "docker image inspect %s" % image_id
@@ -194,8 +216,8 @@ def parse_args():
 
 def main():
     args = parse_args()
-    destination = get_destination_from(args.destination)
-    Exporter().export(args.image, destination)
+    with get_destination_from(args.destination) as destination:
+        Exporter().export(args.image, destination)
 
 
 if __name__ == '__main__':
