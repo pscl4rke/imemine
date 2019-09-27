@@ -162,7 +162,10 @@ class Exporter:
                 identifier = image_names.get(image, image)
                 with tempfile.NamedTemporaryFile() as f:
                     tracker.set_text("Saving from docker...")
-                    self.export_except([identifier], layers_exported, f.name)
+                    with tempfile.TemporaryDirectory() as tempdirpath:
+                        with pushd(tempdirpath):
+                            self.save_and_unpack([identifier])
+                            self.repack_into_file(layers_exported, f.name)
                     tracker.set_text("Examining layers...")
                     layers_exported.extend(self.layers_in(f.name))
                     tracker.set_text("Delivering to %s..." % destination)
@@ -184,20 +187,20 @@ class Exporter:
         images.reverse()
         return images
 
-    def export_except(self, identifiers, layers_exported, outputpath):
-        with tempfile.TemporaryDirectory() as tempdirpath:
-            with pushd(tempdirpath):
-                tar = subprocess.Popen(["tar", "x"], stdin=subprocess.PIPE)
-                save_args = ["docker", "image", "save"]
-                save_args.extend(identifiers)
-                subprocess.check_call(save_args, stdout=tar.stdin)
-                tar.stdin.close()
-                if tar.wait() != 0:
-                    raise Exception()
-                contents = [entry for entry in os.listdir(".")
-                            if os.path.isfile(entry)
-                            or entry not in layers_exported]
-                subprocess.check_call(["tar", "c", "--numeric-owner", "--owner=0", "--group=0", "-f", outputpath, *contents])
+    def save_and_unpack(self, identifiers):
+        tar = subprocess.Popen(["tar", "x"], stdin=subprocess.PIPE)
+        save_args = ["docker", "image", "save"]
+        save_args.extend(identifiers)
+        subprocess.check_call(save_args, stdout=tar.stdin)
+        tar.stdin.close()
+        if tar.wait() != 0:
+            raise Exception()
+
+    def repack_into_file(self, layers_exported, outputpath):
+        contents = [entry for entry in os.listdir(".")
+                    if os.path.isfile(entry)
+                    or entry not in layers_exported]
+        subprocess.check_call(["tar", "c", "--numeric-owner", "--owner=0", "--group=0", "-f", outputpath, *contents])
 
     def layers_in(self, filepath):
         layers = []
