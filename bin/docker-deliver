@@ -176,12 +176,11 @@ class Exporter:
                     continue
                 name = image_names.get(image, "N:N").split(":")[0]
                 filenamemade = "%02i.%s.%s.tar" % ((i_minus + 1), image, name)
-                identifier = image_names.get(image, image)
                 with tempfile.NamedTemporaryFile() as f:
                     tracker.set_text("Saving from docker...")
                     with tempfile.TemporaryDirectory() as tempdirpath:
                         with pushd(tempdirpath):
-                            self.save_and_unpack([identifier])
+                            self.save_and_unpack([image])
                             self.repack_into_file(layers_exported, f.name)
                     tracker.set_text("Examining layers...")
                     layers_exported.extend(self.layers_in(f.name))
