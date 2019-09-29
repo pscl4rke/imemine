@@ -136,21 +136,31 @@ def get_destination_from(destination_id):
 
 class Exporter:
 
-    def get_image_names(self):
-        # actually the final one should be the top name rather
-        # than image id so the name and version num get imported
+    def get_all_image_tags(self):
         images = {}
         text = subprocess.check_output(["docker", "images"])
         for line in text.decode().splitlines():
             columns = line.strip().split()
             name, version, image = columns[0:3]
-            images[image] = "%s:%s" % (name, version)
+            if image not in images:
+                images[image] = []
+            images[image].append((name, version))
+        return images
+
+    def get_image_names(self):
+        # actually the final one should be the top name rather
+        # than image id so the name and version num get imported
+        images = {}
+        for image, tags in self.get_all_image_tags().items():
+            for (name, version) in tags:
+                images[image] = "%s:%s" % (name, version)
         return images
 
     def export(self, topname, destination):
         layers_exported = []
         image_names = self.get_image_names()
         for i_minus, image in enumerate(self.images_to_export(topname)):
+            #print("%r has tags %r" % (image, self.get_all_image_tags().get(image, [])))
             with StatusTracker(image + "  ") as tracker:
                 start = time.time()
                 tracker.set_text("Checking if needed...")
