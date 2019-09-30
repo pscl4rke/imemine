@@ -142,8 +142,9 @@ do
             fi
             if [ "$usetesseract" = true ]; then
                 msg "OCRing page ${currentpage}..."
-                tesseract -c 'tessedit_char_blacklist=ﬀﬁﬂ' \
+                timeout 2m tesseract -c 'tessedit_char_blacklist=ﬀﬁﬂ' \
                     "$imagefile" "$basefile"
+                [[ $? -eq 124 ]] && echo TIMED OUT
                 sed -i '/^ *$/d' "$basefile.txt"
             else
                 msg "Not OCRing page!"
