@@ -104,7 +104,9 @@ class Message:
         eml['Subject'] = self.guess_subject()
         eml['In-Reply-To'] = "<%06i.%s@example.com>" % (self._thread_id, self.month_code())
         eml['Status'] = "RO" # read and old
+        # From Python 3.6 set_payload is legacy and set_content should be used...
         eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
+        #eml.set_payload(self._body.encode("ascii", "backslashreplace")) # FIXME
         return eml
 
 
