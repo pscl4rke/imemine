@@ -1,0 +1,72 @@
+#!/bin/bash
+set -eu
+
+
+
+# Note, this has been developed against GPG v1. Still needs testing against v2.
+
+
+
+# GET AND CHECK THE ARGUMENTS
+
+if [[ $# -eq 0 ]]; then
+    echo "Missing root of output filenames"
+    exit 1
+fi
+
+outputroot="$1"
+shift
+
+secretkey="$outputroot.key"
+if [[ -e "$secretkey" ]]; then
+    echo "Already exists: $secretkey"
+    exit 1
+fi
+
+publickey="$outputroot.PUB.key"
+if [[ -e "$publickey" ]]; then
+    echo "Already exists: $publickey"
+    exit 1
+fi
+
+
+
+### SET UP TEMPORARY ENVIRONMENT
+
+export GNUPGHOME="$(mktemp -d)/gnupg"
+mkdir "$GNUPGHOME"
+chmod 700 "$GNUPGHOME"
+
+runonexit() {
+    rm -r "$(dirname "$GNUPGHOME")"
+}
+trap runonexit EXIT
+
+
+
+### RUN PROGRAME HERE
+
+echo
+echo "Preparing the home directory..."
+gpg --list-keys
+
+echo
+echo "Generating a key..."
+time gpg --gen-key
+
+echo
+echo "Current status..."
+gpg --list-keys
+
+echo
+echo "Exporting the secret key..."
+gpg --armor --export-secret-key > "$secretkey"
+echo "Wrote $secretkey"
+
+echo
+echo "Exporting the public key..."
+gpg --armor --export > "$publickey"
+echo "Wrote $publickey"
+
+echo
+echo Done.
