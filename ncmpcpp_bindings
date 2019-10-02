@@ -5,6 +5,10 @@ def_key "j"
   scroll_down
 def_key "k"
   scroll_up
+def_key "h"
+  previous_column
+def_key "l"
+  next_column
 
 def_key "J"
   page_down
@@ -31,6 +35,7 @@ def_key "."
     move_selected_items_up
 
 # disable most lyrics stuff:
+#  (note that the "l" def above takes precedence only when cmd is runnable)
 def_key "l"
     dummy
 def_key "F"
