@@ -1,0 +1,83 @@
+#!/usr/bin/python3
+
+
+from collections import namedtuple
+import os
+import sys
+
+import mutagen
+
+
+Track = namedtuple("Track", [
+    "file_path",
+    "last_tag_ts",
+    "genre",
+    "album",
+    "year_recorded",  # pretty sure mpd uses this one...
+    "year_released",  # ...and ignores this one
+    "track",
+    "title",
+    "albumartist",
+    "artist",
+    "left_over_keys",
+    "left_over_data",
+])
+
+
+def output_row(row):
+    print("\t".join(str(cell) for cell in row))
+
+
+def get_one(keys_not_seen, srcfile, key):
+    if key not in srcfile:
+        return "MISSING-%s" % key
+    elements = srcfile[key].text
+    if len(elements) != 1:
+        raise Exception("Invalid %r" % elements)
+    keys_not_seen.remove(key)
+    return elements[0]
+
+
+def dump_file(file_path):
+    src = mutagen.File(file_path)
+    keys_not_seen = set(src.keys())
+    last_tag_ts = get_one(keys_not_seen, src, "TDTG")
+    genre = get_one(keys_not_seen, src, "TCON")
+    album = get_one(keys_not_seen, src, "TALB")
+    year_recorded = get_one(keys_not_seen, src, "TDRC")
+    year_released = get_one(keys_not_seen, src, "TDRL")
+    track = get_one(keys_not_seen, src, "TRCK")
+    title = get_one(keys_not_seen, src, "TIT2")
+    artist = get_one(keys_not_seen, src, "TPE1")
+    albumartist = get_one(keys_not_seen, src, "TPE2")
+    left_over_keys = ascii(" ".join(keys_not_seen))
+    left_over_data = repr({key: src[key] for key in keys_not_seen})[:800]
+    output_row(Track(file_path, last_tag_ts,
+                     genre, album, year_recorded, year_released,
+                     track, title, albumartist, artist,
+                     left_over_keys, left_over_data))
+
+
+def dump_dir(dir_path):
+    for entry in sorted(os.listdir(dir_path)):
+        dump(os.path.join(dir_path, entry))
+
+
+def dump(path):
+    if os.path.isfile(path):
+        if path.endswith(".mp3"):
+            dump_file(path)
+    elif os.path.isdir(path):
+        dump_dir(path)
+    else:
+        raise Exception("Unknown file type at %r" % path)
+
+
+def main():
+    output_row(Track._fields)
+    for thing_to_check in sys.argv[1:]:
+        dump(thing_to_check)
+
+
+if __name__ == '__main__':
+    main()
