@@ -218,9 +218,10 @@ alias :wq="echo This is a shell!"
 #   I also override the standard colordiff wrapper with one that
 #   works better for me.
 alias grep="grep --color=auto"
-export LS_OPTIONS='-hF --color=tty'
+LS_OPTIONS='-hF --color=tty'
 alias ls='ls $LS_OPTIONS'
 complete -f cdiff
+# Note that newer diffs have built-in colouring
 function cdiff() { colordiff -u "$@" | less -R; }
 
 
