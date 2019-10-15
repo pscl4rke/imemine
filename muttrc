@@ -152,8 +152,12 @@ set print_command=/home/psc/imemine/bin/print-email
 set print_split=yes
 
 
-# RANDOM STUFF
-unset help
+# CURSORS
+#   Try to leave a gap of 3 lines between the cursor and the top/bottom
+#   of the screen.
+set menu_context=3
+set pager_context=3
+set search_context=3
 set menu_scroll="yes"
 
 
@@ -238,6 +242,8 @@ auto_view text/html
 set xterm_set_titles="yes"
 # default: Mutt with %?m?%m messages&no messages?%?n? [%n NEW]?
 set xterm_title="%m emails in %f (%n new %o old)"
+#   While here... let's switch off a line of help info:
+unset help
 
 
 # COLOURS IN INDEX
