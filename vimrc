@@ -132,6 +132,7 @@ syntax on
 set background=light
 "let python_highlight_numbers = 1
 "let python_highlight_builtins = 1
+let python_highlight_all = 1
 "
 "
 " POOR-MAN'S COLOUR SCHEME
