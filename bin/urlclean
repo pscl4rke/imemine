@@ -20,6 +20,10 @@ def clean_query(original):
     for key, value in urllib.parse.parse_qsl(original):
         if key.startswith("utm_"):
             continue
+        if key == "fbclid":
+            continue
+        if key == "gclid":
+            continue
         if key == "ftag":
             continue
         if key == "ocid":
@@ -107,6 +111,14 @@ class TestClean(unittest.TestCase):
     def test_utm_with_whitespace(self):
         self.assertEqual(clean("http://www.foobar.com/path?utm_baz=quux\n"),
                                "http://www.foobar.com/path")
+
+    def test_facebook_click_id(self):
+        self.assertEqual(clean("http://www.foobar.com/path?q=foo&fbclid=quux"),
+                               "http://www.foobar.com/path?q=foo")
+
+    def test_google_click_id(self):
+        self.assertEqual(clean("http://www.foobar.com/path?q=foo&gclid=quux"),
+                               "http://www.foobar.com/path?q=foo")
 
     def test_ftag(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&ftag=quux"),
