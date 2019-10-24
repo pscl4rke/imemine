@@ -547,6 +547,11 @@
         <command>mpc -q next</command>
       </action>
     </keybind>
+    <keybind key="W-F12">
+      <action name="Execute">
+        <command>/home/psc/imemine/bin/mpd-notifier --once</command>
+      </action>
+    </keybind>
 
     <!-- Keybinding for Volume management -->
     <keybind key="C-A-plus">

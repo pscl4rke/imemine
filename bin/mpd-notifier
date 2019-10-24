@@ -17,7 +17,11 @@
 #   -   Assumes MPD running on localhost
 
 
+# ONE-SHOT KEYBINDING
+
+
 import os
+import sys
 #import time
 import traceback
 
@@ -53,12 +57,9 @@ def image_for(relative_song_path):
     raise Exception("Absolutely no image possible for %r" % relative_song_path)
 
 
-def cycle(client):
-    last_identifier = (None, None)
+def get_song_and_notify(client, loop_afterwards=True):
+    last_identifier = (None, None, None)
     while True:
-        #time.sleep(2)
-        #client.idle("player")
-        client.idle()
         song_data = client.currentsong()
         icon = image_for(song_data.get('file', None))
         title = song_data.get("title", "Unknown")
@@ -73,13 +74,22 @@ def cycle(client):
         if identifier != last_identifier:
             notify(identifier)
             last_identifier = identifier
+        if not loop_afterwards:
+            break
+        #time.sleep(2)
+        #client.idle("player")
+        client.idle()
 
 
 def main():
     try:
         client = musicpd.MPDClient()
         client.connect("localhost", 6600)
-        cycle(client)
+        print(repr(sys.argv))
+        if "--once" in sys.argv:
+            get_song_and_notify(client, loop_afterwards=False)
+        else:
+            get_song_and_notify(client, loop_afterwards=True)
     finally:
         del client  # FIXME won't this happen anyway???
 
