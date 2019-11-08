@@ -5,7 +5,7 @@
 
 
 import email, email.header
-import os
+#import os
 import re
 import subprocess
 import sys
@@ -13,6 +13,7 @@ import sys
 
 PREMP = ["/home/psc/imemine/bin/premp"]
 MP = ["/usr/bin/mp"]
+PP = ["/home/psc/imemine/bin/pp"]
 PS2PDF = ["/usr/bin/ps2pdf", "-", "-"]
 
 
@@ -42,13 +43,15 @@ def main():
     raw_postscript = run(MP, clean_message)
     clean_postscript = re.sub(b"\$Header.*\$",
         title.encode('ascii', 'replace'), raw_postscript)
-    pdf_message = run(PS2PDF, clean_postscript)
-    outfile_name = "%s.pdf" % title
-    outfile_path = os.path.join(os.environ["HOME"], "Desktop", outfile_name)
-    if os.path.exists(outfile_path):
-        raise Exception("%r already exists" % outfile_path)
-    with open(outfile_path, "wb") as outfile:
-        outfile.write(pdf_message)
+    #pdf_message = run(PS2PDF, clean_postscript)
+    #outfile_name = "%s.pdf" % title
+    #outfile_path = os.path.join(os.environ["HOME"], "Desktop", outfile_name)
+    #if os.path.exists(outfile_path):
+    #    raise Exception("%r already exists" % outfile_path)
+    #with open(outfile_path, "wb") as outfile:
+    #    outfile.write(pdf_message)
+    #print("YOU KNOW, YOU COULD BE USING PP FOR THIS!")
+    run(PP, clean_postscript)
 
 
 if __name__ == '__main__':
