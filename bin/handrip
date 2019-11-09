@@ -57,7 +57,8 @@ class Ripper:
         self.x264_preset = "ultrafast" if args.ultrafast else "veryslow"
         if self.destination is None:
             self.destination = self.guess_destination_path()
-        self.video_kbps = 685  # bitrate
+        #self.video_kbps = 685  # bitrate
+        self.video_kbps = 985  # bitrate
 
     def info(self, message):
         sys.stdout.write("%s\n" % message)
