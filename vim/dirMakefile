@@ -3,6 +3,14 @@
 GH := "https://raw.githubusercontent.com"
 
 
+ALL: syntax/jinja.vim plugin/ripgrep.vim
+
+
+syntax/jinja.vim:
+	mvtoattic $@
+	curl $(GH)/pallets/jinja/master/ext/Vim/jinja.vim > $@
+
+
 plugin/ripgrep.vim:
 	mvtoattic $@
 	curl $(GH)/jremmen/vim-ripgrep/master/plugin/vim-ripgrep.vim > $@
