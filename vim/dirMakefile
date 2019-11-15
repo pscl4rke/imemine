@@ -5,6 +5,7 @@ GH := "https://raw.githubusercontent.com"
 
 ALL: \
 	syntax/jinja.vim \
+	syntax/ledger.vim \
 	syntax/python.vim \
 	plugin/ripgrep.vim \
 	#
@@ -13,6 +14,11 @@ ALL: \
 syntax/jinja.vim:
 	mvtoattic $@
 	curl $(GH)/pallets/jinja/master/ext/Vim/jinja.vim > $@
+
+
+syntax/ledger.vim:
+	mvtoattic $@
+	curl $(GH)/ledger/vim-ledger/master/syntax/ledger.vim > $@
 
 
 syntax/python.vim:
