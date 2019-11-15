@@ -1,0 +1,8 @@
+
+
+GH := "https://raw.githubusercontent.com"
+
+
+plugin/ripgrep.vim:
+	mvtoattic $@
+	curl $(GH)/jremmen/vim-ripgrep/master/plugin/vim-ripgrep.vim > $@
