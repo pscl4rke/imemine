@@ -4,8 +4,11 @@ eyeD3 \
     --remove-images \
     --remove-comments \
     --set-user-text-frame="major_brand:" \
+    --set-user-text-frame="MAJOR_BRAND:" \
     --set-user-text-frame="minor_version:" \
+    --set-user-text-frame="MINOR_VERSION:" \
     --set-user-text-frame="compatible_brands:" \
+    --set-user-text-frame="COMPATIBLE_BRANDS:" \
     --set-user-text-frame="Software:" \
     --set-user-text-frame="Release time:" \
     --set-user-text-frame="Tagging time:" \
