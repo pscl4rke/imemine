@@ -4,11 +4,21 @@ GH := "https://raw.githubusercontent.com"
 
 
 ALL: \
+	syntax/coffee.vim \
+	ftdetect/coffee.vim \
 	syntax/jinja.vim \
 	syntax/ledger.vim \
 	syntax/python.vim \
 	plugin/ripgrep.vim \
 	#
+
+
+syntax/coffee.vim:
+	mvtoattic $@
+	curl $(GH)/kchmck/vim-coffee-script/master/syntax/coffee.vim > $@
+ftdetect/coffee.vim:
+	mvtoattic $@
+	curl $(GH)/kchmck/vim-coffee-script/master/ftdetect/coffee.vim > $@
 
 
 syntax/jinja.vim:
