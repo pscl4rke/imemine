@@ -1,5 +1,6 @@
 #!/bin/bash
 # Remove all the ID3v2 comments that I don't care about
+# Note that if *every* tag is removed then it gets "error writing tag"
 eyeD3 \
     --remove-images \
     --remove-comments \
@@ -22,5 +23,6 @@ eyeD3 \
     --set-user-text-frame="WM/MediaPrimaryClassID:" \
     --set-user-text-frame="WM/WMADRCPeakReference:" \
     --set-user-text-frame="WM/WMADRCAverageReference:" \
+    --set-text-frame="TSSE:" \
     --no-tagging-time-frame \
     "$@"
