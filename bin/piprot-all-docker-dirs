@@ -1,0 +1,10 @@
+#!/bin/bash
+
+find . -name 'Dockerfile*' | grep -v historical | grep -v attic | while read dockerfile; do
+    projectname="$(dirname $dockerfile)"
+    find "$projectname" -name 'requirements*' | while read requirements; do
+        echo
+        echo "$requirements"
+        piprot "$requirements"
+    done
+done
