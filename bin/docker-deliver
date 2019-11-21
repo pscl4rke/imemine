@@ -193,7 +193,7 @@ class Exporter:
                         tracker.set_text("Tagging as %s:%s" % (name, version))
                         destination.add_tag(image, name, version)
                 duration = time.time() - start
-                tracker.set_text("Delivered in %-2is. [%s]" % (duration, result))
+                tracker.set_text("Delivered in %3is. [%s]" % (duration, result))
 
     def images_to_export(self, topname):
         images = []
