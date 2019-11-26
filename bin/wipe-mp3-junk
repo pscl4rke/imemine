@@ -24,5 +24,10 @@ eyeD3 \
     --set-user-text-frame="WM/WMADRCPeakReference:" \
     --set-user-text-frame="WM/WMADRCAverageReference:" \
     --set-text-frame="TSSE:" \
+    --set-text-frame="TENC:" \
+    --set-text-frame="TFLT:" \
+    --set-text-frame="TMED:" \
+    --set-text-frame="TCOP:" \
+    --set-text-frame="PRIV:" \
     --no-tagging-time-frame \
     "$@"
