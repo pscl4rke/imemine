@@ -4,6 +4,7 @@
 eyeD3 \
     --remove-images \
     --remove-comments \
+    --set-text-frame="WXXX:" \
     --set-user-text-frame="major_brand:" \
     --set-user-text-frame="MAJOR_BRAND:" \
     --set-user-text-frame="minor_version:" \
