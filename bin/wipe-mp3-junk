@@ -5,6 +5,7 @@ eyeD3 \
     --remove-images \
     --remove-comments \
     --set-text-frame="WXXX:" \
+    --set-text-frame="NCON:" \
     --set-user-text-frame="major_brand:" \
     --set-user-text-frame="MAJOR_BRAND:" \
     --set-user-text-frame="minor_version:" \
@@ -26,9 +27,12 @@ eyeD3 \
     --set-user-text-frame="WM/WMADRCAverageReference:" \
     --set-text-frame="TSSE:" \
     --set-text-frame="TENC:" \
+    --set-text-frame="TLEN:" \
+    --set-text-frame="TBPM:" \
     --set-text-frame="TFLT:" \
     --set-text-frame="TMED:" \
     --set-text-frame="TCOP:" \
     --set-text-frame="PRIV:" \
+    --set-text-frame="MCDI:" \
     --no-tagging-time-frame \
     "$@"

@@ -15,7 +15,7 @@ def check_from_wipe_mp3_junk_script(thing_to_check):
     # See imemine/bin/wipe-mp3-junk for a script that cleans up the mp3
     # files but I keep forgetting exists.
     src = mutagen.File(thing_to_check)
-    for prefix in ["TXXX", "TSSE", "TENC", "TFLT", "TMED", "TCOP", "APIC", "PRIV"]:
+    for prefix in ["TXXX", "TSSE", "TENC", "TLEN", "TBPM", "TFLT", "TMED", "TCOP", "APIC", "PRIV", "MCDI", "COMM"]:
         for key in src:
             if key.startswith(prefix):
                 yield thing_to_check, "Contains key %r saying %r" % (key, src[key])
