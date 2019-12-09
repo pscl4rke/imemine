@@ -3,6 +3,8 @@
 # SURFRAW SEARCH PROMPTER                        (c) 2015 P. S. Clarke #
 #======================================================================#
 
+[[ ! -e /usr/bin/surfraw ]] && zenity --error --text="No Surfraw" && exit 1
+
 [ -z "$1" ] && zenity --error --text="Missing arg" && exit 1
 elvus="$1"
 
@@ -11,4 +13,3 @@ query="$(zenity --entry --text="$desc" --title="$1")"
 [ -z "$query" ] && echo Cancelled && exit 0
 
 surfraw $elvus $query
-
