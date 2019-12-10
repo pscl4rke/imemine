@@ -27,6 +27,7 @@ eyeD3 \
     --set-user-text-frame="WM/WMADRCAverageReference:" \
     --set-text-frame="TSSE:" \
     --set-text-frame="TENC:" \
+    --set-text-frame="TDEN:" \
     --set-text-frame="TLEN:" \
     --set-text-frame="TBPM:" \
     --set-text-frame="TFLT:" \
