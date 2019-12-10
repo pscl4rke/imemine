@@ -19,6 +19,8 @@ Track = namedtuple("Track", [
     "title",
     "albumartist",
     "artist",
+    "composer",
+    "performer",
     "left_over_keys",
     "left_over_data",
 ])
@@ -48,13 +50,15 @@ def dump_file(file_path):
     year_released = get_one(keys_not_seen, src, "TDRL")
     track = get_one(keys_not_seen, src, "TRCK")
     title = get_one(keys_not_seen, src, "TIT2")
-    artist = get_one(keys_not_seen, src, "TPE1")
     albumartist = get_one(keys_not_seen, src, "TPE2")
+    artist = get_one(keys_not_seen, src, "TPE1")
+    composer = get_one(keys_not_seen, src, "TCOM")
+    performer = get_one(keys_not_seen, src, "TPE3") # mpd also recognises TPE4
     left_over_keys = ascii(" ".join(keys_not_seen))
     left_over_data = repr({key: src[key] for key in keys_not_seen})[:800]
     output_row(Track(file_path, last_tag_ts,
                      genre, album, year_recorded, year_released,
-                     track, title, albumartist, artist,
+                     track, title, albumartist, artist, composer, performer,
                      left_over_keys, left_over_data))
 
 
