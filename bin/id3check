@@ -1,29 +1,35 @@
 #!/usr/bin/python3
 
 
+import os
 import sys
 
 import mutagen
 
 
-def check(thing_to_check):
-    # Test there is no "COMM::\x00\x00\x00" key, or any kind of COMM* key
-    yield from check_from_wipe_mp3_junk_script(thing_to_check)
+# check that there is a total number of tracks
 
 
-def check_from_wipe_mp3_junk_script(thing_to_check):
+def check(path_to_check):
+    if os.path.isdir(path_to_check):
+        raise NotImplementedError("Cannot check folders yet!")
+    if path_to_check.endswith(".mp3"):
+        yield from check_from_wipe_mp3_junk_script(path_to_check)
+
+
+def check_from_wipe_mp3_junk_script(path_to_check):
     # See imemine/bin/wipe-mp3-junk for a script that cleans up the mp3
     # files but I keep forgetting exists.
-    src = mutagen.File(thing_to_check)
+    src = mutagen.File(path_to_check)
     for prefix in ["TXXX", "TSSE", "TENC", "TLEN", "TBPM", "TFLT", "TMED", "TCOP", "APIC", "PRIV", "MCDI", "COMM"]:
         for key in src:
             if key.startswith(prefix):
-                yield thing_to_check, "Contains key %r saying %r" % (key, src[key])
+                yield path_to_check, "Contains key %r saying %r" % (key, src[key])
 
 
 def main():
-    for thing_to_check in sys.argv[1:]:
-        for path, problem in check(thing_to_check):
+    for path_to_check in sys.argv[1:]:
+        for path, problem in check(path_to_check):
             print("%s: %s" % (path, problem[:200]))
 
 
