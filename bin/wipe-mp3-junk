@@ -25,6 +25,7 @@ eyeD3 \
     --set-user-text-frame="WM/MediaPrimaryClassID:" \
     --set-user-text-frame="WM/WMADRCPeakReference:" \
     --set-user-text-frame="WM/WMADRCAverageReference:" \
+    --set-text-frame="TPOS:" \
     --set-text-frame="TSSE:" \
     --set-text-frame="TENC:" \
     --set-text-frame="TDEN:" \
@@ -33,7 +34,9 @@ eyeD3 \
     --set-text-frame="TFLT:" \
     --set-text-frame="TMED:" \
     --set-text-frame="TCOP:" \
+    --set-text-frame="TPUB:" \
     --set-text-frame="PRIV:" \
     --set-text-frame="MCDI:" \
+    --set-text-frame="TDTG:" \
     --no-tagging-time-frame \
     "$@"
