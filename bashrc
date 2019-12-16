@@ -119,12 +119,18 @@ function __private_ps1() {
         echo "(hush) "
     fi
 }
+function __incoming_ssh_ps1() {
+    if [ ! -z "$SSH_TTY" ]
+    then
+        echo "<$HOSTNAME> "
+    fi
+}
 
 
 # TITLING FUNCTIONS
 #   For setting the title of terminal emulators.
 function __set_title() {
-    newtitle="$(pwd)"
+    newtitle="$(__incoming_ssh_ps1)$(pwd)"
     case "$TERM" in
         xterm*) # including xterm-256color
             printf '\33]0;%s\007' "$newtitle"
@@ -149,6 +155,7 @@ launcher=""
 [ -z $RANGER_LEVEL ] || launcher="\[\e[35m\](ranging) "
 PS1=""
 PS1="${PS1}\$(__set_title)\n"
+PS1="${PS1}$(__incoming_ssh_ps1)"
 PS1="${PS1}$launcher"
 PS1="${PS1}\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]"
 PS1="${PS1}\$(__git_ps1 ' (%s)')"
