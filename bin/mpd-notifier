@@ -29,13 +29,14 @@ import musicpd
 
 import notify2
 notify2.init("mpd-notifier")
+# Use one notification, to stop new popups for each song
+NOTIFICATION = notify2.Notification("FOO")
 
 
 def notify(identifier):
     try:
-        #n = pynotify.Notification(*identifier)
-        n = notify2.Notification(*identifier)
-        n.show()
+        NOTIFICATION.update(*identifier)
+        NOTIFICATION.show()
     except Exception:
         traceback.print_exp()
 
