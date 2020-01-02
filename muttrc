@@ -124,6 +124,14 @@ macro index ~n "<limit>~(~N | ~O)<enter><collapse-all><current-middle>"
 macro index ~h "<limit>~(!(~P) !(~f 'cron daemon') !(~s autoapt))<enter>"
 
 
+# NON-PATTERN FILTERING
+#   When I don't use a "~" pattern I want to also search the "to" field
+#   as well as "from" and "subject".
+# The default:
+#set simple_search "~f %s | ~s %s"
+set simple_search="~L %s | ~s %s"
+
+
 # DISPLAYING SMSs
 #   The mmssms2mbox tool uses this address for 'my' address.  This tells
 #   mutt about it so that it displays them as "To <dest>" in the sender
