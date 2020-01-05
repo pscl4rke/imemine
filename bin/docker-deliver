@@ -186,12 +186,12 @@ class Exporter:
                     layers_exported.extend(self.layers_in(f.name))
                     tracker.set_text("Delivering to %s..." % destination)
                     result = destination.deliver(f.name, filenamemade)
-                    # in theory as "repositories" file can be managed in the tar file
-                    # to control the names of what gets tagged. file is optional.
-                    # run save with 1 or more named images to see example.
-                    for (name, version) in self.get_all_image_tags().get(image, []):
-                        tracker.set_text("Tagging as %s:%s" % (name, version))
-                        destination.add_tag(image, name, version)
+                # in theory as "repositories" file can be managed in the tar file
+                # to control the names of what gets tagged. file is optional.
+                # run save with 1 or more named images to see example.
+                for (name, version) in self.get_all_image_tags().get(image, []):
+                    tracker.set_text("Tagging as %s:%s" % (name, version))
+                    destination.add_tag(image, name, version)
                 duration = time.time() - start
                 tracker.set_text("Delivered in %3is. [%s]" % (duration, result))
 
