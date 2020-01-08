@@ -1,0 +1,14 @@
+#!/bin/bash
+set -eu
+
+zenity --question \
+    --title "Save Terminal Contents" \
+    --text "Do you want to 'print' terminal to a file on the Desktop?" \
+    --ok-label "Yes, send to a file" \
+    --cancel-label "Cancel"
+
+echo "Printing!"
+#cat > $(TMPDIR=$HOME/Desktop mktemp urxvt.XXXXXX)
+#cat > $(mktemp $HOME/Desktop/urxvt.XXXXXX)
+#cat > $(mktemp $HOME/Desktop/urxvt.$(date "+%Y%m%d.%H%M%S").XXXXXX)
+cat > "$HOME/Desktop/urxvt.$(date "+%Y%m%d.%H%M%S")"
