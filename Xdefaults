@@ -147,6 +147,16 @@ URxvt.iso14755: false
 URxvt.iso14755_52: false
 
 
+! PRINTING
+!   The window manager claims <PrintScreen>, but <Shift+PrintScreen>
+!   and <Ctrl+PrintScreen> are still passed to urxvt, which print the
+!   complete scroll history.  Rather than the default `lpr` which
+!   usually gives me an unhelpful PDF on the desktop I have a script
+!   that can save it as a text file, and asks me about it first in case
+!   I hit the keys by mistake.  Which happens a lot.
+URxvt.print-pipe: ~/imemine/bin/print-term
+
+
 ! UNUSED THINGS
 !   A tiled background looks nice, but urxvt takes _ages_
 !   to repaint its screen, so it doesn't work.
