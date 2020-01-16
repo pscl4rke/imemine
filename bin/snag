@@ -23,7 +23,7 @@ class DummySource:
     def tear_down(self):
         pass
 
-    def pull(self, destination, shell_cmd):
+    def pull(self, shell_cmd):
         raise NotImplementedError("Unconfigured 'using' source")
 
 
@@ -38,13 +38,10 @@ class GenericSource:
     def tear_down(self):
         pass
 
-    def pull(self, destination, shell_cmd):
+    def pull(self, shell_cmd):
         args = list(self.prefix_args)
         args.append(shell_cmd)
-        output = subprocess.check_output(args)
-        # Note that we only overwrite the file if the cmd worked
-        with open(destination, "wb") as destfile:
-            destfile.write(output)
+        return subprocess.check_output(args)
 
 
 class SshSource:
@@ -73,14 +70,11 @@ class SshSource:
         args.extend(["-O", "exit"])
         subprocess.check_call(args)
 
-    def pull(self, destination, shell_cmd):
+    def pull(self, shell_cmd):
         args = ["ssh", "-o", "ControlPath=%s" % self.socket]
         args.extend(self.prefix_args)
         args.append(shell_cmd)
-        output = subprocess.check_output(args)
-        # Note that we only overwrite the file if the cmd worked
-        with open(destination, "wb") as destfile:
-            destfile.write(output)
+        return subprocess.check_output(args)
 
 
 class Snagger:
@@ -125,7 +119,7 @@ class Snagger:
             return
         if "\t" in line:
             destination, _tab, shell_cmd = line.strip().partition("\t")
-            self.pull(destination, shell_cmd)
+            self.pull_and_write(destination, shell_cmd)
             return
         self.info("Unknown line: %r" % line)
 
@@ -133,10 +127,13 @@ class Snagger:
         self.info("Running %r..." % shell_cmd)
         subprocess.check_call(shell_cmd, shell=True)
 
-    def pull(self, destination, shell_cmd):
+    def pull_and_write(self, destination, shell_cmd):
         try:
             self.info("Snagging %s..." % destination)
-            self.current_source.pull(destination, shell_cmd)
+            output = self.current_source.pull(shell_cmd)
+            # Note that we only overwrite the file if the cmd worked
+            with open(destination, "wb") as destfile:
+                destfile.write(output)
         except subprocess.CalledProcessError:
             self.info("ERROR")
 
