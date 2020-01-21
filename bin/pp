@@ -47,8 +47,9 @@ def get_title_from_header_of(psfilename):
 
 
 def looks_like_a_postscript(psfilename):
-    expected = "%!PS"
-    with open(psfilename) as psfile:
+    # note that PDF starts with things like "%PDF-1.4"
+    expected = b"%!PS"
+    with open(psfilename, "rb") as psfile:
         start = psfile.read(len(expected))
     return start == expected
 
