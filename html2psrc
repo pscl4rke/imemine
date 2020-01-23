@@ -37,6 +37,10 @@ h3 {
   font-size: 11pt;
 }
 
+h4 {
+  font-size: 9pt;
+}
+
 pre, blockquote {
   margin-left: 2pt;
 }
