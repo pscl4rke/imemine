@@ -13,29 +13,37 @@ ALL: \
 	#
 
 
-syntax/coffee.vim:
+syntax:
+	mkdir syntax
+ftdetect:
+	mkdir ftdetect
+plugin:
+	mkdir plugin
+
+
+syntax/coffee.vim: syntax
 	mvtoattic $@
 	curl $(GH)/kchmck/vim-coffee-script/master/syntax/coffee.vim > $@
-ftdetect/coffee.vim:
+ftdetect/coffee.vim: ftdetect
 	mvtoattic $@
 	curl $(GH)/kchmck/vim-coffee-script/master/ftdetect/coffee.vim > $@
 
 
-syntax/jinja.vim:
+syntax/jinja.vim: syntax
 	mvtoattic $@
 	curl $(GH)/pallets/jinja/master/ext/Vim/jinja.vim > $@
 
 
-syntax/ledger.vim:
+syntax/ledger.vim: syntax
 	mvtoattic $@
 	curl $(GH)/ledger/vim-ledger/master/syntax/ledger.vim > $@
 
 
-syntax/python.vim:
+syntax/python.vim: syntax
 	mvtoattic $@
 	curl $(GH)/vim-python/python-syntax/master/syntax/python.vim > $@
 
 
-plugin/ripgrep.vim:
+plugin/ripgrep.vim: plugin
 	mvtoattic $@
 	curl $(GH)/jremmen/vim-ripgrep/master/plugin/vim-ripgrep.vim > $@
