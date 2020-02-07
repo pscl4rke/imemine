@@ -34,8 +34,9 @@ tilda &
 # MUSIC PLAYING
 #   Sound playback tends to run into a *lot* of permission issues if
 #   mpd is run as a system-level daemon, so run it as an ordinary user
-#   on login:
-([ -e "$HOME/.mpd.conf" ] && /usr/bin/mpd "$HOME/.mpd.conf") &
+#   on login.  Delay because sometimes system/user versions run in the
+#   background blocking access to the port:
+([ -e /home/psc/.mpd.conf ] && sleep 10 && /usr/bin/mpd /home/psc/.mpd.conf) &
 
 # What is mpd playing (only works on when mpd is installed)?
 (while true; do /home/psc/imemine/bin/mpd-notifier; sleep 5; done) &
