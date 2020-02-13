@@ -14,7 +14,7 @@ BEEPFILE = join(dirname(dirname(realpath(sys.argv[0]))), "vendor", "beep-02.mp3"
 
 
 def beep():
-    subprocess.check_call(["mplayer", "-quiet", BEEPFILE])
+    subprocess.check_call(["mpv", "--really-quiet", BEEPFILE])
 
 
 def main():
