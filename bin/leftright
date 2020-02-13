@@ -1,4 +1,5 @@
 #!/bin/bash
 # For when your speakers are too cheap to be labeled "Left" or "Right"
+# you can have Alonzo help you out:
 imemine="$(dirname "$(dirname "$(realpath "$0")")")"
-mplayer -loop 0 "$imemine/vendor/leftright.wav"
+mpv --loop "$imemine/vendor/leftright.wav"
