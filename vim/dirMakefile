@@ -10,6 +10,7 @@ ALL: \
 	syntax/ledger.vim \
 	syntax/python.vim \
 	plugin/ripgrep.vim \
+	syntax/puppet.vim \
 	#
 
 
@@ -47,3 +48,8 @@ syntax/python.vim: syntax
 plugin/ripgrep.vim: plugin
 	mvtoattic $@
 	curl $(GH)/jremmen/vim-ripgrep/master/plugin/vim-ripgrep.vim > $@
+
+
+syntax/puppet.vim: syntax
+	mvtoattic $@
+	curl $(GH)/rodjek/vim-puppet/master/syntax/puppet.vim > $@
