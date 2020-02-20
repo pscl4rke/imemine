@@ -6,10 +6,10 @@
 # Adjust as necessary! (Use `ffplay` to work out what's needed)
 crop='-vf crop=in_w:in_h-150'
 
-time ffmpeg             \
+time nice ffmpeg        \
     -i $1               \
     -c:v libx264        \
-    -b:v 685k           \
+    -b:v 985k           \
     -preset veryslow    \
     $crop               \
     -c:a mp3            \
