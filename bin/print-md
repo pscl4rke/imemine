@@ -1,9 +1,10 @@
 #!/bin/bash
 set -eu
 
+# Note that both the python versions of markdown have smartypants built in.
 cat "$@" \
     | sed '/^%.*$/d' \
-    | markdown \
+    | markdown2 \
     | smartypants \
     | html2ps \
     | pp
