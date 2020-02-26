@@ -24,7 +24,7 @@ class DummySource:
         pass
 
     def pull(self, shell_cmd):
-        raise NotImplementedError("Unconfigured 'using' source")
+        raise NotImplementedError("Unconfigured '!using' source")
 
 
 class GenericSource:
