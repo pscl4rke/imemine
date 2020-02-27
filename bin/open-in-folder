@@ -1,0 +1,27 @@
+#!/bin/bash
+#======================================================================#
+# DIRECTORY-BROWSING LAUNCH WRAPPER              (c) 2020 P. S. Clarke #
+#======================================================================#
+
+# Re-exec as a directory browser in order of preference...
+
+if [[ -e "/usr/bin/pcmanfm" ]]; then
+    exec "/usr/bin/pcmanfm" --new-window "$@"
+fi
+
+if [[ -e "/usr/bin/pcmanfm-qt" ]]; then
+    exec "/usr/bin/pcmanfm-qt" --new-window "$@"
+fi
+
+# Or re-exec as a popup error message if there is no browser...
+
+if [[ -e "/usr/bin/zenity" ]]; then
+    exec "/usr/bin/zenity" --error --text "$0\nNo_folder_browser"
+fi
+
+if [[ -e "/usr/bin/xmessage" ]]; then
+    exec "/usr/bin/xmessage" "$0 -- No folder browser"
+fi
+
+echo "No folder browser or error messenger!" 1>&2
+exit 1
