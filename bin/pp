@@ -35,6 +35,8 @@ def best_printer():
         printers = b""
     if b"envy5010" in printers:
         return "envy5010"  # FIXME what about the duplex version
+    if b"HP_ENVY_5000_series_ernie" in printers:
+        return "HP_ENVY_5000_series_ernie"  # FIXME what about the duplex version
     return "HL1110"
 
 
