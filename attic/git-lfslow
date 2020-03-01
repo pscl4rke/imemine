@@ -1,0 +1,107 @@
+#!/usr/bin/python3
+
+
+import hashlib
+import os
+import sys
+
+
+USAGE = """
+Usage:
+  git lfslow smudge -d /path/to/objects <src >dest
+
+Ensure you put the following into .git/config:
+
+[filter "lfs"]
+\trequired = true
+\tsmudge = git lfslow smudge -d /path/to/objects
+\tclean = git lfslow clean
+"""
+
+
+class Manifest:
+
+    def __init__(self, hashtype, hashvalue, size):
+        self.hashtype = hashtype
+        self.hashvalue = hashvalue
+        self.size = size
+
+    def slashed_two_levels(self):
+        return "%s/%s/%s" % (self.hashvalue[0:2], self.hashvalue[2:4], self.hashvalue)
+
+
+def load_manifest_from(srcfile):
+    lines = iter(srcfile)
+    key, version = next(lines).rstrip('\n').split()
+    assert key == "version", key
+    assert version == "https://git-lfs.github.com/spec/v1", version
+    key, oid_full = next(lines).rstrip('\n').split()
+    assert key == "oid", key
+    hashtype, hashvalue = oid_full.split(":")
+    assert hashtype == "sha256", key
+    key, size_s = next(lines).rstrip('\n').split()
+    assert key == "size", key
+    size = int(size_s, 10)
+    try:
+        unexpected = next(lines)
+        assert False, unexpected
+    except StopIteration:
+        pass
+    return Manifest(hashtype, hashvalue, size)
+
+
+def dump_manifest_to(manifest, destfile):
+    destfile.write("version https://git-lfs.github.com/spec/v1\n")
+    destfile.write("oid %s:%s\n" % (manifest.hashtype, manifest.hashvalue))
+    destfile.write("size %i\n" % manifest.size)
+
+
+def generate_manifest_from(srcfile):
+    data = srcfile.read()
+    hashtype = "sha256"
+    hasher = hashlib.sha256(data)
+    hashvalue = hasher.hexdigest()
+    size = len(data)
+    return Manifest(hashtype, hashvalue, size)
+
+
+def find_file_matching(manifest, base_dirs):
+    for base_dir in base_dirs:
+        possible_path = os.path.join(base_dir, manifest.slashed_two_levels())
+        if os.path.isfile(possible_path):
+            return possible_path
+    raise Exception("Cannot find %r" % possible_path)
+
+
+def main_usage():
+    sys.stderr.write(USAGE)
+    return 1
+
+
+def main_smudge():
+    manifest = load_manifest_from(sys.stdin)
+    assert sys.argv[2] == "-d"
+    base_dirs = [sys.argv[3]]
+    path = find_file_matching(manifest, base_dirs)
+    with open(path, "rb") as srcfile:
+        data = srcfile.read()
+    assert len(data) == manifest.size
+    sys.stdout.buffer.write(data)
+
+
+def main_clean():
+    manifest = generate_manifest_from(sys.stdin.buffer)
+    dump_manifest_to(manifest, sys.stdout)
+
+
+def main():
+    subcommand = sys.argv[1] if (len(sys.argv) > 1) else ""
+    return {
+        "smudge": main_smudge,
+        "clean": main_clean,
+    }.get(subcommand, main_usage)()
+
+
+if __name__ == '__main__':
+    exitcode = main()
+    sys.exit(0 if (exitcode is None) else exitcode)
