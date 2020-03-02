@@ -6,7 +6,7 @@
 # Re-exec as a directory browser in order of preference...
 
 if [[ -e "/usr/bin/pcmanfm" ]]; then
-    exec "/usr/bin/pcmanfm" --new-window "$@"
+    exec "/usr/bin/pcmanfm" --new-win "$@"
 fi
 
 if [[ -e "/usr/bin/pcmanfm-qt" ]]; then
