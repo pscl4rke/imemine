@@ -113,11 +113,12 @@ class Message:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("db", help="The path to the Android database file")
-    parser.add_argument("-c", "--contacts", help="The path to a contacts list")
+    parser.add_argument("-c", "--contacts", action="append",
+                        help="The path to a contacts list")
     options = parser.parse_args()
     db = SmsDb(options.db)
-    if options.contacts is not None:
-        db.load_contacts_from(options.contacts)
+    for contact_file in options.contacts:
+        db.load_contacts_from(contact_file)
     messages = db.get_messages()
     for message in messages:
         eml = message.as_email()
