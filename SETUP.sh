@@ -53,6 +53,18 @@ _ensureparentdir () {
 }
 
 
+_testparentdir () {
+    fullpath="$1"
+    parentpath="$(dirname "$fullpath")"
+    if [ -d "$parentpath" ]
+    then
+        debug "Directory $parentpath already exists"
+    else
+        info "Would create directory at $parentpath"
+    fi
+}
+
+
 installorsimulatelink () {
     srcrel="$1"
     destrel="$2"
@@ -83,6 +95,7 @@ installorsimulatelink () {
                 fi
                 ;;
             simulate)
+                _testparentdir "$destabs"
                 info "Would create a symlink at $destabs"
                 ;;
         esac
