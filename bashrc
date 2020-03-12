@@ -69,6 +69,24 @@ fi
 #   This is mostly to make the PS1 work better.
 VIRTUAL_ENV_DISABLE_PROMPT="TRUE"
 export PYTHONSTARTUP=$HOME/.pythonrc
+if declare -F | grep -q virtualenvwrapper_load
+then
+    : Using virtualenvwrapper...
+else
+    : Custom completion...
+    _workon_envs () {
+        #ls "$HOME/.virtualenvs"
+        ls ~/.virtualenvs/*/bin/activate | sed 's|.*virtualenvs/||' | sed 's|/.*||'
+    }
+    _workon () {
+        halftyped="${COMP_WORDS[COMP_CWORD]}"
+        COMPREPLY=($(compgen -W "$(_workon_envs)" "$halftyped"))
+    }
+    workon() {
+        source "$HOME/.virtualenvs/$1/bin/activate"
+    }
+    complete -F _workon workon
+fi
 
 
 # ENVIRONMENTAL STATUS FUNCTIONS
