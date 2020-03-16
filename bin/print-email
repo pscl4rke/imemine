@@ -11,6 +11,10 @@ import subprocess
 import sys
 
 
+# TODO: Handle emails that only have an HTML part.
+#           (maybe pipe through jerks first)
+
+
 PREMP = ["/home/psc/imemine/bin/premp"]
 MP = ["/usr/bin/mp"]
 PP = ["/home/psc/imemine/bin/pp"]
