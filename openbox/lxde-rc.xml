@@ -410,12 +410,36 @@
             <x>0</x> <y>50%</y> <width>100%</width> <height>50%</height>
           </action>
         </keybind>
+        <keybind key="W-h"> <!-- Bottom-Left Quarter -->
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>0</x> <y>-0</y> <height>50%</height> <width>50%</width>
+          </action>
+        </keybind>
+        <keybind key="W-l"> <!-- Bottom-Right Quarter -->
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>-0</x> <y>-0</y> <height>50%</height> <width>50%</width>
+          </action>
+        </keybind>
       </keybind>
       <keybind key="W-k">
         <keybind key="W-k"> <!-- Top Half -->
           <action name="UnmaximizeFull"/>
           <action name="MoveResizeTo">
             <x>0</x> <y>0</y> <width>100%</width> <height>50%</height>
+          </action>
+        </keybind>
+        <keybind key="W-h"> <!-- Top-Left Quarter -->
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>0</x> <y>0</y> <height>50%</height> <width>50%</width>
+          </action>
+        </keybind>
+        <keybind key="W-l"> <!-- Top-Right Quarter -->
+          <action name="UnmaximizeFull"/>
+          <action name="MoveResizeTo">
+            <x>-0</x> <y>0</y> <height>50%</height> <width>50%</width>
           </action>
         </keybind>
       </keybind>
