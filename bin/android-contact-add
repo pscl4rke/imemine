@@ -1,0 +1,55 @@
+#!/usr/bin/python3
+#======================================================================#
+# PUSH CONTACT TO ANDROID OVER ABD               (c) 2020 P. S. Clarke #
+#======================================================================#
+
+
+"""
+Usage:
+    $ android-contact-add "Their Name" "0123456789"
+    $ android-contact-add "   Their Name       0123456789   "
+
+Once pushed you must tap the on-screen buttons to actually save.
+You may need to choose where it will save to first.
+"""
+
+
+import subprocess
+import sys
+
+
+def escape(text):
+    # Very simplistic, just wrap in double quotes!
+    assert '"' not in text
+    return '"%s"' % text
+
+
+def shell_command_to_add(name, number):
+    return " ".join((
+        "am", "start",
+        "-a", "android.intent.action.INSERT",
+        "-t", "vnd.android.cursor.dir/contact",
+        "-e", "name", escape(name),
+        "-e", "phone", escape(number),
+    ))
+
+
+def run_through_adb(command):
+    subprocess.call(["adb", "shell", command])
+
+
+def main():
+    if len(sys.argv) == 3:
+        name = sys.argv[1]
+        number = sys.argv[2]
+    elif len(sys.argv) == 2:
+        # parses "The Name     012345678"
+        name, number = sys.argv[1].strip().rsplit(None, 1)
+    else:
+        raise Exception("Usage Error")
+    shell_cmd = shell_command_to_add(name, number)
+    run_through_adb(shell_cmd)
+
+
+if __name__ == '__main__':
+    main()
