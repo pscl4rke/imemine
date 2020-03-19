@@ -4,6 +4,7 @@
 import argparse
 import datetime
 import email.message
+import json
 import os
 import sqlite3
 import time
@@ -18,7 +19,7 @@ def normalise(number):
     return number
 
 
-class SmsDb:
+class SmsDB:
 
     def __init__(self, filepath):
         if not os.path.exists(filepath):
@@ -41,6 +42,29 @@ class SmsDb:
         return [Message(self._contacts, a, b, c, d, e, f, g)
                 for (a, b, c, d, e, f, g)
                 in cursor.fetchall()]
+
+
+class JsonDB:
+
+    def __init__(self, filepath):
+        if not os.path.exists(filepath):
+            raise Exception("Missing file %r" % filepath)
+        with open(filepath) as srcfile:
+            self._records = json.load(srcfile)["records"]
+            self._records.sort(key=lambda r: int(r["date"]))
+        self._contacts = {}
+
+    def load_contacts_from(self, contact_path):
+        with open(contact_path) as infile:
+            for line in infile:
+                name, number = line.rsplit(None, 1)
+                self._contacts[normalise(number.strip())] = name.strip()
+
+    def get_messages(self):
+        return [Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
+                        int(record["type"]), record["address"], int(record["date"]),
+                        int(record["date_sent"]), record["body"])
+                for record in self._records]
 
 
 class Message:
@@ -115,8 +139,11 @@ def main():
     parser.add_argument("db", help="The path to the Android database file")
     parser.add_argument("-c", "--contacts", action="append", default=[],
                         help="The path to a contacts list")
+    parser.add_argument("-j", "--json", action="store_const", dest="dbclass",
+                        const=JsonDB, default=SmsDB,
+                        help="Interpret file as JSON not SQLite3")
     options = parser.parse_args()
-    db = SmsDb(options.db)
+    db = options.dbclass(options.db)
     for contact_file in options.contacts:
         db.load_contacts_from(contact_file)
     messages = db.get_messages()
