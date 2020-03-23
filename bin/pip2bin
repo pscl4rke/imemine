@@ -1,0 +1,26 @@
+#!/usr/bin/python3
+
+
+import configparser
+import subprocess
+import sys
+
+
+BIN_DIR = "/home/psc/bin"
+
+
+class Pip2bin:
+
+    def run(self):
+        config = configparser.ConfigParser()
+        config.read([sys.argv[1]])
+        for section in config.sections():
+            venv_dir = "/home/psc/.pip2bin/%s" % section
+            subprocess.run(["/usr/bin/python3", "-m", "venv", venv_dir], check=True)
+            subprocess.run(["%s/bin/pip" % venv_dir, "install", section], check=True)
+            subprocess.run(["ln", "-s", "%s/bin/%s" % (venv_dir, section),
+                            "%s/." % BIN_DIR], check=True)
+
+
+if __name__ == '__main__':
+    Pip2bin().run()
