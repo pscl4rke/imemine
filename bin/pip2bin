@@ -26,10 +26,17 @@ class Pip2bin:
         for section in config.sections():
             entry = Entry(section)
             venv_dir = entry.venv_dir()
-            subprocess.run(["/usr/bin/python3", "-m", "venv", venv_dir], check=True)
-            subprocess.run(["%s/bin/pip" % venv_dir, "install", section], check=True)
-            subprocess.run(["ln", "-s", "%s/bin/%s" % (venv_dir, section),
-                            "%s/." % BIN_DIR], check=True)
+            self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
+            self._exec("%s/bin/pip" % venv_dir, "install", section)
+            self.ensure_linked(entry)
+
+    def ensure_linked(self, entry):
+        target = "%s/bin/%s" % (entry.venv_dir(), entry.name)
+        destination = "%s/." % BIN_DIR
+        self._exec("ln", "-f", "-s", target, destination) # NB: Forcing!
+
+    def _exec(self, *args):
+        subprocess.run(args, check=True)
 
 
 if __name__ == '__main__':
