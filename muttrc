@@ -270,7 +270,7 @@ color indicator white green
 
 
 # COLOURS IN PAGER
-# These set the quotation levels:
+# Include quotation header with quotation:
 color body blue default "^On .* wrote:$"
 color body blue default "^On .* said:$"
 color body blue default "^.* <.*@.*> writes:$"
@@ -278,6 +278,7 @@ color body blue default "^Le .* a écrit :$"
 color body blue default "^Am .* schrieb .*:$"
 color body blue default "^.* via .* wrote:$"
 color body blue default "^.*\\[.*\] wrote:$"
+# These set the quotation levels:
 color quoted  blue default
 color quoted1 blue default
 color quoted2 blue default
@@ -301,6 +302,9 @@ color body magenta default "<[^>@]*\"[[:space:]]*$"
 color body magenta default "^[^<>@]*\" ?>"
 # Entities:
 color body magenta default "&nbsp;"
+# Web addresses in newsletters:
+color body magenta default "\\[http[^\]]*\\]"
+color body magenta default "\\[mailto[^\]]*\\]"
 #
 # For patch emails containing unified diffs:
 color body green default "^[+].*"
