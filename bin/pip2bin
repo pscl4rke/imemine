@@ -11,8 +11,9 @@ BIN_DIR = "/home/psc/bin"
 
 class Entry:
 
-    def __init__(self, name):
+    def __init__(self, name, options):
         self.name = name
+        self.requirement = options.get('requirement', name)
 
     def venv_dir(self):
         return "/home/psc/.pip2bin/%s" % self.name
@@ -23,11 +24,11 @@ class Pip2bin:
     def run(self):
         config = configparser.ConfigParser()
         config.read([sys.argv[1]])
-        for section in config.sections():
-            entry = Entry(section)
+        for section_name in config.sections():
+            entry = Entry(section_name, dict(config.items(section_name)))
             venv_dir = entry.venv_dir()
             self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
-            self._exec("%s/bin/pip" % venv_dir, "install", section)
+            self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
             self.ensure_linked(entry)
 
     def ensure_linked(self, entry):
