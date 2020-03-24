@@ -3,6 +3,9 @@
 # LOCALMAIL EMAIL MANAGEMENT SHELL               (c) 2018 P. S. Clarke #
 #======================================================================#
 
+# FIXME - how to actually block running a command instead of just
+#   hiding the number in the menu?
+
 
 """
 Easiest way is to use this as the interpreter in the hashbang of
@@ -16,6 +19,7 @@ your config file:
 
     [manage]
     muttrc = /path/to/mutt_config_file
+    readonly = false
 
     [search]
     muhome = /path/to/indexing/dir
@@ -73,7 +77,8 @@ class LocalMail:
         print("1: sync")
         #print("1*: sync forever")
         print("2: manage-ro")
-        print("3: manage-rw")
+        if self.config.getboolean("manage", "readonly", fallback=True) is False:
+            print("3: manage-rw")
         if self.has_config_for("search"):
             print("4: search")
         if self.has_config_for("gitrepo"):
