@@ -31,6 +31,7 @@ def parse_args(args):
     parser.add_argument("source")
     parser.add_argument("title", type=int)
     parser.add_argument("destination", nargs='?', default=None)
+    parser.add_argument("-p", "--prefix", action="store", default=None)
     parser.add_argument("-u", "--ultrafast", action="store_true", default=False)
     parser.add_argument("-s", "--subtitle", action="store", type=int)
     parser.add_argument("--gain", action="store", type=int, default=0)
@@ -46,6 +47,7 @@ class Ripper:
         self.source = args.source
         self.title = args.title
         self.destination = args.destination
+        self.prefix = args.prefix
         self.verbose = True
         #self.chapters = "31-36"
         #self.chapters = None
@@ -69,7 +71,9 @@ class Ripper:
 
     def guess_destination_path(self):
         parts = []
-        if self.source.endswith(".iso"):
+        if self.prefix is not None:
+            parts.append(self.prefix)
+        elif self.source.endswith(".iso"):
             parts.append(self.source[:-4])
         else:
             raise Exception("Cannot guess destination for %r" % self.source)
