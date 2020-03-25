@@ -43,6 +43,15 @@ tilda &
 
 redshift -l 53:0 -t 5500:4300 &
 
+if [[ "$HOSTNAME" == "excalibur" ]]; then
+# Keep clipboards synced:
+#    this one syncs the selection with the cutbuffer
+autocutsel -selection PRIMARY &
+#    and this one syncs the clipboard wit the cutbuffer
+autocutsel -selection CLIPBOARD &
+#    so in theory both a kept in sync via the cutbuffer
+fi
+
 # Try conky
 #conky &
 
