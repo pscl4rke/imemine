@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 #======================================================================#
-# WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2018 P. S. Clarke #
+# WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2020 P. S. Clarke #
 #======================================================================#
+
+chromium=/usr/bin/chromium-browser
 
 if [[ -e /usr/bin/firefox ]]
 then
@@ -50,11 +52,11 @@ url="$(urlclean "$url")"
 case "$browser-$mode" in
     chrome-temp)
         # --temp-profile must be first if it is to be obeyed:
-        chromium-browser --temp-profile --no-first-run \
+        $chromium --temp-profile --no-first-run \
             --no-default-browser-check "$url" 2>&1 >/dev/null
         ;;
     chrome-profile)
-        chromium-browser --user-data-dir="$HOME/.config/chromium-$profile" \
+        $chromium --user-data-dir="$HOME/.config/chromium-$profile" \
             --no-default-browser-check --new-window "$url" 2>&1 >/dev/null
         ;;
     firefox-temp)
