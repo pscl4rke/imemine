@@ -1,0 +1,10 @@
+#!/bin/sh
+# elvis: ddg             -- Search the web with DuckDuckGo
+. surfraw || exit 1
+
+w3_config
+w3_parse_args "$@"
+# now in $w3_args
+
+escaped=$(w3_url_of_arg "$w3_args")
+w3_browse_url "https://duckduckgo.com/lite/?kl=uk-en&kp=-2&q=${escaped}"
