@@ -1,0 +1,76 @@
+#!/usr/bin/python3
+
+
+import argparse
+import configparser
+import os
+import shlex
+import subprocess
+import urllib.parse
+
+
+def config_directory():
+    return os.path.join(os.environ["HOME"], ".linkbear")
+
+
+class SearchLocation:
+
+    def __init__(self, name, desc, url):
+        self.name = name
+        self.desc = desc
+        self.url = url
+
+    def url_to_launch(self, query):
+        return self.url.format(query=urllib.parse.quote_plus(query))
+
+
+class Browser:
+
+    def launch_ephemerally(self, url):
+        subprocess.run(["open-in-browser-bg", url])
+
+    def launch_with_profile(self, profile, url):
+        subprocess.run(["open-in-browser-bg", "-p", profile, url])
+
+
+class Runner:
+
+    def __init__(self):
+        self.locations = {}
+
+    def run(self):
+        self.load_from_dir(config_directory())
+        args = self.parse_command_line()
+        url = self.locations[args.location].url_to_launch(" ".join(args.query_parts))
+        Browser().launch_ephemerally(url)
+
+    def load_from_dir(self, dirpath):
+        for filename in sorted(os.listdir(dirpath)):
+            if filename.endswith(".ini"):
+                self.load_from_file(os.path.join(dirpath, filename))
+
+    def load_from_file(self, filepath):
+        parser = configparser.ConfigParser()
+        parser.read(filepath)
+        for section_heading in parser.sections():
+            section_settings = dict(parser.items(section_heading))
+            section_type, *section_args = shlex.split(section_heading)
+            if section_type == "search":
+                self.load_search(section_args[0], section_settings)
+            else:
+                raise Exception("Unknown section type: %r" % section_type)
+
+    def load_search(self, name, settings):
+        desc = settings.get("desc", "Run a %s search" % name)
+        url = settings["url"]
+        self.locations[name] = SearchLocation(name, desc, url)
+
+    def parse_command_line(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("location", choices=list(self.locations))
+        parser.add_argument("query_parts", nargs="*")
+        return parser.parse_args()  # uses sys.argv
+
+
+if __name__ == '__main__':
+    Runner().run()
