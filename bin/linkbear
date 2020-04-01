@@ -1,12 +1,21 @@
 #!/usr/bin/python3
 
 
-import argparse
 import configparser
 import os
 import shlex
 import subprocess
+import sys
 import urllib.parse
+
+
+USAGE = """
+Usage:
+    $ linkbear <location> <query arguments ...>
+    $ linkbear --list
+    $ linkbear --help
+
+"""
 
 
 def config_directory():
@@ -41,8 +50,12 @@ class Runner:
     def run(self):
         self.load_from_dir(config_directory())
         args = self.parse_command_line()
-        url = self.locations[args.location].url_to_launch(" ".join(args.query_parts))
-        Browser().launch_ephemerally(url)
+        if args.location == "--list":
+            for location in self.locations.values():
+                print("%s -- %s" % (location.name.ljust(20), location.desc))
+        else:
+            url = self.locations[args.location].url_to_launch(" ".join(args.query_parts))
+            Browser().launch_ephemerally(url)
 
     def load_from_dir(self, dirpath):
         for filename in sorted(os.listdir(dirpath)):
@@ -66,10 +79,26 @@ class Runner:
         self.locations[name] = SearchLocation(name, desc, url)
 
     def parse_command_line(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument("location", choices=list(self.locations))
-        parser.add_argument("query_parts", nargs="*")
-        return parser.parse_args()  # uses sys.argv
+        # don't use argparse, because there's no way for --list to make
+        # the location optional...
+        class Options:
+            location = "--help"
+        options, remaining = Options(), []
+        for argument in sys.argv[1:]:
+            if argument in ("--help", "--list"):
+                options.location = argument
+            elif argument.startswith("-"):
+                raise Exception("Unknown: %r" % argument)
+            else:
+                remaining.append(argument)
+        if len(remaining) > 0:
+            options.location = remaining.pop(0)
+        options.query_parts = remaining
+        if options.location == "--help":
+            sys.stderr.write(USAGE)
+            sys.exit(1)
+        return options
+
 
 
 if __name__ == '__main__':
