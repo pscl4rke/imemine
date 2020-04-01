@@ -33,6 +33,18 @@ class SearchLocation:
         return self.url.format(query=urllib.parse.quote_plus(query))
 
 
+class Prompt:
+
+    def ask_user(self, name, desc, initial):
+        args = ["zenity", "--entry", "--title", name,
+                "--text", desc, "--entry-text", initial]
+        #result = subprocess.run(args, capture_output=True) # from 3.7
+        result = subprocess.run(args, stdout=subprocess.PIPE)
+        if result.returncode != 0:
+            return None
+        return result.stdout.decode().strip()
+
+
 class Browser:
 
     def launch_ephemerally(self, url):
@@ -54,8 +66,13 @@ class Runner:
             for location in self.locations.values():
                 print("%s -- %s" % (location.name.ljust(20), location.desc))
         else:
-            url = self.locations[args.location].url_to_launch(" ".join(args.query_parts))
-            Browser().launch_ephemerally(url)
+            location = self.locations[args.location]
+            query = " ".join(args.query_parts)
+            if args.prompt:
+                query = Prompt().ask_user(location.name, location.desc, query)
+            if query is not None:
+                url = location.url_to_launch(query)
+                Browser().launch_ephemerally(url)
 
     def load_from_dir(self, dirpath):
         for filename in sorted(os.listdir(dirpath)):
@@ -83,10 +100,13 @@ class Runner:
         # the location optional...
         class Options:
             location = "--help"
+            prompt = False
         options, remaining = Options(), []
         for argument in sys.argv[1:]:
             if argument in ("--help", "--list"):
                 options.location = argument
+            elif argument == "--prompt":
+                options.prompt = True
             elif argument.startswith("-"):
                 raise Exception("Unknown: %r" % argument)
             else:
