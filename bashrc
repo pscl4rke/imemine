@@ -50,6 +50,8 @@ HISTFILESIZE=5000
 shopt -s checkwinsize
 #   Ensure that the $PS1 gets properly evaluated:
 shopt -s promptvars
+#   Allow double asterisk to match paths with slashes
+shopt -s globstar
 
 
 # EDITING FILES
