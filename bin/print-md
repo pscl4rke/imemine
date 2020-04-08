@@ -2,10 +2,12 @@
 set -eu
 
 # Note that both the python versions of markdown have smartypants built in.
+# Note that html2ps gets the "%%Title:" metadata from <title> tags.
+
 cat "$@" \
     | sed '/^%.*$/d' \
     | markdown2 \
     | smartypants \
+    | cat <(echo "<head><title>$@</title></head>") - \
     | html2ps \
     | pp
-
