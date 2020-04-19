@@ -3,15 +3,11 @@
 GH := "https://raw.githubusercontent.com"
 
 
-ALL: \
-	syntax/coffee.vim \
-	ftdetect/coffee.vim \
-	syntax/jinja.vim \
-	syntax/ledger.vim \
-	syntax/python.vim \
-	plugin/ripgrep.vim \
-	syntax/puppet.vim \
-	#
+.DEFAULT: ALL
+allsyntax=$(shell grep ^syntax/ Makefile | sed 's/:.*//')
+allftdetect=$(shell grep ^ftdetect/ Makefile | sed 's/:.*//')
+allplugin=$(shell grep ^plugin/ Makefile | sed 's/:.*//')
+ALL: $(allsyntax) $(allftdetect) $(allplugin)
 
 
 # The pipe char is used for order-only prerequisites:
