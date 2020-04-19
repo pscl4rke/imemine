@@ -213,6 +213,15 @@ autocmd BufNewFile,BufRead *.env set filetype=dockerenv
 autocmd BufNewFile,BufRead *.jinja set filetype=jinja
 "
 "
+" FILE-TYPE PLUGINS
+"   I could just add a 'filetype plugin on' setting here and that would
+"   enable all the ftplugin files for all file types.  But I'm convinced
+"   that would mess me around with lots of 'helpful' behaviour
+"   alterations.  So I use this to enable them on a type-by-type basis.
+"   Alternatively one can set a FileType preference in the section below.
+"autocmd BufNewFile,BufRead *.t filetype plugin on | set ft=cram
+"
+"
 " FILE-TYPE PREFERENCES
 "   Sometimes a file type tries to be 'helpful'.
 "   E.g. by default shell treats a dot as a word char
@@ -223,6 +232,7 @@ autocmd FileType nginx setlocal iskeyword-=.
 autocmd FileType coffee setlocal shiftwidth=2
 autocmd FileType make setlocal noexpandtab
 autocmd FileType calendar setlocal noexpandtab tabstop=20
+autocmd FileType cram setlocal shiftwidth=2
 "
 "
 " GUI OPTIONS
