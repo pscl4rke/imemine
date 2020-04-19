@@ -14,6 +14,9 @@ ALL: \
 	#
 
 
+# The pipe char is used for order-only prerequisites:
+# https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
+# So that a change of directory mtime doesn't rebuild everything
 syntax:
 	mkdir syntax
 ftdetect:
@@ -22,34 +25,34 @@ plugin:
 	mkdir plugin
 
 
-syntax/coffee.vim: syntax
+syntax/coffee.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/kchmck/vim-coffee-script/master/syntax/coffee.vim > $@
-ftdetect/coffee.vim: ftdetect
+ftdetect/coffee.vim: | ftdetect
 	mvtoattic $@
 	curl $(GH)/kchmck/vim-coffee-script/master/ftdetect/coffee.vim > $@
 
 
-syntax/jinja.vim: syntax
+syntax/jinja.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/pallets/jinja/master/ext/Vim/jinja.vim > $@
 
 
-syntax/ledger.vim: syntax
+syntax/ledger.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/ledger/vim-ledger/master/syntax/ledger.vim > $@
 
 
-syntax/python.vim: syntax
+syntax/python.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/vim-python/python-syntax/master/syntax/python.vim > $@
 
 
-plugin/ripgrep.vim: plugin
+plugin/ripgrep.vim: | plugin
 	mvtoattic $@
 	curl $(GH)/jremmen/vim-ripgrep/master/plugin/vim-ripgrep.vim > $@
 
 
-syntax/puppet.vim: syntax
+syntax/puppet.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/rodjek/vim-puppet/master/syntax/puppet.vim > $@
