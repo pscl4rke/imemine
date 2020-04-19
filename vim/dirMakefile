@@ -56,3 +56,11 @@ plugin/ripgrep.vim: | plugin
 syntax/puppet.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/rodjek/vim-puppet/master/syntax/puppet.vim > $@
+
+
+syntax/cram.vim: | syntax
+	mvtoattic $@
+	curl $(GH)/pscl4rke/vim-cram/master/syntax/cram.vim > $@
+ftdetect/cram.vim: | ftdetect
+	mvtoattic $@
+	curl $(GH)/pscl4rke/vim-cram/master/ftdetect/cram.vim > $@
