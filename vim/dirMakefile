@@ -60,3 +60,8 @@ syntax/cram.vim: | syntax
 ftdetect/cram.vim: | ftdetect
 	mvtoattic $@
 	curl $(GH)/pscl4rke/vim-cram/master/ftdetect/cram.vim -fo $@
+
+
+syntax/kotlin.vim: | syntax
+	mvtoattic $@
+	curl $(GH)/udalov/kotlin-vim/master/syntax/kotlin.vim -fo $@
