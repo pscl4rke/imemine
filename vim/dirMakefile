@@ -1,6 +1,6 @@
 
 
-GH := "https://raw.githubusercontent.com"
+GH := https://raw.githubusercontent.com
 
 
 .DEFAULT: ALL
