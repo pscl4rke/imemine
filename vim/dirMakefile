@@ -65,3 +65,9 @@ ftdetect/cram.vim: | ftdetect
 syntax/kotlin.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/udalov/kotlin-vim/master/syntax/kotlin.vim -fo $@
+
+
+syntax/nginx.vim: | syntax
+	mvtoattic $@
+	@echo "Ooh look! No Github!!!"
+	curl http://hg.nginx.org/nginx/raw-file/tip/contrib/vim/syntax/nginx.vim -fo $@
