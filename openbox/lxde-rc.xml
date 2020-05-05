@@ -522,7 +522,7 @@
     <keybind key="W-W">
       <keybind key="W-K">
         <action name="Execute">
-          <command>/home/psc/imemine/bin/srprompt wikipedia</command>
+          <command>/home/psc/imemine/bin/linkbear --prompt wikipedia</command>
         </action>
       </keybind>
       <keybind key="W-W">
