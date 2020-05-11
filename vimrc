@@ -130,9 +130,8 @@ set tabpagemax=40
 "   terminal settings.
 syntax on
 set background=light
-"let python_highlight_numbers = 1
-"let python_highlight_builtins = 1
 let python_highlight_all = 1
+let python_highlight_func_calls = 0
 "
 "
 " POOR-MAN'S COLOUR SCHEME
