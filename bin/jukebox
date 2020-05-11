@@ -7,10 +7,15 @@
 # filtering syntax which should handle the variety of spellings of
 # "classical" (see `mpc list genre` for more info).  Although it won't
 # throw in things like soundtracks.  Until then...
-filters=""
-if [[ "$1" == "--classical" ]]; then
-    filters="Genre (32)Classical"
-fi
+#filters=""
+#if [[ "$1" == "--classical" ]]; then
+#    filters="Genre (32)Classical"
+#fi
+case "$1" in
+    --classical)    filters="Genre (32)Classical" ;;
+    --jazz)         filters="Genre (8)Jazz" ;;
+    *)              filters="" ;;
+esac
 
 album="$(mpc list album $filters | shuf | cat <(echo "SHUFFLING") - | dmenu -i)"
 [ -z "$album" ] && exit 1
