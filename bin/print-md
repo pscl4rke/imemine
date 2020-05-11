@@ -6,8 +6,7 @@ set -eu
 
 cat "$@" \
     | sed '/^%.*$/d' \
-    | markdown2 \
-    | smartypants \
+    | markdown2 -x smarty-pants \
     | cat <(echo "<head><title>$@</title></head>") - \
     | html2ps \
     | pp
