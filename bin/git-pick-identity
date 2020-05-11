@@ -1,0 +1,7 @@
+#!/bin/bash
+set -eu
+git log --format="%ce | %cn" | uniq | pick | while read email bar name; do
+    set -x
+    git config user.email "$email"
+    git config user.name "$name"
+done
