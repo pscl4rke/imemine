@@ -15,7 +15,10 @@ your config file:
     # vim:ft=dosini:
 
     [sync]
+    ; either...
     offlineimaprc = /path/to/offlineimap_config_file
+    ; ...or...
+    mbsyncrc = /path/to/mbsyncrc_config_file
 
     [manage]
     muttrc = /path/to/mutt_config_file
@@ -114,8 +117,12 @@ class LocalMail:
             print("Huh??")
 
     def handle_sync(self):
-        offlineimaprc = self.config['sync']['offlineimaprc']
-        subprocess.call(["offlineimap", "-c", offlineimaprc])
+        if "offlineimaprc" in self.config["sync"]:
+            offlineimaprc = self.config['sync']['offlineimaprc']
+            subprocess.call(["offlineimap", "-c", offlineimaprc])
+        if "mbsyncrc" in self.config["sync"]:
+            mbsyncrc = self.config['sync']['mbsyncrc']
+            subprocess.call(["mbsync", "-c", mbsyncrc, "-a"])
 
     def handle_manage_ro(self):
         muttrc = self.config['manage']['muttrc']
