@@ -31,7 +31,9 @@ ftdetect/coffee.vim: | ftdetect
 
 syntax/jinja.vim: | syntax
 	mvtoattic $@
-	curl $(GH)/pallets/jinja/master/ext/Vim/jinja.vim -fo $@
+	# The file has been deleted from the mainline!
+	#curl $(GH)/pallets/jinja/master/ext/Vim/jinja.vim -fo $@
+	curl $(GH)/pallets/jinja/da812816ff1a459eefa7ca946b4c108cc7106c85/ext/Vim/jinja.vim -fo $@
 
 
 syntax/ledger.vim: | syntax
