@@ -232,6 +232,7 @@ autocmd FileType coffee setlocal shiftwidth=2
 autocmd FileType make setlocal noexpandtab
 autocmd FileType calendar setlocal noexpandtab tabstop=20
 autocmd FileType cram setlocal shiftwidth=2 tabstop=2
+autocmd FileType gitconfig setlocal noexpandtab
 "
 "
 " GUI OPTIONS
