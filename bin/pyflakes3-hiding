@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/home/psc/.pip2bin/pyflakes/bin/python3
 
 
 TO_HIDE = [
@@ -23,5 +23,7 @@ import os
 os.walk = walk_except_hiding
 
 
+#import sys
+#sys.path.append("/home/psc/.pip2bin/pyflakes/lib/python3.6/
 from pyflakes.scripts.pyflakes import main
 main()
