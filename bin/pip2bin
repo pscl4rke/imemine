@@ -2,6 +2,7 @@
 
 
 import configparser
+import os
 import subprocess
 import sys
 
@@ -32,8 +33,10 @@ class Pip2bin:
             self.ensure_linked(entry)
 
     def ensure_linked(self, entry):
-        target = "%s/bin/%s" % (entry.venv_dir(), entry.name)
-        destination = "%s/." % BIN_DIR
+        target = os.path.join(entry.venv_dir(), "bin", entry.name)
+        destination = os.path.join(BIN_DIR, entry.name)
+        if os.path.exists(destination) and os.readlink(destination) == target:
+            return
         self._exec("ln", "-f", "-s", target, destination) # NB: Forcing!
 
     def _exec(self, *args):
