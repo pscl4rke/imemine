@@ -27,10 +27,15 @@ class Pip2bin:
         config.read([sys.argv[1]])
         for section_name in config.sections():
             entry = Entry(section_name, dict(config.items(section_name)))
-            venv_dir = entry.venv_dir()
-            self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
-            self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
+            self.ensure_downloaded(entry)
             self.ensure_linked(entry)
+
+    def ensure_downloaded(self, entry):
+        # FIXME don't do if already exists!
+        #   (but need to clean up install errors to avoid false positives)
+        venv_dir = entry.venv_dir()
+        self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
+        self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
 
     def ensure_linked(self, entry):
         target = os.path.join(entry.venv_dir(), "bin", entry.name)
