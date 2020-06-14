@@ -495,7 +495,9 @@
       <keybind key="C-A-i">
         <action name="Execute">
           <!-- See https://duckduckgo.com/params for more info -->
-          <command>/home/psc/imemine/bin/open-in-browser https://duckduckgo.com/lite/?kl=uk-en&amp;kp=-2</command>
+          <!-- <command>/home/psc/imemine/bin/open-in-browser https://duckduckgo.com/lite/?kl=uk-en&amp;kp=-2</command> -->
+          <!-- <command>/home/psc/imemine/bin/srprompt ddg</command> -->
+          <command>/home/psc/imemine/bin/linkbear --prompt ddg</command>
         </action>
       </keybind>
       <keybind key="C-A-u">
