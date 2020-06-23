@@ -221,7 +221,9 @@ alias la="ls -A"
 alias lt="ls -lt"
 alias lS="ls -lhS"
 alias podget="wget --content-disposition"
-alias midentify="mplayer -frames 0 -identify"
+# Can I replace midentify with ffprobe instead???
+#alias midentify="mplayer -frames 0 -identify"
+alias midentify="ffprobe -hide_banner"
 alias macs="grep -i apple /usr/share/nmap/nmap-mac-prefixes | shuf | head"
 test -e /usr/share/doc/eyed3/examples/config.ini \
     || alias eyeD3="eyeD3 --no-tagging-time-frame"
