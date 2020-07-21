@@ -14,11 +14,16 @@ hi Normal ctermfg=Black
 " Paul's Additions:
 "   'Blue' is actually pink
 hi Unimportant ctermfg=Blue
+"   printing code etc
+hi Statement ctermfg=Black cterm=Bold
+hi Conditional ctermfg=Black cterm=Bold
+hi Repeat ctermfg=Black cterm=Bold
 "   used for potwiki links:
 hi Identifier ctermfg=Black
 
 " 'Yellow' is actually light blue
-hi LineNr ctermfg=Yellow
+" 'DarkYellow' is actually green
+hi LineNr ctermfg=DarkYellow
 
 " 'DarkRed' is acually a royal blue
 hi studyQ1 ctermfg=DarkRed cterm=Bold
