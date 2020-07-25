@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+
+
+import email
+from email import policy
+from email.utils import parsedate_to_datetime
+import hashlib
+import sys
+
+
+USAGE = """
+Usage:
+
+    mailname --print msg1 msg2 msg3...
+        Write out what the filename should be to stdout
+"""
+
+
+def textcleanse(original):
+    output = []
+    for char in original:
+        if char in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789":
+            output.append(char)
+    return "".join(output)
+
+
+def datepart(email_date):
+    date = parsedate_to_datetime(email_date)
+    return date.strftime("%Y-%m-%d.%H%M")
+
+
+def unaddress(original):
+    if "<" in original:
+        return original.split("<")[0].strip()
+    else:
+        return original
+
+
+def nameof(path):
+    with open(path, "rb") as srcfile:
+        message = email.message_from_binary_file(srcfile, policy=policy.default)
+    with open(path, "rb") as srcfile:
+        sha256sum = hashlib.sha256()
+        sha256sum.update(srcfile.read())
+    parts = [
+        datepart(message["Date"]),
+        textcleanse(unaddress(message["From"])),
+        textcleanse(message.get("Subject", ""))[:60],
+        sha256sum.hexdigest()[:12],
+    ]
+    return "%s:2,S" % ".".join(parts)
+
+
+def main():
+    if sys.argv[1] == "--print":
+        for path in sys.argv[2:]:
+            print(nameof(path))
+    else:
+        sys.stderr.write(USAGE)
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
