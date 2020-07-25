@@ -5,13 +5,19 @@ import email
 from email import policy
 from email.utils import parsedate_to_datetime
 import hashlib
+import os
 import sys
+
+
+# TODO Keep same status flags
+# TODO Catch overwriting
 
 
 USAGE = """
 Usage:
 
     mailname --print msg1 msg2 msg3...
+    mailname --move msg1 msg2 msg3...
         Write out what the filename should be to stdout
 """
 
@@ -55,6 +61,13 @@ def main():
     if sys.argv[1] == "--print":
         for path in sys.argv[2:]:
             print(nameof(path))
+    elif sys.argv[1] == "--move":
+        for path in sys.argv[2:]:
+            destdir = os.path.dirname(path)
+            destpath = os.path.join(destdir, nameof(path))
+            if path != destpath:
+                print(destpath)
+                os.rename(path, destpath)
     else:
         sys.stderr.write(USAGE)
         sys.exit(1)
