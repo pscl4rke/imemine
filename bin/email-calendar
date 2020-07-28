@@ -50,7 +50,7 @@ class ReminderSender:
         email["Subject"] = reminder
         email["Date"] = formatdate(None, self.use_local_timezone)
         # Placeholder body - minimise risk of spam filtering:
-        email.set_payload("Placeholder %s" % datetime.datetime.now.isoformat())
+        email.set_payload("Placeholder %s" % datetime.datetime.now().isoformat())
         return email
 
     def send_reminder(self, reminder):
