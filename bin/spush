@@ -1,0 +1,44 @@
+#!/usr/bin/python3
+
+
+from contextlib import contextmanager
+import subprocess
+import sys
+
+
+@contextmanager
+def SshTunnel(host_id):
+    port_to_try = 1234
+    process = subprocess.Popen(["ssh", host_id, "-N",
+                                "-L%i:localhost:5000" % port_to_try])
+    import time
+    time.sleep(10)
+    try:
+        yield port_to_try
+    finally:
+        process.send_signal(2)
+        process.wait()
+
+
+def main():
+    source = sys.argv[1]
+    if ":" not in source:
+        raise Exception("Need a tag or digest for skopeo")
+    username = "username"
+    password = "password"
+    with SshTunnel("spushtest@vtest") as port_number:
+        #subprocess.check_call(["curl", "-v", "http://%s:%s@localhost:%i/v2/_catalog" % 
+        #    (username, password, port_number)])
+        args = [
+            "skopeo", "--insecure-policy", "copy",
+            "--dest-tls-verify=false",
+            "--dest-creds=%s:%s" % (username, password),
+            "docker-daemon:%s" % source,
+            "docker://localhost:%i/%s" % (port_number, source),
+        ]
+        print(args)
+        subprocess.check_call(args)
+
+
+if __name__ == '__main__':
+    main()
