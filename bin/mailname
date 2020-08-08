@@ -50,7 +50,7 @@ def nameof(path):
         sha256sum.update(srcfile.read())
     parts = [
         datepart(message["Date"]),
-        textcleanse(unaddress(message["From"])),
+        textcleanse(unaddress(message["From"]))[:40],
         textcleanse(message.get("Subject", ""))[:60],
         sha256sum.hexdigest()[:12],
     ]
