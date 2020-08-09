@@ -17,8 +17,11 @@ USAGE = """
 Usage:
 
     mailname --print msg1 msg2 msg3...
-    mailname --move msg1 msg2 msg3...
         Write out what the filename should be to stdout
+    mailname --move msg1 msg2 msg3...
+        Rename the files to match what they should be
+    mailname --insert dir
+        Read from stdin and write named file to folder
 """
 
 
@@ -45,6 +48,10 @@ def unaddress(original):
 def name_of_path(path):
     with open(path, "rb") as srcfile:
         message_bytes = srcfile.read()
+    return name_of_bytes(message_bytes)
+
+
+def name_of_bytes(message_bytes):
     message = email.message_from_bytes(message_bytes, policy=policy.default)
     sha256sum = hashlib.sha256()
     sha256sum.update(message_bytes)
@@ -68,6 +75,13 @@ def main():
             if path != destpath:
                 print(destpath)
                 os.rename(path, destpath)
+    elif sys.argv[1] == "--insert":
+        folder = sys.argv[2]
+        message_bytes = sys.stdin.buffer.read()
+        name = name_of_bytes(message_bytes)
+        dest = os.path.join(folder, "cur", name)
+        with open(dest, "wb") as outfile:
+            outfile.write(message_bytes)
     else:
         sys.stderr.write(USAGE)
         sys.exit(1)
