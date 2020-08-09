@@ -42,12 +42,12 @@ def unaddress(original):
         return original
 
 
-def nameof(path):
+def name_of_path(path):
     with open(path, "rb") as srcfile:
-        message = email.message_from_binary_file(srcfile, policy=policy.default)
-    with open(path, "rb") as srcfile:
-        sha256sum = hashlib.sha256()
-        sha256sum.update(srcfile.read())
+        message_bytes = srcfile.read()
+    message = email.message_from_bytes(message_bytes, policy=policy.default)
+    sha256sum = hashlib.sha256()
+    sha256sum.update(message_bytes)
     parts = [
         datepart(message["Date"]),
         textcleanse(unaddress(message["From"]))[:40],
@@ -60,11 +60,11 @@ def nameof(path):
 def main():
     if sys.argv[1] == "--print":
         for path in sys.argv[2:]:
-            print(nameof(path))
+            print(name_of_path(path))
     elif sys.argv[1] == "--move":
         for path in sys.argv[2:]:
             destdir = os.path.dirname(path)
-            destpath = os.path.join(destdir, nameof(path))
+            destpath = os.path.join(destdir, name_of_path(path))
             if path != destpath:
                 print(destpath)
                 os.rename(path, destpath)
