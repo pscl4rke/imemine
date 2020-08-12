@@ -1,0 +1,8 @@
+
+# First "unbind" the "f" key by specifying its original action without
+# a keybinding...
+save_filelist
+
+# Now bind "f" to toggle fullscreen.  And also bind "v", because that
+# was the default binding...
+toggle_fullscreen v f
