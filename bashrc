@@ -9,10 +9,10 @@
 #   Only continue with these preferences in an interactive session.
 #   Otherwise I shall stick to the defaults so that shell scripts
 #   behave as the author expected.
-#   Note that I check whether the prompt is set here, but it is also
-#   possible to test whether "i" appears in "$-" using something
-#   like a case statement.
-[ -z "$PS1" ] && return
+#   It is possible to do this both by checking whether the prompt is set
+#   and checking whether it's in interactive mode.
+#[ -z "$PS1" ] && return
+[[ $- != *i* ]] && return
 
 
 # RELOAD LOCAL PATHS
