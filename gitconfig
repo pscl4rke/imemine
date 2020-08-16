@@ -13,7 +13,7 @@
 
 
 [core]
-    pager = less -+FX
+	pager = less -+FX
 [color]
 	ui = auto
 [push]
@@ -38,11 +38,11 @@
 # NORMALISING ASPELL WORD LISTS
 #   See `normalise-aspell` for rationale.
 [diff "aspell"]
-    #textconv = sort
-    textconv = /home/psc/imemine/bin/normalise-aspell
+	#textconv = sort
+	textconv = /home/psc/imemine/bin/normalise-aspell
 [filter "aspell"]
-    #clean = sort
-    clean = /home/psc/imemine/bin/normalise-aspell
+	#clean = sort
+	clean = /home/psc/imemine/bin/normalise-aspell
 [merge "aspell"]
 	name = Automatically merge Aspell dictionaries
 	#driver = /home/psc/imemine/bin/merge-aspell %O %A %B %L %P
