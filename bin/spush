@@ -24,6 +24,7 @@ def SshTunnel(host_id):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("source")
+    parser.add_argument("destination") # e.g. spushtest@vtest
     return parser.parse_args()
 
 
@@ -33,7 +34,7 @@ def main():
         raise Exception("Need a tag or digest for skopeo")
     username = "username"
     password = "password"
-    with SshTunnel("spushtest@vtest") as port_number:
+    with SshTunnel(args.destination) as port_number:
         #subprocess.check_call(["curl", "-v", "http://%s:%s@localhost:%i/v2/_catalog" % 
         #    (username, password, port_number)])
         args = [
