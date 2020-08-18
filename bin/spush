@@ -3,8 +3,10 @@
 
 import argparse
 from contextlib import contextmanager
+import os
 import subprocess
 import sys
+import tempfile
 
 
 def info(msg):
@@ -14,19 +16,26 @@ def info(msg):
 
 @contextmanager
 def SshTunnel(host_id):
-    info("Connecting to %s over SSH..." % host_id)
-    port_to_try = 1234
-    process = subprocess.Popen(["ssh", host_id, "-N",
-                                "-L%i:localhost:5000" % port_to_try])
-    info("Hackily waiting for initialisation...")
-    import time
-    time.sleep(10)
-    try:
-        yield port_to_try
-    finally:
-        info("Tearing down SSH connection...")
-        process.send_signal(2)
-        process.wait()
+    with tempfile.TemporaryDirectory() as dirpath:
+        control_socket = os.path.join(dirpath, "ssh-control")
+        info("Connecting to %s over SSH..." % host_id)
+        port_to_try = 1234
+        subprocess.check_call([
+            "ssh", host_id, "-N", "-f",
+            "-L%i:localhost:5000" % port_to_try,
+            "-o", "ExitOnForwardFailure=yes",
+            "-o", "ControlMaster=yes",
+            "-o", "ControlPath=%s" % control_socket,
+        ])
+        try:
+            yield port_to_try
+        finally:
+            info("Tearing down SSH connection...")
+            subprocess.check_call([
+                "ssh", host_id, "-q",
+                "-o", "ControlPath=%s" % control_socket,
+                "-O", "exit",
+            ])
 
 
 def parse_args():
@@ -52,6 +61,7 @@ def main():
             "docker-daemon:%s" % args.source,
             "docker://localhost:%i/%s" % (port_number, args.source),
         ]
+        info("Running skopeo...")
         #print(args)
         exitcode = subprocess.run(args).returncode
     if exitcode == 0:
