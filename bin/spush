@@ -8,13 +8,13 @@ import sys
 
 
 def info(msg):
-    sys.stderr.write(f"[spush] {msg}\n")
+    sys.stderr.write("[spush] %s\n" % msg)
     sys.stderr.flush()
 
 
 @contextmanager
 def SshTunnel(host_id):
-    info(f"Connecting to {host_id} over SSH...")
+    info("Connecting to %s over SSH..." % host_id)
     port_to_try = 1234
     process = subprocess.Popen(["ssh", host_id, "-N",
                                 "-L%i:localhost:5000" % port_to_try])
