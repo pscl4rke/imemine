@@ -7,16 +7,24 @@ import subprocess
 import sys
 
 
+def info(msg):
+    sys.stderr.write(f"[spush] {msg}\n")
+    sys.stderr.flush()
+
+
 @contextmanager
 def SshTunnel(host_id):
+    info(f"Connecting to {host_id} over SSH...")
     port_to_try = 1234
     process = subprocess.Popen(["ssh", host_id, "-N",
                                 "-L%i:localhost:5000" % port_to_try])
+    info("Hackily waiting for initialisation...")
     import time
     time.sleep(10)
     try:
         yield port_to_try
     finally:
+        info("Tearing down SSH connection...")
         process.send_signal(2)
         process.wait()
 
@@ -33,6 +41,7 @@ def main():
     args = parse_args()
     if ":" not in args.source:
         raise Exception("Need a tag or digest for skopeo")
+    exitcode = 1
     with SshTunnel(args.destination) as port_number:
         #subprocess.check_call(["curl", "-v", "http://%s:%s@localhost:%i/v2/_catalog" % 
         #    (username, password, port_number)])
@@ -43,8 +52,13 @@ def main():
             "docker-daemon:%s" % args.source,
             "docker://localhost:%i/%s" % (port_number, args.source),
         ]
-        print(args)
-        subprocess.check_call(args)
+        #print(args)
+        exitcode = subprocess.run(args).returncode
+    if exitcode == 0:
+        info("All done.")
+    else:
+        info("Error occurred.")
+    sys.exit(exitcode)
 
 
 if __name__ == '__main__':
