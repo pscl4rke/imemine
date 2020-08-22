@@ -4,9 +4,10 @@ set -eu
 # FIXME perhaps rename to "mailfile"?
 
 FOLDERDIR="$HOME/mymail/folders"
-TMPFILE="$(mktemp -p "$FOLDERDIR")"
+# prefix with "1" to be compatible with "make fix-names"
+TMPFILE="$(mktemp "$FOLDERDIR/1.tmpmail.XXXXXXXXXXXXXX.eml")"
 
 cat - > "$TMPFILE"
 #less "$TMPFILE"
-DESTFOLDER="$(ls "$FOLDERDIR" | pick)"
+DESTFOLDER="$(ls "$FOLDERDIR" | grep -v '^1.tmpmail.' | pick)"
 mv -n "$TMPFILE" "$FOLDERDIR/$DESTFOLDER/cur/."
