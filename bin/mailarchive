@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eu
+
+# FIXME perhaps rename to "mailfile"?
+
+FOLDERDIR="$HOME/mymail/folders"
+TMPFILE="$(mktemp -p "$FOLDERDIR")"
+
+cat - > "$TMPFILE"
+#less "$TMPFILE"
+DESTFOLDER="$(ls "$FOLDERDIR" | pick)"
+mv -n "$TMPFILE" "$FOLDERDIR/$DESTFOLDER/cur/."
