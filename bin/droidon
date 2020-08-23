@@ -7,6 +7,30 @@ import subprocess
 import sys
 
 
+class Handset:
+
+    def run_for_stdout(self, args):
+        all_args = ["adb", "shell"]
+        all_args.extend(args)
+        return subprocess.check_output(all_args)
+
+    def all_packages(self):
+        all_data = self.run_for_stdout(["pm", "list", "packages", "-f"])
+        packages = set()
+        for line in all_data.decode().splitlines():
+            name = line.strip().rsplit("=", 1)[-1]
+            packages.add(name)
+        return packages
+
+    def disabled_packages(self):
+        all_data = self.run_for_stdout(["pm", "list", "packages", "-f", "-d"])
+        packages = set()
+        for line in all_data.decode().splitlines():
+            name = line.strip().rsplit("=", 1)[-1]
+            packages.add(name)
+        return packages
+
+
 class Manifest:
 
     def __init__(self, resources):
@@ -31,16 +55,8 @@ class PackageResource:
     def __init__(self, name):
         self.name = name
 
-    def is_needed(self):
-        all_data = subprocess.check_output(["adb", "shell", "pm", "list", "packages", "-f"])
-        # Disabled packages:
-        #all_data = subprocess.check_output(["adb", "shell", "pm", "list", "packages", "-f", "-d"])
-        packages = set()
-        for line in all_data.decode().splitlines():
-            name = line.strip().rsplit("=", 1)[-1]
-            packages.add(name)
-        #print(packages)
-        return self.name not in packages
+    def is_needed(self, handset):
+        return self.name not in handset.all_packages()
 
     def apply(self):
         pass # FIXME
@@ -50,8 +66,9 @@ class Droidon:
 
     def main(self):
         manifest = Manifest.from_ini_file_path(sys.argv[1])
+        handset = Handset()
         for resource in manifest.resources:
-            print("%s: %s" % (resource.name, resource.is_needed()))
+            print("%s: %s" % (resource.name, resource.is_needed(handset)))
 
 
 if __name__ == '__main__':
