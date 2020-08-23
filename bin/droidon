@@ -1,13 +1,29 @@
 #!/usr/bin/python3
 
 
+import configparser
+import shlex
 import subprocess
+import sys
 
 
 class Manifest:
 
     def __init__(self, resources):
         self.resources = resources
+
+    @classmethod
+    def from_ini_file_path(cls, file_path):
+        parser = configparser.ConfigParser()
+        parser.read(file_path)
+        resources = []
+        for section_name in parser.sections():
+            parts = shlex.split(section_name)
+            if parts[0] == "package":
+                resources.append(PackageResource(parts[1]))
+            else:
+                raise Exception()
+        return cls(resources)
 
 
 class PackageResource:
@@ -28,3 +44,15 @@ class PackageResource:
 
     def apply(self):
         pass # FIXME
+
+
+class Droidon:
+
+    def main(self):
+        manifest = Manifest.from_ini_file_path(sys.argv[1])
+        for resource in manifest.resources:
+            print("%s: %s" % (resource.name, resource.is_needed()))
+
+
+if __name__ == '__main__':
+    Droidon().main()
