@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+
+
+import subprocess
+
+
+class Manifest:
+
+    def __init__(self, resources):
+        self.resources = resources
+
+
+class PackageResource:
+
+    def __init__(self, name):
+        self.name = name
+
+    def is_needed(self):
+        all_data = subprocess.check_output(["adb", "shell", "pm", "list", "packages", "-f"])
+        # Disabled packages:
+        #all_data = subprocess.check_output(["adb", "shell", "pm", "list", "packages", "-f", "-d"])
+        packages = set()
+        for line in all_data.decode().splitlines():
+            name = line.strip().rsplit("=", 1)[-1]
+            packages.add(name)
+        #print(packages)
+        return self.name not in packages
+
+    def apply(self):
+        pass # FIXME
