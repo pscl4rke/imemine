@@ -4,6 +4,10 @@
 #======================================================================#
 
 
+# Note that (I think) if I install this into ~/.docker/cli-plugins
+# I can use it as "$ docker deliver ..." without the hyphen!
+
+
 import argparse
 import os
 import shutil
