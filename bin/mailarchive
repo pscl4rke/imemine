@@ -8,6 +8,9 @@ FOLDERDIR="$HOME/mymail/folders"
 TMPFILE="$(mktemp "$FOLDERDIR/1.tmpmail.XXXXXXXXXXXXXX.eml")"
 
 cat - > "$TMPFILE"
-#less "$TMPFILE"
-DESTFOLDER="$(ls "$FOLDERDIR" | grep -v '^1.tmpmail.' | pick)"
+case "$1" in
+    --pick)  DESTFOLDER="$(ls "$FOLDERDIR" | grep -v '^1.tmpmail.' | pick)" ;;
+    --pidge) DESTFOLDER="$(pidge "$TMPFILE")" ;;
+    *) echo ERROR ; exit 1 ;;
+esac
 mv -n "$TMPFILE" "$FOLDERDIR/$DESTFOLDER/cur/."
