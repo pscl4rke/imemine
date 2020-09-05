@@ -1,0 +1,57 @@
+#!/usr/bin/python3
+
+
+# Note: We use email.Message here for Python 3.5 compatibility,
+# but when that is dropped we may choose to use emai.EmailMessage
+# instead which comes with Python 3.6 onwards.
+
+
+import email
+from email import policy
+import sys
+
+
+COULD_NOT_CATEGORISE = 16 # exit code
+
+
+class Category:
+
+    def __init__(self, name, match_to):
+        self.name = name
+        self.match_to = match_to
+
+    def matches(self, message):
+        if self.match_to in message.get("To", ""):
+            return True
+        return False
+
+
+class Categoriser:
+
+    def __init__(self):
+        self.categories = []
+        from pidge_testing import PAIRS  # FIXME
+        for name, match_to in PAIRS:
+            self.categories.append(Category(name, match_to))
+
+    def categorise(self, message):
+        for category in self.categories:
+            if category.matches(message):
+                return category
+        return None
+
+
+def main():
+    message_path = sys.argv[1]
+    with open(message_path, "rb") as message_file:
+        message = email.message_from_binary_file(message_file, policy=policy.default)
+    category = Categoriser().categorise(message)
+    if category is None:
+        sys.exit(COULD_NOT_CATEGORISE)
+    else:
+        print(category.name)
+        sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()
