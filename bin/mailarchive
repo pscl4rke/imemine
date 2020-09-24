@@ -3,6 +3,7 @@ set -eu
 
 # FIXME perhaps rename to "mailfile"?
 
+PIDGEFILE="$HOME/mymail/pidge.ini"
 FOLDERDIR="$HOME/mymail/folders"
 # prefix with "1" to be compatible with "make fix-names"
 TMPFILE="$(mktemp "$FOLDERDIR/1.tmpmail.XXXXXXXXXXXXXX.eml")"
@@ -10,7 +11,7 @@ TMPFILE="$(mktemp "$FOLDERDIR/1.tmpmail.XXXXXXXXXXXXXX.eml")"
 cat - > "$TMPFILE"
 case "$1" in
     --pick)  DESTFOLDER="$(ls "$FOLDERDIR" | grep -v '^1.tmpmail.' | pick)" ;;
-    --pidge) DESTFOLDER="$(pidge "$TMPFILE")" ;;
+    --pidge) DESTFOLDER="$(pidge "$PIDGEFILE" "$TMPFILE")" ;;
     *) echo ERROR ; exit 1 ;;
 esac
 mv -n "$TMPFILE" "$FOLDERDIR/$DESTFOLDER/cur/."
