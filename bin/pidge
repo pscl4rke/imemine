@@ -47,6 +47,7 @@ def main():
         message = email.message_from_binary_file(message_file, policy=policy.default)
     category = Categoriser().categorise(message)
     if category is None:
+        sys.stderr.write("No matches\n")
         sys.exit(COULD_NOT_CATEGORISE)
     else:
         print(category.name)
