@@ -15,16 +15,31 @@ import sys
 COULD_NOT_CATEGORISE = 16 # exit code
 
 
+class HeaderMatcher:
+
+    def __init__(self, header_names, hunted_value):
+        self.header_names = header_names
+        self.hunted_value = hunted_value
+
+    def matches(self, message):
+        for header_name in self.header_names:
+            if self.hunted_value in message.get(header_name, ""):
+                return True
+        return False
+
+
 class Category:
 
     def __init__(self, name, match_to):
         self.name = name
-        self.match_to = match_to
+        self.matchers = [ HeaderMatcher(["To"], match_to) ]
 
     def matches(self, message):
-        if self.match_to in message.get("To", ""):
-            return True
-        return False
+        # Must match all of them:
+        for matcher in self.matchers:
+            if not matcher.matches(message):
+                return False
+        return True
 
 
 class Categoriser:
