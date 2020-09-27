@@ -30,9 +30,18 @@ class HeaderMatcher:
 
 class Category:
 
-    def __init__(self, name, match_to):
+    def __init__(self, name, matchers):
         self.name = name
-        self.matchers = [ HeaderMatcher(["To"], match_to) ]
+        self.matchers = matchers
+
+    @classmethod
+    def from_section(cls, name, key_values):
+        matchers = []
+        if "match_to" in key_values:
+            matchers.append(HeaderMatcher(["To"], key_values["match_to"]))
+        if "match_subject" in key_values:
+            matchers.append(HeaderMatcher(["Subject"], key_values["match_subject"]))
+        return cls(key_values["file_into"], matchers)
 
     def matches(self, message):
         # Must match all of them:
@@ -50,8 +59,8 @@ class Categoriser:
         with open(configpath) as srcfile: # errors if missing
             config.read_file(srcfile)
         for section_name in config.sections():
-            self.categories.append(Category(config[section_name]["file_into"],
-                                            config[section_name]["match_to"]))
+            self.categories.append(
+                Category.from_section(section_name, config[section_name]))
 
     def categorise(self, message):
         for category in self.categories:
