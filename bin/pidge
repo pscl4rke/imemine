@@ -39,6 +39,8 @@ class Category:
         matchers = []
         if "match_to" in key_values:
             matchers.append(HeaderMatcher(["To"], key_values["match_to"]))
+        if "match_between" in key_values:
+            matchers.append(HeaderMatcher(["From", "To", "Cc"], key_values["match_between"]))
         if "match_subject" in key_values:
             matchers.append(HeaderMatcher(["Subject"], key_values["match_subject"]))
         return cls(key_values["file_into"], matchers)
