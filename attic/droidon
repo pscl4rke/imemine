@@ -1,6 +1,12 @@
 #!/usr/bin/python3
 
 
+# This was an attempt to do an ansible-style config mgmt tool
+# for a phone that ran over adb.  I had some success installing
+# packages.  But then every package had its own settings that
+# would need handling, and its own data.
+
+
 import configparser
 import shlex
 import subprocess
@@ -59,13 +65,18 @@ class PackageResource:
         return self.name not in handset.all_packages()
 
     def apply(self):
+        if not self.is_needed(handset):
+            return
         pass # FIXME
 
 
 class Droidon:
 
     def main(self):
-        manifest = Manifest.from_ini_file_path(sys.argv[1])
+        subcommand = sys.argv[1]
+        if subcommand not in ("check",):
+            raise Exception("Invalid command %r" % subcommand)
+        manifest = Manifest.from_ini_file_path(sys.argv[2])
         handset = Handset()
         for resource in manifest.resources:
             print("%s: %s" % (resource.name, resource.is_needed(handset)))
