@@ -23,7 +23,7 @@ class HeaderMatcher:
 
     def matches(self, message):
         for header_name in self.header_names:
-            if self.hunted_value in message.get(header_name, ""):
+            if self.hunted_value.lower() in message.get(header_name, "").lower():
                 return True
         return False
 
@@ -43,10 +43,14 @@ class Category:
         matchers = []
         if "match_to" in key_values:
             matchers.append(HeaderMatcher(["To"], key_values["match_to"]))
+        if "match_from" in key_values:
+            matchers.append(HeaderMatcher(["From"], key_values["match_from"]))
         if "match_between" in key_values:
             matchers.append(HeaderMatcher(["From", "To", "Cc"], key_values["match_between"]))
         if "match_subject" in key_values:
             matchers.append(HeaderMatcher(["Subject"], key_values["match_subject"]))
+        if "match_id" in key_values:
+            matchers.append(HeaderMatcher(["Mailer-Id"], key_values["match_id"]))
         if "match_mailer" in key_values:
             matchers.append(HeaderMatcher(["X-Mailer"], key_values["match_mailer"]))
         return cls(key_values["file_into"], matchers)
