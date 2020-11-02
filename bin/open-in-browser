@@ -80,6 +80,12 @@ case "$browser-$mode" in
         mkdir "$profilepath"
         firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         ;;
+    qutebrowser-temp)
+        profilepath="$(mktemp --directory /tmp/qutebrowser.$$.XXXXXXX)"
+        $HOME/.virtualenvs/qutebrowser/bin/qutebrowser \
+            --basedir "$profilepath" "$url" 2>&1 >/dev/null
+        rm -r "$profilepath"
+        ;;
     *)
         echo "Unknown: $browser-$mode"
         zenity --error --title "$0" --text "Unknown: $browser-$mode"
