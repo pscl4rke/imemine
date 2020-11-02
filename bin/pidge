@@ -32,6 +32,10 @@ class Category:
 
     def __init__(self, destination_folder, matchers):
         self.destination_folder = destination_folder
+        if len(matchers) == 0:
+            # In theory this could be because it's a catch-all rule, but it's
+            # much more likely to be a configuration mistake!
+            raise Exception("No matchers to file into %s" % destination_folder)
         self.matchers = matchers
 
     @classmethod
