@@ -18,6 +18,8 @@ hi Unimportant ctermfg=Blue
 hi Statement ctermfg=Black cterm=Bold
 hi Conditional ctermfg=Black cterm=Bold
 hi Repeat ctermfg=Black cterm=Bold
+hi Include ctermfg=Black cterm=Bold
+hi Comment cterm=italic
 "   used for potwiki links:
 hi Identifier ctermfg=Black
 
