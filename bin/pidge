@@ -30,12 +30,12 @@ class HeaderMatcher:
 
 class Category:
 
-    def __init__(self, name, matchers):
-        self.name = name
+    def __init__(self, destination_folder, matchers):
+        self.destination_folder = destination_folder
         self.matchers = matchers
 
     @classmethod
-    def from_section(cls, name, key_values):
+    def from_section(cls, section_name, key_values):
         matchers = []
         if "match_to" in key_values:
             matchers.append(HeaderMatcher(["To"], key_values["match_to"]))
@@ -82,7 +82,7 @@ def main():
         sys.stderr.write("No matches\n")
         sys.exit(COULD_NOT_CATEGORISE)
     else:
-        print(category.name)
+        print(category.destination_folder)
         sys.exit(0)
 
 
