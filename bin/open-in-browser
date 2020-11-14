@@ -3,7 +3,8 @@
 # WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2020 P. S. Clarke #
 #======================================================================#
 
-chromium=/usr/bin/chromium-browser
+# maybe /usr/bin, /maybe /snap/bin, maybe somewhere else...
+chromium="$(which chromium-browser || which chromium)"
 
 if [[ -e /usr/bin/firefox ]]
 then
