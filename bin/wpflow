@@ -10,10 +10,14 @@ import unittest
 
 def reflow(paragraph):
     preformatted = paragraph[0][0] in " \t"
+    if preformatted:
+        return reflow_reformatted(paragraph)
     blockquote = paragraph[0][0] in ">"
+    bullet = paragraph[0][0] in "*-"
     chunks = []
     if blockquote:
         chunks.append(">")
+    first = True
     for line in paragraph:
         if line.strip().startswith("%"): # comment
             continue
@@ -21,11 +25,23 @@ def reflow(paragraph):
             stripped = line.lstrip("> \t")
             if stripped == "":
                 stripped = "\n>\n>"
-            chunks.append(stripped)
+            chunks.append(" " + stripped)
+        elif bullet:
+            #stripped = line.lstrip("*- \t")
+            if line[0] in "*-":
+                chunks.append("\n" + line)
+            else:
+                chunks.append(" " + line)
         else:
+            if not first:
+                chunks.append(" ")
             chunks.append(line)
-    joiner = "\n" if preformatted else " "
-    return joiner.join(chunks) + "\n"
+        first = False
+    return ("".join(chunks) + "\n").lstrip("\n")
+
+
+def reflow_reformatted(paragraph):
+    return "\n".join(paragraph) + "\n"
 
 
 def split_into_paragraphs(lines):
@@ -84,6 +100,16 @@ class TestWpflow(unittest.TestCase):
     def test_bullets(self):
         text_in = "* foo\nbar\n"
         text_out = "* foo bar\n"
+        self.assertEqual(text_out, wpflow(text_in))
+
+    def test_multiple_bullets(self):
+        text_in = "* foo\n* bar\n"
+        text_out = "* foo\n* bar\n"
+        self.assertEqual(text_out, wpflow(text_in))
+
+    def test_multiple_multiline_bullets(self):
+        text_in = "* foo\nbar\n* baz\n"
+        text_out = "* foo bar\n* baz\n"
         self.assertEqual(text_out, wpflow(text_in))
 
 
