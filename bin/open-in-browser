@@ -84,7 +84,9 @@ case "$browser-$mode" in
     qutebrowser-temp)
         profilepath="$(mktemp --directory /tmp/qutebrowser.$$.XXXXXXX)"
         $HOME/.virtualenvs/qutebrowser/bin/qutebrowser \
-            --basedir "$profilepath" "$url" 2>&1 >/dev/null
+            --basedir "$profilepath" \
+            --config-py "$HOME/imemine/qutebrowser_config.py" \
+            "$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
     *)
