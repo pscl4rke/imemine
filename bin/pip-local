@@ -4,8 +4,17 @@
 #======================================================================#
 
 
+import os
 import sys
 import subprocess
+
+
+def which(command):
+    directories = os.environ["PATH"].split(":")
+    for directory in directories:
+        if os.path.exists(os.path.join(directory, command)):
+            return os.path.join(directory, command)
+    raise Exception("Cannot find %r on $PATH" % command)
 
 
 class PipLocal:
@@ -26,10 +35,11 @@ class PipLocal:
                       "-f", "file://%s" % self.local_dir])
         elif command == "new":
             version = args[2].lstrip("-")
+            python = which("python%s" % version)
             # this is newer than the one from APT, so works offline:
             virtualenv = "/home/psc/.virtualenvs/virtualenv/bin/virtualenv"
             dest = "/home/psc/.virtualenvs/%s" % args[3]
-            self.run([virtualenv, "-p", "/usr/bin/python%s" % version, dest])
+            self.run([virtualenv, "-p", python, dest])
             print("Remember to source...")
             print("  %s/bin/activate" % dest)
         else:
