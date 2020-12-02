@@ -1,0 +1,6 @@
+#!/bin/bash
+# To get things like machine serial numbers etc
+dest="$HOME/Desktop/dmi.$(date -I)"
+test -e "$dest" && echo Exists && exit 1
+cd /sys/devices/virtual/dmi/id
+sudo grep ^ * > "$dest"
