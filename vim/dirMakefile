@@ -13,12 +13,8 @@ ALL: $(allsyntax) $(allftdetect) $(allplugin)
 # The pipe char is used for order-only prerequisites:
 # https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
 # So that a change of directory mtime doesn't rebuild everything
-syntax:
-	mkdir syntax
-ftdetect:
-	mkdir ftdetect
-plugin:
-	mkdir plugin
+syntax ftdetect plugin:
+	mkdir $@
 
 
 syntax/coffee.vim: | syntax
