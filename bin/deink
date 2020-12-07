@@ -49,12 +49,21 @@ do
             grep -e '^[[:space:]]*--.*)' "$0" | cat
             exit 0
             ;;
+        --a4thin)
+            inwidth=138
+            inheight=295
+            ;;
         --a4)
             #inwidth=210
             ##inheight="297.18"
             #inheight=300
             inwidth=208
             inheight=295
+            ;;
+        --a4sq)
+            # A4, but trimmed to a square
+            inwidth=208
+            inheight=208
             ;;
         --a5)
             #inwidth=150
