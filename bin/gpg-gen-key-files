@@ -10,7 +10,10 @@ set -eu
 # GET AND CHECK THE ARGUMENTS
 
 if [[ $# -eq 0 ]]; then
-    echo "Missing root of output filenames"
+    echo "Usage:"
+    echo "  $0 filenameprefix [arg1, arg2, ...]"
+    echo "which will run gen-key with any optional arguments and create"
+    echo "filenameprefix.key and filenameprefix.PUB.key"
     exit 1
 fi
 
@@ -52,7 +55,7 @@ gpg --list-keys
 
 echo
 echo "Generating a key..."
-time gpg --gen-key
+time gpg --gen-key "$@"
 
 echo
 echo "Current status..."
