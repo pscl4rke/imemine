@@ -23,6 +23,15 @@
 	frag = cyan white
 
 
+# GIT ANNEX
+#   Please don't "helpfully" auto-upgrade.  It just means when I carry
+#   my sneakernet drives back to the original computer git annex stops
+#   working and just gives me mocking messages about being out of date.
+#   See https://git-annex.branchable.com/upgrades/
+[annex]
+	autoupgraderepository = false
+
+
 # DIFFING GNUPG FILES
 #   Note that to debinaryfy a GPG keyring you also need to add
 #   "*ring.gpg diff=gpg" to a .gitattributes file.
