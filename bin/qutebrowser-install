@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eu
+
+# In theory this could be done with pip2bin, but it's picky
+# about having several dependencies and the order they're
+# done in.
+
+venv="$HOME/.virtualenvs/qutebrowser"
+if [[ -e "$venv" ]]; then
+    echo "Already have $venv"
+    exit 1
+fi
+
+python3 -m venv "$venv"
+"$venv/bin/pip" install --upgrade pip
+"$venv/bin/pip" install qutebrowser
+"$venv/bin/pip" install pyqt5
+"$venv/bin/pip" install pyqtwebengine
