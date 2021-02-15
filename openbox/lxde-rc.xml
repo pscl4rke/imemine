@@ -533,6 +533,11 @@
           <command>/home/psc/imemine/bin/open-in-browser -b firefoxreader PRIMARY</command>
         </action>
       </keybind>
+      <keybind key="C-A-y">
+        <action name="Execute">
+          <command>/home/psc/imemine/bin/open-in-browser -u urltube PRIMARY</command>
+        </action>
+      </keybind>
       <keybind key="C-A-l"> <!-- lite browser too... -->
         <action name="Execute">
           <command>dillo https://duckduckgo.com/lite/?kl=uk-en</command>

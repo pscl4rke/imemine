@@ -1,0 +1,68 @@
+#!/usr/bin/python3
+#======================================================================#
+# URL CLEANER                                 (c) 2020-21 P. S. Clarke #
+#======================================================================#
+
+
+
+
+
+
+# FIXME - change http to https
+
+
+
+
+
+
+
+import contextlib
+import os
+import unittest
+import urllib.parse
+import sys
+
+
+def clean(original):
+    splitfixed = original.strip().lstrip('+').replace("\n+", "")
+    splitfixed = "".join(c for c in splitfixed if 31 < ord(c) < 127)
+    if "://" in splitfixed:
+        guess_scheme = splitfixed
+    else:
+        if os.path.exists(splitfixed):
+            guess_scheme = "file://%s" % os.path.abspath(splitfixed.strip())
+        else:
+            guess_scheme = "http://%s" % splitfixed.strip()
+    url = urllib.parse.urlparse(guess_scheme)
+    v = dict(urllib.parse.parse_qsl(url.query))['v']
+    p = "/embed/%s" % v
+    url = url._replace(query={}, path=p)
+    if url.fragment.startswith("."):
+        url = url._replace(fragment="")
+    return url.geturl()
+
+
+@contextlib.contextmanager
+def pushd(nested):
+    cwd = os.getcwd()
+    try:
+        os.chdir(nested)
+        yield
+    finally:
+        os.chdir(cwd)
+
+
+class TestClean(unittest.TestCase):
+
+    def test_stuff(self):
+        self.assertEqual(clean("https://www.thewebsite.com/watch?v=-65_ae"),
+                               "https://www.thewebsite.com/embed/-65_ae")
+
+
+if __name__ == '__main__':
+    if sys.argv[1] == "--test":
+        sys.argv = sys.argv[:1]
+        unittest.main()
+    else:
+        original = sys.argv[1]
+        print(clean(original))

@@ -6,6 +6,8 @@
 # maybe /usr/bin, /maybe /snap/bin, maybe somewhere else...
 chromium="$(which chromium-browser || which chromium)"
 
+urlclean="$(dirname "$0")/urlclean"
+
 if [[ -e /usr/bin/firefox ]]
 then
     browser="firefox"
@@ -23,6 +25,10 @@ case "$1" in
     -p)
         mode="profile" ; shift
         profile="$1" ; shift
+        ;;
+    -u)
+        shift
+        urlclean="$1" ; shift
         ;;
     *)
         break
@@ -46,9 +52,7 @@ case "$1" in
         ;;
 esac
 
-urlclean="$(dirname "$0")/urlclean"
-url="$(urlclean "$url")"
-#zenity --info --text "$url"
+url="$($urlclean "$url")"
 
 case "$browser-$mode" in
     chrome-temp)
