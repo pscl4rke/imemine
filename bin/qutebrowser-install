@@ -16,3 +16,5 @@ python3 -m venv "$venv"
 "$venv/bin/pip" install qutebrowser
 "$venv/bin/pip" install pyqt5
 "$venv/bin/pip" install pyqtwebengine
+
+"$venv/bin/pip" install readability-lxml
