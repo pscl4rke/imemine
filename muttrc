@@ -108,8 +108,8 @@ macro index,pager |j "<pipe-message>$HOME/imemine/bin/jerks<enter>"
 macro index,pager |s "<pipe-message>cat >"
 macro index,pager |u "<pipe-message>mailtextbody | urlview<enter>"
 macro index,pager |a "<pipe-message>$HOME/imemine/bin/addresses | less<enter>"
-macro index,pager |f "<pipe-message>$HOME/imemine/bin/mailarchive --pick<enter>"
-macro index,pager |F "<pipe-message>$HOME/imemine/bin/mailarchive --pidge<enter>"
+macro index,pager |f "<pipe-message>$HOME/imemine/bin/mailarchive --pick<enter><<tag-entry>"
+macro index,pager |F "<pipe-message>$HOME/imemine/bin/mailarchive --pidge<enter><<tag-entry>"
 
 
 # FILTERING KEY-BINDINGS
