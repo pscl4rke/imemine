@@ -34,12 +34,18 @@ def clean(original):
         else:
             guess_scheme = "http://%s" % splitfixed.strip()
     url = urllib.parse.urlparse(guess_scheme)
+    if url.netloc.endswith(".be"):
+        return clean_shortner(url)
     v = dict(urllib.parse.parse_qsl(url.query))['v']
     p = "/embed/%s" % v
     url = url._replace(query={}, path=p)
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
     return url.geturl()
+
+
+def clean_shortner(url):
+    return "https://www." + url.netloc.replace(".", "") + ".com/embed" + url.path
 
 
 @contextlib.contextmanager
@@ -54,9 +60,13 @@ def pushd(nested):
 
 class TestClean(unittest.TestCase):
 
-    def test_stuff(self):
+    def test_normal_link(self):
         self.assertEqual(clean("https://www.thewebsite.com/watch?v=-65_ae"),
                                "https://www.thewebsite.com/embed/-65_ae")
+
+    def test_shortener_link(self):
+        self.assertEqual(clean("https://thewebsi.be/-65_ae"),
+                               "https://www.thewebsibe.com/embed/-65_ae")
 
 
 if __name__ == '__main__':
