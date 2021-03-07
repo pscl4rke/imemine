@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eu
+
+# As useful for git's user.email for a private repo
+
+chars="23456789abcdefghijkmnpqrstuvwxyz"
+email="$(cat /dev/urandom | tr -d -c "$chars" | head -c 12)@example.com"
+echo "$email"

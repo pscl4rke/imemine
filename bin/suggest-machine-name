@@ -1,0 +1,11 @@
+#!/bin/bash
+set -eu
+
+# As useful for git's user.name for a private repo
+
+# Head and Tail parts are there to change to title case:
+machinehead="$(hostname --short | cut -c1 | tr a-z A-Z)"
+machinetail="$(hostname --short | cut -c2-)"
+release="$(lsb_release --release --short)"
+name="$machinehead$machinetail $release"
+echo "$name"
