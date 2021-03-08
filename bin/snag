@@ -77,6 +77,24 @@ class SshSource:
         return subprocess.check_output(args)
 
 
+class PostProcessor:
+
+    def __init__(self, shell):
+        self.shell = shell
+
+    def filter(self, original):
+        print("RUNNING %r" % original)
+        p = subprocess.Popen(self.shell, shell=True,
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        stdout, _ = p.communicate(original)
+        print("RESULT %r" % stdout)
+        p.wait()
+        print(p.poll())
+        if p.poll() != 0:
+            raise CalledProcessError(self.shell)
+        return stdout
+
+
 class Snagger:
 
     def info(self, message):
@@ -88,6 +106,7 @@ class Snagger:
             self.info("Usage error")
             sys.exit(1)
         filename = arguments[1]
+        self.postprocessors = {}
         self.current_source = DummySource()
         self.current_source.set_up()
         try:
@@ -114,12 +133,18 @@ class Snagger:
             self.current_source = SshSource(shlex.split(line[11:]))
             self.current_source.set_up()
             return
+        if line.startswith("!postprocessor "):
+            name, shell = line[15:].split(None, 1)
+            self.postprocessors[name] = PostProcessor(shell)
         if line.startswith("!run "):
             self.run(line[5:])
             return
         if "\t" in line:
-            destination, _tab, shell_cmd = line.strip().partition("\t")
-            self.pull_and_write(destination, shell_cmd)
+            dest_and_pps, _tab, shell_cmd = line.strip().partition("\t")
+            parts = [part.strip() for part in dest_and_pps.split("<")]
+            destination = parts.pop(0)
+            postprocessors = [self.postprocessors[p] for p in reversed(parts)]
+            self.pull_and_write(shell_cmd, postprocessors, destination)
             return
         self.info("Unknown line: %r" % line)
 
@@ -127,10 +152,12 @@ class Snagger:
         self.info("Running %r..." % shell_cmd)
         subprocess.check_call(shell_cmd, shell=True)
 
-    def pull_and_write(self, destination, shell_cmd):
+    def pull_and_write(self, shell_cmd, postprocessors, destination):
         try:
             self.info("Snagging %s..." % destination)
             output = self.current_source.pull(shell_cmd)
+            for postprocessor in postprocessors:
+                output = postprocessor.filter(output)
             # Note that we only overwrite the file if the cmd worked
             with open(destination, "wb") as destfile:
                 destfile.write(output)
