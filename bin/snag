@@ -83,13 +83,10 @@ class PostProcessor:
         self.shell = shell
 
     def filter(self, original):
-        print("RUNNING %r" % original)
         p = subprocess.Popen(self.shell, shell=True,
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         stdout, _ = p.communicate(original)
-        print("RESULT %r" % stdout)
         p.wait()
-        print(p.poll())
         if p.poll() != 0:
             raise CalledProcessError(self.shell)
         return stdout
