@@ -124,6 +124,7 @@ macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
 macro index ~f "<limit>~F<enter><collapse-all><current-middle>"
 macro index ~n "<limit>~(~N | ~O)<enter><collapse-all><current-middle>"
 macro index ~h "<limit>~(!(~P) !(~f 'cron daemon') !(~s autoapt))<enter>"
+macro index ~l "<limit>~z >1000k<enter>"
 
 
 # NON-PATTERN FILTERING
