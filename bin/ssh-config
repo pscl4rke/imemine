@@ -17,7 +17,7 @@ def choose_diff_tool():
     if os.path.exists("/usr/bin/colordiff"):
         return "colordiff -u"
     print("WARNING: Coloured diffs are not available")
-    return "diff -u"
+    return "diff --color=always -u"
 
 
 def differences_between(path_one, path_two):
