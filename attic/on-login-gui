@@ -1,0 +1,50 @@
+
+# X SCREENSAVER
+#   I had a lot of problems with the screen blanking after
+#   10 minutes, even when playing videos.  However, neither
+#   of the following worked from this script, even though
+#   they were fine when run from the terminal.
+#   I've stopped caring now, because mplayer seems to be
+#   temporarily disabling it anyway.
+xset s 0 0
+xset s 43200   # 12 hours
+( sleep 30 && xset s 43200 ) &
+
+# Presario Laptop:
+#   Use the menu key as the right-hand windows(tm) key (mod4):
+#   This doesn't work, but as long as I have DISPLAY=0:0 I can
+#   make it work in a cron job!
+xmodmap -e "keycode 135 = Super_R"
+# Try and fix keyboard: make menu a winkey
+#(sleep 5 && xmodmap -e 'keycode 135 = Super_R') &
+(sleep 5 && xmodmap /home/psc/.xmodmap.extra) &
+(while :; do xmodmap /home/psc/.xmodmap.extra; sleep 30; done) &
+
+# MOUSE ALTERNATIVES
+#   Keynav binds to Ctrl+; and lets you navigate to a part of
+#   the screen and click on it.  Nice idea, but sadly it is
+#   usually slower and fiddlier than just reaching for a mouse.
+keynav &
+
+# Try conky
+conky &
+
+# Because it's a teddy bear!!!
+xteddy &
+
+# Fix touchpad (use synclient -l to find current settings)
+#   Tapping with 1 finger maps to button 1 (left)
+synclient TapButton1=1
+#   Tapping with 2 fingers maps to button 2 (middle)
+#   Tapping with 3 fingers maps to button 3 (right)
+synclient TapButton2=2 TapButton3=3
+case "$HOSTNAME" in
+    UX305)
+        #   For Zenbook only - stop accidental taps (default about 2900ish)
+        synclient AreaRightEdge=2300
+        ;;
+    *)
+        true
+        ;;
+esac
+

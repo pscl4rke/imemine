@@ -1,46 +1,29 @@
 #!/bin/sh
 
+# SEE ALSO attic/on-login-gui
+
 # Do these things when I log in to a graphical environment.
 # Currently called from .config/lxsession/Lubuntu/autostart
 
 echo "Starting..." | logger -t "$(basename "$0")"
 
-# X SCREENSAVER
-#   I had a lot of problems with the screen blanking after
-#   10 minutes, even when playing videos.  However, neither
-#   of the following worked from this script, even though
-#   they were fine when run from the terminal.
-#   I've stopped caring now, because mplayer seems to be
-#   temporarily disabling it anyway.
-#xset s 0 0
-#xset s 43200   # 12 hours
-#( sleep 30 && xset s 43200 ) &
-
-# Laptop:
-#   Use the menu key as the right-hand windows(tm) key (mod4):
-#   This doesn't work, but as long as I have DISPLAY=0:0 I can
-#   make it work in a cron job!
-#xmodmap -e "keycode 135 = Super_R"
-
 # Launch my drop down terminal:
 tilda &
-
-# MOUSE ALTERNATIVES
-#   Keynav binds to Ctrl+; and lets you navigate to a part of
-#   the screen and click on it.  Nice idea, but sadly it is
-#   usually slower and fiddlier than just reaching for a mouse.
-#keynav &
 
 # MUSIC PLAYING
 #   Sound playback tends to run into a *lot* of permission issues if
 #   mpd is run as a system-level daemon, so run it as an ordinary user
 #   on login.  Delay because sometimes system/user versions run in the
-#   background blocking access to the port:
+#   background blocking access to the port.
+#   Note that if I create ~/.mpdconf instead in then both systemd and
+#   the xdg autostart will handle the launching.
 ([ -e /home/psc/.mpd.conf ] && sleep 10 && /usr/bin/mpd /home/psc/.mpd.conf) &
 
 # What is mpd playing (only works on when mpd is installed)?
 (while true; do /home/psc/imemine/bin/mpd-notifier; sleep 5; done) &
 
+# Go orangey in the evenings
+#   I don't actually know if this works
 redshift -l 53:0 -t 5500:4300 &
 
 if [[ "$HOSTNAME" == "excalibur" ]]; then
@@ -51,33 +34,6 @@ autocutsel -selection PRIMARY &
 autocutsel -selection CLIPBOARD &
 #    so in theory both a kept in sync via the cutbuffer
 fi
-
-# Try conky
-#conky &
-
-# Because it's a teddy bear!!!
-#xteddy &
-
-# Fix touchpad (use synclient -l to find current settings)
-#   Tapping with 1 finger maps to button 1 (left)
-synclient TapButton1=1
-#   Tapping with 2 fingers maps to button 2 (middle)
-#   Tapping with 3 fingers maps to button 3 (right)
-synclient TapButton2=2 TapButton3=3
-case "$HOSTNAME" in
-    UX305)
-        #   For Zenbook only - stop accidental taps (default about 2900ish)
-        synclient AreaRightEdge=2300
-        ;;
-    *)
-        true
-        ;;
-esac
-
-# Try and fix keyboard: make menu a winkey
-#(sleep 5 && xmodmap -e 'keycode 135 = Super_R') &
-(sleep 5 && xmodmap /home/psc/.xmodmap.extra) &
-(while :; do xmodmap /home/psc/.xmodmap.extra; sleep 30; done) &
 
 # Reminders
 (sleep 1 && $HOME/potwiki/MonthlyPopUp 2>&1 | logger -t MonthlyPopUp) &
