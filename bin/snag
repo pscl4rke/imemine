@@ -133,6 +133,7 @@ class Snagger:
         if line.startswith("!postprocessor "):
             name, shell = line[15:].split(None, 1)
             self.postprocessors[name] = PostProcessor(shell)
+            return
         if line.startswith("!run "):
             self.run(line[5:])
             return
