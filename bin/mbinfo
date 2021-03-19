@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+#======================================================================#
+# MBTILES INFORMATION VIEWER                     (c) 2021 P. S. Clarke #
+#======================================================================#
+
+
+import argparse
+import sqlite3
+import sys
+
+
+def parse_arguments(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename")
+    return parser.parse_args(args)
+
+
+def main():
+    opts = parse_arguments(sys.argv[1:])
+    conn = sqlite3.Connection(opts.filename)
+    print("=" * 78)
+    cursor = conn.cursor()
+    cursor.execute("""SELECT name, value FROM metadata""")
+    for name, value in cursor.fetchall():
+        print("%-15s %s" % (name, value[:60]))
+    print("=" * 78)
+    cursor = conn.cursor()
+    cursor.execute("""SELECT DISTINCT zoom_level FROM tiles""")
+    levels = [level for (level,) in cursor.fetchall()]
+    levels.sort()
+    for level in levels:
+        cursor = conn.cursor()
+        cursor.execute("""SELECT COUNT(*), SUM(LENGTH(tile_data))
+                          FROM tiles WHERE zoom_level=?""", (level,))
+        count, size = cursor.fetchone()
+        print("Zoom %2i %7i Tiles %10i Bytes" % (level, count, size))
+    print("=" * 78)
+
+
+if __name__ == '__main__':
+    main()
