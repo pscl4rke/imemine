@@ -232,6 +232,12 @@ unignore Reply-To:
 set pager_format="Message date is %[!%a %-d %b %Y at %H:%M:%S %Z] in my own timezone"
 
 
+# SENDERS USING S/MIME
+#   Avoid focus-stealing "do you ultimately trust" messages.
+#   See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=838361
+set crypt_use_gpgme=no
+
+
 # MICROSOFT EXCHANGE INVITES AND HTML-ONLY EMAILS
 #   Mutt only shows one part from multipart/alternative messages.
 #   When I receive calendar invites they should be the first choice.
