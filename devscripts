@@ -2,3 +2,5 @@
 # Use the debian distro names even if we are on ubuntu:
 DEBCHANGE_VENDOR="Debian"
 
+#DEBUILD_LINTIAN_OPTS="--suppress-tags mail-transport-agent-dependency-does-not-specify-default-mta,default-mta-dependency-not-listed-first"
+DEBUILD_LINTIAN_OPTS="--suppress-tags mail-transport-agent-dependency-does-not-specify-default-mta"
