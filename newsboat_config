@@ -1,0 +1,10 @@
+
+browser "/home/psc/imemine/bin/open-in-browser -u urltube %u"
+
+# Was "next-feed" and "prev-feed"...
+bind-key j next
+bind-key k prev
+goto-next-feed no
+
+datetime-format "%a %_d %b %Y"
+articlelist-format "%4i %f | %D | %?T?|%-17T| ?%t"
