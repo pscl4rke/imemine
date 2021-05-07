@@ -63,6 +63,9 @@ ftdetect/cram.vim: | ftdetect
 syntax/kotlin.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/udalov/kotlin-vim/master/syntax/kotlin.vim -fo $@
+ftdetect/kotlin.vim: | ftdetect
+	mvtoattic $@
+	curl $(GH)/udalov/kotlin-vim/master/ftdetect/kotlin.vim -fo $@
 
 
 syntax/nginx.vim: | syntax
