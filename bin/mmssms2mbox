@@ -6,6 +6,7 @@ import datetime
 import email.message
 import json
 import os
+import pprint
 import sqlite3
 import time
 
@@ -44,7 +45,7 @@ class SmsDB:
                 in cursor.fetchall()]
 
 
-class JsonDB:
+class GetJsonDB:
 
     def __init__(self, filepath):
         if not os.path.exists(filepath):
@@ -65,6 +66,51 @@ class JsonDB:
                         int(record["type"]), record["address"], int(record["date"]),
                         int(record["date_sent"]), record["body"])
                 for record in self._records]
+
+
+class EpiJsonDB:
+
+    def __init__(self, filepath):
+        if not os.path.exists(filepath):
+            raise Exception("Missing file %r" % filepath)
+        with open(filepath) as srcfile:
+            self._records = []
+            for conversation in json.load(srcfile)["conversations"]:
+                self._records.extend(conversation)
+            self._records.sort(key=lambda r: int(r["date"]))
+        self._contacts = {}
+
+    def load_contacts_from(self, contact_path):
+        with open(contact_path) as infile:
+            for line in infile:
+                name, number = line.rsplit(None, 1)
+                self._contacts[normalise(number.strip())] = name.strip()
+
+    def get_messages(self):
+        messages = []
+        for record in self._records:
+            if "parts" in record:
+                messages.append(self.get_mms(record))
+            else:
+                messages.append(self.get_sms(record))
+        return messages
+
+    def get_sms(self, record):
+        return Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
+                int(record["type"]), record["address"], int(record["date"]),
+                int(record["date_sent"]), record["body"])
+
+    def get_mms(self, record):
+        inorout = 1 # assume inbound until we have more data
+        address = record["addresses"][0] # assume first for now
+        body_parts = ["[MMS]"]
+        for part in record["parts"]:
+            if part["ct"].startswith("text/"): # mimetype
+                body_parts.append(part["text"])
+        body_parts.append(pprint.pformat(record["parts"]))
+        return Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
+                inorout, address, int(record["date"]),
+                int(record["date_sent"]), "\n\n".join(body_parts))
 
 
 class Message:
@@ -139,8 +185,13 @@ def main():
     parser.add_argument("db", help="The path to the Android database file")
     parser.add_argument("-c", "--contacts", action="append", default=[],
                         help="The path to a contacts list")
-    parser.add_argument("-j", "--json", action="store_const", dest="dbclass",
-                        const=JsonDB, default=SmsDB,
+    parser.add_argument("-g", "--getsomemessages-json",
+                        action="store_const", dest="dbclass",
+                        const=GetJsonDB, default=SmsDB,
+                        help="Interpret file as JSON not SQLite3")
+    parser.add_argument("-e", "--epistolaire-json",
+                        action="store_const", dest="dbclass",
+                        const=EpiJsonDB, default=SmsDB,
                         help="Interpret file as JSON not SQLite3")
     options = parser.parse_args()
     db = options.dbclass(options.db)
