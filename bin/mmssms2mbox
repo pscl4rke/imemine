@@ -101,13 +101,19 @@ class EpiJsonDB:
                 int(record["date_sent"]), record["body"])
 
     def get_mms(self, record):
-        inorout = 1 # assume inbound until we have more data
-        address = record["addresses"][0] # assume first for now
+        if record["addresses"][0] == "insert-address-token":
+            inorout = 2 # assuming outbound
+            address = record["addresses"][1]
+        else:
+            inorout = 1 # assuming inbound
+            address = record["addresses"][0]
         body_parts = ["[MMS]"]
+        body_parts.append("[Subject %r]" % record["sub"])
         for part in record["parts"]:
             if part["ct"].startswith("text/"): # mimetype
                 body_parts.append(part["text"])
-        body_parts.append(pprint.pformat(record["parts"]))
+        body_parts.append(pprint.pformat(record["parts"])
+                                .encode("ascii", "backslashreplace").decode())
         return Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
                 inorout, address, int(record["date"]),
                 int(record["date_sent"]), "\n\n".join(body_parts))
