@@ -1,6 +1,12 @@
 #!/usr/bin/python3
 
 
+# Originally started to convert the SQLite message database into an MBox
+# format that could be read by email clients this has subsequently been
+# updated to work on non-rooted phones by reading from the JSON output of
+# a couple of different backup apps.
+
+
 import argparse
 import datetime
 import email.message
@@ -167,7 +173,7 @@ class Message:
         return dt.strftime("%Y%m")
 
     def as_email(self):
-        eml = email.message.Message()
+        eml = email.message.EmailMessage()
         eml.set_unixfrom("From dummy %s" % self.formatted_date())
         eml['Date'] = self.formatted_date()
         if self.is_inbound():
@@ -181,8 +187,9 @@ class Message:
         eml['In-Reply-To'] = "<%06i.%s@example.com>" % (self._thread_id, self.month_code())
         eml['Status'] = "RO" # read and old
         # From Python 3.6 set_payload is legacy and set_content should be used...
-        eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
-        #eml.set_payload(self._body.encode("ascii", "backslashreplace")) # FIXME
+        #eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
+        eml.set_content(self._body)
+        eml.set_unixfrom("From dummy %s" % self.formatted_date())
         return eml
 
 
@@ -206,7 +213,9 @@ def main():
     messages = db.get_messages()
     for message in messages:
         eml = message.as_email()
-        print(eml.as_string(unixfrom=True, maxheaderlen=77))
+        #print(eml.as_string(unixfrom=True, maxheaderlen=77))
+        print(eml.get_unixfrom())  # saying unixfrom=True doesn't work!
+        print(eml.as_string())
 
 
 if __name__ == '__main__':
