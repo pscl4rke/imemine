@@ -1,5 +1,5 @@
 
-browser "/home/psc/imemine/bin/open-in-browser -u urltube %u"
+browser "/home/psc/imemine/bin/open-in-browser-bg -u urltube %u"
 
 # Was "next-feed" and "prev-feed"...
 bind-key j next
