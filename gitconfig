@@ -56,3 +56,7 @@
 	name = Automatically merge Aspell dictionaries
 	#driver = /home/psc/imemine/bin/merge-aspell %O %A %B %L %P
 	driver = /home/psc/imemine/bin/merge-aspell %O %A %B
+
+
+[diff "xlsx"]
+	textconv = xlsx2csv -s 0
