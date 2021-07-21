@@ -30,6 +30,8 @@ def clean_query(original):
             continue
         if key.startswith("ns_"):
             continue
+        if key == "xtor":
+            continue
         pairs.append((key, value))
     return urllib.parse.urlencode(pairs)
 
@@ -131,6 +133,10 @@ class TestClean(unittest.TestCase):
     def test_ns(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&ns_foo=quux"),
                                "http://www.foobar.com/path?q=foo")
+
+    def test_xtor(self):
+        self.assertEqual(clean("http://foo.com/a/bcd?xtor=A-32-[Thing]-X~Y~Z"),
+                               "http://foo.com/a/bcd")
 
     def test_local_but_absolute_paths(self):
         self.assertEqual(clean("/etc/fstab"),
