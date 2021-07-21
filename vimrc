@@ -121,6 +121,7 @@ set wildmode=longest,list
 "   netrw is installed.
 set tabpagemax=40
 noremap go :tabe .<enter>
+noremap gO :tabe .<enter>
 let g:netrw_liststyle = 3
 "
 "
