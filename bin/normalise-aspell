@@ -10,6 +10,10 @@
 
 # See also `merge-aspell`.
 
+# Note that the latest versions of aspell do actually sort their output,
+# albeit by putting all the capitals first.  This may well mean that my
+# script is pretty much valueless.
+
 import sys
 
 infile = open(sys.argv[1], "rb") if (len(sys.argv) > 1) else sys.stdin.buffer

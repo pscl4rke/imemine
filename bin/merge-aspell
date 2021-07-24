@@ -8,6 +8,11 @@
 
 # See also `normalise-aspell`.
 
+# Note that the latest versions of aspell do actually sort their output,
+# albeit by putting all the capitals first.  This may well mean that my
+# script is pretty much valueless.  Although it is possible that there
+# may still be some value in merging them with this file.
+
 
 import sys
 
