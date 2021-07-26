@@ -72,3 +72,10 @@ syntax/nginx.vim: | syntax
 	mvtoattic $@
 	@echo "Ooh look! No Github!!!"
 	curl http://hg.nginx.org/nginx/raw-file/tip/contrib/vim/syntax/nginx.vim -fo $@
+
+
+# This is only the basic plugin providing `:FZF`.  For advanced
+# functionality like `:Files` use `junegunn/fzf.vim.git`.
+plugin/fzf.vim: | plugin
+	mvtoattic $@
+	curl $(GH)/junegunn/fzf/master/plugin/fzf.vim -fo $@

@@ -118,9 +118,9 @@ set wildmode=longest,list
 "   my shell so that it is.)  It would normally have a maximum of 10
 "   tabs, but I sometimes need more.  Note that opening the current
 "   directory is a lightweight project browser, assuming something like
-"   netrw is installed.
+"   netrw is installed.  Or use fzf fuzzy finder.
 set tabpagemax=40
-noremap go :tabe .<enter>
+noremap go :tabe <enter>:FZF<enter>
 noremap gO :tabe .<enter>
 let g:netrw_liststyle = 3
 "
