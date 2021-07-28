@@ -555,6 +555,11 @@
           <command>wikiselect</command>
         </action>
       </keybind>
+      <keybind key="W-P">
+        <action name="Execute">
+          <command>menu-lpass</command>
+        </action>
+      </keybind>
     </keybind>
     <keybind key="C-A-T">
       <action name="Execute">
