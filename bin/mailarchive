@@ -3,8 +3,9 @@ set -eu
 
 # FIXME perhaps rename to "mailfile"?
 
-PIDGEFILE="$HOME/mymail/pidge.ini"
-FOLDERDIR="$HOME/mymail/folders"
+MYMAIL="$HOME/mymail"
+PIDGEFILE="$MYMAIL/pidge.ini"
+FOLDERDIR="$MYMAIL/folders"
 # prefix with "1" to be compatible with "make fix-names"
 TMPFILE="$(mktemp "$FOLDERDIR/1.tmpmail.XXXXXXXXXXXXXX.eml")"
 
