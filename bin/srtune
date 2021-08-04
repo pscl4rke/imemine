@@ -70,14 +70,17 @@ class PushableLines:
     def __init__(self, seed):
         self._seed = iter(seed)
         self._peeked = []
+        self.current_line = 0
 
     def __next__(self):
+        self.current_line = self.current_line + 1
         if len(self._peeked) > 0:
             return self._peeked.pop(0).rstrip("\n\r")
         return next(self._seed).rstrip("\n\r")
     next = __next__
 
     def push(self, value):
+        self.current_line = self.current_line - 1
         self._peeked.append(value)
 
 
@@ -135,7 +138,9 @@ class Srtune:
             # FIXME - currently hardcoded - change to cmdline args:
             #ScaleTime(1.0422),
             #OffsetTime(21286),
-            OffsetTime(11000),
+            #OffsetTime(11000),
+            ScaleTime(0.99888),
+            OffsetTime(500),
         ]
         for subtitle in self.read_subtitles_from(sys.stdin):
             for editor in edit_chain:
@@ -146,11 +151,17 @@ class Srtune:
         reader = Reader(infile)
         reader.consume_any_bom_characters()
         while True:
-            reader.consume_any_blank_lines()  # probably never needed
-            index = reader.consume_index_number()
-            start, end = reader.consume_timestamps()
-            lines = reader.consume_nonblank_lines()
-            reader.consume_a_blank_line_or_eof()
+            try:
+                reader.consume_any_blank_lines()  # probably never needed
+                index = reader.consume_index_number()
+                start, end = reader.consume_timestamps()
+                lines = reader.consume_nonblank_lines()
+                reader.consume_a_blank_line_or_eof()
+            except StopIteration:
+                break
+            except Exception as exc:
+                msg = "Cannot parse line %s" % reader.lines.current_line
+                raise SyntaxError(msg) from exc
             yield Subtitle(index, start, end, lines)
 
 
