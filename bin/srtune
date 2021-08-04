@@ -87,6 +87,10 @@ class Reader:
         self.infile = infile
         self.lines = PushableLines(infile)
 
+    def consume_any_bom_characters(self):
+        line = next(self.lines)
+        self.lines.push(line.replace("\ufeff", ""))
+
     def consume_any_blank_lines(self):
         while True:
             line = next(self.lines)
@@ -140,6 +144,7 @@ class Srtune:
 
     def read_subtitles_from(self, infile):
         reader = Reader(infile)
+        reader.consume_any_bom_characters()
         while True:
             reader.consume_any_blank_lines()  # probably never needed
             index = reader.consume_index_number()
