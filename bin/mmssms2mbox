@@ -118,6 +118,9 @@ class EpiJsonDB:
         for part in record["parts"]:
             if part["ct"].startswith("text/"): # mimetype
                 body_parts.append(part["text"])
+        for part in record["parts"]:
+            if part["ct"].startswith("image/"):
+                part["my_content"] = "...snip %i chars..." % len(part["my_content"])
         body_parts.append(pprint.pformat(record["parts"])
                                 .encode("ascii", "backslashreplace").decode())
         return Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
