@@ -79,3 +79,8 @@ syntax/nginx.vim: | syntax
 plugin/fzf.vim: | plugin
 	mvtoattic $@
 	curl $(GH)/junegunn/fzf/master/plugin/fzf.vim -fo $@
+
+
+syntax/openvpn.vim: | syntax
+	mvtoattic $@
+	curl $(GH)/vim-scripts/openvpn/master/syntax/openvpn.vim -fo $@

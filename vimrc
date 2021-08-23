@@ -216,6 +216,7 @@ autocmd BufNewFile,BufRead *.service set filetype=systemd
 autocmd BufNewFile,BufRead *.env set filetype=dockerenv
 autocmd BufNewFile,BufRead *.jinja set filetype=jinja
 autocmd BufNewFile,BufRead *:2\,S set filetype=mail
+autocmd BufNewFile,BufRead *.ovpn set filetype=openvpn
 "
 "
 " FILE-TYPE PLUGINS
