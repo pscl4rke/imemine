@@ -12,7 +12,6 @@ import datetime
 import email.message
 import json
 import os
-import pprint
 import sqlite3
 import time
 
@@ -122,8 +121,8 @@ class EpiJsonDB:
         for part in record["parts"]:
             if part["ct"].startswith("image/"):
                 part["my_content"] = "...snip %i chars..." % len(part["my_content"])
-        body_parts.append(pprint.pformat(record["parts"])
-                                .encode("ascii", "backslashreplace").decode())
+        attachments.append(("application/json", "8-bit", "raw.json",
+                            json.dumps(record["parts"], indent=1).encode()))
         return Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
                 inorout, address, int(record["date"]),
                 int(record["date_sent"]), "\n\n".join(body_parts), attachments)
@@ -195,8 +194,10 @@ class Message:
         # From Python 3.6 set_payload is legacy and set_content should be used...
         #eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
         eml.set_content(self._plain_text)
-        for part_content in self._attachments:
-            eml.add_attachment(part_content)
+        for mimetype, transenc, filename, content in self._attachments:
+            maintype, slash, subtype = mimetype.partition("/")
+            eml.add_attachment(content, maintype, subtype,
+                               cte=transenc, filename=filename)
         eml.set_unixfrom("From dummy %s" % self.formatted_date())
         return eml
 
