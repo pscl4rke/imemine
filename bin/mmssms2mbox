@@ -46,7 +46,7 @@ class SmsDB:
             SELECT _id, thread_id, type, address, date, date_sent, body
             FROM sms
         """)
-        return [Message(self._contacts, a, b, c, d, e, f, g)
+        return [Message(self._contacts, a, b, c, d, e, f, g, [])
                 for (a, b, c, d, e, f, g)
                 in cursor.fetchall()]
 
@@ -70,7 +70,7 @@ class GetJsonDB:
     def get_messages(self):
         return [Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
                         int(record["type"]), record["address"], int(record["date"]),
-                        int(record["date_sent"]), record["body"])
+                        int(record["date_sent"]), record["body"], [])
                 for record in self._records]
 
 
@@ -104,7 +104,7 @@ class EpiJsonDB:
     def get_sms(self, record):
         return Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
                 int(record["type"]), record["address"], int(record["date"]),
-                int(record["date_sent"]), record["body"])
+                int(record["date_sent"]), record["body"], [])
 
     def get_mms(self, record):
         if record["addresses"][0] == "insert-address-token":
@@ -114,6 +114,7 @@ class EpiJsonDB:
             inorout = 1 # assuming inbound
             address = record["addresses"][0]
         body_parts = ["[MMS]"]
+        attachments = []
         body_parts.append("[Subject %r]" % record["sub"])
         for part in record["parts"]:
             if part["ct"].startswith("text/"): # mimetype
@@ -125,12 +126,13 @@ class EpiJsonDB:
                                 .encode("ascii", "backslashreplace").decode())
         return Message(self._contacts, int(record["_id"]), int(record["thread_id"]),
                 inorout, address, int(record["date"]),
-                int(record["date_sent"]), "\n\n".join(body_parts))
+                int(record["date_sent"]), "\n\n".join(body_parts), attachments)
 
 
 class Message:
 
-    def __init__(self, contacts, message_id, thread_id, inorout, sender, ts_rcvd, ts_sent, body):
+    def __init__(self, contacts, message_id, thread_id, inorout, sender,
+                 ts_rcvd, ts_sent, plain_text, attachments):
         self._contacts = contacts
         self._message_id = message_id
         self._thread_id = thread_id
@@ -138,7 +140,8 @@ class Message:
         self._sender = sender
         self._ts_rcvd = ts_rcvd / 1000
         self._ts_sent = ts_sent / 1000
-        self._body = body
+        self._plain_text = plain_text
+        self._attachments = attachments
 
     def is_inbound(self):
         return self._inorout == 1
@@ -147,7 +150,7 @@ class Message:
         return self._inorout == 2
 
     def guess_subject(self):
-        body = self._body.replace("\n", " ").replace("\r", " ").strip(" ")
+        body = self._plain_text.replace("\n", " ").replace("\r", " ").strip(" ")
         if len(body) < 63:
             return body
         else:
@@ -191,7 +194,9 @@ class Message:
         eml['Status'] = "RO" # read and old
         # From Python 3.6 set_payload is legacy and set_content should be used...
         #eml.set_payload(self._body.encode("ascii", "replace")) # FIXME
-        eml.set_content(self._body)
+        eml.set_content(self._plain_text)
+        for part_content in self._attachments:
+            eml.add_attachment(part_content)
         eml.set_unixfrom("From dummy %s" % self.formatted_date())
         return eml
 
