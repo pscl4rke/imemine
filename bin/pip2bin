@@ -39,6 +39,8 @@ class Pip2bin:
 
     def ensure_linked(self, entry):
         target = os.path.join(entry.venv_dir(), "bin", entry.name)
+        if not os.path.exists(target):
+            raise Exception("No such executable: %r" % target)
         destination = os.path.join(BIN_DIR, entry.name)
         if os.path.exists(destination) and os.readlink(destination) == target:
             return
