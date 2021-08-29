@@ -31,9 +31,9 @@ class Pip2bin:
             self.ensure_linked(entry)
 
     def ensure_downloaded(self, entry):
-        # FIXME don't do if already exists!
-        #   (but need to clean up install errors to avoid false positives)
         venv_dir = entry.venv_dir()
+        if os.path.exists(venv_dir):
+            return # FIXME: What if the requirements have changed? Redownload?
         self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
         self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
 
