@@ -35,6 +35,7 @@ class Pip2bin:
         if os.path.exists(venv_dir):
             return # FIXME: What if the requirements have changed? Redownload?
         self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
+        self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip") # fix errors
         self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
 
     def ensure_linked(self, entry):
