@@ -15,6 +15,7 @@ class Entry:
     def __init__(self, name, options):
         self.name = name
         self.requirement = options.get('requirement', name)
+        self.target = options.get('target', name)
 
     def venv_dir(self):
         return "/home/psc/.pip2bin/%s" % self.name
@@ -39,7 +40,7 @@ class Pip2bin:
         self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
 
     def ensure_linked(self, entry):
-        target = os.path.join(entry.venv_dir(), "bin", entry.name)
+        target = os.path.join(entry.venv_dir(), "bin", entry.target)
         if not os.path.exists(target):
             raise Exception("No such executable: %r" % target)
         destination = os.path.join(BIN_DIR, entry.name)
