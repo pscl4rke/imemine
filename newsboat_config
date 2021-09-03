@@ -6,5 +6,9 @@ bind-key j next
 bind-key k prev
 goto-next-feed no
 
+# Was "sort" and "rev-sort"...
+bind-key g home
+bind-key G end
+
 datetime-format "%a %_d %b %Y"
 articlelist-format "%4i %f | %D | %?T?|%-17T| ?%t"
