@@ -12,3 +12,7 @@ c.tabs.background = True
 #config.bind("r", "spawn --userscript /home/psc/.virtualenvs/qutebrowser/bin/python /home/psc/imemine/vendor/qutebrowser_readability")
 config.bind("r", "spawn --userscript %s %s" % (
     python_executable, os.path.join(imemine, "vendor/qutebrowser_readability")))
+
+# https://qutebrowser.org/doc/help/settings.html#downloads.location.directory
+c.downloads.location.directory = "/home/psc/Downloads/"
+c.downloads.remove_finished = 5000
