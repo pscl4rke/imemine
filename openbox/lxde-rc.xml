@@ -634,12 +634,15 @@
     <!-- fn+F* keys would generate XF86MonBrightness{Up,Down} keysyms -->
     <keybind key="W-F5">
       <action name="Execute">
-        <command>xbacklight -dec 10</command>
+        <!-- <command>xbacklight -dec 10</command> -->
+        <!-- see https://github.com/selairi/lxqt-backlight -->
+        <command>pkexec lxqt-backlight_backend --dec</command>
       </action>
     </keybind>
     <keybind key="W-F6">
       <action name="Execute">
-        <command>xbacklight -inc 10</command>
+        <!-- <command>xbacklight -inc 10</command> -->
+        <command>pkexec lxqt-backlight_backend --inc</command>
       </action>
     </keybind>
 
