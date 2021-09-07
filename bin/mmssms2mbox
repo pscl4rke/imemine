@@ -10,10 +10,19 @@
 import argparse
 import datetime
 import email.message
+import hashlib
 import json
 import os
 import sqlite3
 import time
+
+
+# Monkeypatching for deterministic behaviour:
+from email.generator import Generator
+def _make_boundary(cls, text=None):
+    stuff = hashlib.md5(text.encode()).hexdigest()[:19]
+    return "===============" + stuff + "=="
+Generator._make_boundary = _make_boundary
 
 
 ME = "me@example.com"
