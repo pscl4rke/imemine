@@ -1,0 +1,4 @@
+
+# defined here https://pycodestyle.pycqa.org/en/latest/intro.html#configuration
+[pycodestyle]
+ignore = E402,E265,E501
