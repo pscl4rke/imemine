@@ -1,9 +1,14 @@
 #!/home/psc/.pip2bin/pyflakes/bin/python3
 
 
-TO_HIDE = [
+DIRECTORIES_TO_HIDE = [
     "attic",
     "historical",
+]
+
+
+EXTENSIONS_TO_HIDE = [
+    "py2",
 ]
 
 
@@ -12,9 +17,11 @@ def walk_except_hiding(*args, **kwargs):
     for (dirpath, dirnames, filenames) in original_walk(*args, **kwargs):
         parts = dirpath.split("/")
         should_yield = True
-        for hiding in TO_HIDE:
+        for hiding in DIRECTORIES_TO_HIDE:
             if hiding in parts:
                 should_yield = False
+        for extension in EXTENSIONS_TO_HIDE:
+            filenames = [f for f in filenames if not f.endswith(extension)]
         if should_yield:
             yield (dirpath, dirnames, filenames)
 
