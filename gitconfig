@@ -18,6 +18,8 @@
 	ui = auto
 [push]
 	default = current
+[init]
+	defaultBranch = master
 [color "diff"]
 	meta = blue bold white
 	frag = cyan white
