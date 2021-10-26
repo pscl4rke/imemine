@@ -1,0 +1,59 @@
+#!/usr/bin/python3
+
+
+# So the idea of this is that you can pipe jounalctl's json output
+# into it and it will display the records in a more digestable fashion.
+
+
+import datetime
+import json
+import sys
+
+
+PRIORITIES = ["EMERGENCY", "ALERT", "CRITICAL", "ERROR",
+              "WARNING", "NOTICE", "INFO", "DEBUG",
+              "UNKNOWN"]
+
+
+def documents_in(text):  # streaming concatenated docs
+    decoder = json.JSONDecoder()
+    while text:
+        if text[0].isspace():
+            text = text[1:]
+        else:
+            doc, index = decoder.raw_decode(text)
+            text = text[index:]
+            yield doc
+
+
+def header(document):
+    level = PRIORITIES[int(document.get("PRIORITY", 8))]
+    ts = float(document.get("__REALTIME_TIMESTAMP", 0)) / 1000000
+    dt = datetime.datetime.utcfromtimestamp(ts)
+    unit = document.get("_SYSTEMD_UNIT", ":unknown:")
+    return "%s [%s] %s" % (level, dt.strftime("%H:%M:%S"), unit)
+
+
+def prettify(document):
+    lines = []
+    message = document.get("MESSAGE")
+    for msgline in message.splitlines():
+        lines.append(" | %s" % msgline.rstrip())
+    return "".join(line + "\n" for line in lines)
+
+
+def main():
+    rawtext = sys.stdin.read()
+    last_header = ""
+    for document in documents_in(rawtext):
+        #print(document)
+        this_header = header(document)
+        if this_header != last_header:
+            print()
+            print(this_header)
+            last_header = this_header
+        print(prettify(document).rstrip())
+
+
+if __name__ == '__main__':
+    main()
