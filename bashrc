@@ -232,6 +232,7 @@ alias mkpasswd.256="mkpasswd -m sha-256"
 alias mkpasswd.512="mkpasswd -m sha-512"
 alias hush="unset HISTFILE"
 alias ooops="unset HISTFILE"
+alias xmodmap-right='xmodmap -e "keycode 135 = Right"'
 
 
 # PRODUCTIVITY IMPROVEMENTS
