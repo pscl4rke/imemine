@@ -69,6 +69,7 @@ case "$browser-$mode" in
         [ -e ~/.firefox.base.tar ] && (
             cd "$profilepath"
             tar xf ~/.firefox.base.tar)
+        [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
@@ -77,6 +78,7 @@ case "$browser-$mode" in
         [ -e ~/.firefox.base.tar ] && (
             cd "$profilepath"
             tar xf ~/.firefox.base.tar)
+        [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         firefox -no-remote -profile "$profilepath" "about:reader?url=$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
