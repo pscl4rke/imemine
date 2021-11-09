@@ -4,13 +4,23 @@
 import argparse
 import datetime
 import os
-import time
+import re
 import shlex
 import subprocess
 import sys
+import time
 
 from email.message import Message
 from email.utils import formatdate
+
+
+def datestr(value):
+    # Must be YYYYMMDD for calendar, but also permit and fix YYYY-MM-DD
+    value = value.replace("-", "")
+    regex = re.compile("^\d{8}$")
+    if not re.fullmatch(regex, value):
+        raise ValueError("%r is not a valid date")
+    return value
 
 
 def parse_args(args):
@@ -19,7 +29,7 @@ def parse_args(args):
     parser.add_argument("toaddress")
     parser.add_argument("--sendmail", default="/usr/sbin/sendmail")
     today = datetime.date.today().strftime("%Y%m%d")
-    parser.add_argument("-d", "--date", default=today)
+    parser.add_argument("-d", "--date", default=today, type=datestr)
     return parser.parse_args(args)
 
 
