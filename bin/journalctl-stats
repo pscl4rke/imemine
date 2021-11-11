@@ -2,9 +2,30 @@
 
 
 import collections
+import datetime
 import json
 import subprocess
 import sys
+
+
+class StatusBar:
+
+    backspace = "\b"
+
+    def __init__(self):
+        self.offset = 0
+
+    def update(self, message):
+        if not sys.stderr.isatty():
+            return
+        sys.stderr.write(self.backspace * self.offset)
+        sys.stderr.write(message)
+        sys.stderr.flush()
+        self.offset = len(message)
+
+    def clear(self):
+        sys.stderr.write(self.backspace * self.offset)
+        sys.stderr.flush()
 
 
 class CounterSet:
@@ -27,8 +48,13 @@ def get_records_from_journal(filter_args):
 def main():
     format_args = sys.argv[1:]
     counters = CounterSet()
-    for record in get_records_from_journal(format_args):
+    status = StatusBar()
+    for i, record in enumerate(get_records_from_journal(format_args)):
+        ts = float(record["__REALTIME_TIMESTAMP"]) / 1_000_000
+        date = datetime.datetime.utcfromtimestamp(ts).strftime("%d %b %Y")
+        status.update(f"{i:>10}  {date}")
         counters.digest(record)
+    status.clear()
     for key, value in counters.by_unit.items():
         print(f"{value:>10} {key}")
 
