@@ -1,0 +1,37 @@
+#!/usr/bin/python3
+
+
+import collections
+import json
+import subprocess
+import sys
+
+
+class CounterSet:
+
+    def __init__(self):
+        self.by_unit = collections.defaultdict(int)
+
+    def digest(self, record):
+        self.by_unit[record.get("_SYSTEMD_UNIT", "")] += 1
+
+
+def get_records_from_journal(filter_args):
+    args = ["journalctl", "-o", "json"]
+    args.extend(filter_args)
+    with subprocess.Popen(args, stdout=subprocess.PIPE) as proc:
+        for line in proc.stdout:
+            yield json.loads(line)
+
+
+def main():
+    format_args = sys.argv[1:]
+    counters = CounterSet()
+    for record in get_records_from_journal(format_args):
+        counters.digest(record)
+    for key, value in counters.by_unit.items():
+        print(f"{value:>10} {key}")
+
+
+if __name__ == '__main__':
+    main()
