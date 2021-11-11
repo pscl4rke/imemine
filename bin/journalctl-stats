@@ -14,14 +14,19 @@ class StatusBar:
 
     def __init__(self):
         self.offset = 0
+        self.hide_next = 0
 
     def update(self, message):
+        if self.hide_next > 0:
+            self.hide_next -= 1
+            return
         if not sys.stderr.isatty():
             return
         sys.stderr.write(self.backspace * self.offset)
         sys.stderr.write(message)
         sys.stderr.flush()
         self.offset = len(message)
+        self.hide_next = 100
 
     def clear(self):
         sys.stderr.write(self.backspace * self.offset)
