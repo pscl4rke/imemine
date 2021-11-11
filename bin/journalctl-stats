@@ -61,6 +61,8 @@ def main():
         counters.digest(record)
     status.clear()
     for key, value in counters.by_unit.items():
+        if key.endswith(".scope"):
+            continue
         print(f"{value:>10} {key}")
 
 
