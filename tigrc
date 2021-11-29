@@ -28,3 +28,5 @@ bind diff <Up> scroll-line-up
 #set show-rev-graph = yes
 
 
+# SORTING
+set commit-order = date
