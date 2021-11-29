@@ -7,6 +7,7 @@
 
 import datetime
 import json
+import pprint
 import sys
 
 
@@ -36,7 +37,12 @@ def header(document):
 
 def prettify(document):
     lines = []
-    message = document.get("MESSAGE")
+    message = document.get("MESSAGE", "::message missing::")
+    try:  # if message is json itself (e.g. structlog) then prettify
+        data = json.loads(message)
+        message = pprint.pformat(data)
+    except Exception:
+        pass
     for msgline in message.splitlines():
         lines.append(" | %s" % msgline.rstrip())
     return "".join(line + "\n" for line in lines)
