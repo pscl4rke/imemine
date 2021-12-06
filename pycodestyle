@@ -1,4 +1,5 @@
 
 # defined here https://pycodestyle.pycqa.org/en/latest/intro.html#configuration
+# W503 line break before binary operator
 [pycodestyle]
-ignore = E402,E265,E501
+ignore = E402,E265,E501,W503
