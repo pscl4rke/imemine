@@ -7,7 +7,6 @@ import sys
 import mutagen
 
 
-# check that there is a total number of tracks
 # check for meaningful genres
 # check id3v1 data matches id3v2 data
 # check filename matches id3v2 data
@@ -21,6 +20,7 @@ def check(path_to_check):
         raise NotImplementedError("Cannot check folders yet!")
     if path_to_check.endswith(".mp3"):
         yield from check_from_wipe_mp3_junk_script(path_to_check)
+        yield from check_track_numbering(path_to_check)
 
 
 def check_from_wipe_mp3_junk_script(path_to_check):
@@ -32,6 +32,15 @@ def check_from_wipe_mp3_junk_script(path_to_check):
         for key in src:
             if key.startswith(prefix):
                 yield path_to_check, "Contains key %r saying %r" % (key, src[key])
+
+
+def check_track_numbering(path_to_check):
+    src = mutagen.File(path_to_check)
+    if "TRCK" not in src:
+        yield path_to_check, "Missing track number"
+    else:
+        if "/" not in src["TRCK"].text[0]:
+            yield path_to_check, "Track number missing total number of tracks"
 
 
 def main():
