@@ -8,6 +8,12 @@ import mutagen
 
 
 # check that there is a total number of tracks
+# check for meaningful genres
+# check id3v1 data matches id3v2 data
+# check filename matches id3v2 data
+# check album art present
+# check classical music for Composer etc
+# perhaps check the year
 
 
 def check(path_to_check):
