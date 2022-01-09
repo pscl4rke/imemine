@@ -76,10 +76,34 @@ def check_genre(path_to_check):
         yield path_to_check, "Invalid multigenre"
 
 
+def display(path, problem, dest):
+    coloured = dest.isatty()
+    parts = []
+    if "/" in path:
+        dir, base = path.rsplit("/", 1)
+    else:
+        dir, base = path, "n/a"  # FIXME
+    if coloured:
+        parts.append("\x1b[34;1m")
+    parts.append("%s/" % dir)
+    if coloured:
+        parts.append("\x1b[0m")
+        parts.append("\x1b[34m")
+    parts.append("%s: " % base)
+    if coloured:
+        parts.append("\x1b[0m")
+        parts.append("\x1b[31m")
+    parts.append(problem[:200])
+    if coloured:
+        parts.append("\x1b[0m")
+    parts.append("\n")
+    dest.write("".join(parts))
+
+
 def main():
     for path_to_check in sys.argv[1:]:
         for path, problem in check(path_to_check):
-            print("%s: %s" % (path, problem[:200]))
+            display(path, problem, sys.stdout)
 
 
 if __name__ == '__main__':
