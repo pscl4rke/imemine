@@ -3,8 +3,9 @@
 
 import os
 import sys
+import time
 
-import mutagen
+import mutagen, mutagen.id3
 
 
 # improve genre checking
@@ -15,6 +16,13 @@ import mutagen
 # check album art of good quality
 # check classical music for Composer etc
 # perhaps check the year
+
+
+def is_a_recent_file(path):
+    one_year = 60 * 60 * 24 * 365
+    threshold = time.time() - one_year  # increase as necessary
+    mtime = os.stat(path).st_mtime
+    return (mtime > threshold)
 
 
 def check(path_to_check):
@@ -39,15 +47,21 @@ def check_album_dir(path_to_check):
 
 
 def check_mp3(path_to_check):
+    # There is some kind of bug in mutagen whereby it will match "TDRC"
+    # even if the file has a "TDRL" tag instead.
+    # This is probably ID3v1 getting in the way.
     yield from check_from_wipe_mp3_junk_script(path_to_check)
     yield from check_track_numbering(path_to_check)
     yield from check_genre(path_to_check)
+    if is_a_recent_file(path_to_check):
+        yield from check_year(path_to_check)
+        yield from check_recent_stuff(path_to_check)
 
 
 def check_from_wipe_mp3_junk_script(path_to_check):
     # See imemine/bin/wipe-mp3-junk for a script that cleans up the mp3
     # files but I keep forgetting exists.
-    src = mutagen.File(path_to_check)
+    src = mutagen.id3.ID3(path_to_check)  # I *think* ID3v2 but notID3v1
     for prefix in ["TXXX", "TSSE", "TENC", "TDEN", "TLEN", "TBPM", "TFLT", "TPOS",
                    "TMED", "TCOP", "TPUB", "APIC", "PRIV", "MCDI", "COMM", "TCMP"]:
         for key in src:
@@ -56,7 +70,7 @@ def check_from_wipe_mp3_junk_script(path_to_check):
 
 
 def check_track_numbering(path_to_check):
-    src = mutagen.File(path_to_check)
+    src = mutagen.id3.ID3(path_to_check)  # I *think* ID3v2 but notID3v1
     if "TRCK" not in src:
         yield path_to_check, "Missing track number"
     else:
@@ -65,7 +79,7 @@ def check_track_numbering(path_to_check):
 
 
 def check_genre(path_to_check):
-    src = mutagen.File(path_to_check)
+    src = mutagen.id3.ID3(path_to_check)  # I *think* ID3v2 but notID3v1
     if "TCON" not in src:
         yield path_to_check, "Missing genre"
         return
@@ -74,6 +88,22 @@ def check_genre(path_to_check):
         yield path_to_check, "Blank genre"
     if ";" in genre:
         yield path_to_check, "Invalid multigenre"
+
+
+def check_year(path_to_check):
+    src = mutagen.id3.ID3(path_to_check)
+    if "TDRL" in src and "TDRC" not in src:
+        # While some programs (e.g. VLC on Android) will pick
+        # up the year from other tags, MPD will only get it from
+        # the ID3v2 TDRC tag.
+        # Note that "eyeD3 -Y" sets TDRL whereas "abcde" sets TDRC
+        yield path_to_check, "Year in wrong tag"
+
+
+def check_recent_stuff(path_to_check):
+    src = mutagen.File(path_to_check)
+    if "TDTG" in src:
+        yield path_to_check, "Unwanted tagging date"
 
 
 def display(path, problem, dest):
