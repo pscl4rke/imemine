@@ -34,6 +34,7 @@ def check(path_to_check):
 
 def check_album_dir(path_to_check):
     files = os.listdir(path_to_check)
+    files.sort()
     if "Folder.jpg" not in files:
         yield path_to_check, "Missing Folder.jpg"
     for filename in files:
