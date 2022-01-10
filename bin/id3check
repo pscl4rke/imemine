@@ -87,6 +87,8 @@ def check_genre(path_to_check):
     genre = src["TCON"].text[0]
     if genre == "":
         yield path_to_check, "Blank genre"
+    if "unknown" in genre.lower():
+        yield path_to_check, "Unknown genre"
     if ";" in genre:
         yield path_to_check, "Invalid multigenre"
 
