@@ -107,6 +107,11 @@ def check_recent_stuff(path_to_check):
     src = mutagen.id3.ID3(path_to_check, translate=False, load_v1=False)
     if "TDTG" in src:
         yield path_to_check, "Unwanted tagging date"
+    if "TCON" in src:
+        genre = src["TCON"].text[0]
+        if genre.startswith("("):
+            if src.version >= (2, 4):
+                yield path_to_check, "Old ID3 v2.3 genre"
 
 
 def display(path, problem, dest):
