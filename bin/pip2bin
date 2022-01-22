@@ -35,6 +35,7 @@ class Pip2bin:
         venv_dir = entry.venv_dir()
         if os.path.exists(venv_dir):
             return # FIXME: What if the requirements have changed? Redownload?
+        self._log("Downloading %s..." % venv_dir)
         self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
         self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip") # fix errors
         self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
@@ -46,7 +47,11 @@ class Pip2bin:
         destination = os.path.join(BIN_DIR, entry.name)
         if os.path.exists(destination) and os.readlink(destination) == target:
             return
+        self._log("Linking %s..." % destination)
         self._exec("ln", "-f", "-s", target, destination) # NB: Forcing!
+
+    def _log(self, message):
+        print("[pip2bin] %s" % message)
 
     def _exec(self, *args):
         subprocess.run(args, check=True)
