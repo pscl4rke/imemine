@@ -5,6 +5,7 @@
 # into it and it will display the records in a more digestable fashion.
 
 
+import argparse
 import datetime
 import json
 import pprint
@@ -48,15 +49,27 @@ def prettify(document):
     return "".join(line + "\n" for line in lines)
 
 
+def parse_args(arguments):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--colour", default="auto",
+                        choices=["never", "auto", "always"])
+    return parser.parse_args(arguments)
+
+
 def main():
+    options = parse_args(sys.argv[1:])
+    use_colour = (options.colour == "always") or \
+                 (options.colour == "auto" and sys.stdout.isatty())
     rawtext = sys.stdin.read()
     last_header = ""
     for document in documents_in(rawtext):
-        #print(document)
         this_header = header(document)
         if this_header != last_header:
             print()
-            print(this_header)
+            if use_colour:
+                print("\x1b[34m" + this_header + "\x1b[0m")
+            else:
+                print(this_header)
             last_header = this_header
         print(prettify(document).rstrip())
 
