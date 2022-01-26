@@ -5,11 +5,12 @@ from collections import namedtuple
 import os
 import sys
 
-import mutagen
+import mutagen.id3
 
 
 Track = namedtuple("Track", [
     "file_path",
+    "version",
     "last_tag_ts",
     "genre",
     "album",
@@ -41,7 +42,9 @@ def get_one(keys_not_seen, srcfile, key):
 
 
 def dump_file(file_path):
-    src = mutagen.File(file_path)
+    #src = mutagen.File(file_path)
+    src = mutagen.id3.ID3(file_path, translate=False, load_v1=False)
+    version = ".".join(map(str, src.version))
     keys_not_seen = set(src.keys())
     last_tag_ts = get_one(keys_not_seen, src, "TDTG")
     genre = get_one(keys_not_seen, src, "TCON")
@@ -56,7 +59,7 @@ def dump_file(file_path):
     performer = get_one(keys_not_seen, src, "TPE3") # mpd also recognises TPE4
     left_over_keys = ascii(" ".join(keys_not_seen))
     left_over_data = repr({key: src[key] for key in keys_not_seen})[:800]
-    output_row(Track(file_path, last_tag_ts,
+    output_row(Track(file_path, version, last_tag_ts,
                      genre, album, year_recorded, year_released,
                      track, title, albumartist, artist, composer, performer,
                      left_over_keys, left_over_data))
