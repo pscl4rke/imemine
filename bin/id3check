@@ -53,6 +53,7 @@ def check_mp3(path_to_check):
     yield from check_track_numbering(src, path_to_check)
     yield from check_genre(src, path_to_check)
     if is_a_recent_file(path_to_check):
+        yield from check_tagging_version(src, path_to_check)
         yield from check_year(src, path_to_check)
         yield from check_recent_stuff(src, path_to_check)
 
@@ -89,12 +90,18 @@ def check_genre(src, path_to_check):
 
 
 def check_year(src, path_to_check):
+    # FIXME also check TYER
     if "TDRL" in src and "TDRC" not in src:
         # While some programs (e.g. VLC on Android) will pick
         # up the year from other tags, MPD will only get it from
         # the ID3v2 TDRC tag.
         # Note that "eyeD3 -Y" sets TDRL whereas "abcde" sets TDRC
         yield path_to_check, "Year in wrong tag"
+
+
+def check_tagging_version(src, path_to_check):
+    if src.version < (2, 4):
+        yield path_to_check, f"Still using ID3 version {src.version}"
 
 
 def check_recent_stuff(src, path_to_check):
