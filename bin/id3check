@@ -42,7 +42,11 @@ def check_album_dir(path_to_check):
         if filename.endswith(".mp3"):
             yield from check_mp3(path)
         elif filename == "Folder.jpg":
-            pass  # FIXME
+            pass  # FIXME check the picture is good
+        elif filename.startswith("README"):
+            pass
+        elif filename.endswith(".gz"):
+            pass
         else:
             yield path, "Unexpected file"
 
