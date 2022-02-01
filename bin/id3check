@@ -28,8 +28,12 @@ def is_a_recent_file(path):
 def check(path_to_check):
     if os.path.isdir(path_to_check):
         yield from check_album_dir(path_to_check)
-    if path_to_check.endswith(".mp3"):
+    elif path_to_check.endswith(".mp3"):
         yield from check_mp3(path_to_check)
+    elif not os.path.exists(path_to_check):
+        yield path_to_check, "Path missing"
+    else:
+        yield path_to_check, "I don't know what you mean by this"
 
 
 def check_album_dir(path_to_check):
