@@ -57,6 +57,7 @@ def check_album_dir(path_to_check):
 
 def check_mp3(path_to_check):
     src = mutagen.id3.ID3(path_to_check, translate=False, load_v1=False)
+    yield from check_file_naming(src, path_to_check)
     yield from check_from_wipe_mp3_junk_script(src, path_to_check)
     yield from check_track_numbering(src, path_to_check)
     yield from check_genre(src, path_to_check)
@@ -67,6 +68,17 @@ def check_mp3(path_to_check):
         yield from check_classical(src, path_to_check)
         yield from check_soundtrack(src, path_to_check)
         yield from check_recent_stuff(src, path_to_check)
+
+
+def check_file_naming(src, path_to_check):
+    try:
+        filename_track = int(os.path.basename(path_to_check).split(" ", 1)[0], base=10)
+    except Exception as exc:
+        yield path_to_check, "Invalid file name: %r" % exc
+        return
+    metadata_track = int(src["TRCK"].text[0].split("/")[0], base=10)
+    if filename_track != metadata_track:
+        yield path_to_check, "File name doesn't match track number %r" % metadata_track
 
 
 def check_from_wipe_mp3_junk_script(src, path_to_check):
