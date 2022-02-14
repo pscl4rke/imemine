@@ -24,7 +24,7 @@ if [ -f "$HOME/imemine/profile.paths" ]; then
 fi
 
 
-# COMMAND COMPLETION
+# COMMAND COMPLETION WITH TAB
 #   Most completion comes ready packaged:
 source /usr/share/bash-completion/bash_completion
 #   Though some needs specifying manually:
@@ -32,6 +32,13 @@ complete -F _command rlwrap
 complete -F _command tsp
 #   Stop the dodgy domains in /etc/hosts leaking in
 HOSTFILE=
+
+
+# PATH AND HISTORY COMPLETION WITH CTRL+T ETC
+#   I guess fuzzy-finding is too invasive to be installed by default.
+if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
+    . "/usr/share/doc/fzf/examples/key-bindings.bash"
+fi
 
 
 # EXPLICITLY DECLARE BASIC OPTIONS
