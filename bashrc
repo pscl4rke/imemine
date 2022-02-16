@@ -246,6 +246,7 @@ alias xmodmap-right='xmodmap -e "keycode 135 = Right"'
 #   To avoid the parts that are likely to hold me back.
 alias sl="echo Boom! Train Crash!"
 alias LS="echo Boom! Train Crash!"
+alias l="echo Boom! Train Crash!"
 alias :q="echo This is a shell!"
 alias :wq="echo This is a shell!"
 
