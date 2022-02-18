@@ -23,9 +23,12 @@ def documents_in(text):  # streaming concatenated docs
         if text[0].isspace():
             text = text[1:]
         else:
-            doc, index = decoder.raw_decode(text)
-            text = text[index:]
-            yield doc
+            try:
+                doc, index = decoder.raw_decode(text)
+                text = text[index:]
+                yield doc
+            except json.decoder.JSONDecodeError:
+                return  # assume stream was truncated early
 
 
 def header(document):
