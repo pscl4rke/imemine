@@ -8,6 +8,8 @@ import sys
 #LONG = "210mm"  # a5
 SHORT = "100mm"  # 6x4 photo
 LONG = "149mm"  # 6x4 photo
+#SHORT = "123mm"  # cd sleeve
+#LONG = "123mm"  # cd sleeve
 
 # the default res is 75, opts found with `scanimage -A`
 #print("Warning: this is pretty low-res")
