@@ -56,7 +56,11 @@ def check_album_dir(path_to_check):
 
 
 def check_mp3(path_to_check):
-    src = mutagen.id3.ID3(path_to_check, translate=False, load_v1=False)
+    try:
+        src = mutagen.id3.ID3(path_to_check, translate=False, load_v1=False)
+    except mutagen.id3._util.ID3NoHeaderError:
+        yield path_to_check, "No ID3 header at all"
+        return
     yield from check_file_naming(src, path_to_check)
     yield from check_from_wipe_mp3_junk_script(src, path_to_check)
     yield from check_track_numbering(src, path_to_check)
