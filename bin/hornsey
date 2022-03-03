@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+
+
+# Show the tags used in the Hornsey Method of file tagging
+
+
+import os
+import sys
+import unittest
+
+
+def main():
+    path = sys.argv[1]
+    for tag in sorted(tags_in(path)):
+        print(tag)
+
+
+def tags_in(path):
+    tags = set()
+    for directory in os.path.dirname(path).split("/"):
+        for part in directory.split("+"):
+            part = part.strip()
+            if part != "":
+                tags.add(part)
+    return tags
+
+
+class TestTags(unittest.TestCase):
+
+    def assertTags(self, path, tags):
+        self.assertEqual(tags_in(path), set(tags))
+
+    def test_just_the_file(self):
+        self.assertTags("blah blah.txt", [])
+
+    def test_path_with_slashes(self):
+        self.assertTags("Foo/Bar/Baz.txt", ["Bar", "Foo"])
+
+    def test_path_with_plus_signs(self):
+        self.assertTags("Foo/Bar+Baz/file.txt", ["Bar", "Baz", "Foo"])
+
+    def test_spaces_inside_tags_are_handled_verbatim(self):
+        self.assertTags("Foo Bar/Baz/xxx.py", ["Baz", "Foo Bar"])
+
+    def test_spaces_around_tags_are_ignored(self):
+        self.assertTags("Foo/Bar + Baz/file.txt", ["Bar", "Baz", "Foo"])
+
+
+if __name__ == "__main__":
+    if "--test" in sys.argv:
+        sys.argv = sys.argv[:1]
+        unittest.main()
+    else:
+        main()
