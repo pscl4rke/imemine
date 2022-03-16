@@ -84,3 +84,8 @@ plugin/fzf.vim: | plugin
 syntax/openvpn.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/vim-scripts/openvpn/master/syntax/openvpn.vim -fo $@
+
+
+syntax/icalendar.vim: | syntax
+	mvtoattic $@
+	curl $(GH)/vim-scripts/icalendar.vim/master/syntax/icalendar.vim -fo $@
