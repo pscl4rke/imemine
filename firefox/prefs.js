@@ -7,8 +7,10 @@ user_pref("reader.color_scheme", "sepia");
 
 
 // DOWNLOADS
-//  Don't keep hiding the download icon.
+//  Don't keep hiding the download icon.  But also don't let
+//  the list get in the way.
 user_pref("browser.download.autohideButton", false);
+user_pref("browser.download.alwaysOpenPanel", false);
 
 
 // DEFAULTS
