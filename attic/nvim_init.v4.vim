@@ -66,7 +66,8 @@ let g:gitgutter_highlight_linenrs = 1
 
 "colorscheme one
 "set background=light
-colorscheme flattened_light
+"colorscheme flattened_light
+colorscheme myflattened
 
 " Remember this is influenced by ~/.config/pycodestyle
 lua require("lspconfig").pylsp.setup{
