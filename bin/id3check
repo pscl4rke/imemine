@@ -128,7 +128,8 @@ def check_year(src, path_to_check):
         # up the year from other tags, MPD will only get it from
         # the ID3v2 TDRC tag.
         # Note that "eyeD3 -Y" sets TDRL whereas "abcde" sets TDRC
-        yield path_to_check, "Year in wrong tag"
+        year = src["TDRL"].text[0]
+        yield path_to_check, "Year (%r) in wrong tag" % year
 
 
 def check_classical(src, path_to_check):
