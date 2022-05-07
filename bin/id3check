@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 
+from functools import lru_cache as cache
 import os
 import sys
 import time
@@ -36,8 +37,27 @@ def check(path_to_check):
         yield path_to_check, "I don't know what you mean by this"
 
 
+class AlbumDir:
+
+    def __init__(self, path):
+        self.path = path
+
+    @cache
+    def all_contents(self):
+        return os.listdir(self.path)
+
+    @cache
+    def track_numbers(self):
+        return list(name.split()[0] for name in self.all_contents()
+                    if name.endswith(".mp3"))
+
+
 def check_album_dir(path_to_check):
-    files = os.listdir(path_to_check)
+    album_dir = AlbumDir(path_to_check)
+    files = album_dir.all_contents()
+    tracks = album_dir.track_numbers()
+    if ("01" not in tracks) and ("101" not in tracks):
+        yield path_to_check, "Missing file 01 or 101"
     files.sort()
     if "Folder.jpg" not in files:
         yield path_to_check, "Missing Folder.jpg"
