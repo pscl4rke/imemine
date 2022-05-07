@@ -64,7 +64,7 @@ def check_album_dir(path_to_check):
     for filename in files:
         path = os.path.join(path_to_check, filename)
         if filename.endswith(".mp3"):
-            yield from check_mp3(path)
+            yield from check_mp3(album_dir, path)
         elif filename == "Folder.jpg":
             pass  # FIXME check the picture is good
         elif filename.startswith("README"):
@@ -75,7 +75,7 @@ def check_album_dir(path_to_check):
             yield path, "Unexpected file"
 
 
-def check_mp3(path_to_check):
+def check_mp3(album_dir, path_to_check):
     try:
         src = mutagen.id3.ID3(path_to_check, translate=False, load_v1=False)
     except mutagen.id3._util.ID3NoHeaderError:
@@ -83,7 +83,7 @@ def check_mp3(path_to_check):
         return
     yield from check_file_naming(src, path_to_check)
     yield from check_from_wipe_mp3_junk_script(src, path_to_check)
-    yield from check_track_numbering(src, path_to_check)
+    yield from check_track_numbering(album_dir, src, path_to_check)
     yield from check_genre(src, path_to_check)
     yield from check_artists(src, path_to_check)
     if is_a_recent_file(path_to_check):
@@ -115,12 +115,21 @@ def check_from_wipe_mp3_junk_script(src, path_to_check):
                 yield path_to_check, "Contains key %r saying %r" % (key, src[key])
 
 
-def check_track_numbering(src, path_to_check):
+def check_track_numbering(album_dir, src, path_to_check):
     if "TRCK" not in src:
         yield path_to_check, "Missing track number"
+        return
+    if "/" not in src["TRCK"].text[0]:
+        yield path_to_check, "Track number missing total number of tracks"
     else:
-        if "/" not in src["TRCK"].text[0]:
-            yield path_to_check, "Track number missing total number of tracks"
+        track = int(src["TRCK"].text[0].split("/")[0])
+        total = int(src["TRCK"].text[0].split("/")[1])
+        if track < 100 and track > total:
+            yield path_to_check, "Nonsensical: %s" % src["TRCK"].text[0]
+        number_of_tracks = len(album_dir.track_numbers())
+        if total != number_of_tracks:
+            yield path_to_check, "Folder has %i tracks but ID3 says %i" % (
+                                        number_of_tracks, total)
 
 
 def check_genre(src, path_to_check):
