@@ -227,7 +227,7 @@ alias ll="ls -l"
 alias la="ls -A"
 alias lt="ls -lt"
 alias lS="ls -lhS"
-alias podget="wget --content-disposition"
+#alias podget="wget --content-disposition"
 # Can I replace midentify with ffprobe instead???
 #alias midentify="mplayer -frames 0 -identify"
 alias midentify="ffprobe -hide_banner"
