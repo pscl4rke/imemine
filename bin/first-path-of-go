@@ -1,0 +1,30 @@
+#!/usr/bin/env gorun
+// vim:ft=go:
+
+package main
+
+import (
+	"errors"
+	"fmt"
+	"os"
+)
+
+func exists(path string) bool {
+	_, err := os.Stat(path)
+	if errors.Is(err, os.ErrNotExist) {
+		return false
+	} else {
+		return true
+	}
+}
+
+func main() {
+	for i := 1; i < len(os.Args); i++ {
+		if exists(os.Args[i]) {
+			fmt.Println(os.Args[i])
+			os.Exit(0)
+		}
+	}
+	fmt.Fprintln(os.Stderr, "No path found")
+	os.Exit(3)
+}
