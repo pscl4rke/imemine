@@ -23,12 +23,9 @@ def documents_in(text):  # streaming concatenated docs
         if text[0].isspace():
             text = text[1:]
         else:
-            try:
-                doc, index = decoder.raw_decode(text)
-                text = text[index:]
-                yield doc
-            except json.decoder.JSONDecodeError:
-                return  # assume stream was truncated early
+            doc, index = decoder.raw_decode(text)
+            text = text[index:]
+            yield doc
 
 
 def header(document):
@@ -61,11 +58,9 @@ def parse_args(arguments):
     return parser.parse_args(arguments)
 
 
-def main():
-    options = parse_args(sys.argv[1:])
+def print_documents_in(rawtext, options):
     use_colour = (options.colour == "always") or \
                  (options.colour == "auto" and sys.stdout.isatty())
-    rawtext = sys.stdin.read()
     last_header = ""
     for document in documents_in(rawtext):
         this_header = header(document)
@@ -77,6 +72,19 @@ def main():
                 print(this_header)
             last_header = this_header
         print(prettify(document).rstrip())
+
+
+def main():
+    options = parse_args(sys.argv[1:])
+    rawtext = sys.stdin.read()
+    try:
+        print_documents_in(rawtext, options)
+    except json.decoder.JSONDecodeError as exc:
+        # assume stream was truncated early
+        print("####")
+        print("#### ERROR DECODING")
+        print("#### %r" % exc)
+        print("####")
 
 
 if __name__ == '__main__':
