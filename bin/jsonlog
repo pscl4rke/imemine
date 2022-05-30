@@ -77,6 +77,7 @@ def print_documents_in(rawtext, options):
 def main():
     options = parse_args(sys.argv[1:])
     rawtext = sys.stdin.read()
+    rawtext = rawtext.replace("\n ", "") # undo email wrapping
     try:
         print_documents_in(rawtext, options)
     except json.decoder.JSONDecodeError as exc:
