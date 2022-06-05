@@ -48,8 +48,12 @@ class AlbumDir:
 
     @cache
     def track_numbers(self):
-        return list(name.split()[0] for name in self.all_contents()
-                    if name.endswith(".mp3"))
+        numbers = []
+        for name in self.all_contents():
+            part_one = name.split()[0]
+            if part_one.isdigit():
+                numbers.append(part_one)
+        return numbers
 
 
 def check_album_dir(path_to_check):
@@ -69,7 +73,7 @@ def check_album_dir(path_to_check):
             pass  # FIXME check the picture is good
         elif filename.startswith("README"):
             pass
-        elif filename.endswith(".gz"):
+        elif filename.endswith(".gz") or filename.endswith(".txt"):
             pass
         else:
             yield path, "Unexpected file"
