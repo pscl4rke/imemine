@@ -89,6 +89,8 @@ def check_mp3(album_dir, path_to_check):
     yield from check_from_wipe_mp3_junk_script(src, path_to_check)
     yield from check_track_numbering(album_dir, src, path_to_check)
     yield from check_genre(src, path_to_check)
+    yield from check_album(src, path_to_check)
+    yield from check_title(src, path_to_check)
     yield from check_artists(src, path_to_check)
     if is_a_recent_file(path_to_check):
         yield from check_tagging_version(src, path_to_check)
@@ -151,6 +153,16 @@ def check_genre(src, path_to_check):
         yield path_to_check, "Unknown genre"
     if ";" in genre:
         yield path_to_check, "Invalid multigenre"
+
+
+def check_album(src, path_to_check):
+    if "TALB" not in src:
+        yield path_to_check, "Missing album"
+
+
+def check_title(src, path_to_check):
+    if "TIT2" not in src:
+        yield path_to_check, "Missing track title"
 
 
 def check_artists(src, path_to_check):
