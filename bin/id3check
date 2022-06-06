@@ -104,7 +104,11 @@ def check_file_naming(src, path_to_check):
     except Exception as exc:
         yield path_to_check, "Invalid file name: %r" % exc
         return
-    metadata_track = int(src["TRCK"].text[0].split("/")[0], base=10)
+    try:
+        metadata_track = int(src["TRCK"].text[0].split("/")[0], base=10)
+    except Exception as exc:
+        yield path_to_check, "Invalid track number: %r" % exc
+        return
     if filename_track != metadata_track:
         yield path_to_check, "File name doesn't match track number %r" % metadata_track
 
