@@ -33,7 +33,8 @@ def header(document):
     ts = float(document.get("__REALTIME_TIMESTAMP", 0)) / 1000000
     dt = datetime.datetime.utcfromtimestamp(ts)
     unit = document.get("_SYSTEMD_UNIT", ":unknown:")
-    return "%s [%s] %s" % (level, dt.strftime("%H:%M:%S"), unit)
+    pid = document.get("_PID", "?")
+    return "%s [%s] %s _PID=%s" % (level, dt.strftime("%H:%M:%S"), unit, pid)
 
 
 def prettify(document):
