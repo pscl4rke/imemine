@@ -30,7 +30,8 @@ def check(path_to_check):
     if os.path.isdir(path_to_check):
         yield from check_album_dir(path_to_check)
     elif path_to_check.endswith(".mp3"):
-        yield from check_mp3(path_to_check)
+        album_dir = None  # Not an elegant solution :(
+        yield from check_mp3(album_dir, path_to_check)
     elif not os.path.exists(path_to_check):
         yield path_to_check, "Path missing"
     else:
@@ -136,10 +137,11 @@ def check_track_numbering(album_dir, src, path_to_check):
         total = int(src["TRCK"].text[0].split("/")[1])
         if track < 100 and track > total:
             yield path_to_check, "Nonsensical: %s" % src["TRCK"].text[0]
-        number_of_tracks = len(album_dir.track_numbers())
-        if total != number_of_tracks:
-            yield path_to_check, "Folder has %i tracks but ID3 says %i" % (
-                                        number_of_tracks, total)
+        if album_dir is not None:
+            number_of_tracks = len(album_dir.track_numbers())
+            if total != number_of_tracks:
+                yield path_to_check, "Folder has %i tracks but ID3 says %i" % (
+                                            number_of_tracks, total)
 
 
 def check_genre(src, path_to_check):
