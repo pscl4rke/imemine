@@ -26,6 +26,7 @@ imap <S-Insert> <C-R>*
 "   and then when you start it run :PlugInstall and wait.
 call plug#begin()
 Plug 'https://github.com/junegunn/fzf.git', {'tag': '0.20.0'}
+Plug 'https://github.com/jremmen/vim-ripgrep.git'
 Plug 'https://github.com/akinsho/toggleterm.nvim.git'
 " note that vim-signify autosaves!
 Plug 'https://github.com/airblade/vim-gitgutter.git'
@@ -44,6 +45,11 @@ call plug#end()
 
 noremap gO <cmd>tabedit .<enter>
 noremap go <cmd>tabedit<enter><cmd>FZF<enter>
+" The following doesn't work properly!
+noremap g/ <cmd>tabnew<enter><cmd>Rg <enter>
+
+noremap g] <cmd>lua vim.lsp.buf.definition()<enter>
+noremap K <cmd>lua vim.lsp.buf.hover()<enter>
 
 
 cnoremap <silent> q<CR> :echo "Do it Properly!"<CR>
@@ -68,6 +74,10 @@ let g:gitgutter_highlight_linenrs = 1
 "set background=light
 "colorscheme flattened_light
 colorscheme myflattened
+"hi DiffAdd                                 cterm=NONE  ctermbg=7  gui=NONE  guibg=#eef4d5  guisp=#719e07  gui=NONE
+"hi DiffChange                              cterm=NONE  ctermbg=7  gui=NONE  guibg=#f8ebd5  guisp=#b58900  gui=NONE
+"hi DiffDelete                              cterm=NONE  ctermbg=7  gui=NONE  guibg=#eee8d5  gui=NONE
+"hi DiffText                                cterm=NONE  ctermfg=4  ctermbg=7  gui=NONE  guifg=#268bd2  guibg=#eee8d5  guisp=#268bd2  gui=NONE
 
 " Remember this is influenced by ~/.config/pycodestyle
 lua require("lspconfig").pylsp.setup{
@@ -76,6 +86,11 @@ lua require("lspconfig").pylsp.setup{
 lua require("lspconfig").tsserver.setup{
  \ cmd={"/home/psc/.npm2bin/typescript/node_modules/.bin/typescript-language-server", "--stdio"}
  \}
+
+"lua require("lspconfig").bashls.setup {
+" \ cmd={"/home/psc/.npm2bin/bash-language-server/node_modules/.bin/bash-language-server",
+" \"start"},
+" \}
 
 set completeopt=menu,menuone,noselect
 "lua require("cmp").setup()
