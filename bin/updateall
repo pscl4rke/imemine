@@ -3,6 +3,9 @@
 # REPOSITORY 'MIRROR' UPDATOR                    (c) 2012 P. S. Clarke #
 #======================================================================#
 
+echo USE RECOMI INSTEAD
+exit 1
+
 errors=""
 
 for directory in $(ls)
