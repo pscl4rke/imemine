@@ -240,6 +240,7 @@ alias mkpasswd.512="mkpasswd -m sha-512"
 alias hush="unset HISTFILE"
 alias ooops="unset HISTFILE"
 alias xmodmap-right='xmodmap -e "keycode 135 = Right"'
+alias abcde="printf 'Try abcdef instead\n'"
 
 
 # PRODUCTIVITY IMPROVEMENTS
