@@ -1,0 +1,42 @@
+#!/usr/bin/python3
+
+
+"""
+Read output from `coverage json -o -` and reformat it ready
+for vim's quickfix window.
+"""
+
+
+import json
+import sys
+
+
+def group_lines(line_numbers):
+    groups = []
+    last_group = [-999, -999]
+    for line_no in line_numbers:
+        if line_no == (last_group[1] + 1):
+            last_group[1] = line_no
+        else:
+            last_group = [line_no, line_no]
+            groups.append(last_group)
+    return groups
+
+
+def main():
+    data = json.load(sys.stdin)
+    for filename in data["files"]:
+        missing = data["files"][filename]["missing_lines"]
+        if len(missing) == 0:
+            continue
+        for first_line, last_line in group_lines(missing):
+            if first_line == last_line:
+                print("%s:%i:Missing line %i" %
+                      (filename, first_line, first_line))
+            else:
+                print("%s:%i:Missing lines %i-%i" %
+                      (filename, first_line, first_line, last_line))
+
+
+if __name__ == "__main__":
+    main()
