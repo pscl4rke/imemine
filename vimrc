@@ -123,6 +123,8 @@ set tabpagemax=40
 noremap go :tabe <enter>:FZF<enter>
 noremap gO :tabe .<enter>
 let g:netrw_liststyle = 3
+map H :tabprev<enter>
+map L :tabnext<enter>
 "
 "
 " SYNTAX HIGHLIGHTING
@@ -291,5 +293,6 @@ endif
 " HISTORICAL
 "   Some bits and pieces that were used, but not any more.
 "set showmatch [Not needed in non compat. mode]
+"set switchbuf=usetab,newtab
 "
 "
