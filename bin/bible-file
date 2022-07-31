@@ -1,0 +1,175 @@
+#!/usr/bin/python3
+
+
+# Take files that relate to books of the Bible and tidy them away
+# into a folder for each book.
+
+
+import logging
+LOG = logging.getLogger("bible-file")
+
+import argparse
+import os
+import sys
+
+
+BOOKS = [
+
+    (1,     "Genesis"),
+    (2,     "Exodus"),
+    (3,     "Leviticus"),
+    (4,     "Numbers"),
+    (5,     "Deuteronomy"),
+
+    (6,     "Joshua"),
+    (7,     "Judges"),
+    (8,     "Ruth"),
+    (9,     "1 Samuel"),
+    (10,    "2 Samuel"),
+    (11,    "1 Kings"),
+    (12,    "2 Kings"),
+    (13,    "1 Chronicles"),
+    (14,    "2 Chronicles"),
+    (15,    "Ezra"),
+    (16,    "Nehemiah"),
+    (17,    "Esther"),
+
+    (18,    "Job"),
+    (19,    "Psalms", "Psalm"),
+    (20,    "Proverbs"),
+    (21,    "Ecclesiastes"),
+    (22,    "Song of Songs", "Song of Solomon", "Song Of Solomon"),
+
+    (23,    "Isaiah"),
+    (24,    "Jeremiah"),
+    (25,    "Lamentations"),
+    (26,    "Ezekiel"),
+    (27,    "Daniel"),
+
+    (28,    "Hosea"),
+    (29,    "Joel"),
+    (30,    "Amos"),
+    (31,    "Obadiah"),
+    (32,    "Jonah"),
+    (33,    "Micah"),
+    (34,    "Nahum"),
+    (35,    "Habakkuk"),
+    (36,    "Zephaniah"),
+    (37,    "Haggai"),
+    (38,    "Zechariah"),
+    (39,    "Malachi"),
+
+    (40,    "Matthew"),
+    (41,    "Mark"),
+    (42,    "Luke"),
+    (43,    "John"),
+    (44,    "Acts"),
+
+    (45,    "Romans"),
+    (46,    "1 Corinthians"),
+    (47,    "2 Corinthians"),
+    (48,    "Galatians"),
+    (49,    "Ephesians"),
+    (50,    "Philippians"),
+    (51,    "Colossians"),
+    (52,    "1 Thessalonians"),
+    (53,    "2 Thessalonians"),
+    (54,    "1 Timothy"),
+    (55,    "2 Timothy"),
+    (56,    "Titus"),
+    (57,    "Philemon"),
+
+    (58,    "Hebrews"),
+    (59,    "James"),
+    (60,    "1 Peter"),
+    (61,    "2 Peter"),
+    (62,    "1 John"),
+    (63,    "2 John"),
+    (64,    "3 John"),
+    (65,    "Jude"),
+    (66,    "Revelation"),
+
+]
+
+
+def suitable_directories(filename):
+    for book in BOOKS:
+        number, *aliases = book
+        name = aliases[0]
+        for alias in aliases:
+            if filename_contains_alias_word(filename, alias):
+                yield "%02i %s" % (number, name)
+
+
+# The following two functions are about handling "John" vs "1 John"...
+
+
+def filename_contains_alias_word(filename, alias):
+    parts = filename.split(" ")
+    for i in range(len(parts)):
+        suffix = " ".join(parts[i:])
+        if suffix.startswith(alias):
+            return True
+
+
+def drop_shorter_versions(book_list):
+    if len(book_list) > 1:
+        book_list.sort(key=lambda book: len(book))
+        if book_list[0] == "43 John":
+            book_list.pop(0)
+
+
+
+class DryRunFS:
+
+    def create_directory(self, directory):
+        LOG.debug("Would have created %r" % directory)
+
+    def move(self, source, destination):
+        LOG.debug("Would have moved %r to %r" % (source, destination))
+
+
+class RealFS:
+
+    def create_directory(self, directory):
+        os.mkdir(directory)
+
+    def move(self, source, destination):
+        os.rename(source, destination)
+
+
+def parse_arguments(arguments):
+    parser = argparse.ArgumentParser()
+    parser.set_defaults(fs=DryRunFS())
+    parser.set_defaults(log_level="DEBUG")
+    parser.add_argument("--real", action="store_const", dest="fs", const=RealFS())
+    parser.add_argument("--check", action="store_const", dest="log_level", const="WARNING")
+    parser.add_argument("files", nargs="+")
+    return parser.parse_args(arguments)
+
+
+def main():
+    options = parse_arguments(sys.argv[1:])
+    logging.basicConfig(level=options.log_level)
+    for filename in options.files:
+        if "/" in filename:
+            LOG.warning("Yeah... this doesn't work with paths: %r" % filename)
+            continue
+        suitable = list(set(suitable_directories(filename)))
+        drop_shorter_versions(suitable)
+        if len(suitable) == 0:
+            LOG.warning("Don't know what to do with %r" % filename)
+            continue
+        if len(suitable) > 1:
+            LOG.warning("Too many matches for %r: %r" % (filename, suitable))
+            continue
+        if not os.path.isdir(suitable[0]):
+            LOG.info("Creating %r" % suitable[0])
+            options.fs.create_directory(suitable[0])
+        LOG.info("Moving %r to %r" % (filename, suitable[0]))
+        dest = os.path.join(suitable[0], filename)
+        options.fs.move(filename, dest)
+
+
+if __name__ == "__main__":
+    main()
