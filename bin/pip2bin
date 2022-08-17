@@ -5,6 +5,7 @@ import configparser
 import os
 import subprocess
 import sys
+import time
 
 
 BIN_DIR = "/home/psc/bin"
@@ -36,9 +37,14 @@ class Pip2bin:
         if os.path.exists(venv_dir):
             return # FIXME: What if the requirements have changed? Redownload?
         self._log("Downloading %s..." % venv_dir)
-        self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
-        self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip") # fix errors
-        self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
+        try:
+            self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
+            self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip")  # fix errors
+            self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
+        except Exception:
+            self._log("Moving broken venv_dir...")
+            os.rename(venv_dir, venv_dir + ".broken." + str(int(time.time())))
+            raise
 
     def ensure_linked(self, entry):
         target = os.path.join(entry.venv_dir(), "bin", entry.target)
