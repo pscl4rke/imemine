@@ -15,7 +15,7 @@ class Entry:
 
     def __init__(self, name, options):
         self.name = name
-        self.requirement = options.get('requirement', name)
+        self.requirements = options.get('requirement', name).strip().splitlines()
         self.target = options.get('target', name)
 
     def venv_dir(self):
@@ -40,7 +40,8 @@ class Pip2bin:
         try:
             self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
             self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip")  # fix errors
-            self._exec("%s/bin/pip" % venv_dir, "install", entry.requirement)
+            for requirement in entry.requirements:
+                self._exec("%s/bin/pip" % venv_dir, "install", requirement)
         except Exception:
             self._log("Moving broken venv_dir...")
             os.rename(venv_dir, venv_dir + ".broken." + str(int(time.time())))
