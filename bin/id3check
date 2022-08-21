@@ -26,6 +26,16 @@ def is_a_recent_file(path):
     return (mtime > threshold)
 
 
+def is_a_year(value):
+    if isinstance(value, mutagen.id3.ID3TimeStamp):
+        value = str(value)
+    if len(value) != 4:
+        return False
+    if not value.isdigit():
+        return False
+    return True
+
+
 def check(path_to_check):
     if os.path.isdir(path_to_check):
         yield from check_album_dir(path_to_check)
@@ -173,6 +183,10 @@ def check_artists(src, path_to_check):
 
 
 def check_year(src, path_to_check):
+    if "TDRC" in src and not is_a_year(src["TDRC"].text[0]):
+        yield path_to_check, "Invalid TDRC year: %r" % src["TDRC"].text[0]
+    if "TDRL" in src and not is_a_year(src["TDRL"].text[0]):
+        yield path_to_check, "Invalid TDRL year: %r" % src["TDRL"].text[0]
     # FIXME also check TYER
     if "TDRL" in src and "TDRC" not in src:
         # While some programs (e.g. VLC on Android) will pick
