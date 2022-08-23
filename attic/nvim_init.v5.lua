@@ -48,6 +48,10 @@ vim.keymap.set("n", "g/", function()
     vim.cmd("Rg " .. query)
 end)
 
+-- Probably replace with buffers not tabs...
+vim.keymap.set("n", "H", "<cmd>tabprev<enter>")
+vim.keymap.set("n", "L", "<cmd>tabnext<enter>")
+
 vim.keymap.set("n", "g]", function()
     --vim.cmd("tabnew") -- shortcut for vim.api.nvim_command
     --vim.lsp.buf.definition()
