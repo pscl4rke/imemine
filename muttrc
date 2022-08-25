@@ -319,3 +319,4 @@ color body magenta default "\\[mailto[^\]]*\\]"
 # For patch emails containing unified diffs:
 color body green default "^[+].*"
 color body red default "^-[^-].*"
+color body red default "^--- .*"
