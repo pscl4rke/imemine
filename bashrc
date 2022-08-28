@@ -156,21 +156,25 @@ function __incoming_ssh_ps1() {
 
 # TITLING FUNCTIONS
 #   For setting the title of terminal emulators.
+#   NOTE: __set_title might be used in aliases etc too!
 function __set_title() {
-    newtitle="$(__incoming_ssh_ps1)$(pwd)"
     case "$TERM" in
         xterm*) # including xterm-256color
-            printf '\33]0;%s\007' "$newtitle"
+            printf '\33]0;%s\007' "${1}"
             ;;
         rxvt-unicode*)
-            printf '\33]2;%s\007' "$newtitle"
+            printf '\33]2;%s\007' "${1}"
             ;;
         screen)
-            echo -ne "\ek$newtitle\e\\"
+            echo -ne "\ek${1}\e\\"
             ;;
         *)
             ;;
     esac
+}
+function __set_title_to_dir() {
+    newtitle="$(__incoming_ssh_ps1)$(pwd)"
+    __set_title "$newtitle"
 }
 
 
@@ -181,7 +185,7 @@ function __set_title() {
 launcher=""
 [ -z $RANGER_LEVEL ] || launcher="\[\e[35m\](ranging) "
 PS1=""
-PS1="${PS1}\$(__set_title)\n"
+PS1="${PS1}\$(__set_title_to_dir)\n"
 PS1="${PS1}$(__incoming_ssh_ps1)"
 PS1="${PS1}$launcher"
 PS1="${PS1}\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[34m\]"
