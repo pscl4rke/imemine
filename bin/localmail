@@ -77,8 +77,9 @@ class LocalMail:
                 print(repr(exc))
 
     def display_options(self):
-        print("1: sync")
-        #print("1*: sync forever")
+        if self.has_config_for("sync"):
+            print("1: sync")
+            #print("1*: sync forever")
         print("2: manage-ro")
         if self.config.getboolean("manage", "readonly", fallback=True) is False:
             print("3: manage-rw")
