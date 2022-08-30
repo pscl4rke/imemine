@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+
+
+import asyncio
+import os
+import sys
+
+
+def fatal(message):
+    sys.stderr.write("FATAL: %s\n" % message)
+    sys.exit(1)
+
+
+async def main():
+    #await send_command(["SHELL", "echo", "{username}"])
+    arguments = sys.argv[1:]
+    if len(arguments) == 0:
+        fatal("No Arguments")
+    await send_command(arguments)
+
+
+def socket_path():
+    return os.path.join(os.environ["XDG_RUNTIME_DIR"], "manypass.sock")
+
+
+async def send_command(arguments):
+    try:
+        reader, writer = await asyncio.open_unix_connection(path=socket_path())
+    except ConnectionRefusedError:
+        fatal("Connection Refused")
+    writer.write(b" ".join(arg.encode() for arg in arguments))
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

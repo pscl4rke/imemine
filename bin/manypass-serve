@@ -1,0 +1,88 @@
+#!/usr/bin/python3
+
+
+import asyncio
+import os
+import shlex
+import subprocess
+
+
+LIFETIME = 60  # seconds
+
+
+def socket_path():
+    return os.path.join(os.environ["XDG_RUNTIME_DIR"], "manypass.sock")
+
+
+def read_secrets_from_stdin():
+    secrets = {}
+    try:
+        secrets["password"] = input()
+    except EOFError:
+        return None
+    while True:
+        try:
+            line = input()
+        except EOFError:
+            break
+        key, rest = line.split(":", 1)
+        secrets[key.lower()] = rest.strip()
+    return secrets
+
+
+async def handle(secrets, reader, writer):
+    while True:
+        line = await reader.readline()
+        if len(line) == 0:
+            #print("Client disconnected")
+            return
+        print("READ %r" % line)
+        parts = shlex.split(line.decode().strip())
+        if len(parts) == 0:
+            continue
+        #if parts[0] == "SHELL":
+        #    asyncio.create_task(handle_shell(secrets, parts[1:]))
+        elif parts[0] == "TYPE":
+            asyncio.create_task(handle_type(secrets, parts[1:]))
+        elif parts[0] == "BROWSE":
+            asyncio.create_task(handle_browse(secrets, parts[1:]))
+        else:
+            print(f"Unknown command {parts[0]}")
+
+
+async def handle_shell(secrets, arguments):
+    substituted = [arg.format(**secrets) for arg in arguments]
+    subprocess.run(" ".join(substituted), shell=True)
+
+
+async def handle_type(secrets, arguments):
+    assert len(arguments) == 1
+    value = secrets[arguments[0]]
+    subprocess.run(["xdotool", "type", "--clearmodifiers", value])
+
+
+async def handle_browse(secrets, arguments):
+    assert len(arguments) == 1
+    value = secrets[arguments[0]]
+    subprocess.run(["open-in-browser-bg", value])
+
+
+async def main():
+    secrets = read_secrets_from_stdin()
+    if secrets is None:
+        print("No secret data could be read from stdin; exiting")
+        return
+    print(f"Loaded {list(secrets)}")  # only show keys
+    # This will unlink and recreate the socket path if it already exists,
+    # leaving any existing instances running but unaddressable
+    cb = lambda reader, writer: handle(secrets, reader, writer)
+    path = socket_path()
+    server = await asyncio.start_unix_server(cb, path=path)
+    assert server
+    print(f"Awaiting communication on {path}")
+    await asyncio.sleep(LIFETIME)
+    print("Lifetime reached; exiting normally")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
