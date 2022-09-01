@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eux -o pipefail
+datafile=$(tempfile -p mmrs.)
+audiofile=${datafile}.wav
+echo $datafile
+echo $audiofile
+#trap "rm $datafile $audiofile" EXIT
+#base64 | rsbep | minimodem --tx -f $audiofile 300
+#base64 | /home/psc/Desktop/build-rsbep/rsbep | minimodem --tx -f $audiofile 300
+base64 | /home/psc/Desktop/build-rsbep/rsbep > $datafile
+cat $datafile | minimodem --tx -f $audiofile 300
+mpv $audiofile
