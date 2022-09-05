@@ -50,6 +50,8 @@ def clean(original):
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
+    if url.fragment.startswith("xtor"):
+        url = url._replace(fragment="")
     return url.geturl()
 
 
@@ -134,8 +136,12 @@ class TestClean(unittest.TestCase):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&ns_foo=quux"),
                                "http://www.foobar.com/path?q=foo")
 
-    def test_xtor(self):
+    def test_xtor_query(self):
         self.assertEqual(clean("http://foo.com/a/bcd?xtor=A-32-[Thing]-X~Y~Z"),
+                               "http://foo.com/a/bcd")
+
+    def test_xtor_fragment(self):
+        self.assertEqual(clean("http://foo.com/a/bcd#xtor=A-32-[Thing]-X~Y~Z"),
                                "http://foo.com/a/bcd")
 
     def test_local_but_absolute_paths(self):
