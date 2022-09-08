@@ -165,6 +165,9 @@ function __set_title() {
         rxvt-unicode*)
             printf '\33]2;%s\007' "${1}"
             ;;
+        foot*)
+            printf '\33]2;%s\007' "${1}"
+            ;;
         screen)
             echo -ne "\ek${1}\e\\"
             ;;
