@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+
+
+import subprocess
+import sys
+from urllib.parse import urlparse, parse_qs
+
+
+def sanity_check(params):
+    for key in params:
+        if key not in ("secret", "issuer"):
+            raise AssertionError("Unexpected key: %r" % key)
+
+
+def main():
+    url = urlparse(sys.argv[1])
+    params = parse_qs(url.query)
+    sanity_check(params)
+    secret = params["secret"][0]
+    subprocess.run(["oathtool", "--totp", "-b", secret])
+
+
+if __name__ == "__main__":
+    main()
