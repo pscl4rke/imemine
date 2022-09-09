@@ -25,6 +25,8 @@ def read_secrets_from_stdin():
             line = input()
         except EOFError:
             break
+        if line.strip() == "":
+            break  # extra body ignored after blank line
         key, rest = line.split(":", 1)
         secrets[key.lower()] = rest.strip()
     return secrets
