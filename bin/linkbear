@@ -22,6 +22,12 @@ def config_directory():
     return os.path.join(os.environ["HOME"], ".linkbear")
 
 
+def zenity_args():
+    if os.path.exists("/usr/bin/yad"):
+        return ["/usr/bin/yad", "--center"]
+    return ["/usr/bin/zenity"]
+
+
 class SearchLocation:
 
     def __init__(self, name, desc, url):
@@ -36,8 +42,9 @@ class SearchLocation:
 class Prompt:
 
     def ask_user(self, name, desc, initial):
-        args = ["zenity", "--entry", "--title", name,
-                "--text", desc, "--entry-text", initial]
+        args = zenity_args()
+        args.extend(["--entry", "--title", name,
+            "--text", desc, "--entry-text", initial])
         #result = subprocess.run(args, capture_output=True) # from 3.7
         result = subprocess.run(args, stdout=subprocess.PIPE)
         if result.returncode != 0:
