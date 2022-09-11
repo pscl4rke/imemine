@@ -1,6 +1,8 @@
 
 browser "/home/psc/imemine/bin/open-in-browser-bg -u urltube %u"
 
+bind-key SPACE pagedown
+
 # Was "next-feed" and "prev-feed"...
 bind-key j next
 bind-key k prev

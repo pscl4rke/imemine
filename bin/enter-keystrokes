@@ -20,10 +20,14 @@
 #   String $(date "$1")
 #   EOF
 
+
+# FIX BUG
+# https://github.com/jordansissel/xdotool/issues/49
+setxkbmap
+
 text="$(date "$1")"
 xdotool type --clearmodifiers "$text"
 
 # For some reason the keybindings get reset after running this, so
 # force them back to my preferences.
 xmodmap $HOME/.xmodmap.extra
-

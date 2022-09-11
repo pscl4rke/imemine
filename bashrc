@@ -4,6 +4,9 @@
 #                       BASH CONFIGURATION FILE                        #
 #======================================================================#
 
+alias nvim="/home/psc/vendor/Goneovim-0.4.11-linux/goneovim --nvim=/home/psc/vendor/nvim-linux64-0.7.0/bin/nvim"
+alias neovim="/home/psc/vendor/Goneovim-0.4.11-linux/goneovim --nvim=/home/psc/vendor/nvim-linux64-0.7.0/bin/nvim"
+
 
 # NON-INTERACTIVE GET-OUT
 #   Only continue with these preferences in an interactive session.
@@ -39,6 +42,8 @@ HOSTFILE=
 if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
     . "/usr/share/doc/fzf/examples/key-bindings.bash"
 fi
+# Or try /usr/share/doc/fzf/examples/key-bindings.bash
+source ~/vendor/fzf-repo/shell/key-bindings.bash
 
 
 # EXPLICITLY DECLARE BASIC OPTIONS
@@ -270,6 +275,7 @@ alias ls='ls $LS_OPTIONS'
 complete -f cdiff
 # Note that newer diffs have built-in colouring
 function cdiff() { colordiff -u "$@" | less -R; }
+function fd() { find . -iname "*$1*"; }
 
 
 # COLOURING IN LS

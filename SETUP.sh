@@ -167,7 +167,6 @@ wantlink "pycodestyle" ".config/pycodestyle"
 wantlink "pythonrc" ".pythonrc"
 wantlink "rgignore" ".rgignore"
 wantlink "screenrc" ".screenrc"
-wantlink "surfraw" ".config/surfraw"
 wantlink "tigrc" ".tigrc"
 wantlink "tilda" ".config/tilda/config_0"
 wantlink "urlview" ".urlview"
@@ -197,6 +196,7 @@ wantlink "/tmp" ".cache/sxiv"
 
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
 wantlink "vendor/urxvt_perl_resize-font" ".urxvt/perl/resize-font"
+# Do I really want this vim_addons thing????
 wantlink "/usr/share/vim/addons/syntax" ".vim_addons/syntax"
 
 wantlink "vendor/vcal.pl" "bin/vcal"
