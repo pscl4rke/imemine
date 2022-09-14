@@ -70,6 +70,7 @@ case "$browser-$mode" in
             cd "$profilepath"
             tar xf ~/.firefox.base.tar)
         [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
+        [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
         firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
@@ -79,12 +80,14 @@ case "$browser-$mode" in
             cd "$profilepath"
             tar xf ~/.firefox.base.tar)
         [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
+        [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
         firefox -no-remote -profile "$profilepath" "about:reader?url=$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
     firefox-profile)
         profilepath="$HOME/.config/firefox-$profile"
         mkdir "$profilepath"
+        [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
         firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         ;;
     qutebrowser-temp)
@@ -100,4 +103,3 @@ case "$browser-$mode" in
         zenity --error --title "$0" --text "Unknown: $browser-$mode"
         ;;
 esac
-
