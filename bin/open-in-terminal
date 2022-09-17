@@ -1,6 +1,6 @@
 #!/bin/bash
 #======================================================================#
-# TERMINAL LAUNCH WRAPPER                        (c) 2014 P. S. Clarke #
+# TERMINAL LAUNCH WRAPPER                   (c) 2014,2022 P. S. Clarke #
 #======================================================================#
 
 profile="urxvt"
@@ -17,8 +17,10 @@ else
 fi
 
 # Emergency defaults in case I don't have urxvt installed:
+#   (which is obviously quite likely if I'm using wayland!)
 [[ "$exitcode" == 0 ]] \
-    || x-terminal-emulator \
-    || i3-sensible-terminal \
-    || xterm \
+    || x-terminal-emulator "$@" \
+    || i3-sensible-terminal "$@" \
+    || xterm "$@" \
+    || foot "$@" \
     || echo "I cannot find a terminal emulator"
