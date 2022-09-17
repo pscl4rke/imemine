@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eu
+
+if currentname=$(git config user.name); then
+    echo "  Name already set: $currentname"
+else
+    newname=$(suggest-machine-name)
+    git config user.name "$newname"
+    echo "  Name changed to: $newname"
+fi
+
+if currentemail=$(git config user.email); then
+    echo " Email already set: $currentemail"
+else
+    newemail=$(suggest-machine-email)
+    git config user.email "$newemail"
+    echo " Email changed to: $newemail"
+fi
