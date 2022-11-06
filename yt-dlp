@@ -1,0 +1,12 @@
+
+-o "%(title)s-%(id)s.%(ext)s"
+
+# afterwards (passed filename as argument)...
+#--exec "echo series %(series)s %(season_number)s %(episode_number)s ; date"
+--exec "date ; echo"
+
+# So sanitize_filename turns ": " into " - " like before, instead
+# of funny unicode (\xef \xbc \x9a).
+--compat-options filename-sanitization
+
+--console-title

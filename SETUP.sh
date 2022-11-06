@@ -181,6 +181,7 @@ wantlink "wyrdrc" ".wyrdrc"
 wantlink "Xdefaults" ".Xdefaults"
 wantlink "xdg-apps" ".local/share/applications/imemine"
 wantlink "xmodmap.extra" ".xmodmap.extra"
+wantlink "yt-dlp" ".config/yt-dlp/config"
 wantlink "zathurarc" ".config/zathura/zathurarc"
 
 wantlink "openbox/autostart" ".config/openbox/autostart"
