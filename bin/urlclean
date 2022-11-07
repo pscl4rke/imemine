@@ -34,6 +34,8 @@ def clean_query(original):
             continue
         if key.startswith("_hs"):
             continue
+        if key == "aff":
+            continue
         pairs.append((key, value))
     return urllib.parse.urlencode(pairs)
 
@@ -149,6 +151,10 @@ class TestClean(unittest.TestCase):
     def test_hubspot_identifiers(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&_hsmi=ab&_hsenc=cd"),
                                "http://www.foobar.com/path?q=foo")
+
+    def test_affilitate_links(self):
+        self.assertEqual(clean("https://foo.com/path?foo=bar&aff=thing"),
+                               "https://foo.com/path?foo=bar")
 
     def test_local_but_absolute_paths(self):
         self.assertEqual(clean("/etc/fstab"),
