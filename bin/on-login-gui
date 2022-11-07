@@ -5,7 +5,7 @@
 # Do these things when I log in to a graphical environment.
 # Currently called from .config/lxsession/Lubuntu/autostart
 
-echo "Starting..." | logger -t "$(basename "$0")"
+echo "Starting $0..." | logger -t "$(basename "$0")"
 
 # Launch my drop down terminal:
 tilda &
@@ -45,5 +45,5 @@ fi
 # Reminders
 (sleep 1 && $HOME/potwiki/MonthlyPopUp 2>&1 | logger -t MonthlyPopUp) &
 
-echo "Done" | logger -t "$(basename "$0")"
+echo "Done $0" | logger -t "$(basename "$0")"
 

@@ -231,4 +231,6 @@ bar {
     font sanserif
 }
 
+exec /home/psc/imemine/bin/on-login-gui
+
 include /etc/sway/config.d/*
