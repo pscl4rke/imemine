@@ -3,6 +3,7 @@
 
 from functools import lru_cache as cache
 import os
+import re
 import sys
 import time
 
@@ -17,6 +18,9 @@ import mutagen, mutagen.id3
 # check album art of good quality
 # check classical music for Composer etc
 # perhaps check the year
+
+
+INCLUDES_TRACK_NUMBER = re.compile(r"^\d\d\. ")
 
 
 def is_a_recent_file(path):
@@ -175,11 +179,15 @@ def check_album(src, path_to_check):
 def check_title(src, path_to_check):
     if "TIT2" not in src:
         yield path_to_check, "Missing track title"
+    if INCLUDES_TRACK_NUMBER.match(src["TIT2"].text[0]):
+        yield path_to_check, "Title includes track number"
 
 
 def check_artists(src, path_to_check):
     if "TPE1" not in src:
         yield path_to_check, "Missing artist"
+    if INCLUDES_TRACK_NUMBER.match(src["TPE1"].text[0]):
+        yield path_to_check, "Artist includes track number"
 
 
 def check_year(src, path_to_check):
