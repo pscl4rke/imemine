@@ -38,6 +38,9 @@ class Pip2bin:
             return # FIXME: What if the requirements have changed? Redownload?
         self._log("Downloading %s..." % venv_dir)
         try:
+            # FIXME if you do a release upgrade and python3 switches the
+            # symlink from python3.N to python3.N+1 then the imports will
+            # fail.
             self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
             self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip")  # fix errors
             for requirement in entry.requirements:
