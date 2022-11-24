@@ -17,6 +17,7 @@ your config file:
     [sync]
     ; either...
     offlineimaprc = /path/to/offlineimap_config_file
+    executable = /optional/path/to/offlineimap
     ; ...or...
     mbsyncrc = /path/to/mbsyncrc_config_file
 
@@ -119,8 +120,9 @@ class LocalMail:
 
     def handle_sync(self):
         if "offlineimaprc" in self.config["sync"]:
+            offlineimapbin = self.config['sync'].get("executable", "offlineimap")
             offlineimaprc = self.config['sync']['offlineimaprc']
-            subprocess.call(["offlineimap", "-c", offlineimaprc])
+            subprocess.call([offlineimapbin, "-c", offlineimaprc])
         if "mbsyncrc" in self.config["sync"]:
             mbsyncrc = self.config['sync']['mbsyncrc']
             subprocess.call(["mbsync", "-c", mbsyncrc, "-a"])
