@@ -5,12 +5,12 @@
 
 # Re-exec as a directory browser in order of preference...
 
-if [[ -e "/usr/bin/pcmanfm" ]]; then
-    exec "/usr/bin/pcmanfm" --new-win "$@"
-fi
-
 if [[ -e "/usr/bin/pcmanfm-qt" ]]; then
     exec "/usr/bin/pcmanfm-qt" --new-window "$@"
+fi
+
+if [[ -e "/usr/bin/pcmanfm" ]]; then
+    exec "/usr/bin/pcmanfm" --new-win "$@"
 fi
 
 # Or re-exec as a popup error message if there is no browser...
