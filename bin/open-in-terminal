@@ -12,7 +12,7 @@ then
     urxvt -name "$profile"
     exitcode=$?
 else
-    urxvt -name "$profile" -title "$1" -e "$@"
+    urxvt -name "$profile" -e "$@"
     exitcode=$?
 fi
 
