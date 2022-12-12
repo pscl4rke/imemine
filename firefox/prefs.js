@@ -6,6 +6,11 @@
 user_pref("reader.color_scheme", "sepia");
 
 
+// SCROLLING
+user_pref("layout.testing.overlay-scrollbars.always-visible", true);
+user_pref("widget.non-native-theme.gtk.scrollbar.thumb-size", 2);
+
+
 // DOWNLOADS
 //  Don't keep hiding the download icon.  But also don't let
 //  the list get in the way.
