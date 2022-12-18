@@ -41,6 +41,13 @@ def is_a_year(value):
     return True
 
 
+def contains_smart_quotes(value):
+    for char in "\u201c\u201d\u201e\u201f\u2018\u2019\u201a\u201b":
+        if char in value:
+            return True
+    return False
+
+
 def check(path_to_check):
     if os.path.isdir(path_to_check):
         yield from check_album_dir(path_to_check)
@@ -175,6 +182,8 @@ def check_genre(src, path_to_check):
 def check_album(src, path_to_check):
     if "TALB" not in src:
         yield path_to_check, "Missing album"
+    if contains_smart_quotes(src["TALB"].text[0]):
+        yield path_to_check, "Album contains smart quotes"
 
 
 def check_title(src, path_to_check):
@@ -182,6 +191,8 @@ def check_title(src, path_to_check):
         yield path_to_check, "Missing track title"
     if INCLUDES_TRACK_NUMBER.match(src["TIT2"].text[0]):
         yield path_to_check, "Title includes track number"
+    if contains_smart_quotes(src["TIT2"].text[0]):
+        yield path_to_check, "Title contains smart quotes"
 
 
 def check_artists(src, path_to_check):
@@ -189,6 +200,8 @@ def check_artists(src, path_to_check):
         yield path_to_check, "Missing artist"
     if INCLUDES_TRACK_NUMBER.match(src["TPE1"].text[0]):
         yield path_to_check, "Artist includes track number"
+    if contains_smart_quotes(src["TPE1"].text[0]):
+        yield path_to_check, "Artist contains smart quotes"
 
 
 def check_year(src, path_to_check):
