@@ -83,7 +83,10 @@ def dump(path):
 def main():
     output_row(Track._fields)
     for thing_to_check in sys.argv[1:]:
-        dump(thing_to_check)
+        try:
+            dump(thing_to_check)
+        except Exception as exc:
+            output_row((thing_to_check, repr(exc)))
 
 
 if __name__ == '__main__':
