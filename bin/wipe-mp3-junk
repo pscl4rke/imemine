@@ -2,41 +2,41 @@
 # Remove all the ID3v2 comments that I don't care about
 # Note that if *every* tag is removed then it gets "error writing tag"
 eyeD3 \
-    --remove-images \
-    --remove-comments \
-    --set-text-frame="WXXX:" \
-    --set-text-frame="NCON:" \
-    --set-user-text-frame="major_brand:" \
-    --set-user-text-frame="MAJOR_BRAND:" \
-    --set-user-text-frame="minor_version:" \
-    --set-user-text-frame="MINOR_VERSION:" \
-    --set-user-text-frame="compatible_brands:" \
-    --set-user-text-frame="COMPATIBLE_BRANDS:" \
-    --set-user-text-frame="Software:" \
-    --set-user-text-frame="Release time:" \
-    --set-user-text-frame="Tagging time:" \
-    --set-user-text-frame="IsVBR:" \
-    --set-user-text-frame="DeviceConformanceTemplate:" \
-    --set-user-text-frame="WMFSDKNeeded:" \
-    --set-user-text-frame="WMFSDKVersion:" \
-    --set-user-text-frame="WM/Track:" \
-    --set-user-text-frame="WM/Year:" \
-    --set-user-text-frame="WM/EncodingTime:" \
-    --set-user-text-frame="WM/MediaPrimaryClassID:" \
-    --set-user-text-frame="WM/WMADRCPeakReference:" \
-    --set-user-text-frame="WM/WMADRCAverageReference:" \
-    --set-text-frame="TPOS:" \
-    --set-text-frame="TSSE:" \
-    --set-text-frame="TENC:" \
-    --set-text-frame="TDEN:" \
-    --set-text-frame="TLEN:" \
-    --set-text-frame="TBPM:" \
-    --set-text-frame="TFLT:" \
-    --set-text-frame="TMED:" \
-    --set-text-frame="TCOP:" \
-    --set-text-frame="TPUB:" \
-    --set-text-frame="PRIV:" \
-    --set-text-frame="MCDI:" \
-    --set-text-frame="TDTG:" \
-    --no-tagging-time-frame \
+    --remove-all-images \
+    --remove-all-comments \
+    --user-url-frame="WXXX:" \
+    --user-text-frame="major_brand:" \
+    --user-text-frame="MAJOR_BRAND:" \
+    --user-text-frame="minor_version:" \
+    --user-text-frame="MINOR_VERSION:" \
+    --user-text-frame="compatible_brands:" \
+    --user-text-frame="COMPATIBLE_BRANDS:" \
+    --user-text-frame="Software:" \
+    --user-text-frame="Release time:" \
+    --user-text-frame="Tagging time:" \
+    --user-text-frame="IsVBR:" \
+    --user-text-frame="DeviceConformanceTemplate:" \
+    --user-text-frame="WMFSDKNeeded:" \
+    --user-text-frame="WMFSDKVersion:" \
+    --user-text-frame="WM/Track:" \
+    --user-text-frame="WM/Year:" \
+    --user-text-frame="WM/EncodingTime:" \
+    --user-text-frame="WM/MediaPrimaryClassID:" \
+    --user-text-frame="WM/WMADRCPeakReference:" \
+    --user-text-frame="WM/WMADRCAverageReference:" \
+    --text-frame="TPOS:" \
+    --text-frame="TSSE:" \
+    --text-frame="TENC:" \
+    --text-frame="TDEN:" \
+    --text-frame="TLEN:" \
+    --text-frame="TBPM:" \
+    --text-frame="TFLT:" \
+    --text-frame="TMED:" \
+    --text-frame="TCOP:" \
+    --text-frame="TPUB:" \
+    --text-frame="TDTG:" \
+    --remove-frame="PRIV" \
+    --remove-frame="MCDI" \
+    --remove-frame="NCON" \
+    --tagging-date="" \
     "$@"
