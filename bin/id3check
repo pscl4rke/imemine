@@ -17,7 +17,6 @@ import mutagen, mutagen.id3
 # check id3v1 data matches id3v2 data
 # check filename matches id3v2 data
 # check album art of good quality
-# check classical music for Composer etc
 # perhaps check the year
 
 
@@ -43,6 +42,13 @@ def is_a_year(value):
 
 def contains_smart_quotes(value):
     for char in "\u201c\u201d\u201e\u201f\u2018\u2019\u201a\u201b":
+        if char in value:
+            return True
+    return False
+
+
+def contains_invalid_path_chars(value):
+    for char in "'\"!?":
         if char in value:
             return True
     return False
@@ -124,6 +130,8 @@ def check_mp3(album_dir, path_to_check):
 
 
 def check_file_naming(src, path_to_check):
+    if contains_invalid_path_chars(path_to_check):
+        yield path_to_check, "Contains invalid path characters"
     try:
         filename_track = int(os.path.basename(path_to_check).split(" ", 1)[0], base=10)
     except Exception as exc:
