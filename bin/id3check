@@ -48,7 +48,7 @@ def contains_smart_quotes(value):
 
 
 def contains_invalid_path_chars(value):
-    for char in "'\"!?":
+    for char in "'\"!*?:|<>\\":
         if char in value:
             return True
     return False
