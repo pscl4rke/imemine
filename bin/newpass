@@ -1,4 +1,4 @@
 #!/bin/sh
 # Generate a random string that could be used as a password.
 chars="23456789abcdefghijkmnpqrstuvwxyzABEFGHJKLMNQRTY"
-echo $(cat /dev/urandom | tr -d -c "$chars" | head -c 12)
+echo $(cat /dev/urandom | tr -d -c "$chars" | head -c 16)

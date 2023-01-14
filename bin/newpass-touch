@@ -25,6 +25,7 @@ class KeyPad:
 LOWER_CASE = KeyPad("abcdefghijkmnpqrstuvwxyz")
 UPPER_CASE = KeyPad("ABEFGHJKLMNQRTY")
 DIGITS = KeyPad("23456789")
+LENGTH = 16
 
 
 class CharacterSource:
@@ -46,7 +47,7 @@ class CharacterSource:
 class PasswordGenerator:
 
     def main(self):
-        sys.stdout.write("%s\n" % self.generate_password_of_length(12))
+        sys.stdout.write("%s\n" % self.generate_password_of_length(LENGTH))
 
     def generate_password_of_length(self, length):
         src = CharacterSource()
