@@ -13,7 +13,7 @@ require("packer").startup(function(use)
 
     -- Command Integration
     use {"https://github.com/akinsho/toggleterm.nvim"}
-    --use {"https://github.com/neomake/neomake"}
+    use {"https://github.com/neomake/neomake"}
 
     --  VCS Integration
     use {"https://github.com/lewis6991/gitsigns.nvim"}
@@ -47,6 +47,10 @@ require("toggleterm").setup {
     direction = "float",
 }
 
+vim.g.neomake_open_list = 1
+--vim.cmd("call neomake#config#set('maker_defaults.buffer_output', 0)")
+--vim.g.neomake_makeprg_makeprg_buffer_output = 0
+
 -- VCS
 --  FIXME colour backgrounds
 vim.wo.signcolumn = "yes"
@@ -56,6 +60,9 @@ require("gitsigns").setup {
 }
 
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
+--vim.keymap.set("n", "MM", "<cmd>make<enter>")
+vim.keymap.set("n", "MM", "<cmd>Neomake!<enter>")
+vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
 --vim.keymap.set("n", "H", "<cmd>bnext<enter>")  -- breaks with quickfix
 --vim.keymap.set("n", "L", "<cmd>bnext<enter>")  -- breaks with quickfix
 vim.keymap.set("n", "H", "<cmd>BufferLineCyclePrev<enter>")
@@ -69,6 +76,10 @@ vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 -- Language Integration
 require("lspconfig").pylsp.setup {
     cmd = {"/home/psc/.pip2bin/pylsp/bin/pylsp"},
+}
+require("lspconfig").tsserver.setup {
+    cmd = {"/home/psc/.npm2bin/typescript/node_modules/.bin/typescript-language-server",
+           "--stdio"},
 }
 
 vim.o.completeopt = "menuone,noselect"
@@ -108,12 +119,16 @@ cmp.setup {
 }
 
 -- TESTING:
-vim.cmd("colorscheme onedark")
+-- vim.cmd("colorscheme onedark")
 require("bufferline").setup {
     --options = {separator_style = "slant"},
     --options = {separator_style = {"/", "\\"}},
     options = {
         custom_filter = function(buf_number, buf_numbers)
+            -- Messes stuff up?!?
+            --if vim.bo[buf_number].filetype == "make" then  -- makeprg result
+            --    return false
+            --end
             if vim.bo[buf_number].filetype ~= "qf" then  -- quickfix
                 return true
             end
@@ -125,3 +140,8 @@ require("bufferline").setup {
 --  makeprg
 --  quickfix
 --  switchbuf
+--  plugin: neomake/neomake
+
+
+-- Note:
+--  :checkhealth is useful
