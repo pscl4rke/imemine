@@ -170,6 +170,12 @@ do
             basefile="page-$(paddedpage $currentpage)"
             sxiv "$basefile.pnm"
             ;;
+        colour)
+            colourmode="color"
+            ;;
+        grey)
+            colourmode="gray"
+            ;;
         'done')
             buildargs=""
             for page in $(seq 1 $currentpage)
