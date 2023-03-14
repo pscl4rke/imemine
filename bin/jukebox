@@ -12,8 +12,9 @@
 #    filters="Genre (32)Classical"
 #fi
 case "$1" in
+    # From 20.04 onwards we can use a search expression (see above)
     --classical)    filters="Genre (32)Classical" ;;
-    --jazz)         filters="Genre (8)Jazz" ;;
+    --jazz)         filters="Genre Jazz" ;;
     *)              filters="" ;;
 esac
 
