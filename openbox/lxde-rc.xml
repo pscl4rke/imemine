@@ -562,7 +562,7 @@
       </keybind>
       <keybind key="W-P">
         <action name="Execute">
-          <command>menu-lpass</command>
+          <command>menu-bitwarden</command>
         </action>
       </keybind>
       <keybind key="W-Q">
