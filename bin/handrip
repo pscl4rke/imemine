@@ -77,13 +77,16 @@ class Ripper:
             parts.append(self.source[:-4])
         else:
             raise Exception("Cannot guess destination for %r" % self.source)
-        parts.append("title%02i" % self.title)
+        #parts.append("title%02i" % self.title)  # stupid git-annex
+        parts.append("t%i" % self.title)
         if self.chapters is not None:
             parts.append("chapters%s" % self.chapters)
         if self.audio_track is not None:
-            parts.append("audio%02i" % self.audio_track)
+            #parts.append("audio%02i" % self.audio_track)  # stupid git-annex
+            parts.append("a%i" % self.audio_track)
         if self.subtitle_track is not None:
-            parts.append("sub%02i" % self.subtitle_track)
+            #parts.append("sub%02i" % self.subtitle_track)  # stupid git-annex
+            parts.append("s%i" % self.subtitle_track)
         parts.append(self.x264_preset)
         #parts.append("handrip")
         parts.append("mkv")
