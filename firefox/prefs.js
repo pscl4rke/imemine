@@ -72,9 +72,13 @@ user_pref("browser.safebrowsing.malware.enabled", false);
 user_pref("browser.safebrowsing.phishing.enabled", false);
 
 
-// UNKNOWN
-user_pref("beacon.enabled", false);
-user_pref("browser.send_pings", false);
+// SLIP UNDER THE RADAR
+//  Note that this can break things
 user_pref("webgl.disabled", true);
 user_pref("webgl.renderer-string-override", " ");
 user_pref("webgl.vendor-string-override", " ");
+
+
+// UNKNOWN
+user_pref("beacon.enabled", false);
+user_pref("browser.send_pings", false);
