@@ -20,6 +20,7 @@ require("packer").startup(function(use)
 
     --  Opening
     use {"https://github.com/junegunn/fzf.git"}
+    use {"https://github.com/junegunn/fzf.vim.git"}  -- :Lines, :BLines
     use {"https://github.com/jremmen/vim-ripgrep"}
 
     --  Language Integration
@@ -31,15 +32,26 @@ require("packer").startup(function(use)
     use {"https://github.com/hrsh7th/cmp-path.git"}
     use {"https://github.com/hrsh7th/cmp-nvim-lsp.git"}
 
+    -- Use Buffers Like Tabs
+    use {"https://github.com/akinsho/bufferline.nvim"}
+
     --  TESTING:
     use {"https://github.com/kyazdani42/nvim-web-devicons"}
     use {"https://github.com/navarasu/onedark.nvim"}
-    use {"https://github.com/akinsho/bufferline.nvim"}
 
 end)
 
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
+vim.wo.numberwidth = 4
+
+-- Is this not the sort of thing LSP or something could handle?
+--vim.o.expandtab = true
+--vim.o.tabstop = 4
+--vim.o.shiftwidth = 4
+--vim.o.smarttab = true
+
+vim.o.scrolloff = 3
 
 -- Command
 require("toggleterm").setup {
@@ -59,9 +71,15 @@ require("gitsigns").setup {
     linehl = true,
 }
 
-vim.keymap.set("n", "go", "<cmd>FZF<enter>")
---vim.keymap.set("n", "MM", "<cmd>make<enter>")
-vim.keymap.set("n", "MM", "<cmd>Neomake!<enter>")
+vim.keymap.set("n", "<space>", "<C-F>")
+vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
+
+--vim.keymap.set("n", "go", "<cmd>FZF<enter>")
+vim.keymap.set("n", "go", "<cmd>Files<enter>") -- has preview
+vim.keymap.set("n", "gO", "<cmd>GFiles<enter>") -- git ls-files
+vim.keymap.set("n", "gl", "<cmd>Lines<enter>")
+vim.keymap.set("n", "MM", "<cmd>make<enter>")
+--vim.keymap.set("n", "MM", "<cmd>Neomake!<enter><cmd>copen<enter>")
 vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
 --vim.keymap.set("n", "H", "<cmd>bnext<enter>")  -- breaks with quickfix
 --vim.keymap.set("n", "L", "<cmd>bnext<enter>")  -- breaks with quickfix
@@ -75,6 +93,7 @@ vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 
 -- Language Integration
 require("lspconfig").pylsp.setup {
+    -- Remember this is influenced by ~/.config/pycodestyle
     cmd = {"/home/psc/.pip2bin/pylsp/bin/pylsp"},
 }
 require("lspconfig").tsserver.setup {
@@ -118,8 +137,17 @@ cmp.setup {
     },
 }
 
--- TESTING:
+-- Colours
 -- vim.cmd("colorscheme onedark")
+-- https://www.ditig.com/256-colors-cheat-sheet
+vim.cmd [[
+    highlight Comment cterm=Italic ctermfg=62
+    highlight SignColumn ctermbg=None
+    highlight DiffAdd ctermbg=151
+    highlight DiffChange ctermbg=223
+]]
+
+-- TESTING:
 require("bufferline").setup {
     --options = {separator_style = "slant"},
     --options = {separator_style = {"/", "\\"}},
@@ -141,6 +169,9 @@ require("bufferline").setup {
 --  quickfix
 --  switchbuf
 --  plugin: neomake/neomake
+
+-- Possibilities:
+--  I don't use marks, so "m" and "'" could be rebound for other actions
 
 
 -- Note:
