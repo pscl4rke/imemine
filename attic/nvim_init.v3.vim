@@ -1,4 +1,5 @@
 
+" as per vorpal
 
 " THINGS BORROWED FROM VIMRC
 set scrolloff=3
@@ -13,6 +14,8 @@ noremap gO :tabe .<enter>
 let g:netrw_liststyle = 3
 noremap <Space> <C-F>
 nnoremap <C-L> :nohl<CR><C-L>
+map H :tabprev<enter>
+map L :tabnext<enter>
 
 
 " ALSO
@@ -35,13 +38,13 @@ Plug 'navarasu/onedark.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/nvim-compe'  " this has been deprecated in favour of cmp
 call plug#end()
 
 
 " USE THE PLUGINS
 "   For onedark...
-colorscheme onedark
+"colorscheme onedark
 "   For gitgutter... (note that vim-signify autosaves!)
 set signcolumn=yes
 set updatetime=100
@@ -69,7 +72,7 @@ let g:compe.source.path = v:true
 let g:compe.source.nvim_lsp = v:true
 
 
-cnoremap <silent> q<CR> :echo "Do it Properly!"<CR>
-cnoremap <silent> qa<CR> :echo "Do it Properly!"<CR>
-cnoremap <silent> wq<CR> :echo "Do it Properly!"<CR>
-cnoremap <silent> wqa<CR> :echo "Do it Properly!"<CR>
+"cnoremap <silent> q<CR> :echo "Do it Properly!"<CR>
+"cnoremap <silent> qa<CR> :echo "Do it Properly!"<CR>
+"cnoremap <silent> wq<CR> :echo "Do it Properly!"<CR>
+"cnoremap <silent> wqa<CR> :echo "Do it Properly!"<CR>
