@@ -62,3 +62,11 @@
 
 [diff "xlsx"]
 	textconv = xlsx2csv -s 0
+
+
+[diff "zip"]
+	# Use -lv for listing all the metadata but not file content
+	textconv = unzip -lv
+	# Use -p for listing file content but no metadata
+	#textconv = unzip -p
+	binary = true
