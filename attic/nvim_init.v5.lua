@@ -43,9 +43,19 @@ end)
 vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+vim.o.smarttab = true
 
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
+vim.wo.numberwidth = 4
+vim.o.scrolloff = 3
+
+-- maybe default?
+vim.o.hlsearch = true
+-- testing out
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
 
 -- Indentation
 --  Naive (copy previous line) on, but fancy stuff kept over-indenting
@@ -56,8 +66,10 @@ vim.o.showtabline = 2  -- always
 --vim.o.switchbuf = "newtab"
 
 vim.keymap.set("n", "<space>", "<C-F>")
+vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
 
 --vim.keymap.set("n", "gO", "<cmd>tabedit .<enter>")  -- NetRW or equiv
+vim.keymap.set("n", "gO", "<cmd>edit .<enter>")  -- NetRW or equiv
 --vim.keymap.set("n", "go", "<cmd>tabnew<enter><cmd>FZF<enter>")
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
 vim.keymap.set("n", "g/", function()
@@ -77,12 +89,13 @@ vim.keymap.set("n", "L", "<cmd>BufferLineCycleNext<enter>")
 
 vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
 
-vim.keymap.set("n", "g]", function()
+--vim.keymap.set("n", "g]", function()
     --vim.cmd("tabnew") -- shortcut for vim.api.nvim_command
     --vim.lsp.buf.definition()
     --vim.lsp.buf.definition({ reuse_win = false })
     --vim.lsp.buf.definition(false)
-end)
+--end)
+vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 
@@ -104,6 +117,7 @@ require("bufferline").setup {}
 
 -- Language Integration
 require("lspconfig").pylsp.setup {
+    -- Remember this is influenced by ~/.config/pycodestyle
     cmd = {"/home/psc/.pip2bin/pylsp/bin/pylsp"},
 }
 
