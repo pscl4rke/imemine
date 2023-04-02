@@ -88,6 +88,8 @@ class AlbumDir:
 def check_album_dir(path_to_check):
     album_dir = AlbumDir(path_to_check)
     files = album_dir.all_contents()
+    if len(files) == 0:
+        yield path_to_check, "Empty Folder"
     tracks = album_dir.track_numbers()
     if ("01" not in tracks) and ("101" not in tracks):
         yield path_to_check, "Missing file 01 or 101"
