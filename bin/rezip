@@ -1,0 +1,21 @@
+#!/bin/bash
+#======================================================================#
+# ALTER INDIVIDUALS FILES IN ZIPS (EPUBS, DOCXS, ETC)                  #
+#======================================================================#
+# Also remember the [diff "zip"] driver exists in my git config
+set -eu
+srcfile="$(realpath "$1")"
+workdir="$(mktemp --directory --tmpdir="$(pwd)" rezip.XXXXXX)"
+cd "$workdir"
+unzip "$srcfile"
+cat >rezip-file <<EOF
+#!/bin/sh
+zip "$srcfile" "\$1"
+EOF
+chmod +x rezip-file
+echo
+echo "=========================================="
+echo "ENTERING SUBSHELL"
+echo "=========================================="
+"$SHELL"
+rm -i -r "$workdir"
