@@ -9,7 +9,11 @@ endif
 let colors_name = "printmono"
 
 hi Normal ctermfg=Black
-"
+
+
+
+"  Note that the 256 range of colours also works
+
 
 " Paul's Additions:
 "   'Blue' is actually pink
@@ -20,7 +24,13 @@ hi Conditional ctermfg=Black cterm=Bold
 hi Repeat ctermfg=Black cterm=Bold
 hi Include ctermfg=Black cterm=Bold
 hi Function ctermfg=Black cterm=Bold
-hi Comment cterm=italic
+
+"   'Magenta' is actually light pink
+"   'LightGreen' is actually mauve
+"   'DarkGreen' really is green!
+"   'DarkGrey' is actually green
+"   'LightGrey' really is light grey!
+hi Comment ctermfg=163 cterm=italic
 "   used for potwiki links:
 hi Identifier ctermfg=Black
 
