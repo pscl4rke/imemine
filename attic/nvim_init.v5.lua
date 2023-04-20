@@ -34,7 +34,8 @@ require("packer").startup(function(use)
     -- maybe https://github.com/duane9/nvim-rg
     use "https://github.com/jremmen/vim-ripgrep.git"
 
-    use "https://github.com/akinsho/bufferline.nvim"
+    use "https://github.com/akinsho/bufferline.nvim"  -- .git
+    use "https://github.com/nvim-lualine/lualine.nvim.git"
 
 end)
 -- Now run :PackerSync
@@ -114,6 +115,24 @@ require("gitsigns").setup {
 
 -- Fake "Tabs"
 require("bufferline").setup {}
+
+require("lualine").setup {
+    options = {
+        theme = "everforest", -- or "16color"
+        icons_enabled = false,
+        component_separators = "",
+        section_separators = "",
+    },
+    sections = {
+        -- [a|b|c...x|y|z]
+        lualine_a = {"filename", "%m%r%h%w"},
+        lualine_b = {"fileformat", "encoding", "filetype"},
+        lualine_c = {"diagnostics"},
+        lualine_x = {"branch", "diff"},
+        lualine_y = {"%03.3b", "%(%)0x%02.2B"},  -- the %(%) fools lualine into interpretting %
+        lualine_z = {"location", "progress", "%L"},
+    },
+}
 
 -- Language Integration
 require("lspconfig").pylsp.setup {
