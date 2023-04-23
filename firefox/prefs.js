@@ -6,6 +6,10 @@
 user_pref("reader.color_scheme", "sepia");
 
 
+// TITLE BAR AND TABS
+user_pref("browser.tabs.inTitlebar", 0);
+
+
 // SCROLLING
 user_pref("layout.testing.overlay-scrollbars.always-visible", true);
 user_pref("widget.non-native-theme.gtk.scrollbar.thumb-size", 2);
