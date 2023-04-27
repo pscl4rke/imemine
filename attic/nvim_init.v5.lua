@@ -114,7 +114,20 @@ require("gitsigns").setup {
 }
 
 -- Fake "Tabs"
-require("bufferline").setup {}
+require("bufferline").setup {
+    options = {
+        indicator = { style = "none" },
+        show_close_icon = false,
+        show_buffer_icons = false,
+        show_buffer_close_icons = false,
+        separator_style = {"|", "|"},
+        custom_filter = function(buf_number, buf_numbers)
+            if vim.bo[buf_number].filetype ~= "qf" then  -- quickfix
+                return true
+            end
+        end
+    },
+}
 
 require("lualine").setup {
     options = {
