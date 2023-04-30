@@ -19,8 +19,8 @@ require("packer").startup(function(use)
     use {"https://github.com/lewis6991/gitsigns.nvim"}
 
     --  Opening
-    use {"https://github.com/junegunn/fzf.git"}
-    use {"https://github.com/junegunn/fzf.vim.git"}  -- :Lines, :BLines
+    use {"https://github.com/junegunn/fzf", tag = "0.20.0"}
+    --use {"https://github.com/junegunn/fzf.vim.git"}  -- :Lines, :BLines
     use {"https://github.com/jremmen/vim-ripgrep"}
 
     --  Language Integration
@@ -74,8 +74,8 @@ require("gitsigns").setup {
 vim.keymap.set("n", "<space>", "<C-F>")
 vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
 
---vim.keymap.set("n", "go", "<cmd>FZF<enter>")
-vim.keymap.set("n", "go", "<cmd>Files<enter>") -- has preview
+vim.keymap.set("n", "go", "<cmd>FZF<enter>")
+--vim.keymap.set("n", "go", "<cmd>Files<enter>") -- has preview
 vim.keymap.set("n", "gO", "<cmd>GFiles<enter>") -- git ls-files
 vim.keymap.set("n", "gl", "<cmd>Lines<enter>")
 vim.keymap.set("n", "MM", "<cmd>make<enter>")
