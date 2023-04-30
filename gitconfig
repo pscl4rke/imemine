@@ -16,6 +16,8 @@
 	pager = less -+FX
 [color]
 	ui = auto
+[user]
+	useConfigOnly = true
 [push]
 	default = current
 [init]
