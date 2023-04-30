@@ -11,7 +11,6 @@ import mutagen, mutagen.id3
 
 
 # catch double space chars etc
-# improve genre checking
 # check title-case tracks
 # check artist names first-last
 # check id3v1 data matches id3v2 data
@@ -124,12 +123,13 @@ def check_mp3(album_dir, path_to_check):
     yield from check_title(src, path_to_check)
     yield from check_artists(src, path_to_check)
     yield from check_composer(src, path_to_check)
+    yield from check_tagging_version(src, path_to_check)
+    yield from check_year(src, path_to_check)
+    yield from check_classical(src, path_to_check)
+    yield from check_soundtrack(src, path_to_check)
+    yield from check_recent_stuff(src, path_to_check)
     if is_a_recent_file(path_to_check):
-        yield from check_tagging_version(src, path_to_check)
-        yield from check_year(src, path_to_check)
-        yield from check_classical(src, path_to_check)
-        yield from check_soundtrack(src, path_to_check)
-        yield from check_recent_stuff(src, path_to_check)
+        pass
 
 
 def check_file_naming(src, path_to_check):
