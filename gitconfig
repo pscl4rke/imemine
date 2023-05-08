@@ -18,6 +18,8 @@
 	ui = auto
 [user]
 	useConfigOnly = true
+[pull]
+	ff = only
 [push]
 	default = current
 [init]
