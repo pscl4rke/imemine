@@ -1,0 +1,51 @@
+#!/usr/bin/python3
+
+
+# Future: use pick or fzf to select one
+# Future: run pcmanfm-qt -w to install CURRENT-LINK
+
+
+import os
+import shutil
+import sys
+
+
+def picture_dir():
+    return os.path.join(os.environ["HOME"], ".backs")
+
+
+def ensure_dir_exists():
+    if not os.path.exists(picture_dir()):
+        os.mkdir(picture_dir())
+
+
+def available():
+    files = [p for p in os.listdir(picture_dir())
+             if p not in ("CURRENT-LINK",)]
+    files.sort()
+    return files
+
+
+def main():
+    subcommand = sys.argv[1]
+    if subcommand == "add":
+        files = sys.argv[2:]
+        ensure_dir_exists()
+        for file in files:
+            shutil.copy(file, picture_dir())
+    elif subcommand == "list":
+        for file in available():
+            print(file)
+    elif subcommand == "set":
+        desired = sys.argv[2]
+        #target = os.path.join(picture_dir(), desired)
+        link = os.path.join(picture_dir(), "CURRENT-LINK")
+        if os.path.exists(link):
+            os.remove(link)
+        os.symlink(desired, link)
+    else:
+        raise Exception("Unknown command: %r" % subcommand)
+
+
+if __name__ == "__main__":
+    main()
