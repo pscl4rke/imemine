@@ -5,7 +5,7 @@
 # Do these things when I log in to a graphical environment.
 # Currently called from .config/lxsession/Lubuntu/autostart
 
-echo "Starting $0..." | logger -t "$(basename "$0")"
+echo "Starting $0..." | logger -t on-login-gui
 
 # Launch my drop down terminal:
 tilda &
@@ -43,7 +43,10 @@ autocutsel -selection CLIPBOARD &
 fi
 
 # Reminders
-(sleep 1 && $HOME/potwiki/MonthlyPopUp 2>&1 | logger -t MonthlyPopUp) &
+if [[ -e "$HOME/potwiki" ]]; then
+    (sleep 1 && $HOME/potwiki/MonthlyPopUp 2>&1 | logger -t MonthlyPopUp) &
+elif [[ -e "/mnt/$USER/potwiki" ]]; then
+    (sleep 1 && /mnt/$USER/potwiki/MonthlyPopUp 2>&1 | logger -t MonthlyPopUp) &
+fi
 
-echo "Done $0" | logger -t "$(basename "$0")"
-
+echo "Done $0" | logger -t on-login-gui
