@@ -49,7 +49,9 @@ def clean(original):
         if os.path.exists(splitfixed):
             guess_scheme = "file://%s" % os.path.abspath(splitfixed.strip())
         else:
-            guess_scheme = "http://%s" % splitfixed.strip()
+            # Now if you want http:// specify it explicitly
+            #   FIXME perhaps localhost and bare ip addresses should be http
+            guess_scheme = "https://%s" % splitfixed.strip()
     url = urllib.parse.urlparse(guess_scheme)
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
