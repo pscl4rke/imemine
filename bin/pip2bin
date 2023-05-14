@@ -3,6 +3,7 @@
 
 import configparser
 import os
+from shlex import split
 import subprocess
 import sys
 import time
@@ -44,7 +45,7 @@ class Pip2bin:
             self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
             self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip")  # fix errors
             for requirement in entry.requirements:
-                self._exec("%s/bin/pip" % venv_dir, "install", requirement)
+                self._exec("%s/bin/pip" % venv_dir, "install", *split(requirement))
         except Exception:
             self._log("Moving broken venv_dir...")
             os.rename(venv_dir, venv_dir + ".broken." + str(int(time.time())))
