@@ -3,7 +3,14 @@ set -eu
 
 # FIXME perhaps rename to "mailfile"?
 
-MYMAIL="$HOME/mymail"
+MYMAIL=""
+[[ -d "$HOME/mymail" ]] && MYMAIL="$HOME/mymail"
+[[ -d "/mnt/$USER/mymail" ]] && MYMAIL="/mnt/$USER/mymail"
+if [[ -z "$MYMAIL" ]]; then
+    echo Cannot find mymail repo 1>&2
+    exit 1
+fi
+
 PIDGEFILE="$MYMAIL/pidge.ini"
 FOLDERDIR="$MYMAIL/folders"
 # prefix with "1" to be compatible with "make fix-names"
