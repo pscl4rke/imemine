@@ -1,0 +1,19 @@
+#!/bin/bash
+set -eu
+
+cd ~/vendor
+
+#agent="Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0"
+agent="Mozilla/5.0"
+dlfile="node-v16.15.0-linux-x64.tar.gz"
+wget -U "$agent" "https://nodejs.org/download/release/v16.15.0/$dlfile"
+
+expected="d1c1de461be10bfd9c70ebae47330fb1b4ab0a98ad730823fb1340e34993edee"
+
+echo "$expected $dlfile" | sha256sum --check
+
+ls -lh "$dlfile"
+tar xzf "$dlfile"
+mv "node-v16.15.0-linux-x64" "node-v16"
+ln -s ~/vendor/node-v16/bin/node ~/bin/node
+ln -s ~/vendor/node-v16/bin/npm ~/bin/npm
