@@ -272,7 +272,7 @@ alias ls='ls $LS_OPTIONS'
 complete -f cdiff
 # Note that newer diffs have built-in colouring
 function cdiff() { colordiff -u "$@" | less -R; }
-function fd() { find . -iname "*$1*"; }
+function fd() { find "${2-.}" -iname "*$1*"; }
 
 
 # COLOURING IN LS
