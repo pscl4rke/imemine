@@ -98,9 +98,13 @@ class Snagger:
         sys.stdout.write("%s\n" % message)
         sys.stdout.flush()
 
+    def warning(self, message):
+        sys.stdout.write("[WARNING] %s\n" % message)
+        sys.stdout.flush()
+
     def main(self, arguments):
         if len(arguments) != 2:
-            self.info("Usage error")
+            self.warning("Usage error")
             sys.exit(1)
         filename = arguments[1]
         self.postprocessors = {}
@@ -141,10 +145,15 @@ class Snagger:
             dest_and_pps, _tab, shell_cmd = line.strip().partition("\t")
             parts = [part.strip() for part in dest_and_pps.split("<")]
             destination = parts.pop(0)
-            postprocessors = [self.postprocessors[p] for p in reversed(parts)]
+            postprocessors = []
+            for part in reversed(parts):
+                if part not in self.postprocessors:
+                    self.warning("Unknown postprocessor: %r" % part)
+                    return
+                postprocessors.append(self.postprocessors[part])
             self.pull_and_write(shell_cmd, postprocessors, destination)
             return
-        self.info("Unknown line: %r" % line)
+        self.warning("Unknown line: %r" % line)
 
     def run(self, shell_cmd):
         self.info("Running %r..." % shell_cmd)
@@ -160,7 +169,7 @@ class Snagger:
             with open(destination, "wb") as destfile:
                 destfile.write(output)
         except subprocess.CalledProcessError:
-            self.info("ERROR")
+            self.warning("ERROR")
 
 
 if __name__ == '__main__':
