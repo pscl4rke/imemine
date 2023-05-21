@@ -1,0 +1,73 @@
+#!/usr/bin/python3
+
+
+import configparser
+import os
+import subprocess
+import sys
+import time
+
+
+BIN_DIR = "/home/psc/bin"
+
+
+class Entry:
+
+    def __init__(self, name, options):
+        self.name = name
+        self.requirements = options.get('requirement', name).strip().splitlines()
+        self.target = options.get('target', name)
+
+    def venv_dir(self):
+        return "/home/psc/.npm2bin/%s" % self.name
+
+
+class Npm2bin:
+
+    def run(self):
+        config = configparser.ConfigParser()
+        config.read([sys.argv[1]])
+        self.ensure_venv_base("/home/psc/.npm2bin")
+        for section_name in config.sections():
+            entry = Entry(section_name, dict(config.items(section_name)))
+            self.ensure_downloaded(entry)
+            self.ensure_linked(entry)
+
+    def ensure_venv_base(self, venv_base):
+        if not os.path.isdir(venv_base):
+            self._log("Creating %s..." % venv_base)
+            os.mkdir(venv_base)
+
+    def ensure_downloaded(self, entry):
+        venv_dir = entry.venv_dir()
+        if os.path.exists(venv_dir):
+            return  # FIXME: What if the requirements have changed? Redownload?
+        self._log("Downloading %s..." % venv_dir)
+        try:
+            os.mkdir(venv_dir)
+            for requirement in entry.requirements:
+                self._exec("npm", "install", requirement, cwd=venv_dir)
+        except Exception:
+            self._log("Moving broken venv_dir...")
+            os.rename(venv_dir, venv_dir + ".broken." + str(int(time.time())))
+            raise
+
+    def ensure_linked(self, entry):
+        target = os.path.join(entry.venv_dir(), "node_modules", ".bin", entry.target)
+        if not os.path.exists(target):
+            raise Exception("No such executable: %r" % target)
+        destination = os.path.join(BIN_DIR, entry.name)
+        if os.path.exists(destination) and os.readlink(destination) == target:
+            return
+        self._log("Linking %s..." % destination)
+        self._exec("ln", "-f", "-s", target, destination)  # NB: Forcing!
+
+    def _log(self, message):
+        print("[npm2bin] %s" % message)
+
+    def _exec(self, *args, cwd=None):
+        subprocess.run(args, check=True, cwd=cwd)
+
+
+if __name__ == '__main__':
+    Npm2bin().run()
