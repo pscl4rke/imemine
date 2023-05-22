@@ -14,6 +14,10 @@ your config file:
     #!/path/to/localmail
     # vim:ft=dosini:
 
+    [envvars]
+    FOO = An environment variable
+    BAR = /another/one
+
     [sync]
     ; either...
     offlineimaprc = /path/to/offlineimap_config_file
@@ -54,10 +58,17 @@ class LocalMail:
     def main(self):
         config_path = sys.argv[1]
         self.config.read(config_path)
+        self.load_environment()
         self.keep_prompting()
 
     def has_config_for(self, section):
         return section in self.config
+
+    def load_environment(self):
+        if self.has_config_for("envvars"):
+            for key in self.config["envvars"]:
+                key = key.upper()  # stupid helpful configparser
+                os.environ[key] = self.config["envvars"][key]  # inherited by subprocs
 
     def set_title(self):
         title = "Localmail: %s" % os.path.basename(sys.argv[1])
