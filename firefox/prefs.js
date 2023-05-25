@@ -1,5 +1,12 @@
 
 
+// UPDATING
+//  Rely on distro releases instead, and don't try to kill
+//  my browsing session when I'm in the middle of doing something.
+user_pref("app.update.enabled", false);
+user_pref("app.update.auto", false);
+
+
 // READER MODE
 //  Reader mode is one of the best parts of firefox.
 //  This makes it a tad easier on the eye.
