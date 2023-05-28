@@ -1,11 +1,8 @@
 
-########################################################################
-# MAILCAP ATTACHMENT-VIEWING RULES                    (c) P. S. Clarke #
-########################################################################
-
 
 # To the best of my knowledge only mutt uses this these days!
 # Note that /etc/mailcap also exists.
+# (see mimeapps.list for what XDG uses)
 
 
 # Definitions used by mutt's auto_view settings to automatically
