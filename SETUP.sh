@@ -81,7 +81,14 @@ installorsimulatelink () {
                 warning "A different symlink is a $destabs"
             fi
         else
-            warning "Something already exists at $destabs"
+            if [ "$MODE" = "clear" ]
+            then
+                renameto="$HOME/Desktop/cleared.$(basename "$destabs").$(date +%s)"
+                warning "Moving $destabs to $renameto"
+                mv "$destabs" "$renameto"
+            else
+                warning "Something already exists at $destabs"
+            fi
         fi
     else
         case "$MODE" in
@@ -111,17 +118,20 @@ fi
 
 
 MODE="$1"
-[ -z "$MODE" ] && die "No subcommand given"
 
 
 case "$MODE" in
     install)
-        #wantlink () { installlink "$@" ;}
         wantlink () { installorsimulatelink "$@" ;}
         ;;
     simulate)
-        #wantlink () { simulatelink "$@" ;}
         wantlink () { installorsimulatelink "$@" ;}
+        ;;
+    clear)
+        wantlink () { installorsimulatelink "$@" ;}
+        ;;
+    "")
+        die "No subcommand given"
         ;;
     *)
         die "Unknown mode: $MODE"
@@ -150,6 +160,7 @@ wantlink "lxde/config_pcmanfm_LXDE/" ".config/pcmanfm/LXDE"
 wantlink "lxde/config_pcmanfm_LXDE/" ".config/pcmanfm/lubuntu"
 wantlink "lxde/config_libfm_libfm.conf" ".config/libfm/libfm.conf"
 wantlink "lxqt/config_lxqt_panel.conf" ".config/lxqt/panel.conf"
+wantlink "lxqt/config_lxqt_notifications.conf" ".config/lxqt/notifications.conf"
 wantlink "mailcap" ".mailcap"
 wantlink "mpdefaults" ".mpdefaults"
 wantlink "mplayer_config" ".mplayer/config"
@@ -184,10 +195,16 @@ wantlink "xmodmap.extra" ".xmodmap.extra"
 wantlink "yt-dlp" ".config/yt-dlp/config"
 wantlink "zathurarc" ".config/zathura/zathurarc"
 
-wantlink "openbox/autostart" ".config/openbox/autostart"
-wantlink "openbox/autostart" ".config/openbox/autostart.sh"
-wantlink "openbox/autostart" ".config/lxsession/LXDE/autostart"
-wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
+# Read by LXDE's lxsession (and openbox-session), but ignored in LXQt...
+#   https://github.com/lxde/lxsession
+#   https://github.com/lxqt/lxqt-session
+#wantlink "openbox/autostart" ".config/openbox/autostart"
+#wantlink "openbox/autostart" ".config/openbox/autostart.sh"
+#wantlink "openbox/autostart" ".config/lxsession/LXDE/autostart"
+#wantlink "openbox/autostart" ".config/lxsession/Lubuntu/autostart"
+#wantlink "openbox/autostart" ".config/lxsession/LXQt/autostart"
+
+wantlink "xdg-autostart/on-login-gui.desktop" ".config/autostart/on-login-gui.desktop"
 
 # Recent versions of ack-grep don't need this, because they
 # have both /usr/bin/ack-grep and /usr/bin/ack...
