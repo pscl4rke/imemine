@@ -130,6 +130,9 @@ class LocalMail:
             print("Huh??")
 
     def handle_sync(self):
+        if self.has_config_for("gitrepo"):  # ensure up-to-date first
+            basedir = self.config["gitrepo"]["path"]
+            subprocess.call(["git", "pull"], cwd=basedir)
         if "offlineimaprc" in self.config["sync"]:
             offlineimapbin = self.config['sync'].get("executable", "offlineimap")
             offlineimaprc = self.config['sync']['offlineimaprc']
