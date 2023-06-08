@@ -1,5 +1,9 @@
 
 
+// FOR INSPIRATION LOOK AT...
+//  https://github.com/arkenfox/user.js
+
+
 // UPDATING
 //  Rely on distro releases instead, and don't try to kill
 //  my browsing session when I'm in the middle of doing something.
@@ -17,6 +21,17 @@ user_pref("reader.color_scheme", "sepia");
 user_pref("browser.tabs.inTitlebar", 0);
 
 
+// URL BAR
+user_pref("keyword.enabled", false);
+user_pref("browser.fixup.alternate.enabled", false);
+user_pref("browser.search.suggest.enabled", false);
+user_pref("browser.urlbar.suggest.searches", false);
+user_pref("browser.urlbar.speculativeConnect.enabled", false);
+user_pref("browser.urlbar.dnsResolveSingleWordsAfterSearch", 0);
+user_pref("browser.urlbar.suggest.quicksuggest.nonsponsored", false);
+user_pref("browser.urlbar.suggest.quicksuggest.sponsored", false);
+
+
 // SCROLLING
 user_pref("layout.testing.overlay-scrollbars.always-visible", true);
 user_pref("widget.non-native-theme.gtk.scrollbar.thumb-size", 2);
@@ -31,6 +46,7 @@ user_pref("browser.download.alwaysOpenPanel", false);
 
 // DEFAULTS
 user_pref("browser.newtabpage.enabled", false);
+user_pref("browser.startup.homepage", "about:blank");
 user_pref("browser.startup.homepage_override.mstone", "ignore");
 
 
@@ -43,6 +59,7 @@ user_pref("browser.startup.homepage_override.mstone", "ignore");
 //  derived from the signature (find in about:debugging).
 user_pref("extensions.autoDisableScopes", 14);
 user_pref("extensions.pocket.enabled", false);
+user_pref("browser.discovery.enabled", false);
 
 
 // PHONING HOME
@@ -53,6 +70,8 @@ user_pref("datareporting.healthreport.service.enabled", false);
 user_pref("datareporting.healthreport.uploadEnabled", false);
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 user_pref("datareporting.policy.dataSubmissionPolicyBypassNotification", true);
+user_pref("toolkit.coverage.opt-out", true);
+user_pref("toolkit.telemetry.coverage.opt-out", true);
 user_pref("toolkit.telemetry.archive.enabled", false);
 user_pref("toolkit.telemetry.bhrPing.enabled", false);
 user_pref("toolkit.telemetry.cachedClientID", "");
@@ -68,6 +87,7 @@ user_pref("toolkit.telemetry.shutdownPingSender.enabled", false);
 user_pref("toolkit.telemetry.unified", false);
 user_pref("toolkit.telemetry.unifiedIsOptIn", false);
 user_pref("toolkit.telemetry.updatePing.enabled", false);
+user_pref("browser.ping-centre.telemetry", false);
 user_pref("browser.tabs.crashReporting.sendReport", false);
 user_pref("breakpad.reportURL", "");
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false);
@@ -81,6 +101,12 @@ user_pref("browser.safebrowsing.downloads.remote.url", "");
 user_pref("browser.safebrowsing.enabled", false);
 user_pref("browser.safebrowsing.malware.enabled", false);
 user_pref("browser.safebrowsing.phishing.enabled", false);
+user_pref("app.shield.optoutstudies.enabled", false);
+user_pref("app.normandy.enabled", false);
+user_pref("app.normandy.api_url", "");
+user_pref("captivedetect.canonicalURL", "");
+user_pref("network.captive-portal-service.enabled", false);
+user_pref("network.connectivity-service.enabled", false);
 
 
 // SLIP UNDER THE RADAR
