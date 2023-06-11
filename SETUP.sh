@@ -131,10 +131,10 @@ case "$MODE" in
         wantlink () { installorsimulatelink "$@" ;}
         ;;
     "")
-        die "No subcommand given"
+        die "No subcommand given (install/simulate/clear)"
         ;;
     *)
-        die "Unknown mode: $MODE"
+        die "Unknown mode: $MODE (install/simulate/clear)"
         ;;
 esac
 
