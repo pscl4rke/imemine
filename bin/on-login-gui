@@ -23,8 +23,8 @@ tilda &
 (while true; do /home/psc/imemine/bin/mpd-notifier; sleep 5; done) &
 
 # Go orangey in the evenings
-#   I don't actually know if this works
-redshift -l 53:0 -t 5500:4300 &
+#   Note that the colons magically disappear in the `ps` output
+redshift -v -l 53:0 -t 5500:4300 &
 
 # Most machines now using libinput, but some still synaptic...
 case "$HOSTNAME" in
