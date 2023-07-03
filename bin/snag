@@ -15,6 +15,10 @@ def random_code(length):
     return "".join(random.choice(chars) for i in range(length))
 
 
+class ConfigError(RuntimeError):
+    pass
+
+
 class DummySource:
 
     def set_up(self):
@@ -24,7 +28,7 @@ class DummySource:
         pass
 
     def pull(self, shell_cmd):
-        raise NotImplementedError("Unconfigured '!using' source")
+        raise ConfigError("Unconfigured '!using' source")
 
 
 class GenericSource:
@@ -102,10 +106,21 @@ class Snagger:
         sys.stdout.write("[WARNING] %s\n" % message)
         sys.stdout.flush()
 
+    def error(self, message):
+        sys.stdout.write("[ERROR] %s\n" % message)
+        sys.stdout.flush()
+
     def main(self, arguments):
         if len(arguments) != 2:
-            self.warning("Usage error")
+            self.error("Usage error")
             sys.exit(1)
+        try:
+            self.main_or_error(arguments)
+        except ConfigError as exc:
+            self.error(str(exc))
+            sys.exit(1)
+
+    def main_or_error(self, arguments):
         filename = arguments[1]
         self.postprocessors = {}
         self.current_source = DummySource()
