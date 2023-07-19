@@ -10,3 +10,6 @@
 --compat-options filename-sanitization
 
 --console-title
+
+# should only affect -x/--extract-audio
+--audio-format mp3
