@@ -40,21 +40,31 @@ def clean_query(original):
     return urllib.parse.urlencode(pairs)
 
 
+def is_local(path):
+    # FIXME bodgey, what if "10.foobar.com" is requested? Or a 172... one
+    if path.startswith("192.168."):
+        return True
+    if path.startswith("10."):
+        return True
+    if path.startswith("localhost"):
+        return True
+    if path.startswith("127.0.0.1"):
+        return True
+    return False
+
+
 def clean(original):
     splitfixed = original.strip().lstrip('+').replace("\n+", "")
     splitfixed = "".join(c for c in splitfixed if 31 < ord(c) < 127)
-    if "://" in splitfixed:
-        guess_scheme = splitfixed
-    else:
+    if "://" not in splitfixed:
         if os.path.exists(splitfixed):
-            guess_scheme = "file://%s" % os.path.abspath(splitfixed.strip())
-        elif splitfixed.startswith("192.168."):  # FIXME hideous bodge
-            guess_scheme = "http://%s" % splitfixed.strip()
+            splitfixed = "file://%s" % os.path.abspath(splitfixed.strip())
+        elif is_local(splitfixed):
+            splitfixed = "http://%s" % splitfixed.strip()
         else:
             # Now if you want http:// specify it explicitly
-            #   FIXME perhaps localhost and bare ip addresses should be http
-            guess_scheme = "https://%s" % splitfixed.strip()
-    url = urllib.parse.urlparse(guess_scheme)
+            splitfixed = "https://%s" % splitfixed.strip()
+    url = urllib.parse.urlparse(splitfixed.strip())
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
@@ -93,9 +103,17 @@ class TestClean(unittest.TestCase):
         self.assertEqual(clean("www.foobar.com:8000"),
                                "https://www.foobar.com:8000")
 
+    def test_missing_scheme_with_localhost_doesnt_assume_ssl(self):
+        self.assertEqual(clean("localhost:1234/foo"),
+                               "http://localhost:1234/foo")
+        self.assertEqual(clean("127.0.0.1"),
+                               "http://127.0.0.1")
+
     def test_missing_scheme_with_lan_doesnt_assume_ssl(self):
         self.assertEqual(clean("192.168.0.1"),
                                "http://192.168.0.1")
+        self.assertEqual(clean("10.4.9.1"),
+                               "http://10.4.9.1")
 
     def test_whitespace(self):
         self.assertEqual(clean("  http://www.foobar.com\n  "),
