@@ -50,6 +50,12 @@ user_pref("browser.startup.homepage", "about:blank");
 user_pref("browser.startup.homepage_override.mstone", "ignore");
 
 
+// SPEED
+//  Could be very useful in the majority of cases (with disposable profiles)
+//  but could be annoying for the few persistent ones...
+user_pref("browser.cache.disk.enable", false);
+
+
 // EXTENSIONS
 //  This ensures that any extensions listed inside `<profile>/extensions`
 //  will be automatically installed and used by the profile.
@@ -60,6 +66,12 @@ user_pref("browser.startup.homepage_override.mstone", "ignore");
 user_pref("extensions.autoDisableScopes", 14);
 user_pref("extensions.pocket.enabled", false);
 user_pref("browser.discovery.enabled", false);
+
+
+// SSL
+user_pref("dom.security.https_only_mode", true);
+user_pref("dom.security.https_only_mode_send_http_background_request", false);
+user_pref("browser.xul.error_pages.expert_bad_cert", true);
 
 
 // PHONING HOME
