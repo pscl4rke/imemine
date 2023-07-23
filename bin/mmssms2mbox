@@ -7,6 +7,10 @@
 # a couple of different backup apps.
 
 
+import logging
+LOG  = logging.getLogger("mmssms2mbox")
+
+
 import argparse
 import datetime
 import email.message
@@ -166,8 +170,10 @@ class Message:
 
     def sender_address(self):
         address = "%s@example.com" % self._sender
-        if normalise(self._sender) in self._contacts:
-            return "%s <%s>" % (self._contacts[normalise(self._sender)], address)
+        lookup_key = normalise(self._sender)
+        #LOG.debug("Trying to find %r" % lookup_key)
+        if lookup_key in self._contacts:
+            return "%s <%s>" % (self._contacts[lookup_key], address)
         else:
             return address
 
@@ -228,6 +234,7 @@ def main():
     db = options.dbclass(options.db)
     for contact_file in options.contacts:
         db.load_contacts_from(contact_file)
+    #LOG.debug(repr(db._contacts))
     messages = db.get_messages()
     for message in messages:
         eml = message.as_email()
@@ -236,5 +243,6 @@ def main():
         print(eml.as_string())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     main()
