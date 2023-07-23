@@ -33,6 +33,7 @@ ME = "me@example.com"
 
 
 def normalise(number):
+    number = number.replace(" ", "")
     if number.startswith("+44"):
         return "0" + number[3:]
     return number
@@ -169,7 +170,7 @@ class Message:
             return "%s..." % body[:60].rstrip(" ")
 
     def sender_address(self):
-        address = "%s@example.com" % self._sender
+        address = "%s@example.com" % self._sender.replace(" ", "")
         lookup_key = normalise(self._sender)
         #LOG.debug("Trying to find %r" % lookup_key)
         if lookup_key in self._contacts:
