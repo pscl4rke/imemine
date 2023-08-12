@@ -3,7 +3,10 @@
 
 # First load this, then override my prefereces:
 #   (nothing works without it)
+# This one used until Aug 2022...
 include "/etc/wyrdrc"
+# And this one used after Aug 2022...
+#include "/usr/share/doc/wyrd/examples/wyrdrc"
 
 set quick_date_US="false"
 set center_cursor="true"
