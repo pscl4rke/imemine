@@ -84,10 +84,14 @@ require("bufferline").setup {
 require("lspconfig").pylsp.setup {}
 require("lspconfig").tsserver.setup {}
 require("lspconfig").bashls.setup {}
+require("lspconfig").gopls.setup {}
 
-vim.o.completeopt = "menuone,noselect"
+-- not sure if this line affects anything in the cmp world...
+--vim.o.completeopt = "menuone,noselect"
+
 local cmp = require("cmp")
 cmp.setup {
+    preselect = cmp.PreselectMode.None,  -- esp for gopls
     sources = {
         { name = "buffer" },
         { name = "path" },
@@ -102,7 +106,7 @@ cmp.setup {
         ["<C-e>"] = cmp.mapping.close(),
         ["<CR>"] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
+            select = false,  -- don't autocomplete end of comment!
         },
         ["<Tab>"] = function(fallback)
             if cmp.visible() then
