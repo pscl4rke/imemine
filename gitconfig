@@ -27,6 +27,8 @@
 [color "diff"]
 	meta = blue bold white
 	frag = cyan white
+[alias]
+	amend = commit --amend --reset-author
 
 
 # GIT ANNEX
