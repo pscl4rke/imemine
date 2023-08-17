@@ -13,7 +13,7 @@
 
 require("packer").startup(function(use)
 
-    use "https://github.com/junegunn/fzf.git"
+    use {"https://github.com/junegunn/fzf", tag = "0.20.0"}
 
     -- Command Integration
     use "https://github.com/akinsho/toggleterm.nvim.git"
