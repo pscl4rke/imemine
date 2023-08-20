@@ -37,3 +37,5 @@ map [fullscreen]    f toggle_fullscreen
 #map [fullscreen]    F follow
 
 
+# Don't save so much into ~/.local/share/zathura
+set database null
