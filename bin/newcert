@@ -5,14 +5,17 @@
 set -eu
 
 [ $# -ne 1 ] && echo "Usage: $(basename "$0") <the.common.name>" && exit 1
-commonname="$1"
+prefix="$1"
+
+# This allows you to create inside a subdirectory with slashes...
+commonname="$(basename "$prefix")"
 
 #bits="$2"
 #[ -z "$bits" ] && echo Assuming 4096 bits >&2 && bits=4096
 echo Assuming 4096 bits
 bits=4096
 
-cat >$commonname.cnf <<EOF
+cat >$prefix.cnf <<EOF
 [req]
 prompt = no
 x509_extensions = x509_extensions_section
@@ -31,6 +34,6 @@ openssl req \
     -x509 -nodes \
     -days 3650 \
     -newkey rsa:$bits \
-    -config $commonname.cnf \
-    -keyout $commonname.key \
-    -out $commonname.crt
+    -config $prefix.cnf \
+    -keyout $prefix.key \
+    -out $prefix.crt
