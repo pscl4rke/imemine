@@ -56,6 +56,12 @@ user_pref("browser.startup.homepage_override.mstone", "ignore");
 user_pref("browser.cache.disk.enable", false);
 
 
+// FONTS
+user_pref("layout.css.font-visibility.private", 1);
+user_pref("layout.css.font-visibility.standard", 1);
+user_pref("layout.css.font-visibility.trackingprotection", 1);
+
+
 // EXTENSIONS
 //  This ensures that any extensions listed inside `<profile>/extensions`
 //  will be automatically installed and used by the profile.
@@ -72,6 +78,10 @@ user_pref("browser.discovery.enabled", false);
 user_pref("dom.security.https_only_mode", true);
 user_pref("dom.security.https_only_mode_send_http_background_request", false);
 user_pref("browser.xul.error_pages.expert_bad_cert", true);
+
+
+// ANNOYING JAVASCRIPT
+user_pref("dom.disable_window_move_resize", true);
 
 
 // PHONING HOME
