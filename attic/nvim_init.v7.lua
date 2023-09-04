@@ -33,6 +33,7 @@ require("packer").startup(function(use)
 
     -- Use Buffers Like Tabs
     use {"https://github.com/akinsho/bufferline.nvim"}
+    use {"https://github.com/nvim-lualine/lualine.nvim"}
 
 end)
 
@@ -80,6 +81,39 @@ require("bufferline").setup {
     }
 }
 
+-- Status Bar
+require("lualine").setup {
+    options = {
+        theme = "everforest", -- or "16color"
+        icons_enabled = false,
+        component_separators = "",
+        section_separators = "",
+    },
+    sections = {
+        -- [a|b|c...x|y|z]
+        lualine_a = {"filename", "%m%r%h%w"},
+        lualine_b = {"fileformat", "encoding", "filetype"},
+        lualine_c = {"diagnostics"},
+        lualine_x = {"branch", "diff"},
+        lualine_y = {"%03.3b", "%(%)0x%02.2B"},  -- the %(%) fools lualine into interpretting %
+        lualine_z = {"location", "progress", "%L"},
+    },
+}
+
+-- Quickfix
+function table_contains(tbl, x) -- euugh... surely lua has a built-in?!?!
+    found = false
+    for _, v in pairs(tbl) do
+        if v == x then 
+            found = true 
+        end
+    end
+    return found
+end
+if table_contains(vim.v.argv, "-q") then
+    vim.cmd("copen")
+end
+
 -- Language Integration
 require("lspconfig").pylsp.setup {}
 require("lspconfig").tsserver.setup {}
@@ -126,9 +160,11 @@ cmp.setup {
 }
 
 -- Colours
--- vim.cmd("colorscheme onedark")
--- https://www.ditig.com/256-colors-cheat-sheet
+--  Use a default, then tweak a little bit
+--  Not in love with "peachpuff", but at least it's dark-on-light
+--  https://www.ditig.com/256-colors-cheat-sheet
 vim.cmd [[
+    colorscheme peachpuff
     highlight Comment cterm=Italic ctermfg=62
     highlight SignColumn ctermbg=None
     highlight DiffAdd ctermbg=151
