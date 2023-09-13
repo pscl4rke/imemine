@@ -43,6 +43,7 @@ your config file:
 import configparser
 import os
 import subprocess
+from subprocess import run
 import sys
 import time
 
@@ -152,20 +153,19 @@ class LocalMail:
     def handle_search(self):
         # Warning - what if this checks the index into version control!
         # Warning - what if this syncs the results onto the remote server!
+        # Note - this has been updated for mu version mu 1.3.8 (index -> init)
         muhome = self.config['search']['muhome']
         maildir = self.config['search']['maildir']
         linksdir = self.config['search']['linksdir']
-        subprocess.call(["mu", "index", "--muhome", muhome, "-m", maildir])
+        if not os.path.exists(muhome):
+            run(["mu", "init", "--muhome", muhome, "-m", maildir], check=True)
+        run(["mu", "index", "--muhome", muhome], check=True)
         query = input("Query: ")
-        query_parts = query.split()
-        #cmd = ["mu", "find", "--muhome", muhome, "-u"]
-        #cmd.extend(query.split())
-        #subprocess.call(cmd)
         cmd = ["mu", "find", "--muhome", muhome, "-u", "--format", "links", "--linksdir", linksdir, "--clearlinks"]
         cmd.extend(query.split())
-        subprocess.call(cmd)
+        run(cmd, check=True)
         muttrc = self.config['manage']['muttrc']
-        subprocess.call(["mutt", "-R", "-F", muttrc, "-f", linksdir])
+        run(["mutt", "-R", "-F", muttrc, "-f", linksdir])
 
     def handle_commit(self):
         basedir = self.config['gitrepo']['path']
