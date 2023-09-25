@@ -4,11 +4,12 @@
 #======================================================================#
 
 # maybe /usr/bin, /maybe /snap/bin, maybe somewhere else...
+firefox="$(which firefox-esr || which firefox)"
 chromium="$(which chromium-browser || which chromium)"
 
 urlclean="$(dirname "$0")/urlclean"
 
-if [[ -e /usr/bin/firefox ]]
+if [[ -e $firefox ]]
 then
     browser="firefox"
 else
@@ -71,7 +72,7 @@ case "$browser-$mode" in
             tar xf ~/.firefox.base.tar)
         [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
-        firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
+        $firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
     firefoxreader-temp)
@@ -81,14 +82,14 @@ case "$browser-$mode" in
             tar xf ~/.firefox.base.tar)
         [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
-        firefox -no-remote -profile "$profilepath" "about:reader?url=$url" 2>&1 >/dev/null
+        $firefox -no-remote -profile "$profilepath" "about:reader?url=$url" 2>&1 >/dev/null
         rm -r "$profilepath"
         ;;
     firefox-profile)
         profilepath="$HOME/.config/firefox-$profile"
         mkdir "$profilepath"
         [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
-        firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
+        $firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         ;;
     qutebrowser-temp)
         profilepath="$(mktemp --directory /tmp/qutebrowser.$$.XXXXXXX)"
