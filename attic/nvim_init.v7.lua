@@ -70,6 +70,8 @@ vim.keymap.set("n", "go", "<cmd>FZF<enter>")
 vim.keymap.set("n", "H", "<cmd>BufferLineCyclePrev<enter>")
 vim.keymap.set("n", "L", "<cmd>BufferLineCycleNext<enter>")
 vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
+vim.keymap.set("n", "g]", vim.lsp.buf.definition)
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
 
 require("bufferline").setup {
     options = {
