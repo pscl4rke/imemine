@@ -9,7 +9,10 @@ import xml.etree.ElementTree as etree
 
 def get_duration(iso, title):
     args = ["lsdvd", "-a", "-Ox", iso]
-    raw = subprocess.check_output(args)
+    try:
+        raw = subprocess.check_output(args, stderr=subprocess.DEVNULL)
+    except subprocess.CalledProcessError:
+        return None
     fixed = raw.decode("ascii", "ignore")
     xml = etree.fromstring(fixed)
     for titlenode in xml.findall("track"):
@@ -22,7 +25,7 @@ def display(duration, description):
     total_mins = int(duration / 60)
     hours = int(total_mins / 60)
     mins = total_mins - (60 * hours)
-    print("  %3ih %2im  %s" % (hours, mins, description))
+    return "  %3ih %2im  %s" % (hours, mins, description)
 
 
 total = 0.0
@@ -35,6 +38,9 @@ for line in sys.stdin:
     parts = shlex.split(line)
     iso, title = parts[-2], int(parts[-1])
     duration = get_duration(iso, title)
-    total += duration
-    display(duration, "%s(%i)" % (iso, title))
-display(total, "TOTAL")
+    if duration is None:
+        print("   UNKNOWN  %s(%i)" % (iso, title))
+    else:
+        total += duration
+        print(display(duration, "%s(%i)" % (iso, title)))
+print(display(total, "TOTAL"))
