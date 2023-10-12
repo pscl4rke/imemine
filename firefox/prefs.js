@@ -22,6 +22,7 @@ user_pref("browser.tabs.inTitlebar", 0);
 
 
 // URL BAR
+user_pref("network.IDN_show_punycode", false);
 user_pref("keyword.enabled", false);
 user_pref("browser.fixup.alternate.enabled", false);
 user_pref("browser.search.suggest.enabled", false);
@@ -131,6 +132,11 @@ user_pref("network.captive-portal-service.enabled", false);
 user_pref("network.connectivity-service.enabled", false);
 
 
+// PROTECTING FROM USER ERROR
+//  (default anyway)
+user_pref("middlemouse.contentLoadURL", false);
+
+
 // SLIP UNDER THE RADAR
 //  Note that this can break things
 user_pref("webgl.disabled", true);
@@ -141,3 +147,4 @@ user_pref("webgl.vendor-string-override", " ");
 // UNKNOWN
 user_pref("beacon.enabled", false);
 user_pref("browser.send_pings", false);
+user_pref("browser.uitour.enabled", false);
