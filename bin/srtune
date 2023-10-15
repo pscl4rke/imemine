@@ -4,6 +4,7 @@
 #======================================================================#
 
 
+import argparse
 import sys
 
 
@@ -131,19 +132,27 @@ class Reader:
             pass
 
 
+def get_argument_parser():
+    parser = argparse.ArgumentParser()
+    parser.set_defaults(edit_chain=[
+        # FIXME - currently hardcoded - change to cmdline args:
+        #ScaleTime(1.0422),
+        #OffsetTime(21286),
+        #OffsetTime(11000),
+        #ScaleTime(0.99888),
+        #OffsetTime(500),
+        OffsetTime(-20000),
+        ScaleTime(0.95942),
+    ])
+    return parser
+
+
 class Srtune:
 
     def main(self):
-        edit_chain = [
-            # FIXME - currently hardcoded - change to cmdline args:
-            #ScaleTime(1.0422),
-            #OffsetTime(21286),
-            #OffsetTime(11000),
-            ScaleTime(0.99888),
-            OffsetTime(500),
-        ]
+        args = get_argument_parser().parse_args(sys.argv[1:])
         for subtitle in self.read_subtitles_from(sys.stdin):
-            for editor in edit_chain:
+            for editor in args.edit_chain:
                 editor.edit(subtitle)
             subtitle.render_to(sys.stdout)
 
