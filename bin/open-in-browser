@@ -88,6 +88,10 @@ case "$browser-$mode" in
     firefox-profile)
         profilepath="$HOME/.config/firefox-$profile"
         mkdir "$profilepath"
+        [ -e ~/.firefox.base.tar ] && (
+            cd "$profilepath"
+            tar xf ~/.firefox.base.tar)
+        [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
         $firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
         ;;
