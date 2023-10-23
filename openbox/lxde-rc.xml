@@ -681,8 +681,9 @@
     <!-- help.ubuntu.com/community/Lubuntu/Boot_Install_Login -->
     <keybind key="XF86PowerOff">
         <action name="Execute">
-            <command>lubuntu-logout</command>
+            <!-- <command>lubuntu-logout</command> -->
             <!-- <command>lxde-logout</command> -->
+            <command>lxqt-leave --shutdown</command>
         </action>
     </keybind>
 
