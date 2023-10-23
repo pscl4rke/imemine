@@ -35,11 +35,13 @@ class PipLocal:
                       "-f", "file://%s" % self.local_dir])
         elif command == "new":
             version = args[2].lstrip("-")
+            assert version != "2"
             python = which("python%s" % version)
             # this is newer than the one from APT, so works offline:
-            virtualenv = "/home/psc/.virtualenvs/virtualenv/bin/virtualenv"
+            #virtualenv = "/home/psc/.virtualenvs/virtualenv/bin/virtualenv"
             dest = "/home/psc/.virtualenvs/%s" % args[3]
-            self.run([virtualenv, "-p", python, dest])
+            #self.run([virtualenv, "-p", python, dest])
+            self.run([python, "-m", "venv", dest])
             print("Remember to source...")
             print("  %s/bin/activate" % dest)
         else:
