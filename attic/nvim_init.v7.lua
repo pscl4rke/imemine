@@ -117,6 +117,7 @@ if table_contains(vim.v.argv, "-q") then
 end
 
 -- Language Integration
+--  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
 require("lspconfig").pylsp.setup {}
 require("lspconfig").tsserver.setup {}
 require("lspconfig").bashls.setup {}
