@@ -18,12 +18,14 @@
 # Utility Functions
 # -----------------
 
+progname="$(basename "$0")"
+
 paddedpage() {
     printf "%03d" "$1"
 }
 
 msg() {
-    echo "$(basename "$0"): $@"
+    echo "$progname: $@"
 }
 
 
@@ -122,7 +124,7 @@ fi
 # ----------
 
 originaldir="$(pwd)"
-tempdir="$(mktemp --directory)"
+tempdir="$(mktemp --directory --tmpdir "$progname.XXXXXXXXXX")"
 cd "$tempdir"
 starttime="$(date +%s)"
 
