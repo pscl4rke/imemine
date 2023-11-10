@@ -35,6 +35,38 @@ class HeaderMatcher:
         return False
 
 
+def walk(part):
+    # this wouldn't be needed with email.EmailMessage
+    yield part
+    if part.is_multipart():
+        for subpart in part.get_payload():
+            yield from walk(subpart)
+
+
+class AttachmentMatcher:
+
+    def __init__(self, mimetype):
+        self.maintype, _slash, self.subtype = mimetype.partition("/")
+
+    def __str__(self):
+        return "{attaching %s/%s}" % (self.maintype, self.subtype)
+
+    def matches(self, message):
+        for part in walk(message):
+            if self.matches_one_part(part):
+                return True
+        return False
+
+    def matches_one_part(self, part):
+        if self.maintype != "*":
+            if part.get_content_maintype() != self.maintype:
+                return False
+        if self.subtype != "*":
+            if part.get_content_subtype() != self.subtype:
+                return False
+        return True
+
+
 class Category:
 
     def __init__(self, destination_folder, matchers):
@@ -64,6 +96,8 @@ class Category:
             matchers.append(HeaderMatcher(["Message-Id"], key_values["match_id"]))
         if "match_mailer" in key_values:
             matchers.append(HeaderMatcher(["X-Mailer"], key_values["match_mailer"]))
+        if "match_mimetype" in key_values:
+            matchers.append(AttachmentMatcher(key_values["match_mimetype"]))
         return cls(key_values["file_into"], matchers)
 
     def matches(self, message):
