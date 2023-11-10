@@ -15,7 +15,7 @@ import logging
 LOG = logging.getLogger("pidge")
 
 
-COULD_NOT_CATEGORISE = 16 # exit code
+COULD_NOT_CATEGORISE = 16  # exit code
 
 
 class HeaderMatcher:
@@ -80,7 +80,7 @@ class Categoriser:
     def __init__(self, configpath):
         self.categories = []
         config = configparser.ConfigParser()
-        with open(configpath) as srcfile: # errors if missing
+        with open(configpath) as srcfile:  # raises error if missing
             config.read_file(srcfile)
         for section_name in config.sections():
             LOG.debug("Loading rule in %r section" % section_name)
