@@ -1,0 +1,19 @@
+#!/bin/bash
+set -eu
+
+# see https://trac.ffmpeg.org/wiki/Concatenate
+
+one="$1"
+two="$2"
+merged="$3"
+description="$3.txt"
+
+[[ -e "$merged" ]] && echo "Already have" && exit 1
+[[ -e "$description" ]] && echo "Already have" && exit 1
+
+cat >"$description" <<EOF
+file '$one'
+file '$two'
+EOF
+
+time ffmpeg -f concat -safe 0 -i "$description" -c copy "$merged"
