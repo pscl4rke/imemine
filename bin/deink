@@ -34,6 +34,7 @@ msg() {
 
 colourmode="gray"
 orientation="portrait"
+resolution="300dpi"
 rotation="0"
 usetesseract="true"
 
@@ -88,6 +89,12 @@ do
             ;;
         --no-ocr)
             usetesseract="false"
+            ;;
+        --high-def)
+            resolution="600dpi"
+            ;;
+        --ultra-def)
+            resolution="1200dpi"
             ;;
         *)
             msg "FATAL: Argument '$nextarg' not recognised"
@@ -145,7 +152,7 @@ do
             imagefile="${basefile}.pnm"
             scanimage \
                 -x "$inwidth" -y "$inheight" \
-                --mode "$colourmode" --resolution "300dpi" \
+                --mode "$colourmode" --resolution "$resolution" \
                 > "$imagefile"
             if [ "$rotation" -ne "0" ]; then
                 msg "Rotating by $rotation degrees..."
