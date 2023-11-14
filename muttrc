@@ -124,7 +124,7 @@ macro index ~a "<limit>all<enter><collapse-all><current-middle>"
 macro index ~d "<limit>~D<enter><collapse-all><current-middle>"
 macro index ~f "<limit>~F<enter><collapse-all><current-middle>"
 macro index ~n "<limit>~(~N | ~O)<enter><collapse-all><current-middle>"
-macro index ~h "<limit>~(!(~P) !(~f 'cron daemon') !(~s autoapt))<enter>"
+macro index ~h "<limit>~(!(~P) !(~f 'cron daemon') !(~s autoapt) !(~s 'pypi backup'))<enter>"
 macro index ~l "<limit>~z >1000k<enter>"
 macro index ~s "<limit>~H Spam<enter>"
 
