@@ -14,6 +14,7 @@
 require("packer").startup(function(use)
 
     use {"https://github.com/junegunn/fzf", tag = "0.20.0"}
+    use "https://github.com/junegunn/fzf.vim.git"
 
     -- Command Integration
     use "https://github.com/akinsho/toggleterm.nvim.git"
@@ -73,6 +74,8 @@ vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
 vim.keymap.set("n", "gO", "<cmd>edit .<enter>")  -- NetRW or equiv
 --vim.keymap.set("n", "go", "<cmd>tabnew<enter><cmd>FZF<enter>")
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
+vim.keymap.set("n", "gl", "<cmd>Lines<enter>")
+vim.keymap.set("n", "gG", "<cmd>GFiles<enter>") -- not gitignored, but includes parent dirs
 vim.keymap.set("n", "g/", function()
     --vim.cmd("tabnew") -- shortcut for vim.api.nvim_command
     --vim.cmd("redraw")
@@ -146,6 +149,20 @@ require("lualine").setup {
         lualine_z = {"location", "progress", "%L"},
     },
 }
+
+-- Quickfix
+function table_contains(tbl, x) -- euugh... surely lua has a built-in?!?!
+    found = false
+    for _, v in pairs(tbl) do
+        if v == x then 
+            found = true 
+        end
+    end
+    return found
+end
+if table_contains(vim.v.argv, "-q") then
+    vim.cmd("copen")
+end
 
 -- Language Integration
 require("lspconfig").pylsp.setup {
