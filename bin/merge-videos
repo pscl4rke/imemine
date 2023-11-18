@@ -6,7 +6,7 @@ set -eu
 one="$1"
 two="$2"
 merged="$3"
-description="$3.txt"
+description="$merged.txt"
 
 [[ -e "$merged" ]] && echo "Already have" && exit 1
 [[ -e "$description" ]] && echo "Already have" && exit 1
