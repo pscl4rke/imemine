@@ -13,6 +13,8 @@
 #   -   No readline, so no command history etc.
 #   -   There is no way to set the PDF metadata (which could
 #       be used heavily by some indexing tools)
+#   -   I have explored colourmode=lineart, but the output
+#       is barely readable
 
 
 # Utility Functions
