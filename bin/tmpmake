@@ -1,0 +1,21 @@
+#!/bin/bash
+
+makefile=$(realpath "$1")
+
+function setUp {
+    tmpdir=$(mktemp -d -t tmpmake.XXXXXXX)
+    echo "From $makefile"
+    ln -s $makefile $tmpdir/Makefile
+    echo "Using $tmpdir"
+    cd $tmpdir
+}
+
+function tearDown {
+    echo "Tearing down $tmpdir"
+    cd /
+    rm -r $tmpdir
+}
+
+setUp
+trap tearDown EXIT
+${SHELL-/bin/bash}
