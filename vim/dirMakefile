@@ -50,6 +50,8 @@ plugin/ripgrep.vim: | plugin
 syntax/puppet.vim: | syntax
 	mvtoattic $@
 	curl $(GH)/rodjek/vim-puppet/master/syntax/puppet.vim -fo $@
+	@true This is to ensure "elsif" etc get highlighted...
+	sed -i '/puppetNotTop/s/Declaration.*$$/Declaration/' $@
 
 
 syntax/cram.vim: | syntax
