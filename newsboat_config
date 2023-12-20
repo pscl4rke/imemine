@@ -15,3 +15,7 @@ bind-key G end
 
 datetime-format "%a %_d %b %Y"
 articlelist-format "%4i %f | %D | %?T?|%-17T| ?%t"
+
+# look into "cleanup-on-quit no"
+
+prepopulate-query-feeds yes
