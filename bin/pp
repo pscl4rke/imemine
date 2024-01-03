@@ -20,8 +20,6 @@ import traceback
 
 # FIXME what if lpstat isn't available
 
-# FIXME how about counting up the page numbers (e.g. with pdfinfo)
-
 
 def info(message):
     sys.stderr.write("%s\n" % message)
@@ -67,6 +65,7 @@ def handle_postscript_file(psfilename, title):
         pdffilename = pdffile.name
         info("I'm converting that into %r..." % pdffilename)
         subprocess.check_call(["ps2pdf", psfilename, pdffilename])
+        subprocess.run(f"pdfinfo {pdffilename} | grep ^Pages:", shell=True)
         handle_pdf_file(pdffilename, title)
 
 
