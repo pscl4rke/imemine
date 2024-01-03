@@ -1,50 +1,57 @@
 
 -- As per zenbook yet again
 
+-- Note: this uses packer. But could try
+--  https://github.com/savq/paq-nvim/
+-- which advertises compatibility with Debian Stable
+
 -- $ mkdir -p ~/.local/share/nvim/site/pack/packer/start/
--- $ git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+-- $ git clone https://github.com/wbthomason/packer.nvim.git ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 -- :PackerSync
 
 
 require("packer").startup(function(use)
 
-    --  Packer can manage itself after the initial bootstrapping:
+    -- Packer can manage itself after the initial bootstrapping:
     use {"https://github.com/wbthomason/packer.nvim"}
 
     -- Command Integration
     use {"https://github.com/akinsho/toggleterm.nvim"}
     use {"https://github.com/neomake/neomake"}
 
-    --  VCS Integration
-    use {"https://github.com/lewis6991/gitsigns.nvim"}
+    -- Codebase Integration
+    use {"https://github.com/lewis6991/gitsigns.nvim", tag = "v0.6"}
 
-    --  Opening
+    -- Opening
     use {"https://github.com/junegunn/fzf", tag = "0.20.0"}
-    --use {"https://github.com/junegunn/fzf.vim.git"}  -- :Lines, :BLines
+    --use {"https://github.com/junegunn/fzf.vim"}  -- :Lines, :BLines
     use {"https://github.com/jremmen/vim-ripgrep"}
 
-    --  Language Integration
-    use {"https://github.com/neovim/nvim-lspconfig.git"}
+    -- Language Integration
+    use {"https://github.com/neovim/nvim-lspconfig"}
 
-    --  Completion
-    use {"https://github.com/hrsh7th/nvim-cmp.git"}
-    use {"https://github.com/hrsh7th/cmp-buffer.git"}
-    use {"https://github.com/hrsh7th/cmp-path.git"}
-    use {"https://github.com/hrsh7th/cmp-nvim-lsp.git"}
+    -- Completion
+    use {"https://github.com/hrsh7th/nvim-cmp"}
+    use {"https://github.com/hrsh7th/cmp-buffer"}
+    use {"https://github.com/hrsh7th/cmp-path"}
+    use {"https://github.com/hrsh7th/cmp-nvim-lsp"}
 
     -- Use Buffers Like Tabs
     use {"https://github.com/akinsho/bufferline.nvim"}
+    use {"https://github.com/nvim-lualine/lualine.nvim"}
 
-    --  TESTING:
-    use {"https://github.com/kyazdani42/nvim-web-devicons"}
-    use {"https://github.com/navarasu/onedark.nvim"}
+    -- TESTING:
+    --use {"https://github.com/kyazdani42/nvim-web-devicons"}
+    --use {"https://github.com/navarasu/onedark.nvim"}
 
 end)
 
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4
+vim.o.scrolloff = 3
 
+-- Here's looking at you HTML...
 -- Is this not the sort of thing LSP or something could handle?
 --vim.o.expandtab = true
 --vim.o.tabstop = 4
@@ -90,15 +97,66 @@ vim.keymap.set("n", "g/", function()
     vim.cmd("Rg " .. query) -- shortcut for vim.api.nvim_command
 end)
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+
+require("bufferline").setup {
+    --options = {separator_style = "slant"},
+    --options = {separator_style = {"/", "\\"}},
+    options = {
+        custom_filter = function(buf_number, buf_numbers)
+            -- Messes stuff up?!?
+            --if vim.bo[buf_number].filetype == "make" then  -- makeprg result
+            --    return false
+            --end
+            if vim.bo[buf_number].filetype ~= "qf" then  -- quickfix
+                return true
+            end
+        end,
+    }
+}
+
+-- Status Bar
+require("lualine").setup {
+    options = {
+        theme = "everforest", -- or "16color"
+        icons_enabled = false,
+        component_separators = "",
+        section_separators = "",
+    },
+    sections = {
+        -- [a|b|c...x|y|z]
+        lualine_a = {"filename", "%m%r%h%w"},
+        lualine_b = {"fileformat", "encoding", "filetype"},
+        lualine_c = {"diagnostics"},
+        lualine_x = {"branch", "diff"},
+        lualine_y = {"%03.3b", "%(%)0x%02.2B"},  -- the %(%) fools lualine into interpretting %
+        lualine_z = {"location", "progress", "%L"},
+    },
+}
+
+-- Quickfix
+function table_contains(tbl, x) -- euugh... surely lua has a built-in?!?!
+    found = false
+    for _, v in pairs(tbl) do
+        if v == x then 
+            found = true 
+        end
+    end
+    return found
+end
+if table_contains(vim.v.argv, "-q") then
+    vim.cmd("copen")
+end
 
 -- Language Integration
+--  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
 require("lspconfig").pylsp.setup {
     -- Remember this is influenced by ~/.config/pycodestyle
-    cmd = {"/home/psc/.pip2bin/pylsp/bin/pylsp"},
+    --cmd = {"/home/psc/.pip2bin/pylsp/bin/pylsp"},
 }
 require("lspconfig").tsserver.setup {
-    cmd = {"/home/psc/.npm2bin/typescript/node_modules/.bin/typescript-language-server",
-           "--stdio"},
+    --cmd = {"/home/psc/.npm2bin/typescript/node_modules/.bin/typescript-language-server",
+    --       "--stdio"},
 }
 
 -- not sure if this line affects anything in the cmp world...
@@ -106,6 +164,7 @@ require("lspconfig").tsserver.setup {
 
 local cmp = require("cmp")
 cmp.setup {
+    preselect = cmp.PreselectMode.None,  -- esp for gopls
     sources = {
         { name = "buffer" },
         { name = "path" },
@@ -141,30 +200,16 @@ cmp.setup {
 
 -- Colours
 -- vim.cmd("colorscheme onedark")
--- https://www.ditig.com/256-colors-cheat-sheet
+--  Use a default, then tweak a little bit
+--  Not in love with "peachpuff", but at least it's dark-on-light
+--  https://www.ditig.com/256-colors-cheat-sheet
 vim.cmd [[
+    colorscheme peachpuff
     highlight Comment cterm=Italic ctermfg=62
     highlight SignColumn ctermbg=None
     highlight DiffAdd ctermbg=151
     highlight DiffChange ctermbg=223
 ]]
-
--- TESTING:
-require("bufferline").setup {
-    --options = {separator_style = "slant"},
-    --options = {separator_style = {"/", "\\"}},
-    options = {
-        custom_filter = function(buf_number, buf_numbers)
-            -- Messes stuff up?!?
-            --if vim.bo[buf_number].filetype == "make" then  -- makeprg result
-            --    return false
-            --end
-            if vim.bo[buf_number].filetype ~= "qf" then  -- quickfix
-                return true
-            end
-        end,
-    }
-}
 
 -- Also to research
 --  makeprg
