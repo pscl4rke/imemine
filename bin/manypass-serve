@@ -65,8 +65,10 @@ async def handle_type(secrets, arguments):
 
 async def handle_browse(secrets, arguments):
     assert len(arguments) == 1
+    args_to_run = ["open-in-browser-bg"]
     value = secrets[arguments[0]]
-    subprocess.run(["open-in-browser-bg", value])
+    args_to_run.append(value)
+    subprocess.run(args_to_run)
 
 
 async def main():
