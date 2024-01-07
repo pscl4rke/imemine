@@ -1,0 +1,51 @@
+#!/bin/bash
+set -eux -o pipefail
+
+
+# Validate usage:
+if [[ $# -ne 2 ]]; then
+    echo Invalid usage 1>&2
+    exit 1
+fi
+source="$1"  # may be "-" for stdin
+destination="$(realpath "$2")"
+
+
+# Supply a temporary directory:
+tmpdir=$(mktemp -d -t text2cw.XXXXXXX)
+function tearDown {
+    cd /
+    rm -r "$tmpdir"
+}
+trap tearDown EXIT
+
+
+# Start using directory:
+cat "$source" > "$tmpdir/text.src"
+cd "$tmpdir"
+
+
+# Improve listenability:
+cat text.src \
+    | sed 's|\.| STOP |g' \
+    | sed 's|^|QQ |g' \
+    | iconv -t ascii//translit \
+    | tr -d '[:punct:]' \
+    | tr '\n' ' ' \
+    > text.clean
+
+
+# Convert to morse:
+ebook2cw -u -w 15 -e 2 -c "$(uuid)" -o text. text.clean
+
+
+# Set metadata
+#   Setting with ebook2cw will include chapter numbers in the title etc
+# FIXME, probably with eyed3
+
+
+# Finally output:
+cp text.0000.mp3 "$destination"
+
+
+# Note that the trap will do the clear-up
