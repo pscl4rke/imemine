@@ -44,6 +44,9 @@ require("packer").startup(function(use)
 
 end)
 
+-- Configuration shared with normal vim
+vim.cmd "source ~/imemine/vim/common.vim"
+
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4

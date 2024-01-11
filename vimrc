@@ -1,15 +1,8 @@
 "
 "
-"======================================================================"
-"                        VIM CONFIGURATION FILE                        "
-"======================================================================"
-"
-"
-"     NOTE: Unusually, I do not like to have my editor set up
-"       as an IDE.  I just want to edit text in it, and exit
-"       back to the shell for everything else.  Hence there are
-"       no fancy plugins here, and nothing is introduced that
-"       would make the editor sluggish.
+"     NOTE: The configuration here is for lightweight vim stuff
+"       that will barely use anything pluginy.  For an IDE
+"       experience there is Neovim.
 "
 "
 " PRESET CONFIGURATIONS
@@ -17,6 +10,13 @@
 "   versions so I get the advanced features.  Then I begin
 "   customising.
 set nocompatible
+"
+"
+" COMMON SETTINGS
+"   Things that are shared across multiple programs in the vi family.
+"   In particular Neovim. (Arguably it would be better put in ~/.vim
+"   and referenced with `runtime` instead of `source`.)
+source ~/imemine/vim/common.vim
 "
 "
 " EXTENDED RUNTIME PATH
@@ -179,13 +179,6 @@ highlight DiffChange cterm=bold ctermfg=10      ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10      ctermbg=88
 "
 "
-" MANAGING EVIL
-"   For those cases where a single line is far longer than it ever
-"   should be I set up the arrow keys to work to my advantage.
-map <Down> gj
-map <Up> gk
-"
-"
 " HUMAN FAILURES
 "   Because sometimes you hit the wrong key and you just want it
 "   to work!
@@ -294,5 +287,3 @@ endif
 "   Some bits and pieces that were used, but not any more.
 "set showmatch [Not needed in non compat. mode]
 "set switchbuf=usetab,newtab
-"
-"
