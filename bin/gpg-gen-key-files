@@ -4,6 +4,8 @@ set -eu
 
 
 # Note, this has been developed against GPG v1. Still needs testing against v2.
+# Also, it uses ".pubkey" now, not ".PUB.key", because my webhost started
+# blocking those with 403 errors
 
 
 
@@ -13,7 +15,7 @@ if [[ $# -eq 0 ]]; then
     echo "Usage:"
     echo "  $0 filenameprefix [arg1, arg2, ...]"
     echo "which will run gen-key with any optional arguments and create"
-    echo "filenameprefix.key and filenameprefix.PUB.key"
+    echo "filenameprefix.key and filenameprefix.pubkey"
     exit 1
 fi
 
@@ -26,7 +28,7 @@ if [[ -e "$secretkey" ]]; then
     exit 1
 fi
 
-publickey="$outputroot.PUB.key"
+publickey="$outputroot.pubkey"
 if [[ -e "$publickey" ]]; then
     echo "Already exists: $publickey"
     exit 1
