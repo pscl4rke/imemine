@@ -1,0 +1,5 @@
+# The file has xxx suffix to stop imemine/bin/ files picking it
+# up unexpectedly
+
+# Don't moan about "useless cat" at the beginning of shell pipelines
+disable=SC2002
