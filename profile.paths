@@ -10,6 +10,19 @@
 # Sourced by ~/.profile, and also ~/.bashrc if you are impatient.
 
 
+ensure-in-path() {
+    extradir="$1"
+    # affix colons on either side of $PATH to simplify matching
+    case ":${PATH}:" in
+        *:"$extradir":*)
+            ;;
+        *)
+            export PATH="$PATH:$extradir"
+            ;;
+    esac
+}
+
+
 # PRIVATE CONFIG
 #   If there is site-specific stuff then this is where to find it.
 [ -d "$HOME/rvimemine" ] && export RVIMEMINE="$HOME/rvimemine"
@@ -22,16 +35,11 @@
 [ -d "$HOME/.android-sdk" ] && export ANDROID_HOME="$HOME/.android-sdk"
 [ -d "$HOME/gopath" ] && export GOPATH="$HOME/gopath"
 [ -d "$HOME/goroot" ] && export GOROOT="$HOME/goroot"
+[ -d "$HOME/.cargo/bin" ] && ensure-in-path "$HOME/.cargo/bin"
 
 
 # CUSTOM PATH
 #   Assorted places that additional executables can live.
-#   Idempotency is handled with $PSC_PATHS_UPDATED.
-if [ -z "$PSC_PATHS_UPDATED" ]; then
-    [ -d "$HOME/imemine/bin" ] && export PATH="$PATH:$HOME/imemine/bin"
-    [ -d "$HOME/bin" ] && export PATH="$PATH:$HOME/bin"
-    [ -d "$RVIMEMINE/bin" ] && export PATH="$PATH:$RVIMEMINE/bin"
-    export PSC_PATHS_UPDATED="TRUE"
-fi
-
-
+[ -d "$HOME/imemine/bin" ] && ensure-in-path "$HOME/imemine/bin"
+[ -d "$HOME/bin" ] && ensure-in-path "$HOME/bin"
+[ -d "$RVIMEMINE/bin" ] && ensure-in-path "$RVIMEMINE/bin"
