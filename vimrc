@@ -100,8 +100,9 @@ set smarttab
 "
 " WINDOW TITLE
 "   In an environment where Vim is able to set the title of the
-"   terminal window use the full filename.
-set titlestring=%t
+"   terminal window use the full filename, but by not setting the
+"   titlestring we get other things included too.
+"set titlestring=%t
 set title
 "
 "
