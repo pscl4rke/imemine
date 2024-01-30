@@ -121,6 +121,7 @@ vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
     --vim.lsp.buf.definition(false)
 --end)
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
+vim.keymap.set("n", "g[", vim.lsp.buf.references)
 vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 
