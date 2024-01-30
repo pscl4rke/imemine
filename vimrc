@@ -186,8 +186,6 @@ highlight DiffText   cterm=bold ctermfg=10      ctermbg=88
 imap <F1> <ESC>
 map <F1> <ESC>
 map Q W
-noremap <Space> <C-F>
-noremap g<Space> <Space>
 "
 "
 " FILE-TYPE DETECTION
