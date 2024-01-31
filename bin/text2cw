@@ -2,6 +2,9 @@
 set -eux -o pipefail
 
 
+speedcontrol="-w 15 -e 2"
+
+
 # Validate usage:
 if [[ $# -ne 2 ]]; then
     echo Invalid usage 1>&2
@@ -36,7 +39,7 @@ cat text.src \
 
 
 # Convert to morse:
-ebook2cw -u -w 15 -e 2 -c "$(uuid)" -o text. text.clean
+ebook2cw -u $speedcontrol -c "$(uuid)" -o text. text.clean
 
 
 # Set metadata
