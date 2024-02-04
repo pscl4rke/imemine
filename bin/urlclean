@@ -11,13 +11,20 @@
 import contextlib
 import os
 import unittest
-import urllib.parse
+from urllib.parse import parse_qsl, quote_plus, urlparse
 import sys
+
+
+def encode(key, value):
+    result = quote_plus(key)
+    if value != "":
+        result = result + "=" + quote_plus(value)
+    return result
 
 
 def clean_query(original):
     pairs = []
-    for key, value in urllib.parse.parse_qsl(original):
+    for key, value in parse_qsl(original, keep_blank_values=True):
         if key.startswith("utm_"):
             continue
         if key == "fbclid":
@@ -37,7 +44,9 @@ def clean_query(original):
         if key == "aff":
             continue
         pairs.append((key, value))
-    return urllib.parse.urlencode(pairs)
+    # urlencode can't handle when the value is ""
+    #return urllib.parse.urlencode(pairs)
+    return "&".join(encode(key, value) for key, value in pairs)
 
 
 def is_local(path):
@@ -64,7 +73,7 @@ def clean(original):
         else:
             # Now if you want http:// specify it explicitly
             splitfixed = "https://%s" % splitfixed.strip()
-    url = urllib.parse.urlparse(splitfixed.strip())
+    url = urlparse(splitfixed.strip())
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
@@ -134,6 +143,10 @@ class TestClean(unittest.TestCase):
     def test_params(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo+bar&id=6"),
                                "http://www.foobar.com/path?q=foo+bar&id=6")
+
+    def test_key_without_value(self):
+        self.assertEqual(clean("http://www.foobar.com/?abcdefghijk"),
+                               "http://www.foobar.com/?abcdefghijk")
 
     def test_bookmarks(self):
         self.assertEqual(clean("http://www.foobar.com/abcde.foo#hello-world"),
