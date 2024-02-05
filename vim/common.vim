@@ -14,3 +14,11 @@ map <Up> gk
 "   Act as a pager; replicate less
 noremap <Space> <C-F>
 "noremap g<Space> <Space>
+
+
+" COMMAND ENTRY
+"   Make the command line behave more like readline.
+"   (Unfortunately it only has whitespace-deletion and
+"   does not support wordchar-deletion (Alt-BS).)
+cnoremap <C-A> <Home>
+cnoremap <Esc><BS> <BS>
