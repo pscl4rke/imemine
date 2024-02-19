@@ -17,8 +17,9 @@ noremap <Space> <C-F>
 
 
 " COMMAND ENTRY
-"   Make the command line behave more like readline.
+"   Make the command line behave more like readline (bash etc).
 "   (Unfortunately it only has whitespace-deletion and
 "   does not support wordchar-deletion (Alt-BS).)
 cnoremap <C-A> <Home>
 cnoremap <Esc><BS> <BS>
+set wildmode=longest,list

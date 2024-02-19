@@ -97,13 +97,6 @@ set smarttab
 set title
 "
 "
-" TAB COMPLETION {{{
-"   The tab completion on the command line is set to act more like
-"   bash: filling out as much as it can and then offering suggestions.
-set wildmode=longest,list
-"}}}
-"
-"
 " SETTING UP TABS
 "   Tabs is a vastly superior way of working.  (In fact, I'm genuinely
 "   surprised that it's not the default, and have aliased the -p into
