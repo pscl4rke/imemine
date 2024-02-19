@@ -33,9 +33,12 @@ user_pref("browser.urlbar.suggest.quicksuggest.nonsponsored", false);
 user_pref("browser.urlbar.suggest.quicksuggest.sponsored", false);
 
 
-// SCROLLING
+// SCROLLBARS
+//  Be boring. Always show. Always stay the same size.
 user_pref("layout.testing.overlay-scrollbars.always-visible", true);
 user_pref("widget.non-native-theme.gtk.scrollbar.thumb-size", 2);
+user_pref("widget.non-native-theme.scrollbar.size.override", 20);
+user_pref("widget.non-native-theme.scrollbar.style", 1);
 
 
 // DOWNLOADS
