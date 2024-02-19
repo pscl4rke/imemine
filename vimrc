@@ -176,7 +176,6 @@ highlight DiffText   cterm=bold ctermfg=10      ctermbg=88
 "   to work!
 imap <F1> <ESC>
 map <F1> <ESC>
-map Q W
 "
 "
 " FILE-TYPE DETECTION
@@ -277,3 +276,4 @@ endif
 "   Some bits and pieces that were used, but not any more.
 "set showmatch [Not needed in non compat. mode]
 "set switchbuf=usetab,newtab
+"map Q W
