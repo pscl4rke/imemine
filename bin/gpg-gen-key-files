@@ -15,7 +15,7 @@ if [[ $# -eq 0 ]]; then
     echo "Usage:"
     echo "  $0 filenameprefix [arg1, arg2, ...]"
     echo "which will run gen-key with any optional arguments and create"
-    echo "filenameprefix.key and filenameprefix.pubkey"
+    echo "filenameprefix.key and filenameprefix.pubkey and filenameprefix.binkey"
     exit 1
 fi
 
@@ -31,6 +31,12 @@ fi
 publickey="$outputroot.pubkey"
 if [[ -e "$publickey" ]]; then
     echo "Already exists: $publickey"
+    exit 1
+fi
+
+publicbinkey="$outputroot.binkey"
+if [[ -e "$publicbinkey" ]]; then
+    echo "Already exists: $publicbinkey"
     exit 1
 fi
 
@@ -71,6 +77,11 @@ echo "Wrote $secretkey"
 echo
 echo "Exporting the public key..."
 gpg --armor --export > "$publickey"
+echo "Wrote $publickey"
+
+echo
+echo "Exporting the public key (binary version)..."
+gpg --export > "$publicbinkey"
 echo "Wrote $publickey"
 
 echo
