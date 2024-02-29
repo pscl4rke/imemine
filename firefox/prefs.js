@@ -145,6 +145,9 @@ user_pref("middlemouse.contentLoadURL", false);
 user_pref("webgl.disabled", true);
 user_pref("webgl.renderer-string-override", " ");
 user_pref("webgl.vendor-string-override", " ");
+user_pref("media.eme.enabled", false);
+user_pref("permissions.manager.defaultsUrl", "");
+user_pref("webchannel.allowObject.urlWhitelist", "");
 
 
 // UNKNOWN
