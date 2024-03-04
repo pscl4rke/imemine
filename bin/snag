@@ -52,6 +52,12 @@ class SshSource:
 
     def __init__(self, prefix_args):
         self.prefix_args = prefix_args
+        if ("-t" in prefix_args) or ("-tt" in prefix_args):
+            # because the default advice for sudo over ssh is to pass -t option
+            self.info("NOTE: Snag and PseudoTTYs play badly together!")
+            self.info("  Any terminal interaction prompts etc will get mixed")
+            self.info("  into the same bytestream as the command output and")
+            self.info("  will be hidden from you the user.")
         self.socket = "./snag.%s.sock" % random_code(8)
 
     def info(self, message):
