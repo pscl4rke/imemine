@@ -189,8 +189,17 @@ class Snagger:
             # Note that we only overwrite the file if the cmd worked
             with open(destination, "wb") as destfile:
                 destfile.write(output)
-        except subprocess.CalledProcessError:
-            self.warning("ERROR")
+        except subprocess.CalledProcessError as exc:
+            # Note that filters can throw errors too
+            self.warning("Running %s failed with exit code %r" %
+                         (exc.cmd[0], exc.returncode))
+            self.warning("Command: %r" % exc.cmd)
+            if exc.stdout is not None:
+                for line in exc.stdout.splitlines():
+                    self.warning("Stdout: %r" % line)
+            if exc.stderr is not None:
+                for line in exc.stderr.splitlines():
+                    self.warning("Stderr: %r" % line)
 
 
 if __name__ == '__main__':
