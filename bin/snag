@@ -4,6 +4,7 @@
 #======================================================================#
 
 
+import os
 import random
 import shlex
 import subprocess
@@ -104,6 +105,9 @@ class PostProcessor:
 
 class Snagger:
 
+    def __init__(self):
+        self.destdir = "."
+
     def info(self, message):
         sys.stdout.write("%s\n" % message)
         sys.stdout.flush()
@@ -145,6 +149,11 @@ class Snagger:
             return
         if line.startswith("#"):
             return
+        if line.startswith("!destdir "):
+            self.destdir = line[9:]
+            if not os.path.isdir(self.destdir):
+                self.error("No such destination directory: %r" % self.destdir)
+                sys.exit(1)
         if line.startswith("!using "):
             self.current_source.tear_down()
             self.current_source = GenericSource(shlex.split(line[7:]))
@@ -180,7 +189,8 @@ class Snagger:
         self.info("Running %r..." % shell_cmd)
         subprocess.check_call(shell_cmd, shell=True)
 
-    def pull_and_write(self, shell_cmd, postprocessors, destination):
+    def pull_and_write(self, shell_cmd, postprocessors, destname):
+        destination = os.path.join(self.destdir, destname)  # handles absolute
         try:
             self.info("Snagging %s..." % destination)
             output = self.current_source.pull(shell_cmd)
