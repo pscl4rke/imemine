@@ -1,6 +1,8 @@
 
 " as per vorpal
 
+source ~/imemine/vim/common.vim
+
 " THINGS BORROWED FROM VIMRC
 set scrolloff=3
 set numberwidth=4
