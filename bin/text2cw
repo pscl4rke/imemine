@@ -35,8 +35,12 @@ cat text.src \
     | iconv -t ascii//translit \
     | tr -d '[:punct:]' \
     | tr '\n' ' ' \
+    | sed '$s/$/ EOF\n/' \
+    | tr -s ' ' \
     > text.clean
 
+# Debugging:
+#cat text.clean
 
 # Convert to morse:
 ebook2cw -u $speedcontrol -c "$(uuid)" -o text. text.clean
