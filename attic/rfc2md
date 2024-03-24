@@ -1,0 +1,69 @@
+#!/usr/bin/sed -f
+
+
+# Take an RFC text document (i.e. from https://www.rfc-editor.org/rfc/rfcNNNN.txt)
+# and crudely reformat it into markdown, so that you can create nice reflowable
+# paragraphs of HTML etc.
+
+# Written as a sed script, because I like to suffer from time to time.
+
+# Mostly works sort-of well, but it does make a mess of the two-column
+# metadata right at the very beginning.  And any code spans within text
+# aren't detected.  Maybe '|' and '"' and '/' could be turned into backticks!
+
+
+
+
+##### STAGE ONE - LINE FILTERING
+
+# Delete page headers:
+/^RFC /d
+
+# Delete page footers:
+/\[Page [0-9]*\]$/d
+//d
+
+# Delete table of contents:
+/^Table of Contents/d
+/ . . *[0-9]*$/d
+
+# Convert bullet point to correct type:
+s/  o /  * /
+
+
+
+
+##### STAGE TWO - LINE CATEGORISING
+
+#   In which we use the "t" command to jump to the end of the file any time
+#   a line matches, so that at most one of the following rules will be applied.
+
+# Recognise the main heading with a centreing effect:
+/^            /s/^ */# /
+t
+
+# Recognise subheadings (currently only one level):
+/^[^ ]/s/^/## /
+t
+
+# Recognise paragraph text indented with 3 spaces:
+/^   [^ ]/s/^   //
+t
+
+# Recognise bullet continuation lines indented with 6 spaces:
+/^      [^ ]/s/^      //
+t
+
+# Recognise number continuation lines indented with 4 or 7 spaces:
+/^    [^ ]/s/^    //
+t
+/^       [^ ]/s/^       //
+t
+
+# Recognise code indented with 8 spaces:
+/^        [^ ]/s/^        /    /
+t
+
+# Recognise BNF indented with 10 spaces:
+/^          [^ ]/s/^          /    /
+t
