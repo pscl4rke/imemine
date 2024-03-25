@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 #======================================================================#
-# REMOTE FILE SNAGGER                            (c) 2017 P. S. Clarke #
+# REMOTE FILE SNAGGER                  (c) 2017,2021,2024 P. S. Clarke #
 #======================================================================#
 
 
+import argparse
 import os
 import random
 import shlex
@@ -14,6 +15,12 @@ import sys
 def random_code(length):
     chars = "0123456789abcdefghijklmnopqrstuvwxyz"
     return "".join(random.choice(chars) for i in range(length))
+
+
+def subst(template, context):
+    for key, value in context.items():
+        template = template.replace("[snag:%s]" % key, value)
+    return template
 
 
 class ConfigError(RuntimeError):
@@ -103,6 +110,12 @@ class PostProcessor:
         return stdout
 
 
+def argument_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("snagfile")
+    return parser
+
+
 class Snagger:
 
     def __init__(self):
@@ -121,28 +134,26 @@ class Snagger:
         sys.stdout.flush()
 
     def main(self, arguments):
-        if len(arguments) != 2:
-            self.error("Usage error")
-            sys.exit(1)
+        args = argument_parser().parse_args(sys.argv[1:])
         try:
-            self.main_or_error(arguments)
+            self.main_or_error(args)
         except ConfigError as exc:
             self.error(str(exc))
             sys.exit(1)
 
-    def main_or_error(self, arguments):
-        filename = arguments[1]
+    def main_or_error(self, args):
+        self.context = {}
         self.postprocessors = {}
         self.current_source = DummySource()
         self.current_source.set_up()
         try:
-            self.pull_according_to(filename)
+            self.pull_according_to(args.snagfile)
         finally:
             self.current_source.tear_down()
 
     def pull_according_to(self, filename):
         for line in open(filename):
-            self.handle_line(line.strip())
+            self.handle_line(subst(line.strip(), self.context))
 
     def handle_line(self, line):
         if line == "":
