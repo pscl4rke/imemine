@@ -51,12 +51,12 @@ vim.wo.number = true
 vim.wo.numberwidth = 4
 vim.o.scrolloff = 3
 
--- Here's looking at you HTML...
--- Is this not the sort of thing LSP or something could handle?
---vim.o.expandtab = true
---vim.o.tabstop = 4
---vim.o.shiftwidth = 4
---vim.o.smarttab = true
+-- Sensible defaults for many files
+--  Is this not the sort of thing LSP could override???
+vim.o.expandtab = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.smarttab = true
 
 vim.o.scrolloff = 3
 
@@ -158,6 +158,7 @@ require("lspconfig").tsserver.setup {
     --cmd = {"/home/psc/.npm2bin/typescript/node_modules/.bin/typescript-language-server",
     --       "--stdio"},
 }
+require("lspconfig").bashls.setup {}
 
 -- not sure if this line affects anything in the cmp world...
 --vim.o.completeopt = "menuone,noselect"
