@@ -68,6 +68,23 @@ require("gitsigns").setup {
     linehl = true,
 }
 
+-- Indentation
+--  Naive (copy previous line) on, but fancy stuff kept over-indenting
+--  especially in HTML and JS
+--  Maybe turn it on again for specific languages
+vim.o.autoindent = true
+--vim.cmd("filetype plugin indent off")
+vim.cmd("filetype indent off")
+--vim.cmd("autocmd FileType html filetype plugin indent off")
+--vim.cmd("autocmd FileType htmldjango filetype plugin indent off")
+--vim.cmd("autocmd FileType html filetype off")
+--vim.cmd("autocmd FileType htmldjango filetype off")
+--vim.cmd("filetype plugin on")
+--vim.cmd("autocmd BufRead,BufNewFile * filetype indent on")
+--vim.cmd("autocmd BufRead,BufNewFile *.html filetype indent off")
+--vim.o.autoindent = false
+vim.cmd("autocmd BufRead,BufNewFile *.py filetype indent on")
+
 vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
 vim.keymap.set("n", "gO", "<cmd>edit .<enter>")  -- NetRW or equiv
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
