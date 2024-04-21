@@ -1,50 +1,59 @@
 
 -- As per zenbook yet again
 
--- Note: this uses packer. But could try
+-- Note: this used packer. But this became unmaintained as of Aug 2023.
+-- Instead I will try
 --  https://github.com/savq/paq-nvim/
 -- which advertises compatibility with Debian Stable
 
+-- NOT NOT NOT
 -- $ mkdir -p ~/.local/share/nvim/site/pack/packer/start/
 -- $ git clone https://github.com/wbthomason/packer.nvim.git ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 -- :PackerSync
 
+-- INSTEAD
+-- $ git clone https://github.com/savq/paq-nvim.git ~/.local/share/nvim/site/pack/paqs/start/paq-nvim
+-- :PaqInstall
+-- (errors in ~/.cache/nvim/paq.log or ~/local/share/nvim/paq.log)
 
-require("packer").startup(function(use)
 
-    -- Packer can manage itself after the initial bootstrapping:
-    use {"https://github.com/wbthomason/packer.nvim"}
+-- realistically all these are going to get there versions pinned to be ones
+-- that are compatible with my neovim instance!
+require("paq") {
+
+    -- Paq can manage itself after the initial bootstrapping:
+    {"https://github.com/savq/paq-nvim"},
 
     -- Command Integration
-    use {"https://github.com/akinsho/toggleterm.nvim"}
-    use {"https://github.com/neomake/neomake"}
+    {"https://github.com/akinsho/toggleterm.nvim", branch = "v2.6.0"},
+    {"https://github.com/neomake/neomake"},
 
     -- Codebase Integration
-    use {"https://github.com/lewis6991/gitsigns.nvim", tag = "v0.6"}
+    {"https://github.com/lewis6991/gitsigns.nvim", branch = "v0.6"},
 
     -- Opening
-    use {"https://github.com/junegunn/fzf", tag = "0.20.0"}
-    --use {"https://github.com/junegunn/fzf.vim"}  -- :Lines, :BLines
-    use {"https://github.com/jremmen/vim-ripgrep"}
+    {"https://github.com/junegunn/fzf", branch = "0.20.0"},
+    --{"https://github.com/junegunn/fzf.vim"},  -- :Lines, :BLines
+    {"https://github.com/jremmen/vim-ripgrep"},
 
     -- Language Integration
-    use {"https://github.com/neovim/nvim-lspconfig"}
+    {"https://github.com/neovim/nvim-lspconfig", branch = "v0.1.6"},
 
     -- Completion
-    use {"https://github.com/hrsh7th/nvim-cmp"}
-    use {"https://github.com/hrsh7th/cmp-buffer"}
-    use {"https://github.com/hrsh7th/cmp-path"}
-    use {"https://github.com/hrsh7th/cmp-nvim-lsp"}
+    {"https://github.com/hrsh7th/nvim-cmp"},
+    {"https://github.com/hrsh7th/cmp-buffer"},
+    {"https://github.com/hrsh7th/cmp-path"},
+    {"https://github.com/hrsh7th/cmp-nvim-lsp"},
 
     -- Use Buffers Like Tabs
-    use {"https://github.com/akinsho/bufferline.nvim"}
-    use {"https://github.com/nvim-lualine/lualine.nvim"}
+    {"https://github.com/akinsho/bufferline.nvim"},
+    {"https://github.com/nvim-lualine/lualine.nvim"},
 
     -- TESTING:
-    --use {"https://github.com/kyazdani42/nvim-web-devicons"}
-    --use {"https://github.com/navarasu/onedark.nvim"}
+    --{"https://github.com/kyazdani42/nvim-web-devicons"},
+    --{"https://github.com/navarasu/onedark.nvim"},
 
-end)
+}
 
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
