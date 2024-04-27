@@ -53,6 +53,12 @@ def contains_invalid_path_chars(value):
     return False
 
 
+def norm(name):
+    name = name.replace("&", "and")
+    chars = "0123456789abcdefghijklmnopqrstuvwxyz"
+    return "".join(x for x in name.lower() if x in chars)
+
+
 def check(path_to_check):
     if os.path.isdir(path_to_check):
         yield from check_album_dir(path_to_check)
@@ -115,6 +121,7 @@ def check_mp3(album_dir, path_to_check):
     except mutagen.id3._util.ID3NoHeaderError:
         yield path_to_check, "No ID3 header at all"
         return
+    yield from check_folder_naming(src, path_to_check)
     yield from check_file_naming(src, path_to_check)
     yield from check_from_wipe_mp3_junk_script(src, path_to_check)
     yield from check_track_numbering(album_dir, src, path_to_check)
@@ -130,6 +137,14 @@ def check_mp3(album_dir, path_to_check):
     yield from check_recent_stuff(src, path_to_check)
     if is_a_recent_file(path_to_check):
         pass
+
+
+def check_folder_naming(src, path_to_check):
+    foldername = os.path.dirname(path_to_check)
+    if "TALB" not in src:
+        return
+    if norm(foldername) != norm(src["TALB"].text[0]):
+        yield path_to_check, "Poor match of folder name to TALB metadata"
 
 
 def check_file_naming(src, path_to_check):
