@@ -123,6 +123,7 @@ def check_mp3(album_dir, path_to_check):
         return
     yield from check_folder_naming(src, path_to_check)
     yield from check_file_naming(src, path_to_check)
+    yield from check_file_numbering(src, path_to_check)
     yield from check_from_wipe_mp3_junk_script(src, path_to_check)
     yield from check_track_numbering(album_dir, src, path_to_check)
     yield from check_genre(src, path_to_check)
@@ -148,6 +149,13 @@ def check_folder_naming(src, path_to_check):
 
 
 def check_file_naming(src, path_to_check):
+    filename = os.path.basename(path_to_check)
+    filename_title = filename.split(" ", 1)[1].rsplit(".", 1)[0]
+    if norm(filename_title) != norm(src["TIT2"].text[0]):
+        yield path_to_check, "Poor match of file name to TIT2 metadata"
+
+
+def check_file_numbering(src, path_to_check):
     if contains_invalid_path_chars(path_to_check):
         yield path_to_check, "Contains invalid path characters"
     try:
