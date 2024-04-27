@@ -54,9 +54,9 @@ def contains_invalid_path_chars(value):
 
 
 def norm(name):
-    name = name.replace("&", "and")
-    chars = "0123456789abcdefghijklmnopqrstuvwxyz"
-    return "".join(x for x in name.lower() if x in chars)
+    name = name.replace("&", "And")
+    chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    return "".join(x for x in name if x in chars)
 
 
 def check(path_to_check):
