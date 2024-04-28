@@ -271,10 +271,10 @@ def check_classical(src, path_to_check):
         yield path_to_check, "Missing composer (TCOM)"
     if "TPE3" not in src:
         yield path_to_check, "Missing performer (TPE3)"
-    if src["TALB"].text[0][-1] not in ["]", ")"]:
+    if not src["TALB"].text[0].endswith("]"):
         # One day it might be nice to have *all* music covered,
         # but for now I'll ignore compilations:
-        if "TPE2" in src and src["TPE2"].text[0] != "Various":  # album artist
+        if "TPE2" not in src or src["TPE2"].text[0] != "Various":  # album artist
             yield path_to_check, "Missing disc identifier [...] in album"
 
 
