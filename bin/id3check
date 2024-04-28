@@ -143,6 +143,8 @@ def check_mp3(album_dir, path_to_check):
 
 def check_folder_naming(src, path_to_check):
     foldername = os.path.dirname(path_to_check)
+    if contains_invalid_path_chars(foldername):
+        yield path_to_check, "Contains invalid path characters"
     if len(foldername) > FILENAME_MAX_SIZE:
         yield path_to_check, "Folder name too long for filesystems"
     if "TALB" not in src:
@@ -153,16 +155,18 @@ def check_folder_naming(src, path_to_check):
 
 def check_file_naming(src, path_to_check):
     filename = os.path.basename(path_to_check)
+    if contains_invalid_path_chars(filename):
+        yield path_to_check, "Contains invalid path characters"
     if len(filename) > FILENAME_MAX_SIZE:
         yield path_to_check, "File name too long for filesystems"
     filename_title = filename.split(" ", 1)[1].rsplit(".", 1)[0]
     if norm(filename_title) != norm(src["TIT2"].text[0]):
         yield path_to_check, "Poor match of file name to TIT2 metadata"
+    if filename_title[0] == "-":
+        yield path_to_check, "Filename has extra separator '-'"
 
 
 def check_file_numbering(src, path_to_check):
-    if contains_invalid_path_chars(path_to_check):
-        yield path_to_check, "Contains invalid path characters"
     try:
         filename_track = int(os.path.basename(path_to_check).split(" ", 1)[0], base=10)
     except Exception as exc:
