@@ -7,6 +7,11 @@
 firefox="$(which firefox-esr || which firefox)"
 chromium="$(which chromium-browser || which chromium)"
 
+if [[ -z "$chromium" ]]; then
+    echo "Using flatpak"
+    chromium="flatpak run com.github.Eloston.UngoogledChromium"
+fi
+
 urlclean="$(dirname "$0")/urlclean"
 
 if [[ -e $firefox ]]
@@ -56,10 +61,17 @@ esac
 url="$($urlclean "$url")"
 
 case "$browser-$mode" in
-    chrome-temp)
+    chrome-tempold)
+        # --temp-profile handled badly by flatpak, snap, etc.
         # --temp-profile must be first if it is to be obeyed:
         $chromium --temp-profile --no-first-run \
             --no-default-browser-check "$url" 2>&1 >/dev/null
+        ;;
+    chrome-temp)
+        profilepath="$(mktemp --directory /tmp/chromium.$$.XXXXXXX)"
+        $chromium --user-data-dir="$profilepath" \
+            --no-default-browser-check --new-window "$url" 2>&1 >/dev/null
+        rm -r "$profilepath"
         ;;
     chrome-profile)
         $chromium --user-data-dir="$HOME/.config/chromium-$profile" \
