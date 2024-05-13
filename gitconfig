@@ -18,12 +18,20 @@
 	ui = auto
 [user]
 	useConfigOnly = true
+[transfer]
+	fsckObjects = true
 [pull]
 	ff = only
 [push]
 	default = current
 [init]
 	defaultBranch = master
+[rebase]
+	autostash = true
+[merge]
+	conflictStyle = diff3 # zdiff3 only available from Jan 2022
+[diff]
+	algorithm = histogram
 [color "diff"]
 	meta = blue bold white
 	frag = cyan white
