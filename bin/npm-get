@@ -1,12 +1,16 @@
-#/usr/bin/bash
+#!/usr/bin/bash
 set -eu -o pipefail
 
 package="$1"
 
 jsondata="$(curl https://registry.npmjs.org/$package/)"
 
-version="$(echo "$jsondata" | jq -r '."dist-tags".latest')"
-echo "The latest version is $version"
+if [[ $# -eq 2 ]]; then
+    version="$2"
+else
+    version="$(echo "$jsondata" | jq -r '."dist-tags".latest')"
+    echo "The latest version is $version"
+fi
 
 other="$(echo "$jsondata" | jq -r ".versions.\"$version\".dist")"
 echo "$other"
