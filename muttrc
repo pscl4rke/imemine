@@ -191,6 +191,14 @@ set delete=ask-no
 set mark_old=no
 
 
+# LABELLING
+#   http://www.mutt.org/doc/manual/manual.html#index-format-hook
+index-format-hook  date  "~d<1d"    "%[%H:%M]"
+index-format-hook  date  "~d<1w"    "%[%a %d]"
+index-format-hook  date  "~d<6m"    "%[%d %b]"
+index-format-hook  date  "~A"       "%[%b %Y]"
+
+
 # VIEWING THE INDEX {{{
 #   Here I highlight any unread or flagged messages, and try
 #   to ignore deleted ones.
@@ -204,7 +212,7 @@ color index brightmagenta default ~T
 # Default:
 #set index_format="%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
 # With dates on the right:
-set index_format="%4C %Z %-15.15L (%?l?%4l&%4c?) %?M?+(%M)&? %?H?{%H} ?%s %*  %{%e %b}"
+set index_format="%4C %Z %-15.15L (%?l?%4l&%4c?) %?M?+(%M)&? %?H?{%H} ?%s %*  %@date@"
 set spam_separator="} {"
 # And the status line:
 set status_format=" %f (%P) %> [%?V?%V&all?] %?V?%M/?%m msgs (%?V?%L/?%l)"
