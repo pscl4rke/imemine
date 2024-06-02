@@ -198,7 +198,13 @@ class Snagger:
 
     def run(self, shell_cmd):
         self.info("Running %r..." % shell_cmd)
-        subprocess.check_call(shell_cmd, shell=True)
+        try:
+            subprocess.check_call(shell_cmd, shell=True)
+        except subprocess.CalledProcessError as exc:
+            # Let's warn but continue after errors.
+            # If I add an "!assert" command we can stop and exit
+            self.warning("Running failed with exit code %r" % exc.returncode)
+            self.warning("Command: %r" % exc.cmd)
 
     def pull_and_write(self, shell_cmd, postprocessors, destname):
         destination = os.path.join(self.destdir, destname)  # handles absolute
