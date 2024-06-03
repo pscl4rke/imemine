@@ -121,10 +121,10 @@ bind index ~ noop
 macro index '~ ' "<limit>~C "
 macro index ~~ "<limit>!~D<enter><collapse-all>"
 macro index ~n "<limit>~(~N | ~O)<enter><collapse-all>"
+macro index ~h "<limit>~n >0<enter><collapse-all>"
 macro index ~a "<limit>all<enter>"
 macro index ~d "<limit>~D<enter>"
 macro index ~f "<limit>~F<enter>"
-macro index ~h "<limit>~(!(~P) !(~f 'cron daemon') !(~s autoapt) !(~s 'pypi backup'))<enter>"
 macro index ~l "<limit>~z >1000k<enter>"
 macro index ~s "<limit>~H Spam<enter>"
 
