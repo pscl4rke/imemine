@@ -221,3 +221,6 @@ wantlink "vendor/urxvt_perl_resize-font" ".urxvt/perl/resize-font"
 wantlink "/usr/share/vim/addons/syntax" ".vim_addons/syntax"
 
 wantlink "vendor/vcal.pl" "bin/vcal"
+
+# Block unless explicit --datadir is given
+wantlink "/dev/null" ".local/share/shotwell"
