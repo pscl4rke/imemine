@@ -2,7 +2,7 @@
 set -eux -o pipefail
 
 
-speedcontrol="-w 16 -e 4"
+speedcontrol="-w 16 -e 5"
 
 
 # Validate usage:
