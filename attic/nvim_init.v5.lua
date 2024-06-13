@@ -205,6 +205,8 @@ require("lspconfig").tsserver.setup {}
 
 require("lspconfig").bashls.setup {}
 
+require("lspconfig").gopls.setup {}
+
 -- not sure if this line affects anything in the cmp world...
 --vim.o.completeopt = "menuone,noselect"
 
