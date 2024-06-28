@@ -165,6 +165,7 @@ class Snagger:
             if not os.path.isdir(self.destdir):
                 self.error("No such destination directory: %r" % self.destdir)
                 sys.exit(1)
+            return
         if line.startswith("!using "):
             self.current_source.tear_down()
             self.current_source = GenericSource(shlex.split(line[7:]))
