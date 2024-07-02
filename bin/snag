@@ -166,6 +166,10 @@ class Snagger:
                 self.error("No such destination directory: %r" % self.destdir)
                 sys.exit(1)
             return
+        if line.startswith("!export "):
+            envvar, value = line[8:].split(None, 1)
+            os.environ[envvar] = value
+            return
         if line.startswith("!using "):
             self.current_source.tear_down()
             self.current_source = GenericSource(shlex.split(line[7:]))
