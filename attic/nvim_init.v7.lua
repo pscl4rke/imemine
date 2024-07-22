@@ -73,7 +73,7 @@ require("gitsigns").setup {
 --  especially in HTML and JS
 --  Maybe turn it on again for specific languages
 vim.o.autoindent = true
---vim.cmd("filetype plugin indent off")
+vim.cmd("filetype plugin indent off")
 vim.cmd("filetype indent off")
 --vim.cmd("autocmd FileType html filetype plugin indent off")
 --vim.cmd("autocmd FileType htmldjango filetype plugin indent off")
