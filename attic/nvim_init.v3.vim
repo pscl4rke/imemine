@@ -78,3 +78,9 @@ let g:compe.source.nvim_lsp = v:true
 "cnoremap <silent> qa<CR> :echo "Do it Properly!"<CR>
 "cnoremap <silent> wq<CR> :echo "Do it Properly!"<CR>
 "cnoremap <silent> wqa<CR> :echo "Do it Properly!"<CR>
+
+colorscheme peachpuff
+highlight Comment cterm=Italic ctermfg=62
+highlight SignColumn ctermbg=None
+highlight DiffAdd ctermbg=151
+highlight DiffChange ctermbg=223
