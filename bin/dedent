@@ -1,0 +1,74 @@
+#!/usr/bin/python3
+
+
+"""
+This will flatten hierarchical files with space-based indentation
+into something in which every line lists its parents. So...
+
+    one
+        two
+            three
+        four
+            five
+            six
+    seven
+        eight
+            nine
+
+...becomes...
+
+    one
+    one two
+    one two three
+    one four
+    one four five
+    one four six
+    seven
+    seven eight
+    seven eight nine
+
+...which is helpful for grepping through stupid dumpsys files etc.
+"""
+
+
+from typing import Tuple
+
+import sys
+
+
+def main() -> None:
+    last_line = ""
+    prefix_stack = []
+    indentation_stack = [""]
+    for line in sys.stdin:
+        # Work out if the line is indenting or not:
+        indentation, text = split_whitespace_from_front(line)
+        if indentation != indentation_stack[-1]:
+            # Indenting:
+            if len(indentation) > len(indentation_stack[-1]):
+                indentation_stack.append(indentation)
+                prefix_stack.append(last_line.strip())
+            # Dedenting (perhaps multiple levels):
+            while len(indentation_stack[-1]) > len(indentation):
+                indentation_stack.pop()
+                prefix_stack.pop()
+        # Print line prefaced by a stack of labels:
+        for prefix in prefix_stack:
+            #if prefix != "":
+            #    sys.stdout.write("[" + prefix + "]")
+            #sys.stdout.write("[" + prefix + "]")
+            sys.stdout.write(prefix + " ")
+        sys.stdout.write(text)
+        last_line = line
+
+
+# Icky, but works, and still less icky than a regex!
+def split_whitespace_from_front(line: str) -> Tuple[str, str]:
+    text = line.lstrip()
+    indentation_size = len(line) - len(text)
+    indentation = line[:indentation_size]
+    return (indentation, text)
+
+
+if __name__ == "__main__":
+    main()
