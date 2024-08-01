@@ -4,18 +4,6 @@
 #======================================================================#
 
 
-
-
-
-
-# FIXME - change http to https
-
-
-
-
-
-
-
 import contextlib
 import os
 import unittest
@@ -31,21 +19,21 @@ def clean(original):
     if "://" in splitfixed:
         guess_scheme = splitfixed
     else:
-        if os.path.exists(splitfixed):
-            guess_scheme = "file://%s" % os.path.abspath(splitfixed.strip())
-        else:
-            guess_scheme = "http://%s" % splitfixed.strip()
+        guess_scheme = "https://%s" % splitfixed.strip()
     url = urllib.parse.urlparse(guess_scheme)
     if url.netloc.endswith(".be"):
         return clean_shortner(url)
     if "/shorts/" in url.path:
         v = url.path.replace("/shorts/", "")
+    elif "/live/" in url.path:
+        v = url.path.replace("/live/", "")
     else:
         v = dict(urllib.parse.parse_qsl(url.query))['v']
     p = "/embed/%s" % v
     url = url._replace(query={}, path=p)
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
+    url = url._replace(scheme="https")
     return url.geturl()
 
 
@@ -69,12 +57,24 @@ class TestClean(unittest.TestCase):
         self.assertEqual(clean("https://www.thewebsite.com/watch?v=-65_ae"),
                                "https://www.thewebsite.com/embed/-65_ae")
 
+    def test_link_without_ssl(self):
+        self.assertEqual(clean("http://www.thewebsite.com/watch?v=-65_ae"),
+                               "https://www.thewebsite.com/embed/-65_ae")
+
+    def test_link_without_scheme(self):
+        self.assertEqual(clean("www.thewebsite.com/watch?v=-65_ae"),
+                               "https://www.thewebsite.com/embed/-65_ae")
+
     def test_shortener_link(self):
         self.assertEqual(clean("https://thewebsi.be/-65_ae"),
                                "https://www.thewebsibe.com/embed/-65_ae")
 
     def test_alternative_link(self):
         self.assertEqual(clean("https://www.thewebsite.com/shorts/-65_ae"),
+                               "https://www.thewebsite.com/embed/-65_ae")
+
+    def test_live_link(self):
+        self.assertEqual(clean("https://www.thewebsite.com/live/-65_ae"),
                                "https://www.thewebsite.com/embed/-65_ae")
 
     def test_a_link_that_is_already_right(self):
