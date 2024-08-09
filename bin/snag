@@ -112,6 +112,7 @@ class PostProcessor:
 
 def argument_parser():
     parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--instance", default=None)
     parser.add_argument("snagfile")
     return parser
 
@@ -143,6 +144,8 @@ class Snagger:
 
     def main_or_error(self, args):
         self.context = {}
+        if args.instance:
+            self.context["instance"] = args.instance
         self.postprocessors = {}
         self.current_source = DummySource()
         self.current_source.set_up()
