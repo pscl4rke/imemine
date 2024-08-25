@@ -15,3 +15,6 @@
 
 # should only affect -x/--extract-audio
 --audio-format mp3
+
+# don't get non-sensical timestamps from Last-Modified: header
+--no-mtime
