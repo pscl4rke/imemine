@@ -53,8 +53,10 @@ shopt -s histverify
 #   Don't add repeated commands or space-preceded ones to history:
 HISTCONTROL=ignoreboth
 #   Keep *loads* of history:
-HISTSIZE=5000
-HISTFILESIZE=5000
+HISTSIZE=10000
+HISTFILESIZE=20000
+#   Save timestamps into history (shown in `history`)
+HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 #   Update $LINES and $COLUMNS after commands:
 shopt -s checkwinsize
 #   Ensure that the $PS1 gets properly evaluated:
