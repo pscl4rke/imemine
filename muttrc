@@ -40,12 +40,14 @@ macro index,pager mr "<reply>"
 macro index,pager mg "<group-reply>"
 macro index,pager mf "<forward-message>"
 macro index,pager mb "<bounce-message>"
+macro index,pager mp "<recall-message>"
 bind index,pager e noop
 bind index,pager r noop
 bind index,attach,generic g first-entry
 bind pager g top
 bind index,pager f noop
 bind index,pager b noop
+bind index,pager R noop
 
 
 # REFRESHING
