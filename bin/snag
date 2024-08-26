@@ -86,7 +86,7 @@ class SshSource:
         args = ["ssh", "-o", "ControlPath=%s" % self.socket]
         args.extend(self.prefix_args)
         args.extend(["-O", "exit"])
-        subprocess.check_call(args)
+        subprocess.run(args, check=False)
 
     def pull(self, shell_cmd):
         args = ["ssh", "-o", "ControlPath=%s" % self.socket]
@@ -148,9 +148,11 @@ class Snagger:
             self.context["instance"] = args.instance
         self.postprocessors = {}
         self.current_source = DummySource()
-        self.current_source.set_up()
         try:
+            self.current_source.set_up()
             self.pull_according_to(args.snagfile)
+        except KeyboardInterrupt:
+            self.error("SigInt received")
         finally:
             self.current_source.tear_down()
 
