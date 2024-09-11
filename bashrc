@@ -252,6 +252,7 @@ alias hush="unset HISTFILE"
 alias ooops="unset HISTFILE"
 alias xmodmap-right='xmodmap -e "keycode 135 = Right"'
 alias abcde="printf 'Try abcdef instead\n'"
+alias ssh1="ssh1 -F ~/.ssh/config.ssh1"
 
 
 # PRODUCTIVITY IMPROVEMENTS

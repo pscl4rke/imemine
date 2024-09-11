@@ -39,6 +39,10 @@ def menu(current_path, suggested_path):
             subprocess.call(cmd, shell=True)
         elif selection == 'i':
             shutil.copy(suggested_path, "config")
+            # OR.... the other option is to have a separate script.ssh1
+            # which can build config.ssh
+            fix = "cat config | grep -v AddKeysToAgent > config.ssh1"
+            subprocess.call(fix, shell=True)
             return
         else:
             print("Unknown")
