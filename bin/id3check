@@ -285,10 +285,10 @@ def check_classical(src, path_to_check):
     #    yield path_to_check, "Year is set (TDRL)"
     #if "TDRC" in src:
     #    yield path_to_check, "Year is set (TDRC)"
-    if not src["TALB"].text[0].endswith("]"):
+    if "TPE2" not in src or src["TPE2"].text[0] != "Various":  # album artist
         # One day it might be nice to have *all* music covered,
         # but for now I'll ignore compilations:
-        if "TPE2" not in src or src["TPE2"].text[0] != "Various":  # album artist
+        if not src["TALB"].text[0].endswith("]"):
             yield path_to_check, "Missing disc identifier [...] in album"
 
 
