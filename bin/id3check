@@ -60,6 +60,17 @@ def norm(name):
     return "".join(x for x in name if x in chars)
 
 
+def compname(name):
+    # Some special cases have spaces in the surnames...
+    if name.endswith(" Strauss I"):
+        return "Strauss I"
+    if name.endswith(" Strauss II"):
+        return "Strauss II"
+    if name.endswith(" Vaughan Williams"):
+        return "Vaughan Williams"
+    return name.split()[-1]
+
+
 def check(path_to_check):
     if os.path.isdir(path_to_check):
         yield from check_album_dir(path_to_check)
@@ -286,6 +297,10 @@ def check_classical(src, path_to_check):
     #if "TDRC" in src:
     #    yield path_to_check, "Year is set (TDRC)"
     if "TPE2" not in src or src["TPE2"].text[0] != "Various":  # album artist
+        if "TCOM" in src:  # this bit is in need of a rethink!
+            composer_surname = compname(src["TCOM"].text[0])
+            if not src["TALB"].text[0].startswith(composer_surname):
+                yield path_to_check, "Missing composer from start of album name"
         # One day it might be nice to have *all* music covered,
         # but for now I'll ignore compilations:
         if not src["TALB"].text[0].endswith("]"):
