@@ -18,60 +18,60 @@ syntax ftdetect plugin:
 
 
 syntax/coffee.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/kchmck/vim-coffee-script/master/syntax/coffee.vim -fo $@
 ftdetect/coffee.vim: | ftdetect
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/kchmck/vim-coffee-script/master/ftdetect/coffee.vim -fo $@
 
 
 syntax/jinja.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	# The file has been deleted from the mainline!
 	#curl $(GH)/pallets/jinja/master/ext/Vim/jinja.vim -fo $@
 	curl $(GH)/pallets/jinja/da812816ff1a459eefa7ca946b4c108cc7106c85/ext/Vim/jinja.vim -fo $@
 
 
 syntax/ledger.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/ledger/vim-ledger/master/syntax/ledger.vim -fo $@
 
 
 syntax/python.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/vim-python/python-syntax/master/syntax/python.vim -fo $@
 
 
 plugin/ripgrep.vim: | plugin
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/jremmen/vim-ripgrep/master/plugin/vim-ripgrep.vim -fo $@
 
 
 syntax/puppet.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/rodjek/vim-puppet/master/syntax/puppet.vim -fo $@
 	@true This is to ensure "elsif" etc get highlighted...
 	sed -i '/puppetNotTop/s/Declaration.*$$/Declaration/' $@
 
 
 syntax/cram.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/pscl4rke/vim-cram/master/syntax/cram.vim -fo $@
 ftdetect/cram.vim: | ftdetect
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/pscl4rke/vim-cram/master/ftdetect/cram.vim -fo $@
 
 
 syntax/kotlin.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/udalov/kotlin-vim/master/syntax/kotlin.vim -fo $@
 ftdetect/kotlin.vim: | ftdetect
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/udalov/kotlin-vim/master/ftdetect/kotlin.vim -fo $@
 
 
 syntax/nginx.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	@echo "Ooh look! No Github!!!"
 	curl http://hg.nginx.org/nginx/raw-file/tip/contrib/vim/syntax/nginx.vim -fo $@
 
@@ -79,15 +79,15 @@ syntax/nginx.vim: | syntax
 # This is only the basic plugin providing `:FZF`.  For advanced
 # functionality like `:Files` use `junegunn/fzf.vim.git`.
 plugin/fzf.vim: | plugin
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/junegunn/fzf/master/plugin/fzf.vim -fo $@
 
 
 syntax/openvpn.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/vim-scripts/openvpn/master/syntax/openvpn.vim -fo $@
 
 
 syntax/icalendar.vim: | syntax
-	mvtoattic $@
+	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/vim-scripts/icalendar.vim/master/syntax/icalendar.vim -fo $@
