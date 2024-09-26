@@ -78,9 +78,12 @@ syntax/nginx.vim: | syntax
 
 # This is only the basic plugin providing `:FZF`.  For advanced
 # functionality like `:Files` use `junegunn/fzf.vim.git`.
+# It is VERY picky about versions matching, so use the plugin
+# that gets packaged with the vim binaries.
 plugin/fzf.vim: | plugin
 	-mv -i $@ ~/attic/$$(date -I).$@
-	curl $(GH)/junegunn/fzf/master/plugin/fzf.vim -fo $@
+	@#curl $(GH)/junegunn/fzf/master/plugin/fzf.vim -fo $@
+	cp /usr/share/doc/fzf/examples/fzf.vim $@
 
 
 syntax/openvpn.vim: | syntax
