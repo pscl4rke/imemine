@@ -86,6 +86,8 @@ class LocalMail:
                 print()  # force new line
             except SystemExit:
                 break
+            except FileNotFoundError as exc:
+                print("File not found: %r" % exc.filename)
             except Exception as exc:
                 print(repr(exc))
 
