@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
 
-# Future: use pick or fzf to select one
 # Future: run pcmanfm-qt -w to install CURRENT-LINK
 
 
 import os
 import shutil
+import subprocess
 import sys
 
 
@@ -26,6 +26,14 @@ def available():
     return files
 
 
+def set_background(filename_without_path: str) -> None:
+        link = os.path.join(picture_dir(), "CURRENT-LINK")
+        # the "or" is to handle both working and broken symlinks
+        if os.path.exists(link) or os.path.islink(link):
+            os.remove(link)
+        os.symlink(filename_without_path, link)
+
+
 def main():
     subcommand = sys.argv[1]
     if subcommand == "add":
@@ -38,11 +46,15 @@ def main():
             print(file)
     elif subcommand == "set":
         desired = sys.argv[2]
-        #target = os.path.join(picture_dir(), desired)
-        link = os.path.join(picture_dir(), "CURRENT-LINK")
-        if os.path.exists(link):
-            os.remove(link)
-        os.symlink(desired, link)
+        set_background(desired)
+    elif subcommand == "pick":
+        # using pick here, could try fzf instead
+        p = subprocess.run(["pick"], capture_output=True,
+                           input="\n".join(available()).encode() + b"\n")
+        if p.returncode != 0:
+            raise Exception("No image picked")
+        #print(repr(p.stdout.decode().rstrip("\n")))
+        set_background(p.stdout.decode().rstrip("\n"))
     else:
         raise Exception("Unknown command: %r" % subcommand)
 
