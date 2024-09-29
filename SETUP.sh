@@ -208,6 +208,8 @@ wantlink "zathurarc" ".config/zathura/zathurarc"
 #wantlink "openbox/autostart" ".config/lxsession/LXQt/autostart"
 
 wantlink "xdg-autostart/on-login-gui.desktop" ".config/autostart/on-login-gui.desktop"
+# Hidden things won't start...
+wantlink "xdg-autostart/geoclue-demo-agent.desktop" ".config/autostart/geoclue-demo-agent.desktop"
 
 # Recent versions of ack-grep don't need this, because they
 # have both /usr/bin/ack-grep and /usr/bin/ack...
