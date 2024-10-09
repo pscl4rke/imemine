@@ -55,10 +55,15 @@ require("paq") {
 
 }
 
+-- Configuration shared with normal vim
+vim.cmd "source ~/imemine/vim/common.vim"
+
+
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4
 vim.o.scrolloff = 3
+vim.o.title = true
 
 -- Sensible defaults for many files
 --  Is this not the sort of thing LSP could override???
@@ -96,16 +101,17 @@ vim.keymap.set("n", "gO", "<cmd>GFiles<enter>") -- git ls-files
 vim.keymap.set("n", "gl", "<cmd>Lines<enter>")
 vim.keymap.set("n", "MM", "<cmd>make<enter>")
 --vim.keymap.set("n", "MM", "<cmd>Neomake!<enter><cmd>copen<enter>")
-vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
 --vim.keymap.set("n", "H", "<cmd>bnext<enter>")  -- breaks with quickfix
 --vim.keymap.set("n", "L", "<cmd>bnext<enter>")  -- breaks with quickfix
 vim.keymap.set("n", "H", "<cmd>BufferLineCyclePrev<enter>")
 vim.keymap.set("n", "L", "<cmd>BufferLineCycleNext<enter>")
+vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
 vim.keymap.set("n", "g/", function()
     local query = vim.fn.input("Ripgrep prompt: ")
     vim.cmd("Rg " .. query) -- shortcut for vim.api.nvim_command
 end)
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
+vim.keymap.set("n", "g[", vim.lsp.buf.references)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 
 require("bufferline").setup {
@@ -159,14 +165,8 @@ end
 
 -- Language Integration
 --  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
-require("lspconfig").pylsp.setup {
-    -- Remember this is influenced by ~/.config/pycodestyle
-    --cmd = {"/home/psc/.pip2bin/pylsp/bin/pylsp"},
-}
-require("lspconfig").tsserver.setup {
-    --cmd = {"/home/psc/.npm2bin/typescript/node_modules/.bin/typescript-language-server",
-    --       "--stdio"},
-}
+require("lspconfig").pylsp.setup {} -- Remember: influenced by ~/.config/pycodestyle
+require("lspconfig").tsserver.setup {}  -- use "// @ts-check" in .js/.mjs files
 require("lspconfig").bashls.setup {}
 
 -- not sure if this line affects anything in the cmp world...
@@ -209,7 +209,6 @@ cmp.setup {
 }
 
 -- Colours
--- vim.cmd("colorscheme onedark")
 --  Use a default, then tweak a little bit
 --  Not in love with "peachpuff", but at least it's dark-on-light
 --  https://www.ditig.com/256-colors-cheat-sheet
