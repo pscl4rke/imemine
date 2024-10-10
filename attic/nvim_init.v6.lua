@@ -92,8 +92,7 @@ require("gitsigns").setup {
     linehl = true,
 }
 
-vim.keymap.set("n", "<space>", "<C-F>")
-vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
+--vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")  -- THIS IS A DEFAULT IN NVIM
 
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
 --vim.keymap.set("n", "go", "<cmd>Files<enter>") -- has preview
