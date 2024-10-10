@@ -8,7 +8,7 @@
 -- (errors in ~/.cache/nvim/paq.log or ~/.local/share/nvim/paq.log)
 
 
--- Realistically all these are going to get there versions pinned to be ones
+-- Realistically all these are going to get their versions pinned to be ones
 -- that are compatible with my neovim instance!
 require("paq") {
 
@@ -23,6 +23,7 @@ require("paq") {
 
     -- Opening
     {"https://github.com/junegunn/fzf", branch = "0.38.0"},
+    {"https://github.com/jremmen/vim-ripgrep"},
 
     -- Language Integration
     {"https://github.com/neovim/nvim-lspconfig", branch = "v0.1.6"},
@@ -74,13 +75,16 @@ require("gitsigns").setup {
     linehl = true,
 }
 
-vim.keymap.set("n", "<space>", "<C-F>")
-vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
+--vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>") -- default
 
-vim.keymap.set("n", "go", "<cmd>FZF<enter>")
 vim.keymap.set("n", "H", "<cmd>BufferLineCyclePrev<enter>")
 vim.keymap.set("n", "L", "<cmd>BufferLineCycleNext<enter>")
 vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
+vim.keymap.set("n", "go", "<cmd>FZF<enter>")
+vim.keymap.set("n", "g/", function()
+    local query = vim.fn.input("Ripgrep prompt: ")
+    vim.cmd("Rg " .. query) -- shortcut for vim.api.nvim_command
+end)
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 vim.keymap.set("n", "g[", vim.lsp.buf.references)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
