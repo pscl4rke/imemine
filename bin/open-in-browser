@@ -3,6 +3,10 @@
 # WEB-BROWSING LAUNCH WRAPPER               (c) 2012-2020 P. S. Clarke #
 #======================================================================#
 
+#if ! zenity --question; then
+#    exit 1
+#fi
+
 # maybe /usr/bin, /maybe /snap/bin, maybe somewhere else...
 firefox="$(which firefox-esr || which firefox)"
 chromium="$(which chromium-browser || which chromium)"
