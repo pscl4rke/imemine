@@ -183,7 +183,7 @@ do
             ;;
         view)
             basefile="page-$(paddedpage $currentpage)"
-            sxiv "$basefile.pnm"
+            open-in-image-viewer "$basefile.pnm"
             ;;
         colour)
             colourmode="color"
