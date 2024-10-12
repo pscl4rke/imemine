@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Browse the clipboard
+Comment=Browse a URL passed
+GenericName=URL Web Browser
+Exec=/home/psc/imemine/bin/open-in-browser-bg %u
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=web
+Categories=Internet;Network;WebBrowser;
+StartupNotify=true
+MimeType=x-scheme-handler/https;x-scheme-handler/http;text/html;
