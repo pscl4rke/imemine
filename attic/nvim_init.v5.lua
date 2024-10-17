@@ -47,10 +47,12 @@ end)
 -- Configuration shared with normal vim
 vim.cmd "source ~/imemine/vim/common.vim"
 
+-- Layout
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4
 vim.o.scrolloff = 3
+vim.o.title = true
 
 -- Here's looking at you HTML...
 vim.o.expandtab = true
@@ -86,9 +88,6 @@ vim.cmd("filetype plugin indent off")
 vim.o.showtabline = 2  -- always
 --vim.o.switchbuf = "newtab"
 
-vim.keymap.set("n", "<space>", "<C-F>")
-vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>")
-
 --vim.keymap.set("n", "go", "<cmd>tabnew<enter><cmd>FZF<enter>")
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
 --vim.keymap.set("n", "gO", "<cmd>tabedit .<enter>")  -- NetRW or equiv
@@ -96,8 +95,6 @@ vim.keymap.set("n", "gO", "<cmd>edit .<enter>")  -- NetRW or equiv
 vim.keymap.set("n", "gl", "<cmd>Lines<enter>")
 vim.keymap.set("n", "gG", "<cmd>GFiles<enter>") -- not gitignored, but includes parent dirs
 vim.keymap.set("n", "g/", function()
-    --vim.cmd("tabnew") -- shortcut for vim.api.nvim_command
-    --vim.cmd("redraw")
     local query = vim.fn.input("Ripgrep prompt: ")
     vim.cmd("Rg " .. query) -- shortcut for vim.api.nvim_command
 end)
@@ -161,25 +158,6 @@ require("bufferline").setup {
 --]]
 --require("bufferline.options").maximum_length = function () return 5 end
 
--- Status Bar
-require("lualine").setup {
-    options = {
-        theme = "everforest", -- or "16color"
-        icons_enabled = false,
-        component_separators = "",
-        section_separators = "",
-    },
-    sections = {
-        -- [a|b|c...x|y|z]
-        lualine_a = {"filename", "%m%r%h%w"},
-        lualine_b = {"fileformat", "encoding", "filetype"},
-        lualine_c = {"diagnostics"},
-        lualine_x = {"branch", "diff"},
-        lualine_y = {"%03.3b", "%(%)0x%02.2B"},  -- the %(%) fools lualine into interpretting %
-        lualine_z = {"location", "progress", "%L"},
-    },
-}
-
 -- Quickfix
 function table_contains(tbl, x) -- euugh... surely lua has a built-in?!?!
     found = false
@@ -196,67 +174,17 @@ end
 
 -- Language Integration
 --  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
-require("lspconfig").pylsp.setup {
-    -- Remember this is influenced by ~/.config/pycodestyle
-    cmd = {"/home/psc/.pip2bin/pylsp/bin/pylsp"},
-}
-
-require("lspconfig").tsserver.setup {}
-
+require("lspconfig").pylsp.setup {} -- Remember: influenced by ~/.config/pycodestyle
+require("lspconfig").tsserver.setup {}  -- use "// @ts-check" in .js/.mjs files
 require("lspconfig").bashls.setup {}
-
 require("lspconfig").gopls.setup {}
 
--- not sure if this line affects anything in the cmp world...
---vim.o.completeopt = "menuone,noselect"
+require("myconf.completion")
+require("myconf.colours")
+require("myconf.statusbar")
 
-local cmp = require("cmp")
-cmp.setup {
-    preselect = cmp.PreselectMode.None,  -- esp for gopls
-    sources = {
-        { name = "buffer" },
-        { name = "path" },
-        { name = "nvim_lsp" },
-    },
-    mapping = {
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-e>"] = cmp.mapping.close(),
-        ["<CR>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = false,  -- don't autocomplete end of comment!
-        },
-        ["<Tab>"] = function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            else
-                fallback()
-            end
-        end,
-        ["<S-Tab>"] = function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            else
-                fallback()
-            end
-        end,
-    },
-}
-
--- Colours
---  Use a default, then tweak a little bit
---  Not in love with "peachpuff", but at least it's dark-on-light
---  https://www.ditig.com/256-colors-cheat-sheet
-vim.cmd [[
-    colorscheme peachpuff
-    highlight Comment cterm=Italic ctermfg=62
-    highlight SignColumn ctermbg=None
-    highlight DiffAdd ctermbg=151
-    highlight DiffChange ctermbg=223
-]]
+-- Possibilities:
+--  I don't use marks, so "m" and "'" could be rebound for other actions
 
 -- Note:
 --  :checkhealth is useful
