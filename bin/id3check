@@ -368,13 +368,13 @@ def display(path, problem, dest):
     if coloured:
         parts.append("\x1b[0m")
     parts.append("\n")
-    dest.write("".join(parts))
+    dest.write("".join(parts).encode("utf-8", "backslashreplace"))
 
 
 def main():
     for path_to_check in sys.argv[1:]:
         for path, problem in check(path_to_check):
-            display(path, problem, sys.stdout)
+            display(path, problem, sys.stdout.buffer)
 
 
 if __name__ == '__main__':
