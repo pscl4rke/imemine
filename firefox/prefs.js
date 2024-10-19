@@ -42,6 +42,12 @@ user_pref("widget.non-native-theme.scrollbar.size.override", 20);
 user_pref("widget.non-native-theme.scrollbar.style", 1);
 
 
+// SCROLLING
+//  Don't slowwwwly come to a standstill once I stop scrolling.
+//  (Seems to only be a problem in Gnome/Wayland environments.)
+user_pref("apz.gtk.kinetic_scroll.enabled", false);
+
+
 // DOWNLOADS
 //  Don't keep hiding the download icon.  But also don't let
 //  the list get in the way.
