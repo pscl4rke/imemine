@@ -4,7 +4,11 @@
 #======================================================================#
 
 
-import email, email.header
+import logging
+LOG = logging.getLogger("print-email")
+
+import email
+import email.header
 #import os
 import re
 import subprocess
@@ -13,6 +17,7 @@ import sys
 
 # TODO: Handle emails that only have an HTML part.
 #           (maybe pipe through jerks first)
+#           (this is an increasingly common problem)
 
 
 PREMP = ["/home/psc/imemine/bin/premp"]
@@ -29,24 +34,33 @@ def cleanup(header):
     return " ".join(word for word in full.split())
 
 
-def run(cmdline, data_in):
-    process = subprocess.Popen(cmdline, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+def run(args, data_in):
+    LOG.info("Running %r with %i bytes of stdin", args, len(data_in))
+    process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     data_out, _ = process.communicate(data_in)
     #process.wait()  # not needed with communicate
     exitcode = process.poll()
-    if exitcode is not 0:
-        raise Exception("%s returned %i" % (cmdline[0], exitcode))
+    if exitcode != 0:
+        raise Exception("%s returned %i" % (args[0], exitcode))
     return data_out
+    # For some reason this breaks pp's ability to do an interactive prompt
+    #result = subprocess.run(args, check=True, capture_output=True, input=data_in)
+    #return result.stdout
 
 
 def main():
     raw_message = sys.stdin.buffer.read()
     email_message = email.message_from_bytes(raw_message)
     title = cleanup(email_message['Subject'])
+    LOG.debug("The title (from the subject) is %r" % title)
     clean_message = run(PREMP, raw_message)
     raw_postscript = run(MP, clean_message)
-    clean_postscript = re.sub(b"\$Header.*\$",
-        title.encode('ascii', 'replace'), raw_postscript)
+    # I think the "Header" is used by ps-to-pdf conversion
+    clean_postscript = re.sub(
+        rb"\$Header.*\$",
+        title.encode('ascii', 'replace'),
+        raw_postscript,
+    )
     #pdf_message = run(PS2PDF, clean_postscript)
     #outfile_name = "%s.pdf" % title
     #outfile_path = os.path.join(os.environ["HOME"], "Desktop", outfile_name)
@@ -59,4 +73,5 @@ def main():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level="DEBUG")
     main()
