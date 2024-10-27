@@ -42,7 +42,15 @@ def cleanup(header):
 
 class PreMP:
 
+    def __init__(self):
+        self.last_output_line = ""
+
     def writeln(self, line):
+        line = line.rstrip().replace("\n", "").replace("\r", "")
+        if (line == "") and (line == self.last_output_line):
+            # don't print more than one blank line
+            return
+        self.last_output_line = line
         # Postscript files have a very weird character encoding (CP-1276):
         #   https://en.wikipedia.org/wiki/PostScript_Standard_Encoding
         # The most flexible way to show "unicode" is to use `glyphshow`.
@@ -69,7 +77,8 @@ class PreMP:
                 # or use get_content_charset() or get_param('charset')!!!
                 _type, _sc, rest = part.get('Content-Type', ';ascii').partition(';')
                 charset = rest.strip().replace('charset=', '')
-                self.writeln(payload.decode(charset))
+                for line in payload.decode(charset).splitlines():
+                    self.writeln(line)
             else:
                 mtype = part.get_content_type()
                 size = len(part.get_payload())
