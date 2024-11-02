@@ -22,7 +22,8 @@ application/ms-tnef; echo ===== && tnef -t %s && read x && tnef -w -C /home/psc/
 
 
 #image/jpeg; sxiv %s
-image/jpeg; sxiv %s; test=test -x /usr/bin/sxiv
+#image/jpeg; sxiv %s; test=test -x /usr/bin/sxiv
+image/jpeg; open-in-image-viewer %s
 
 application/pdf; zathura %s; test=test -x /usr/bin/zathura
 
