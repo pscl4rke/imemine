@@ -75,7 +75,8 @@ class SshSource:
         sys.stdout.flush()
 
     def set_up(self):
-        self.info("Launching the control master on %s..." % self.socket)
+        self.info("Launching the control master to %r on %s..."
+                  % (self.prefix_args, self.socket))
         args = ["ssh", "-o", "ControlPath=%s" % self.socket,
                        "-o", "ControlMaster=yes",
                        "-o", "ControlPersist=yes"]
@@ -143,6 +144,9 @@ class Snagger:
         except ConfigError as exc:
             self.error(str(exc))
             sys.exit(1)
+        except KeyboardInterrupt:
+            self.error("SigInt received")
+            sys.exit(130)  # mimic bash
 
     def main_or_error(self, args):
         self.context = {}
@@ -153,8 +157,6 @@ class Snagger:
         try:
             self.current_source.set_up()
             self.pull_according_to(args.snagfile)
-        except KeyboardInterrupt:
-            self.error("SigInt received")
         finally:
             self.current_source.tear_down()
 
