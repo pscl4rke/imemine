@@ -10,7 +10,7 @@
 
 import sys
 import email
-import quopri
+#import quopri
 import subprocess
 
 
@@ -33,7 +33,10 @@ def handle_email(msg):
 
 
 def handle_html(html):
-    html = html.replace(b"://", b"---") # Break tracker links
+    # Break tracker links:
+    html = html.replace(b"://", b"---")
+    html = html.replace(b"<img", b"<ximg")
+    html = html.replace(b"src=", b"xxx=")
     args = ("w3m", "-T", "text/html")
     browser = subprocess.Popen(args, stdin=subprocess.PIPE)
     browser.communicate(html)
