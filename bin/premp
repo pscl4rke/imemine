@@ -14,8 +14,9 @@
 # a state that mp can use.  E.g. scrubbing non plaintext parts.
 
 
-import email, email.header
-import quopri
+import email
+import email.header
+import subprocess
 import sys
 
 
@@ -73,11 +74,25 @@ class PreMP:
             if part.get_content_maintype() == 'multipart':
                 continue
             if part.get_content_type() == 'text/plain':
+                self.writeln("")
+                self.writeln("==== text/plain ====")
+                self.writeln("")
                 payload = part.get_payload(decode=True)
                 # or use get_content_charset() or get_param('charset')!!!
                 _type, _sc, rest = part.get('Content-Type', ';ascii').partition(';')
                 charset = rest.strip().replace('charset=', '')
                 for line in payload.decode(charset).splitlines():
+                    self.writeln(line)
+            elif part.get_content_type() == "text/html":
+                self.writeln("")
+                self.writeln("==== text/html ====")
+                self.writeln("")
+                payload = part.get_payload(decode=True)
+                process = subprocess.run(["jerks", "--raw-html"],
+                                         input=payload, capture_output=True,
+                                         check=True)
+                unmarked = process.stdout.decode()
+                for line in unmarked.splitlines():
                     self.writeln(line)
             else:
                 mtype = part.get_content_type()

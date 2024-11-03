@@ -7,6 +7,9 @@
 # Some people are incapable of sending emails with readable plain
 # text.  Machine-generated newsletters are the worst offenders.
 
+# This is used directly by a mutt macro, as well as indirectly through
+# mailcap conversions.  As well as by `premp`.
+
 
 import sys
 import email
