@@ -110,6 +110,13 @@ def check_album_dir(path_to_check):
     tracks = album_dir.track_numbers()
     if ("01" not in tracks) and ("101" not in tracks):
         yield path_to_check, "Missing file 01 or 101"
+    for track in sorted(set(tracks)):
+        if tracks.count(track) != 1:
+            yield path_to_check, f"There are too many tracks with number {track}"
+        if track not in ("01", "101", "201"):  # can add 301 etc as needed
+            previous = "%02i" % (int(track, 10) - 1)
+            if previous not in tracks:
+                yield path_to_check, f"There is track {track} but not {previous}"
     files.sort()
     if "Folder.jpg" not in files:
         yield path_to_check, "Missing Folder.jpg"
