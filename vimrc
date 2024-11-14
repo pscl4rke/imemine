@@ -190,6 +190,7 @@ autocmd BufNewFile,BufRead *.rs set filetype=rust
 autocmd BufNewFile,BufRead Dockerfile* set filetype=dockerfile
 autocmd BufNewFile,BufRead *.nfo set filetype=xml
 autocmd BufNewFile,BufRead *.service set filetype=systemd
+autocmd BufNewFile,BufRead *.timer set filetype=systemd
 autocmd BufNewFile,BufRead *.env set filetype=dockerenv
 autocmd BufNewFile,BufRead *.jinja set filetype=jinja
 autocmd BufNewFile,BufRead *:2\,S set filetype=mail
