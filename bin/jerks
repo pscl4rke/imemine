@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #======================================================================#
-# JERKS EMAIL VIEWER                        (c) 2014,2018 P. S. Clarke #
+# JERKS EMAIL VIEWER                   (c) 2014,2018,2024 P. S. Clarke #
 #======================================================================#
 
 
@@ -11,10 +11,11 @@
 # mailcap conversions.  As well as by `premp`.
 
 
-import sys
 import email
 #import quopri
+import string
 import subprocess
+import sys
 
 
 def main():
@@ -40,6 +41,8 @@ def handle_html(html):
     html = html.replace(b"://", b"---")
     html = html.replace(b"<img", b"<ximg")
     html = html.replace(b"src=", b"xxx=")
+    for letter in string.ascii_letters:  # spaces after dots, not in numbers!
+        html = html.replace(b"." + letter.encode(), b". " + letter.encode())
     args = ("w3m", "-T", "text/html")
     browser = subprocess.Popen(args, stdin=subprocess.PIPE)
     browser.communicate(html)
