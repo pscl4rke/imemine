@@ -15,6 +15,10 @@ bind-key j next
 bind-key k prev
 goto-next-feed no
 
+# No "limit" mechanism
+bind-key / open-search
+bind-key l open-search
+
 # Was "sort" and "rev-sort"...
 bind-key g home
 bind-key G end
