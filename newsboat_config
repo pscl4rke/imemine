@@ -1,4 +1,6 @@
 
+cache-file "/autofs/photometa/newsboat_cache.db"
+
 # Note: script uses `setsid -f` so when newsboat exits the window isn't killed:
 browser "/home/psc/imemine/bin/open-in-browser-bg -u urltube %u"
 
@@ -29,3 +31,5 @@ articlelist-format "%4i %f | %D | %?T?|%-17T| ?%t"
 # look into "cleanup-on-quit no"
 
 prepopulate-query-feeds yes
+
+history-limit 0
