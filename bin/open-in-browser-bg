@@ -1,4 +1,5 @@
 #!/bin/bash
+[[ -z "$1" ]] && echo No Url && exit 1
 #"$(dirname "$0")"/open-in-browser "$@" >>/dev/null 2>&1 &
 # The advantage of setsid is that if the launching program exits
 # (e.g. newsboat) we don't see our browser windows killed with it
