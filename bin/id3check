@@ -7,7 +7,7 @@ import re
 import sys
 import time
 
-import mutagen, mutagen.id3
+import mutagen.id3
 
 
 # catch double space chars etc
@@ -224,7 +224,7 @@ def check_track_numbering(album_dir, src, path_to_check):
             number_of_tracks = len(album_dir.track_numbers())
             if total != number_of_tracks:
                 yield path_to_check, "Folder has %i tracks but ID3 says %i" % (
-                                            number_of_tracks, total)
+                                     number_of_tracks, total)
 
 
 def check_genre(src, path_to_check):
