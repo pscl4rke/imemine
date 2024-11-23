@@ -94,3 +94,11 @@ syntax/openvpn.vim: | syntax
 syntax/icalendar.vim: | syntax
 	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/vim-scripts/icalendar.vim/master/syntax/icalendar.vim -fo $@
+
+
+syntax/cddb.vim: | syntax
+	-mv -i $@ ~/attic/$$(date -I).$@
+	curl $(GH)/pscl4rke/vim-cddb/master/syntax/cddb.vim -fo $@
+ftdetect/cddb.vim: | ftdetect
+	-mv -i $@ ~/attic/$$(date -I).$@
+	curl $(GH)/pscl4rke/vim-cddb/master/ftdetect/cddb.vim -fo $@
