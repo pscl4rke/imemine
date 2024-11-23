@@ -34,7 +34,11 @@ syntax/jinja.vim: | syntax
 
 syntax/ledger.vim: | syntax
 	-mv -i $@ ~/attic/$$(date -I).$@
-	curl $(GH)/ledger/vim-ledger/master/syntax/ledger.vim -fo $@
+	curl $(GH)/ledger/vim-ledger/master/syntax/ledger.vim -fo $@.tmp
+	# Syntax file assumes a variable is set by ftplugin
+	echo 'let g:ledger_is_hledger = v:true' >> $@
+	cat $@.tmp >> $@
+	rm $@.tmp
 
 
 syntax/python.vim: | syntax
