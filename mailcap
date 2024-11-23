@@ -9,7 +9,8 @@
 # convert parts into plain text to show in the pager:
 text/calendar; vcal -all -; copiousoutput
 # I don't trust browsers not to load remotes without preprocessing
-text/html; jerks --raw-html; copiousoutput
+#text/html; jerks --raw-html; copiousoutput
+text/html; jerks --raw-html | demoji; copiousoutput
 
 
 # Definitions that give a quick terminal-based view of a file.
