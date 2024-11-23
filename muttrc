@@ -258,7 +258,8 @@ set crypt_use_gpgme=no
 #   anyway).
 #   Then I read the plain text, and only render html if there's
 #   nothing else.
-alternative_order text/calendar text/plain text/*
+#alternative_order text/calendar text/plain text/*
+alternative_order text/calendar text/html text/*
 auto_view text/calendar
 auto_view text/html
 
