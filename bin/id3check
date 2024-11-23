@@ -12,7 +12,6 @@ import mutagen.id3
 
 # catch double space chars etc
 # check title-case tracks
-# check artist names first-last
 # check id3v1 data matches id3v2 data
 # check album art of good quality
 # perhaps check the year
@@ -51,6 +50,14 @@ def contains_invalid_path_chars(value):
     for char in "'\"!*?:|<>\\":
         if char in value:
             return True
+    return False
+
+
+def contains_and(value):
+    if " and " in value.lower():
+        return True
+    if " & " in value:
+        return True
     return False
 
 
@@ -268,10 +275,14 @@ def check_artists(src, path_to_check):
     if "TPE1" not in src:
         yield path_to_check, "Missing artist (TPE1)"
         return
+    artist = src["TPE1"].text[0]
     if INCLUDES_TRACK_NUMBER.match(src["TPE1"].text[0]):
         yield path_to_check, "Artist includes track number"
     if contains_smart_quotes(src["TPE1"].text[0]):
         yield path_to_check, "Artist contains smart quotes"
+    if "," in artist:
+        if not contains_and(artist):
+            yield path_to_check, "Artist contains a comma: %r" % artist
 
 
 def check_year(src, path_to_check):
