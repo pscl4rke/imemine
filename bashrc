@@ -30,6 +30,7 @@ source /usr/share/bash-completion/bash_completion
 #   Though some needs specifying manually:
 complete -F _command rlwrap
 complete -F _command tsp
+__load_completion ssh  # otherwise functions aren't autoloaded for ssh1
 complete -F _ssh ssh1
 #   Stop the dodgy domains in /etc/hosts leaking in
 HOSTFILE=
