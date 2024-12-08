@@ -1,4 +1,6 @@
 #!/bin/sh
 # Generate a random string that could be used as a password.
+length=${1-16}  # use $1, or default to 16 if unset
 chars="23456789abcdefghijkmnpqrstuvwxyzABEFGHJKLMNQRTY"
-echo $(cat /dev/urandom | tr -d -c "$chars" | head -c 16)
+cat /dev/urandom | tr -d -c "$chars" | head -c "$length"
+echo  # finish with new line char
