@@ -41,7 +41,8 @@ def menu(current_path, suggested_path):
             shutil.copy(suggested_path, "config")
             # OR.... the other option is to have a separate script.ssh1
             # which can build config.ssh
-            fix = "cat config | grep -v AddKeysToAgent > config.ssh1"
+            #fix = "cat config | grep -v AddKeysToAgent > config.ssh1"
+            fix = "cat config | sed '/AddKeysToAgent/s/3600s/yes/' > config.ssh1"
             subprocess.call(fix, shell=True)
             return
         else:
