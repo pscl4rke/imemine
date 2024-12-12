@@ -1,9 +1,17 @@
 #!/usr/bin/bash
 set -eu -o pipefail
 
+if [[ $# -lt 1 ]]; then
+    echo "Usage:"
+    echo "  $(basename "$0") packagename"
+    echo "  $(basename "$0") packagename version"
+    echo "This creates ./packages-version.tgz"
+    exit 1
+fi
+
 package="$1"
 
-jsondata="$(curl https://registry.npmjs.org/$package/)"
+jsondata="$(curl "https://registry.npmjs.org/$package/")"
 
 if [[ $# -eq 2 ]]; then
     version="$2"
