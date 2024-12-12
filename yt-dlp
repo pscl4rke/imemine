@@ -3,7 +3,7 @@
 
 # afterwards (passed filename as argument)...
 #--exec "echo series %(series)s %(season_number)s %(episode_number)s ; date"
---exec "date ; echo"
+--exec "date ; ls -lh"
 
 # So sanitize_filename turns ": " into " - " like before, instead
 # of funny unicode (\xef \xbc \x9a).
