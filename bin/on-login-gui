@@ -33,6 +33,13 @@ case "$HOSTNAME" in
         ;;
 esac
 
+# Not sure why the compose key doesn't work on some Debian Lxqt machines:
+case "$HOSTNAME" in
+    bittern)
+        setxkbmap -option compose:ralt
+        ;;
+esac
+
 if [[ "$HOSTNAME" == "excalibur" ]]; then
 # Keep clipboards synced:
 #    this one syncs the selection with the cutbuffer
