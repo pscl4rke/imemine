@@ -34,8 +34,9 @@ case "$HOSTNAME" in
 esac
 
 # Not sure why the compose key doesn't work on some Debian Lxqt machines:
+# Odd characters (check with setxkbmap -query)
 case "$HOSTNAME" in
-    bittern)
+    pendennis|bittern)
         setxkbmap -option compose:ralt
         ;;
 esac
