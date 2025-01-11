@@ -149,7 +149,7 @@ user_pref("middlemouse.contentLoadURL", false);
 
 // SLIP UNDER THE RADAR
 //  Note that this can break things
-user_pref("webgl.disabled", true);
+//user_pref("webgl.disabled", true);
 user_pref("webgl.renderer-string-override", " ");
 user_pref("webgl.vendor-string-override", " ");
 user_pref("media.eme.enabled", false);
