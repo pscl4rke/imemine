@@ -88,6 +88,7 @@ end)
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 vim.keymap.set("n", "g[", vim.lsp.buf.references)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
+-- some places have "gp" set to integrate :term with a password vault
 
 require("bufferline").setup {
     options = {
