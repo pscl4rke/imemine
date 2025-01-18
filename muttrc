@@ -217,7 +217,7 @@ color index brightmagenta default ~T
 set index_format="%?N?H& ?%Z %-15.15L (%?l?%4l&%4c?) %?M?+(%M)&? %?H?{%H} ?%s %*  %@date@"
 set spam_separator="} {"
 # And the status line:
-set status_format=" %f (%P) %> [%?V?%V&all?] %?V?%M/?%m msgs (%?V?%L/?%l)"
+set status_format=" %f (%P) %> %?t?(tagged %t)? [%?V?%V&all?] %?V?%M/?%m msgs (%?V?%L/?%l)"
 #}}}
 
 
