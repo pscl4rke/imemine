@@ -2,6 +2,7 @@
 set -eux -o pipefail
 
 
+# "-e 7" on Ubuntu (v0.8.3) roughly equivalent to "-e 10" on Debian (v0.8.4)
 speedcontrol="-w 16 -e 6"
 
 
@@ -43,7 +44,9 @@ cat text.src \
 #cat text.clean
 
 # Convert to morse:
-ebook2cw -u $speedcontrol -c "$(uuid)" -o text. text.clean
+comment="Using ebook2cw $speedcontrol"  # keep below 32 chars for id3v1
+# from v0.8.4 the uuid could be replaced by "-"
+ebook2cw -u $speedcontrol -c "$(uuid)" -k "$comment" -o text. text.clean
 
 
 # Set metadata
