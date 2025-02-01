@@ -74,6 +74,8 @@ def clean(original):
             # Now if you want http:// specify it explicitly
             splitfixed = "https://%s" % splitfixed.strip()
     url = urlparse(splitfixed.strip())
+    if url.netloc.startswith("go.thereg") and url.path.startswith("/feed/"):
+        return "https://" + url.path[6:]  # maybe recursively call clean(...)?
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
@@ -199,6 +201,10 @@ class TestClean(unittest.TestCase):
     def test_affilitate_links(self):
         self.assertEqual(clean("https://foo.com/path?foo=bar&aff=thing"),
                                "https://foo.com/path?foo=bar")
+
+    def test_reg_rss_link(self):
+        self.assertEqual(clean("https://go.theregxxxxx.com/feed/www.foo.com/bar"),
+                               "https://www.foo.com/bar")
 
     def test_local_but_absolute_paths(self):
         self.assertEqual(clean("/etc/fstab"),
