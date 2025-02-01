@@ -69,17 +69,17 @@ case "$browser-$mode" in
         # --temp-profile handled badly by flatpak, snap, etc.
         # --temp-profile must be first if it is to be obeyed:
         $chromium --temp-profile --no-first-run \
-            --no-default-browser-check "$url" 2>&1 >/dev/null
+            --no-default-browser-check "$url" >/dev/null 2>&1
         ;;
     chrome-temp)
         profilepath="$(mktemp --directory /tmp/chromium.$$.XXXXXXX)"
         $chromium --user-data-dir="$profilepath" \
-            --no-default-browser-check --new-window "$url" 2>&1 >/dev/null
+            --no-default-browser-check --new-window "$url" >/dev/null 2>&1
         rm -r "$profilepath"
         ;;
     chrome-profile)
         $chromium --user-data-dir="$HOME/.config/chromium-$profile" \
-            --no-default-browser-check --new-window "$url" 2>&1 >/dev/null
+            --no-default-browser-check --new-window "$url" >/dev/null 2>&1
         ;;
     firefox-temp)
         profilepath="$(mktemp --directory /tmp/firefox.$$.XXXXXXX)"
@@ -88,7 +88,7 @@ case "$browser-$mode" in
             tar xf ~/.firefox.base.tar)
         [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
-        $firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
+        $firefox -no-remote -profile "$profilepath" "$url" >/dev/null 2>&1
         rm -r "$profilepath"
         ;;
     firefoxreader-temp)
@@ -98,7 +98,7 @@ case "$browser-$mode" in
             tar xf ~/.firefox.base.tar)
         [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
-        $firefox -no-remote -profile "$profilepath" "about:reader?url=$url" 2>&1 >/dev/null
+        $firefox -no-remote -profile "$profilepath" "about:reader?url=$url" >/dev/null 2>&1
         rm -r "$profilepath"
         ;;
     firefox-profile)
@@ -109,14 +109,14 @@ case "$browser-$mode" in
             tar xf ~/.firefox.base.tar)
         [ -e ~/.firefox.base.d ] && cp -arL ~/.firefox.base.d/* "$profilepath/."
         [ ! -z "$WAYLAND_DISPLAY" ] && export MOZ_ENABLE_WAYLAND=1
-        $firefox -no-remote -profile "$profilepath" "$url" 2>&1 >/dev/null
+        $firefox -no-remote -profile "$profilepath" "$url" >/dev/null 2>&1
         ;;
     qutebrowser-temp)
         profilepath="$(mktemp --directory /tmp/qutebrowser.$$.XXXXXXX)"
         $HOME/.virtualenvs/qutebrowser/bin/qutebrowser \
             --basedir "$profilepath" \
             --config-py "$HOME/imemine/qutebrowser_config.py" \
-            "$url" 2>&1 >/dev/null
+            "$url" >/dev/null 2>&1
         rm -r "$profilepath"
         ;;
     *)
