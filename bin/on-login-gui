@@ -35,8 +35,13 @@ esac
 
 # Not sure why the compose key doesn't work on some Debian Lxqt machines:
 # Odd characters (check with setxkbmap -query)
-case "$HOSTNAME" in
-    pendennis|bittern)
+#case "$HOSTNAME" in
+#    pendennis|bittern|lithium)
+#        setxkbmap -option compose:ralt
+#        ;;
+#esac
+case "$XDG_SESSION_TYPE" in
+    x11)
         setxkbmap -option compose:ralt
         ;;
 esac
