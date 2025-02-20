@@ -32,6 +32,7 @@ cd "$tmpdir"
 # Improve listenability:
 cat text.src \
     | sed 's|\.| STOP |g' \
+    | sed 's|%|PC|g' \
     | sed 's|^|QQ |g' \
     | iconv -t ascii//translit \
     | tr -cd '[:alnum:][:space:]-' \
