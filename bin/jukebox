@@ -3,6 +3,11 @@
 # MPD ALBUM SELECTOR                             (c) 2012 P. S. Clarke #
 #======================================================================#
 
+case "$XDG_SESSION_TYPE" in
+    wayland) dmenu="wofi -d" ;;
+    *) dmenu="dmenu" ;;
+esac
+
 # From MPD v0.21 (out in Ubuntu 19.04) there is a much more powerful
 # filtering syntax which should handle the variety of spellings of
 # "classical" (see `mpc list genre` for more info).  Although it won't
@@ -18,7 +23,7 @@ case "$1" in
     *)              filters="" ;;
 esac
 
-album="$(mpc list album $filters | shuf | cat <(echo "SHUFFLING") - | dmenu -i)"
+album="$(mpc list album $filters | shuf | cat <(echo "SHUFFLING") - | $dmenu -i)"
 [ -z "$album" ] && exit 1
 mpc -q clear
 case "$album" in
