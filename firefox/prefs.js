@@ -17,6 +17,11 @@ user_pref("app.update.auto", false);
 user_pref("reader.color_scheme", "sepia");
 
 
+// VIDEO PLAYBACK
+//  Get rid of the "Pop out this video" things.
+user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", false);
+
+
 // TITLE BAR AND TABS
 user_pref("browser.tabs.inTitlebar", 0);
 
