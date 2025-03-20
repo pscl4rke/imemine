@@ -24,6 +24,7 @@
 	ff = only
 [push]
 	default = current
+	#followTags = true  # this only works for annotated tags :(
 [init]
 	defaultBranch = master
 [rebase]
@@ -32,11 +33,15 @@
 	conflictStyle = diff3 # zdiff3 only available from Jan 2022
 [diff]
 	algorithm = histogram
+	mnemonicPrefix = true
+	colorMoved = plain
 [color "diff"]
 	meta = blue bold white
 	frag = cyan white
 [alias]
 	amend = commit --amend --reset-author
+[tag]
+	sort = version:refname
 
 
 # GIT ANNEX
