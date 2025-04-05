@@ -197,6 +197,7 @@ autocmd BufNewFile,BufRead *:2\,S set filetype=mail
 autocmd BufNewFile,BufRead *.ovpn set filetype=openvpn
 autocmd BufNewFile,BufRead *.[iv]cal set filetype=icalendar
 autocmd BufNewFile,BufRead *.[iv]cs set filetype=icalendar
+autocmd BufNewFile,BufRead *known_hosts* set filetype=known_hosts
 "
 "
 " FILE-TYPE PLUGINS
