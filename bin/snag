@@ -29,6 +29,11 @@ def subst(template, context):
     return template
 
 
+def shell():
+    # subprocess.py hardcodes "/bin/sh" and ignores $SHELL
+    return os.environ.get("SHELL") or "/bin/sh"  # could also use shutil.which
+
+
 class DummySource:
 
     def set_up(self):
@@ -175,6 +180,11 @@ class Snagger:
                 self.error("No such destination directory: %r" % self.destdir)
                 sys.exit(1)
             return
+        if line.startswith("!assert "):
+            if not self.succeeds(line[8:]):
+                self.error("Assertion failed")
+                sys.exit(1)
+            return
         if line.startswith("!export "):
             envvar, value = line[8:].split(None, 1)
             os.environ[envvar] = value
@@ -210,13 +220,21 @@ class Snagger:
             return
         self.warning("Unknown line: %r" % line)
 
+    def succeeds(self, shell_cmd):
+        self.info("Asserting %r..." % shell_cmd)
+        try:
+            subprocess.run([shell(), "-c", shell_cmd], check=True)
+            return True
+        except subprocess.CalledProcessError as exc:
+            self.error("Asserting failed with exit code %r" % exc.returncode)
+            return False
+
     def run(self, shell_cmd):
         self.info("Running %r..." % shell_cmd)
         try:
-            subprocess.check_call(shell_cmd, shell=True)
+            subprocess.run([shell(), "-c", shell_cmd], check=True)
         except subprocess.CalledProcessError as exc:
             # Let's warn but continue after errors.
-            # If I add an "!assert" command we can stop and exit
             self.warning("Running failed with exit code %r" % exc.returncode)
             self.warning("Command: %r" % exc.cmd)
 
