@@ -97,14 +97,21 @@ BOOKS = [
 
 
 def suitable_directories(filename):
+    suitable = []
+    # first try and match by name:
     for book in BOOKS:
         number, *aliases = book
         name = aliases[0]
         for alias in aliases:
             if filename_contains_alias_word(filename, alias):
-                yield "%02i %s" % (number, name)
-            elif filename.startswith("%02i" % number):
-                yield "%02i %s" % (number, name)
+                suitable.append("%02i %s" % (number, name))
+    # if that failed then look for number as a last resort:
+    if len(suitable) == 0:
+        for book in BOOKS:
+            number, *aliases = book
+            if filename.startswith("%02i" % number):
+                suitable.append("%02i %s" % (number, name))
+    return suitable
 
 
 # The following two functions are about handling "John" vs "1 John"...
