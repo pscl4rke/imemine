@@ -109,6 +109,7 @@ def suitable_directories(filename):
     if len(suitable) == 0:
         for book in BOOKS:
             number, *aliases = book
+            name = aliases[0]
             if filename.startswith("%02i" % number):
                 suitable.append("%02i %s" % (number, name))
     return suitable
