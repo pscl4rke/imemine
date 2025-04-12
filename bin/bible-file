@@ -15,6 +15,8 @@ import sys
 
 BOOKS = [
 
+    (0,     "Introduction"),
+
     (1,     "Genesis"),
     (2,     "Exodus"),
     (3,     "Leviticus"),
@@ -89,6 +91,8 @@ BOOKS = [
     (65,    "Jude"),
     (66,    "Revelation"),
 
+    (67,    "Appendices"),
+
 ]
 
 
@@ -98,6 +102,8 @@ def suitable_directories(filename):
         name = aliases[0]
         for alias in aliases:
             if filename_contains_alias_word(filename, alias):
+                yield "%02i %s" % (number, name)
+            elif filename.startswith("%02i" % number):
                 yield "%02i %s" % (number, name)
 
 
@@ -119,17 +125,32 @@ def drop_shorter_versions(book_list):
             book_list.pop(0)
 
 
-
 class DryRunFS:
 
+    def __init__(self):
+        self.pretending_exists = set()
+
+    def isdir(self, path):
+        if os.path.isdir(path):
+            return True
+        if path in self.pretending_exists:
+            return True
+        return False
+
     def create_directory(self, directory):
+        if directory in self.pretending_exists:
+            raise Exception("But %r would already exist!" % directory)
         LOG.debug("Would have created %r" % directory)
+        self.pretending_exists.add(directory)
 
     def move(self, source, destination):
         LOG.debug("Would have moved %r to %r" % (source, destination))
 
 
 class RealFS:
+
+    def isdir(self, path):
+        return os.path.isdir(path)
 
     def create_directory(self, directory):
         os.mkdir(directory)
@@ -163,7 +184,7 @@ def main():
         if len(suitable) > 1:
             LOG.warning("Too many matches for %r: %r" % (filename, suitable))
             continue
-        if not os.path.isdir(suitable[0]):
+        if not options.fs.isdir(suitable[0]):
             LOG.info("Creating %r" % suitable[0])
             options.fs.create_directory(suitable[0])
         LOG.info("Moving %r to %r" % (filename, suitable[0]))
