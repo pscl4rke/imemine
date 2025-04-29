@@ -3,7 +3,7 @@ set -eux -o pipefail
 
 
 # "-e 7" on Ubuntu (v0.8.3) roughly equivalent to "-e 10" on Debian (v0.8.4)
-speedcontrol="-w 16 -e 7"
+speedcontrol="-w 18 -e 7"
 
 
 # Validate usage:
