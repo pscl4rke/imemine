@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 
+import getpass
+import grp
+import os
 import subprocess
 import unittest
 
@@ -15,6 +18,21 @@ class TestUtils(unittest.TestCase):
     def test_cal_makes_wednesday_the_hump_day(self):
         output = shell("cal")
         self.assertIn("Su Mo Tu We Th Fr Sa", output)
+
+    def test_bash_completion_is_installed(self):
+        path = "/usr/share/bash-completion/bash_completion"
+        self.assertTrue(os.path.exists(path))
+
+
+class TestUser(unittest.TestCase):
+
+    def test_i_have_sudo_privileges(self):
+        sudo = grp.getgrnam("sudo").gr_mem
+        self.assertIn(getpass.getuser(), sudo)
+
+    def test_i_have_logfile_privileges(self):
+        adm = grp.getgrnam("adm").gr_mem
+        self.assertIn(getpass.getuser(), adm)
 
 
 if __name__ == "__main__":
