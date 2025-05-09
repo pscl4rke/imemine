@@ -1,0 +1,21 @@
+#!/usr/bin/python3
+
+
+import subprocess
+import unittest
+
+
+def shell(cmdline: str) -> str:
+    proc = subprocess.run(["bash", "-c", cmdline], check=True, capture_output=True)
+    return proc.stdout.decode()
+
+
+class TestUtils(unittest.TestCase):
+
+    def test_cal_makes_wednesday_the_hump_day(self):
+        output = shell("cal")
+        self.assertIn("Su Mo Tu We Th Fr Sa", output)
+
+
+if __name__ == "__main__":
+    unittest.main()
