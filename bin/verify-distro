@@ -23,6 +23,10 @@ class TestUtils(unittest.TestCase):
         path = "/usr/share/bash-completion/bash_completion"
         self.assertTrue(os.path.exists(path))
 
+    def test_there_isnt_an_outofdate_downloader(self):
+        path = "/usr/bin/yt-dlp"
+        self.assertFalse(os.path.exists(path))
+
 
 class TestUser(unittest.TestCase):
 
