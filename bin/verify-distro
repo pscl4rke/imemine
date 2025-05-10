@@ -2,8 +2,10 @@
 
 
 import getpass
+import glob
 import grp
 import os
+from os.path import expanduser
 import subprocess
 import unittest
 
@@ -26,6 +28,13 @@ class TestUtils(unittest.TestCase):
     def test_there_isnt_an_outofdate_downloader(self):
         path = "/usr/bin/yt-dlp"
         self.assertFalse(os.path.exists(path))
+
+
+class TestSession(unittest.TestCase):
+
+    def test_lxsession_isnt_creating_big_logfiles(self):
+        paths = glob.glob(expanduser("~/.config/**/debug.log"))
+        self.assertEqual(paths, [])  # was ~/.config/lxqt/debug.log
 
 
 class TestUser(unittest.TestCase):
