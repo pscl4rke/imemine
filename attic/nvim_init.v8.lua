@@ -46,7 +46,7 @@ require("paq") {
 -- Configuration shared with normal vim
 vim.cmd "source ~/imemine/vim/common.vim"
 
-
+-- Layout
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4
@@ -60,20 +60,6 @@ vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.smarttab = true
-
--- Command
-require("toggleterm").setup {
-    open_mapping = [[<C-\>]],
-    direction = "float",
-}
-
--- VCS
---  FIXME colour backgrounds
-vim.wo.signcolumn = "yes"
-require("gitsigns").setup {
-    numhl = true,
-    linehl = true,
-}
 
 --vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>") -- default
 
@@ -100,34 +86,23 @@ require("bufferline").setup {
     }
 }
 
--- Quickfix
-function table_contains(tbl, x) -- euugh... surely lua has a built-in?!?!
-    found = false
-    for _, v in pairs(tbl) do
-        if v == x then 
-            found = true 
-        end
-    end
-    return found
-end
-if table_contains(vim.v.argv, "-q") then
-    vim.cmd("copen")
-end
-
 -- Language Integration
 --  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
 require("lspconfig").pylsp.setup {} -- Remember: influenced by ~/.config/pycodestyle
 require("lspconfig").tsserver.setup {}  -- use "// @ts-check" in .js/.mjs files
 require("lspconfig").bashls.setup {}
 require("lspconfig").gopls.setup {}
+--require("lspconfig").rust_analyzer.setup {}
 
+require("myconf.toggleterm")
+require("myconf.gitsigns")
 require("myconf.completion")
 require("myconf.colours")
 require("myconf.statusbar")
+require("myconf.quickfix")
 
 -- Possibilities:
 --  I don't use marks, so "m" and "'" could be rebound for other actions
-
 
 -- Note:
 --  :checkhealth is useful
