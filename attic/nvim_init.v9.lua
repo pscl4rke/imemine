@@ -23,6 +23,10 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.smarttab = true
 
+-- Editorconfig <https://editorconfig.org>
+--  (actually .editorconfig files enabled by default in nvim v0.9)
+--vim.g.editorconfig = true
+
 --vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>") -- default
 
 vim.keymap.set("n", "H", "<cmd>BufferLineCyclePrev<enter>")
