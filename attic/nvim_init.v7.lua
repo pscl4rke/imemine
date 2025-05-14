@@ -7,6 +7,8 @@
 -- $ git clone https://github.com/wbthomason/packer.nvim.git ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 -- :PackerInstall or :PackerSync
 
+-- Realistically all these are going to get their versions pinned to be ones
+-- that are compatible with my neovim instance!
 require("packer").startup(function(use)
 
     -- Packer can manage itself after the initial bootstrapping:
@@ -43,6 +45,7 @@ end)
 vim.cmd "source ~/imemine/vim/common.vim"
 
 -- Layout
+vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4
 vim.o.scrolloff = 3
@@ -53,20 +56,6 @@ vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.smarttab = true
-
--- Command
-require("toggleterm").setup {
-    open_mapping = [[<C-\>]],
-    direction = "float",
-}
-
--- VCS
---  FIXME colour backgrounds
-vim.wo.signcolumn = "yes"
-require("gitsigns").setup {
-    numhl = true,
-    linehl = true,
-}
 
 -- Indentation
 --  Naive (copy previous line) on, but fancy stuff kept over-indenting
@@ -94,6 +83,7 @@ vim.keymap.set("n", "ZQ", "<cmd>bdelete<enter>")  -- should this autodiscard (no
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 vim.keymap.set("n", "g[", vim.lsp.buf.references)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
+-- some places have "gp" set to integrate :term with a password vault
 vim.keymap.set("n", "ca", vim.lsp.buf.rename) -- [c]hange [a]ll
 -- tried but they do nothing (in python at least!)...
 --  :lua vim.lsp.buf.incoming_calls()
@@ -115,20 +105,6 @@ require("bufferline").setup {
     }
 }
 
--- Quickfix
-function table_contains(tbl, x) -- euugh... surely lua has a built-in?!?!
-    found = false
-    for _, v in pairs(tbl) do
-        if v == x then 
-            found = true 
-        end
-    end
-    return found
-end
-if table_contains(vim.v.argv, "-q") then
-    vim.cmd("copen")
-end
-
 -- Language Integration
 --  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
 require("lspconfig").pylsp.setup {} -- Remember: influenced by ~/.config/pycodestyle
@@ -137,9 +113,12 @@ require("lspconfig").bashls.setup {}
 require("lspconfig").gopls.setup {}
 require("lspconfig").rust_analyzer.setup {}
 
+require("myconf.toggleterm")
+require("myconf.gitsigns")
 require("myconf.completion")
 require("myconf.colours")
 require("myconf.statusbar")
+require("myconf.quickfix")
 
 -- Possibilities:
 --  I don't use marks, so "m" and "'" could be rebound for other actions
