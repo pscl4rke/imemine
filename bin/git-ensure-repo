@@ -1,0 +1,23 @@
+#!/bin/bash
+set -eu
+
+# Because ordinary "git clone" let's you specify named references,
+# but doesn't let you specify any commit you want.
+# Plus it isn't declarative and idempotent.
+
+path="$1"
+url="$2"
+ref="$3"
+
+echo "git-ensure-repo: $path" 1>&2
+
+if [[ -e "$path" ]]; then
+    echo "git-ensure-repo: existing repo will be fetched..." 1>&2
+    git -C "$path" fetch
+else
+    echo "git-ensure-repo: new repo will be cloned..." 1>&2
+    git clone --no-checkout "$url" "$path"
+fi
+
+echo "git-ensure-repo: will check out $ref..." 1>&2
+git -C "$path" checkout --quiet "$ref"
