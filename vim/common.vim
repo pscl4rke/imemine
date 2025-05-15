@@ -23,3 +23,14 @@ noremap <Space> <C-F>
 cnoremap <C-A> <Home>
 cnoremap <Esc><BS> <BS>
 set wildmode=longest,list
+
+
+" MOUSE
+"   I don't like the mouse to be treated specially; it messes
+"   with my terminal's selection abilities.  However I probably
+"   value it when using the GUI gvim.
+if has("gui_running")
+    set mouse=a
+else
+    set mouse=
+endif
