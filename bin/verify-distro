@@ -58,5 +58,20 @@ class TestUser(unittest.TestCase):
         self.assertIn(getpass.getuser(), adm)
 
 
+class TestWebBrowser(unittest.TestCase):
+
+    def test_envvar_browser(self):
+        # As used by sensible-browser and Python's webbrowser module
+        #   To set permanently edit ~/.config/lxqt/session.conf
+        self.assertIn("open-in-browser-bg", os.environ["BROWSER"])
+
+    def test_xdg_database(self):
+        # As used by xdg-open
+        #   To set first you have to "unset BROWSER" in the current shell and
+        #   then "xdg-settings set default-web-browser open-in-browser-bg.desktop"
+        self.assertIn("open-in-browser-bg",
+                      shell("xdg-settings get default-web-browser"))
+
+
 if __name__ == "__main__":
     unittest.main()
