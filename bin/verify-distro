@@ -37,6 +37,16 @@ class TestSession(unittest.TestCase):
         self.assertEqual(paths, [])  # was ~/.config/lxqt/debug.log
 
 
+class TestSkeletonFiles(unittest.TestCase):
+
+    def test_xdg_files_on_the_desktop(self):
+        # Note that if you try to delete these pcmanfm will "helpfully"
+        # add them back next time you log in.  So instead run
+        # "pcmanfm-qt --desktop-pref advanced" or fiddle the config file.
+        paths = glob.glob(expanduser("~/Desktop/*.desktop"))
+        self.assertEqual(paths, [])
+
+
 class TestUser(unittest.TestCase):
 
     def test_i_have_sudo_privileges(self):
