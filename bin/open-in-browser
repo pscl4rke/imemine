@@ -11,6 +11,12 @@
 firefox="$(which firefox-esr || which firefox)"
 chromium="$(which chromium-browser || which chromium)"
 
+if [[ -z "$chromium" ]]; then
+    #echo "Using flatpak for chromium"
+    #chromium="flatpak run com.github.Eloston.UngoogledChromium"
+    chromium="flatpak run io.github.ungoogled_software.ungoogled_chromium"
+fi
+
 urlclean="$(dirname "$0")/urlclean"
 
 if [[ -e $firefox ]]
@@ -18,10 +24,6 @@ then
     browser="firefox"
 else
     browser="chrome"
-    if [[ -z "$chromium" ]]; then
-        echo "Using flatpak for chromium"
-        chromium="flatpak run com.github.Eloston.UngoogledChromium"
-    fi
 fi
 mode="temp"
 
