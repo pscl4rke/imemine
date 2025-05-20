@@ -4,6 +4,7 @@
 # Future: run pcmanfm-qt -w to install CURRENT-LINK
 
 
+import argparse
 import os
 import shutil
 import subprocess
@@ -16,6 +17,7 @@ def picture_dir():
 
 def ensure_dir_exists():
     if not os.path.exists(picture_dir()):
+        print(f"NOTE: Creating {picture_dir()!r}...")
         os.mkdir(picture_dir())
 
 
@@ -27,36 +29,43 @@ def available():
 
 
 def set_background(filename_without_path: str) -> None:
-        link = os.path.join(picture_dir(), "CURRENT-LINK")
-        # the "or" is to handle both working and broken symlinks
-        if os.path.exists(link) or os.path.islink(link):
-            os.remove(link)
-        os.symlink(filename_without_path, link)
+    link = os.path.join(picture_dir(), "CURRENT-LINK")
+    # the "or" is to handle both working and broken symlinks
+    if os.path.exists(link) or os.path.islink(link):
+        os.remove(link)
+    os.symlink(filename_without_path, link)
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    sub = parser.add_subparsers(dest="subcommand", required=True)
+    sub.add_parser("add").add_argument("imagepath", nargs="+")
+    sub.add_parser("list")
+    sub.add_parser("set").add_argument("desired")
+    sub.add_parser("pick")
+    return parser.parse_args(args)
 
 
 def main():
-    subcommand = sys.argv[1]
-    if subcommand == "add":
-        files = sys.argv[2:]
-        ensure_dir_exists()
-        for file in files:
+    opts = parse_args(sys.argv[1:])
+    ensure_dir_exists()
+    if opts.subcommand == "add":
+        for file in opts.imagepath:
             shutil.copy(file, picture_dir())
-    elif subcommand == "list":
+    elif opts.subcommand == "list":
         for file in available():
             print(file)
-    elif subcommand == "set":
-        desired = sys.argv[2]
-        set_background(desired)
-    elif subcommand == "pick":
+    elif opts.subcommand == "set":
+        set_background(opts.desired)
+    elif opts.subcommand == "pick":
         # using pick here, could try fzf instead
         p = subprocess.run(["pick"], capture_output=True,
                            input="\n".join(available()).encode() + b"\n")
         if p.returncode != 0:
             raise Exception("No image picked")
-        #print(repr(p.stdout.decode().rstrip("\n")))
         set_background(p.stdout.decode().rstrip("\n"))
     else:
-        raise Exception("Unknown command: %r" % subcommand)
+        raise Exception("Unknown command: %r" % opts.subcommand)
 
 
 if __name__ == "__main__":
