@@ -29,12 +29,26 @@ class TestUtils(unittest.TestCase):
         path = "/usr/bin/yt-dlp"
         self.assertFalse(os.path.exists(path))
 
+    def test_whoopsie_isnt_watching_for_crashes(self):
+        with self.assertRaises(subprocess.CalledProcessError):
+            shell("systemctl is-active whoopsie.service")
+        with self.assertRaises(subprocess.CalledProcessError):
+            shell("systemctl is-active whoopsie.path")
+
 
 class TestSession(unittest.TestCase):
 
     def test_lxsession_isnt_creating_big_logfiles(self):
         paths = glob.glob(expanduser("~/.config/**/debug.log"))
         self.assertEqual(paths, [])  # was ~/.config/lxqt/debug.log
+
+    def test_the_gnome_settings_daemon_isnt_around(self):
+        # gsd-housekeeping.service
+        self.assertNotIn("gsd", shell("systemctl --user"))
+
+    def test_the_gnome_file_indexing_isnt_around(self):
+        # tracker-extract, tracker-miner-fs, tracker-store
+        self.assertNotIn("tracker", shell("systemctl --user"))
 
 
 class TestSkeletonFiles(unittest.TestCase):
