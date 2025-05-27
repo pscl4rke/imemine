@@ -1,4 +1,13 @@
 #!/bin/bash
 
-# BASIC PLACEHOLDER - FIXME
-sxiv "$@"
+# FIXME - maybe always add --animate
+
+if [[ -e /usr/bin/nsxiv ]]; then
+    exec /usr/bin/nsxiv "$@"
+fi
+
+if [[ -e /usr/bin/sxiv ]]; then
+    exec /usr/bin/sxiv "$@"
+fi
+
+# FIXME - also support imv-x11 and imv-wayland

@@ -219,6 +219,7 @@ wantlink "xdg-autostart/geoclue-demo-agent.desktop" ".config/autostart/geoclue-d
 
 # Stop thumbnail caching...
 wantlink "/tmp" ".cache/sxiv"
+wantlink "/tmp" ".cache/nsxiv"
 
 wantlink "vendor/urxvt_perl_vtwheel" ".urxvt/perl/vtwheel"
 wantlink "vendor/urxvt_perl_resize-font" ".urxvt/perl/resize-font"
