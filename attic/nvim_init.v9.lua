@@ -55,8 +55,8 @@ require("bufferline").setup {
 -- Language Integration
 --  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
 require("lspconfig").pylsp.setup {} -- Remember: influenced by ~/.config/pycodestyle
---require("lspconfig").tsserver.setup {}  -- use "// @ts-check" in .js/.mjs files
--- error msg: tsserver is deprecated, use ts_ls instead
+--require("lspconfig").tsserver.setup {}  -- error msg: tsserver is deprecated, use ts_ls instead
+require("lspconfig").ts_ls.setup {}  -- use "// @ts-check" in .js/.mjs files
 require("lspconfig").bashls.setup {}
 require("lspconfig").gopls.setup {}
 --require("lspconfig").rust_analyzer.setup {}
