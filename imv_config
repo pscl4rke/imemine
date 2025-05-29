@@ -1,0 +1,17 @@
+
+# vim:ft=dosini:
+
+# see /etc/imv_config for examples
+
+[binds]
+
+# Match sxiv etc
+n = next
+p = prev
+
+# Zoom for non-us keyboards
+<equal> = zoom 1
+0 = reset
+
+# Overridden things
+#p = exec echo $imv_current_file
