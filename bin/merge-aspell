@@ -17,6 +17,11 @@
 import sys
 
 
+def sort_key(word):
+    # first sort case insensitively, then consistently
+    return (word.lower(), word.encode("ascii", "xmlcharrefreplace"))
+
+
 class WordList:
 
     def __init__(self, version, lang):
@@ -44,7 +49,7 @@ class WordList:
     def write_to(self, destpath):
         with open(destpath, "wb") as destfile:
             destfile.write(b"%s %s %i \n" % (self.version, self.lang, len(self.words)))
-            for word in sorted(self.words, key=lambda w: w.lower()):
+            for word in sorted(self.words, key=sort_key):
                 destfile.write(b"%s\n" % word)
 
 
