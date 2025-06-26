@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 
+import logging
+LOG = logging.getLogger("email-calendar")
+
 import argparse
 import datetime
 import os
@@ -17,7 +20,7 @@ from email.utils import formatdate
 def datestr(value):
     # Must be YYYYMMDD for calendar, but also permit and fix YYYY-MM-DD
     value = value.replace("-", "")
-    regex = re.compile("^\d{8}$")
+    regex = re.compile(r"^\d{8}$")
     if not re.fullmatch(regex, value):
         raise ValueError("%r is not a valid date")
     return value
@@ -72,11 +75,16 @@ class ReminderSender:
 
     def send_all(self):
         self.run_sanity_checks()
+        sent = 0
         for reminder in self.reminders_to_send():
+            LOG.info("Sending: %r", reminder)
             self.send_reminder(reminder)
-            time.sleep(5) # to ensure they come through in order
+            sent += 1
+            time.sleep(5)  # to ensure they come through in order
+        LOG.info("Sent %i reminders", sent)
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
     args = parse_args(sys.argv[1:])
     ReminderSender(args).send_all()
