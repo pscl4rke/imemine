@@ -60,6 +60,12 @@ user_pref("browser.download.autohideButton", false);
 user_pref("browser.download.alwaysOpenPanel", false);
 
 
+// AUTOFILL
+//  Don't prompt to save things like credit cards.
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.creditCards.enabled", false);
+
+
 // DEFAULTS
 user_pref("browser.newtabpage.enabled", false);
 user_pref("browser.startup.homepage", "about:blank");
