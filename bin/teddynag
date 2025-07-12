@@ -1,0 +1,104 @@
+#!/usr/bin/python3
+
+
+import logging
+LOG = logging.getLogger("teddynag")
+
+import argparse
+import asyncio
+import os
+
+
+PATH = "/tmp/teddynag.sock"
+
+
+async def teddy():
+    try:
+        process = await asyncio.create_subprocess_exec("xteddy")
+        await process.wait()
+    finally:
+        try:
+            process.terminate()
+        except ProcessLookupError:
+            pass
+
+
+class Nagger:
+
+    def __init__(self):
+        self.teddy_task = None
+
+    async def switch_on(self):
+        LOG.info("Switching on")
+        if self.teddy_task is not None:
+            return
+        self.teddy_task = asyncio.ensure_future(teddy())
+        LOG.info("Switched on")
+
+    async def switch_off(self):
+        LOG.info("Switching off")
+        if self.teddy_task is None:
+            return
+        self.teddy_task.cancel()
+        try:
+            await self.teddy_task
+        except asyncio.CancelledError:
+            pass
+        self.teddy_task = None
+        LOG.info("Switched off")
+
+    async def handle_connection(self, reader, writer):
+        LOG.info("Incoming Connection")
+        try:
+            message = await reader.read()
+            LOG.info("Received: %r", message)
+            if message.strip() == b"ON":
+                await self.switch_on()
+            if message.strip() == b"OFF":
+                await self.switch_off()
+        finally:
+            writer.close()
+            await writer.wait_closed()
+
+
+async def serve():
+    nagger = Nagger()
+    try:
+        server = await asyncio.start_unix_server(nagger.handle_connection, PATH)
+        LOG.info("Serving on: %r", [sock.getsockname() for sock in server.sockets])
+        async with server:
+            await server.serve_forever()
+    finally:
+        await nagger.switch_off()
+        os.remove(PATH)
+
+
+async def send(line):
+    reader, writer = await asyncio.open_unix_connection(PATH)
+    LOG.info("Sending: %r", line)
+    writer.write(line)
+    writer.close()
+    await writer.wait_closed()
+
+
+def arg_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("command")
+    return parser
+
+
+def main():
+    args = arg_parser().parse_args()
+    if args.command.lower() == "serve":
+        asyncio.run(serve())
+    elif args.command.lower() == "on":
+        asyncio.run(send(b"ON"))
+    elif args.command.lower() == "off":
+        asyncio.run(send(b"OFF"))
+    else:
+        raise Exception("No such command: %s", args.command)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    main()
