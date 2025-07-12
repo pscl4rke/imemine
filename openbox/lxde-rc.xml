@@ -712,6 +712,14 @@
         <execute>scrot -s</execute>
       </action>
     </keybind>
+
+    <!-- Cancel notifications -->
+    <keybind key="W-Escape">
+      <action name="Execute">
+        <execute>/home/psc/imemine/bin/teddynag off</execute>
+      </action>
+    </keybind>
+
   </keyboard>
 
   <mouse>
