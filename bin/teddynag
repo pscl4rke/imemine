@@ -9,17 +9,19 @@ import asyncio
 import os
 
 
+XTEDDY = "/usr/games/xteddy"
 PATH = "/tmp/teddynag.sock"
 
 
 async def teddy():
     try:
-        process = await asyncio.create_subprocess_exec("xteddy")
+        process = await asyncio.create_subprocess_exec(XTEDDY)
         await process.wait()
     finally:
         try:
             process.terminate()
-        except ProcessLookupError:
+            await process.wait()
+        except ProcessLookupError:  # when already terminated
             pass
 
 
