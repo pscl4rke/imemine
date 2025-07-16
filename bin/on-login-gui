@@ -62,4 +62,10 @@ elif [[ -e "/mnt/$USER/potwiki" ]]; then
     (sleep 1 && /mnt/$USER/potwiki/MonthlyPopUp 2>&1 | logger -t MonthlyPopUp) &
 fi
 
+# Crude notifications
+#   I tried using systemd --user services for this but they couldn't
+#   connect to the X server.  Maybe I didn't have the targets or ordering
+#   correct?
+(while true; do systemd-cat -t teddynag /home/psc/imemine/bin/teddynag serve; sleep 5; done) &
+
 echo "Done $0" | logger -t on-login-gui
