@@ -14,6 +14,11 @@ PATH = "/tmp/teddynag.sock"
 
 
 async def teddy():
+    # Yeah, running the subprocess in its own task doesn't work very well.
+    # A task is designed to capture both the end result and any raised
+    # exceptions until it is awaited.  So if creating the process fails
+    # during the "ON" stage (e.g. cannot find the executable) we don't
+    # see the error, and it only gets logged when the "OFF" stage awaits it.
     try:
         process = await asyncio.create_subprocess_exec(XTEDDY)
         await process.wait()
@@ -28,25 +33,26 @@ async def teddy():
 class Nagger:
 
     def __init__(self):
-        self.teddy_task = None
+        self.teddy_proc = None
 
     async def switch_on(self):
         LOG.info("Switching on")
-        if self.teddy_task is not None:
+        if self.teddy_proc is not None:
             return
-        self.teddy_task = asyncio.ensure_future(teddy())
+        self.teddy_proc = await asyncio.create_subprocess_exec(XTEDDY)
         LOG.info("Switched on")
 
     async def switch_off(self):
         LOG.info("Switching off")
-        if self.teddy_task is None:
+        if self.teddy_proc is None:
             return
-        self.teddy_task.cancel()
         try:
-            await self.teddy_task
-        except asyncio.CancelledError:
+            self.teddy_proc.terminate()
+            await self.teddy_proc.wait()
+        except ProcessLookupError:  # when already terminated
             pass
-        self.teddy_task = None
+        finally:
+            self.teddy_proc = None
         LOG.info("Switched off")
 
     async def handle_connection(self, reader, writer):
