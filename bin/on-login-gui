@@ -67,5 +67,6 @@ fi
 #   connect to the X server.  Maybe I didn't have the targets or ordering
 #   correct?
 (while true; do systemd-cat -t teddynag /home/psc/imemine/bin/teddynag serve; sleep 5; done) &
+(while true; do systemd-cat -t notify-more /home/psc/imemine/bin/notify-more; sleep 5; done) &
 
 echo "Done $0" | logger -t on-login-gui

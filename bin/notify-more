@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+
+
+import datetime
+from subprocess import run
+import sys
+
+from dbus import SessionBus
+from dbus.mainloop.glib import DBusGMainLoop
+from gi.repository import GLib
+
+
+def output(*args):
+    sys.stdout.write(" ".join(str(arg) for arg in args))
+    sys.stdout.write("\n")
+    sys.stdout.flush()
+
+
+def handler(bus, message):
+    #output(repr(message.get_args_list()))
+    # app_name, id, app_icon, summary, body, actions, hints, expire_timeout
+    args = list(message.get_args_list())
+    output(">>>>>>>>")
+    output(datetime.datetime.now())
+    for i, element in enumerate(args):
+        output(i, repr(element))
+    try:
+        if (len(args) > 0) and (str(args[0]) == "Firefox"):
+            output("========")
+            run(["/home/psc/imemine/bin/teddynag", "on"])
+    except Exception as exc:
+        output(repr(exc))
+    output("<<<<<<<<")
+    output()
+
+
+def main():
+    DBusGMainLoop(set_as_default=True)
+    bus = SessionBus()
+    bus.add_match_string_non_blocking("eavesdrop=true, interface='org.freedesktop.Notifications', member='Notify'")
+    bus.add_message_filter(handler)
+    loop = GLib.MainLoop()
+    loop.run()
+
+
+if __name__ == "__main__":
+    main()
