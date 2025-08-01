@@ -4,7 +4,7 @@ set -eux -o pipefail
 
 # "-e 7" on v0.8.3 roughly equivalent to "-e 10" on v0.8.4
 # "-e 9" on v0.8.3 roughly equivalent to "-e 12" on v0.8.4
-speedcontrol="-w 20 -e 10"
+speedcontrol="-w 20 -e 11"
 
 
 # Validate usage:
