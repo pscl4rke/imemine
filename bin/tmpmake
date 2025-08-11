@@ -3,7 +3,7 @@
 makefile=$(realpath "$1")
 
 function setUp {
-    tmpdir=$(mktemp -d -t tmpmake.XXXXXXX)
+    tmpdir=$(mktemp -d -t tmpmake.$(basename $makefile).XXXXXXX)
     echo "From $makefile"
     ln -s $makefile $tmpdir/Makefile
     echo "Using $tmpdir"
