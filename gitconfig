@@ -24,7 +24,7 @@
 	ff = only
 [push]
 	default = current
-	#followTags = true  # this only works for annotated tags :(
+	followTags = true  # this only works for annotated tags :(
 [init]
 	defaultBranch = master
 [rebase]
