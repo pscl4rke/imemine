@@ -78,6 +78,13 @@ user_pref("browser.startup.homepage_override.mstone", "ignore");
 user_pref("browser.cache.disk.enable", false);
 
 
+// SCREEN SHARING
+//  M$ Teams won't let me watch someone's screen-share by default.
+//  Some kind of H264 problem.  These seem to fix it:
+user_pref("media.gmp-gmpopenh264.enabled", true);
+user_pref("media.webrtc.hw.h264.enabled", true);
+
+
 // FONTS
 user_pref("layout.css.font-visibility.private", 1);
 user_pref("layout.css.font-visibility.standard", 1);
