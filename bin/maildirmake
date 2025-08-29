@@ -1,8 +1,12 @@
 #!/bin/bash
 #======================================================================#
-# MAILDIR EMAIL FOLDER CREATOR                   (c) 2015 P. S. Clarke #
+# MAILDIR EMAIL FOLDER CREATOR              (c) 2015,2025 P. S. Clarke #
 #======================================================================#
 
-[ -z "$1" ] && echo No path given && exit 1
-mkdir "$1" "$1/cur" "$1/new" "$1/tmp"
+[ -z "$1" ] && echo No path given 1>&2 && exit 1
 
+set -ex
+mkdir "$1"
+mkdir "$1/cur"
+mkdir "$1/new"
+mkdir "$1/tmp"
