@@ -41,6 +41,9 @@ require("paq") {
     {"https://github.com/akinsho/bufferline.nvim"},
     {"https://github.com/nvim-lualine/lualine.nvim"},
 
+    -- Trying out debugging
+    {"https://codeberg.org/mfussenegger/nvim-dap", branch = "0.6.0"},  -- nvim 0.7 compat
+
 }
 
 -- Configuration shared with normal vim
@@ -100,6 +103,33 @@ require("myconf.completion")
 require("myconf.colours")
 require("myconf.statusbar")
 require("myconf.quickfix")
+
+-- Testing Debugging
+--  This is how to launch the adaptor (spelt as "adapter")...
+require("dap").adapters.python = {
+    type = "executable",
+    command = os.getenv("HOME") .. "/.virtualenvs/debugpy/bin/python",
+    args = { "-m", "debugpy.adapter" },
+}
+--  And this is how the adaptor should run/connect to the program...
+require("dap").configurations.python = {
+    {
+        type = "python",
+        request = "launch",
+        name = "Launch file",
+        program = "${file}",
+        --console = "integratedTerminal",
+        console = "externalTerminal",
+    },
+}
+require("dap").defaults.fallback.external_terminal = {
+    command = os.getenv("HOME") .. "/imemine/bin/open-in-terminal",
+    --args = {},
+}
+vim.keymap.set('n', '<F4>', function() require('dap').toggle_breakpoint() end)
+vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+vim.keymap.set('n', '<F6>', function() require('dap').repl.toggle() end)
+-- DAP has been integrated into my lualine status bar config
 
 -- Possibilities:
 --  I don't use marks, so "m" and "'" could be rebound for other actions
