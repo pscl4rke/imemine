@@ -1,0 +1,19 @@
+#!/bin/bash
+set -eu -o pipefail
+
+matchpattern="$1"
+keypath="$2"
+
+if [[ -n "${SSH_TTY+}" ]]; then
+    # I keep forgetting to set this manually, and then I have to wait for a timeout
+    opts="--pinentry-mode loopback"
+fi
+
+echo "Testing if I have $matchpattern..."
+if gpg --list-secret-keys "$matchpattern"; then
+    echo "Already have key for $matchpattern"
+else
+    echo "Importing from $keypath..."
+    cat "$keypath" | gpg $opts --import
+    echo "Imported key"
+fi
