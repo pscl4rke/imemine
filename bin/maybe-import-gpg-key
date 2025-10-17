@@ -4,6 +4,8 @@ set -eu -o pipefail
 matchpattern="$1"
 keypath="$2"
 
+opts=""
+
 if [[ -n "${SSH_TTY+}" ]]; then
     # I keep forgetting to set this manually, and then I have to wait for a timeout
     opts="--pinentry-mode loopback"
