@@ -1,6 +1,11 @@
 #!/bin/bash
 set -eu -o pipefail
 
+# ...sigh... it looks like using gpg --import is idempotent anyway,
+# so you can just run it as many times as you want and the keyring
+# never changes.
+# Which makes this script kind-of pointless.
+
 matchpattern="$1"
 keypath="$2"
 
@@ -10,6 +15,13 @@ if [[ -n "${SSH_TTY+}" ]]; then
     # I keep forgetting to set this manually, and then I have to wait for a timeout
     opts="--pinentry-mode loopback"
 fi
+
+#if [[ "$matchpattern" == "@FINGERPRINT@" ]]; then
+#    echo "Looking up fingerprint from $keypath..."
+#    matchpattern=$(cat "$keypath" \
+#        | gpg --show-keys --fingerprint --with-colons \
+#        | awk -F: '$1 == "fpr" {print $10;}')
+#fi
 
 echo "Testing if I have $matchpattern..."
 if gpg --list-secret-keys "$matchpattern"; then
