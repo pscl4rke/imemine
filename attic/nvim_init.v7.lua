@@ -72,7 +72,7 @@ vim.cmd("filetype indent off")
 --vim.cmd("autocmd BufRead,BufNewFile * filetype indent on")
 --vim.cmd("autocmd BufRead,BufNewFile *.html filetype indent off")
 --vim.o.autoindent = false
-vim.cmd("autocmd BufRead,BufNewFile *.py filetype indent on")
+--vim.cmd("autocmd BufRead,BufNewFile *.py filetype indent on")
 
 vim.keymap.set("n", "gO", "<cmd>edit .<enter>")  -- NetRW or equiv
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
