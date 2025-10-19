@@ -15,7 +15,7 @@ def shell(cmdline: str) -> str:
     return proc.stdout.decode()
 
 
-class TestUtils(unittest.TestCase):
+class TestSystem(unittest.TestCase):
 
     def test_cal_makes_wednesday_the_hump_day(self):
         output = shell("cal")
@@ -34,6 +34,12 @@ class TestUtils(unittest.TestCase):
             shell("systemctl is-active whoopsie.service")
         with self.assertRaises(subprocess.CalledProcessError):
             shell("systemctl is-active whoopsie.path")
+
+    def test_i_dont_have_snaps_to_worry_about(self):
+        # On *buntu try a "minimal installation" and find an
+        # alternative source for firefox/chromium.
+        with self.assertRaises(subprocess.CalledProcessError):
+            shell("ps -f | grep sn[a]p")  # don't match grep!
 
 
 class TestSession(unittest.TestCase):
