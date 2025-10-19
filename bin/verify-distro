@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 
+import configparser
 import getpass
 import glob
 import grp
@@ -91,6 +92,19 @@ class TestWebBrowser(unittest.TestCase):
         #   then "xdg-settings set default-web-browser open-in-browser-bg.desktop"
         self.assertIn("open-in-browser-bg",
                       shell("xdg-settings get default-web-browser"))
+
+
+class TestPcmanfm(unittest.TestCase):
+
+    def settings(self):
+        parser = configparser.ConfigParser()
+        # note this will ignore a missing config file:
+        parser.read(expanduser("~/.config/pcmanfm-qt/lxqt/settings.conf"))
+        return parser
+
+    def test_using_my_terminal_launcher(self):
+        self.assertEqual(self.settings()["System"]["Terminal"],
+                         "open-in-terminal")
 
 
 if __name__ == "__main__":
