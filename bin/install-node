@@ -1,10 +1,12 @@
 #!/bin/bash
 set -eux
 
-version="v16.15.0"
-dlfile="node-$version-linux-x64.tar.gz"
-sha256="d1c1de461be10bfd9c70ebae47330fb1b4ab0a98ad730823fb1340e34993edee"
+#version="v16.15.0"
+#sha256="d1c1de461be10bfd9c70ebae47330fb1b4ab0a98ad730823fb1340e34993edee"
+version="v22.20.0"
+sha256="eeaccb0378b79406f2208e8b37a62479c70595e20be6b659125eb77dd1ab2a29"
 
+dlfile="node-$version-linux-x64.tar.gz"
 cd ~/vendor
 
 #agent="Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0"
@@ -17,5 +19,5 @@ echo "$sha256 $dlfile" | sha256sum --check
 ls -lh "$dlfile"
 tar xzf "$dlfile"
 #mv "node-$version-linux-x64" "node-v16"
-ln -s ~/vendor/node-$version-linux-x64/bin/node ~/bin/node
-ln -s ~/vendor/node-$version-linux-x64/bin/npm ~/bin/npm
+ln -f -s ~/vendor/node-$version-linux-x64/bin/node ~/bin/node
+ln -f -s ~/vendor/node-$version-linux-x64/bin/npm ~/bin/npm
