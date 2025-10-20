@@ -29,28 +29,10 @@ vim.o.smarttab = true
 
 --vim.keymap.set("n", "<C-L>", "<cmd>nohl<enter><C-L>") -- default
 
-vim.keymap.set("n", "H", "<cmd>BufferLineCyclePrev<enter>")
-vim.keymap.set("n", "L", "<cmd>BufferLineCycleNext<enter>")
-vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
-vim.keymap.set("n", "go", "<cmd>FZF<enter>")
-vim.keymap.set("n", "g/", function()
-    local query = vim.fn.input("Ripgrep prompt: ")
-    vim.cmd("Rg " .. query) -- shortcut for vim.api.nvim_command
-end)
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 vim.keymap.set("n", "g[", vim.lsp.buf.references)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 -- some places have "gp" set to integrate :term with a password vault
-
-require("bufferline").setup {
-    options = {
-        custom_filter = function(buf_number, buf_numbers)
-            if vim.bo[buf_number].filetype ~= "qf" then  -- quickfix
-                return true
-            end
-        end,
-    }
-}
 
 -- Language Integration
 --  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
@@ -61,6 +43,7 @@ require("lspconfig").bashls.setup {}
 require("lspconfig").gopls.setup {}
 --require("lspconfig").rust_analyzer.setup {}
 
+require("myconf.buffertabs")
 require("myconf.toggleterm")
 require("myconf.gitsigns")
 require("myconf.completion")
