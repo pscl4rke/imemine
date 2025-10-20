@@ -61,7 +61,7 @@ vim.cmd [[
     hi Identifier ctermfg=darkcyan ctermbg=NONE cterm=NONE
     hi Statement ctermfg=darkred ctermbg=NONE cterm=bold
     hi PreProc ctermfg=darkmagenta ctermbg=NONE cterm=NONE
-    hi Type ctermfg=darkgreen ctermbg=NONE cterm=bold
+    "hi Type ctermfg=darkgreen ctermbg=NONE cterm=bold
     hi Special ctermfg=darkblue ctermbg=NONE cterm=NONE
     hi Directory ctermfg=darkcyan ctermbg=NONE cterm=bold
     hi Conceal ctermfg=darkgrey ctermbg=NONE cterm=NONE
@@ -80,6 +80,7 @@ vim.cmd [[
     "highlight Normal ctermfg=NONE ctermbg=NONE cterm=NONE
     highlight Comment cterm=Italic ctermfg=62
     highlight Statement ctermfg=darkyellow ctermbg=NONE cterm=bold
+    highlight Type ctermfg=darkgreen ctermbg=NONE cterm=NONE
     highlight LineNr ctermfg=lightgrey ctermbg=NONE cterm=NONE
     highlight SignColumn ctermbg=None
     highlight DiffAdd ctermbg=151
