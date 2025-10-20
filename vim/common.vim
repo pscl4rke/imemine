@@ -26,6 +26,15 @@ cnoremap <Esc><BS> <BS>
 set wildmode=longest,list
 
 
+" WINDOW TITLE
+"   In an environment where Vim is able to set the title of the
+"   terminal window use the full filename, but by not setting the
+"   titlestring we get other things included too.
+"   (This may be the default anyway!)
+"set titlestring=%t
+set title
+
+
 " MOUSE
 "   I don't like the mouse to be treated specially; it messes
 "   with my terminal's selection abilities.  However I probably

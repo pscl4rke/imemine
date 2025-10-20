@@ -62,7 +62,6 @@ vim.cmd "source ~/imemine/vim/common.vim"
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4
-vim.o.title = true
 
 -- Sensible defaults for many files
 --  Is this not the sort of thing LSP could override???

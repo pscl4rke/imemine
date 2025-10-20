@@ -88,14 +88,6 @@ set shiftwidth=4
 set smarttab
 "
 "
-" WINDOW TITLE
-"   In an environment where Vim is able to set the title of the
-"   terminal window use the full filename, but by not setting the
-"   titlestring we get other things included too.
-"set titlestring=%t
-set title
-"
-"
 " SETTING UP TABS
 "   Tabs is a vastly superior way of working.  (In fact, I'm genuinely
 "   surprised that it's not the default, and have aliased the -p into
