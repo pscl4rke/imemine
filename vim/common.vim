@@ -14,6 +14,7 @@ map <Up> gk
 "   Act as a pager; replicate less
 noremap <Space> <C-F>
 "noremap g<Space> <Space>
+set scrolloff=3
 
 
 " COMMAND ENTRY

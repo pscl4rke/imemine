@@ -32,7 +32,6 @@ set runtimepath+=~/.vim_addons
 "   Some of the things that don't seem to have gone anywhere else.
 "   Some of them may be defaults, but I've encountered places where
 "   they aren't, so it's best to be explicit.
-set scrolloff=3
 set noautoindent
 set timeoutlen=350
 map Y y$

@@ -12,7 +12,6 @@ vim.cmd "source ~/imemine/vim/common.vim"
 vim.o.wildmode = "longest,list"
 vim.wo.number = true
 vim.wo.numberwidth = 4
-vim.o.scrolloff = 3
 vim.o.title = true
 
 -- Sensible defaults for many files
