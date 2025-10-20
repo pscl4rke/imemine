@@ -76,9 +76,6 @@ vim.cmd("filetype indent off")
 
 vim.keymap.set("n", "gO", "<cmd>edit .<enter>")  -- NetRW or equiv
 vim.keymap.set("n", "go", "<cmd>FZF<enter>")
-vim.keymap.set("n", "H", "<cmd>BufferLineCyclePrev<enter>")
-vim.keymap.set("n", "L", "<cmd>BufferLineCycleNext<enter>")
-vim.keymap.set("n", "ZZ", "<cmd>write<enter><cmd>bdelete<enter>")
 vim.keymap.set("n", "ZQ", "<cmd>bdelete<enter>")  -- should this autodiscard (no save)?
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 vim.keymap.set("n", "g[", vim.lsp.buf.references)
@@ -92,19 +89,6 @@ vim.keymap.set("n", "ca", vim.lsp.buf.rename) -- [c]hange [a]ll
 --  :lua vim.lsp.buf.format()
 --  :lua vim.lsp.buf.code_action()
 
-require("bufferline").setup {
-    options = {
-        custom_filter = function(buf_number, buf_numbers)
-            if vim.bo[buf_number].filetype ~= "qf" then  -- quickfix
-                return true
-            end
-        end,
-        show_buffer_close_icons = false,
-        tab_size = 8,
-        max_name_length = 10,
-    }
-}
-
 -- Language Integration
 --  Use :LspInfo and ~/.cache/nvim/lsp.log to help debugging
 require("lspconfig").pylsp.setup {} -- Remember: influenced by ~/.config/pycodestyle
@@ -113,6 +97,7 @@ require("lspconfig").bashls.setup {}
 require("lspconfig").gopls.setup {}
 require("lspconfig").rust_analyzer.setup {}
 
+require("myconf.buffertabs")
 require("myconf.toggleterm")
 require("myconf.gitsigns")
 require("myconf.completion")
