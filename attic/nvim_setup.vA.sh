@@ -48,7 +48,7 @@ git ensure-repo \
 git ensure-repo \
     "$basedir/cmp-nvim-lsp" \
     "https://github.com/hrsh7th/cmp-nvim-lsp.git" \
-    "main"
+    "a8912b8"  # last ver compatible with v0.9
 
 git ensure-repo \
     "$basedir/lualine.nvim" \
