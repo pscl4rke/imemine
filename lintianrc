@@ -1,3 +1,6 @@
 
-LINTIAN_PROFILE = debian
+# Deprecated syntax:
+#LINTIAN_PROFILE = debian
+
+profile = debian
 
