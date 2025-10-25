@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 
 
-# Future: run pcmanfm-qt -w to install CURRENT-LINK
-
-
 import argparse
 import os
 import shutil
@@ -36,6 +33,14 @@ def set_background(filename_without_path: str) -> None:
     os.symlink(filename_without_path, link)
 
 
+def trigger_pcmanfm() -> None:
+    # Note this only works the first time, it won't pick up
+    # on a symlink change.  Hence we force a change using /dev/null.
+    subprocess.run(["pcmanfm-qt", "-w", "/dev/null"])
+    link = os.path.join(picture_dir(), "CURRENT-LINK")
+    subprocess.run(["pcmanfm-qt", "-w", link])
+
+
 def parse_args(args):
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="subcommand", required=True)
@@ -57,6 +62,7 @@ def main():
             print(file)
     elif opts.subcommand == "set":
         set_background(opts.desired)
+        trigger_pcmanfm()
     elif opts.subcommand == "pick":
         # using pick here, could try fzf instead
         p = subprocess.run(["pick"], capture_output=True,
@@ -64,6 +70,7 @@ def main():
         if p.returncode != 0:
             raise Exception("No image picked")
         set_background(p.stdout.decode().rstrip("\n"))
+        trigger_pcmanfm()
     else:
         raise Exception("Unknown command: %r" % opts.subcommand)
 
