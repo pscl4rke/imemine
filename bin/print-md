@@ -2,11 +2,13 @@
 set -eu
 
 # Note that both the python versions of markdown have smartypants built in.
+# My docs only benefit from smartypants, but other extensions are useful
+# for other people's documents (especially those using gh-flavoured md).
 # Note that html2ps gets the "%%Title:" metadata from <title> tags.
 
 cat "$@" \
     | sed '/^%.*$/d' \
-    | markdown2 -x smarty-pants \
+    | markdown2 -x smarty-pants,metadata,fenced-code-blocks,tables \
     | cat <(echo "<head><title>$@</title></head>") - \
     | html2ps \
     | pp
