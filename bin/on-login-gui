@@ -24,7 +24,14 @@ tilda &
 
 # Go orangey in the evenings
 #   Note that the colons magically disappear in the `ps` output
-redshift -v -l 53:0 -t 5500:4300 &
+case "$HOSTNAME" in
+    bittern)
+        redshift -v -l 53:0 -t 5500:4300 -b 1.0:0.8 &
+        ;;
+    *)
+        redshift -v -l 53:0 -t 5500:4300 &
+        ;;
+esac
 
 # Most machines now using libinput, but some still synaptic...
 case "$HOSTNAME" in
