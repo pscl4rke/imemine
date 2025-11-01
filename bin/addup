@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 
+import os
 import shlex
 import subprocess
 import sys
@@ -37,6 +38,9 @@ for line in sys.stdin:
         continue
     parts = shlex.split(line)
     iso, title = parts[-2], int(parts[-1])
+    if not os.path.exists(iso):
+        print("   NO FILE  %s" % iso)
+        continue
     duration = get_duration(iso, title)
     if duration is None:
         print("   UNKNOWN  %s(%i)" % (iso, title))
