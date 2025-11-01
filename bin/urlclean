@@ -11,7 +11,7 @@
 import contextlib
 import os
 import unittest
-from urllib.parse import parse_qsl, quote_plus, urlparse
+from urllib.parse import parse_qsl, quote_plus, urlparse, unquote
 import sys
 
 
@@ -76,6 +76,8 @@ def clean(original):
     url = urlparse(splitfixed.strip())
     if url.netloc.startswith("go.thereg") and url.path.startswith("/feed/"):
         return "https://" + url.path[6:]  # maybe recursively call clean(...)?
+    if url.netloc == "prod.outgoing.prod.webservices.mozgcp.net":
+        return unquote(url.path.split("/", 3)[-1])
     url = url._replace(query=clean_query(url.query))
     if url.fragment.startswith("."):
         url = url._replace(fragment="")
@@ -197,6 +199,10 @@ class TestClean(unittest.TestCase):
     def test_hubspot_identifiers(self):
         self.assertEqual(clean("http://www.foobar.com/path?q=foo&_hsmi=ab&_hsenc=cd"),
                                "http://www.foobar.com/path?q=foo")
+
+    def test_firefox_extensions(self):
+        self.assertEqual(clean("https://prod.outgoing.prod.webservices.mozgcp.net/v1/4565083b9ce3c004bc1094bad8430faf1c98aa0a6d157f3afae65e94d2974e02/https%3A//example.com/foo/bar"),
+                               "https://example.com/foo/bar")
 
     def test_affilitate_links(self):
         self.assertEqual(clean("https://foo.com/path?foo=bar&aff=thing"),
