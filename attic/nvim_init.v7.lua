@@ -72,9 +72,6 @@ vim.cmd("filetype indent off")
 --vim.o.autoindent = false
 --vim.cmd("autocmd BufRead,BufNewFile *.py filetype indent on")
 
-vim.keymap.set("n", "gO", "<cmd>edit .<enter>")  -- NetRW or equiv
-vim.keymap.set("n", "go", "<cmd>FZF<enter>")
-vim.keymap.set("n", "ZQ", "<cmd>bdelete<enter>")  -- should this autodiscard (no save)?
 vim.keymap.set("n", "g]", vim.lsp.buf.definition)
 vim.keymap.set("n", "g[", vim.lsp.buf.references)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
