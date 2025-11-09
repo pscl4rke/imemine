@@ -10,7 +10,7 @@
 --compat-options filename-sanitization
 
 --console-title
---no-call-home
+#--no-call-home  (deprecated 2025)
 --no-overwrites
 
 # should only affect -x/--extract-audio
