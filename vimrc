@@ -208,6 +208,7 @@ autocmd FileType sh setlocal iskeyword-=.
 autocmd FileType nginx setlocal iskeyword-=/
 autocmd FileType nginx setlocal iskeyword-=.
 autocmd FileType sshconfig setlocal iskeyword-=-
+autocmd FileType known_hosts setlocal iskeyword-=-
 autocmd FileType muttrc setlocal iskeyword-=-
 autocmd FileType coffee setlocal shiftwidth=2
 autocmd FileType make setlocal noexpandtab
