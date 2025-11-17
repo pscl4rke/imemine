@@ -93,6 +93,14 @@ class TestWebBrowser(unittest.TestCase):
         self.assertIn("open-in-browser-bg",
                       shell("xdg-settings get default-web-browser"))
 
+    def test_xdg_mime(self):
+        # As used by xdg-mime, which is used by xdg-open
+        #   To set run "xdg-mime default open-in-browser-bg.desktop \
+        #   x-scheme-handler/http x-scheme-handler/https" which creates
+        #   "[Default Applications]" in ~/.config/mimeapps.list.
+        self.assertIn("open-in-browser-bg",
+                      shell("xdg-mime query default x-scheme-handler/https"))
+
 
 class TestPcmanfm(unittest.TestCase):
 
