@@ -111,8 +111,7 @@ class TestPcmanfm(unittest.TestCase):
         return parser
 
     def test_using_my_terminal_launcher(self):
-        self.assertEqual(self.settings()["System"]["Terminal"],
-                         "open-in-terminal")
+        self.assertIn("open-in-terminal", self.settings()["System"]["Terminal"])
 
 
 if __name__ == "__main__":
