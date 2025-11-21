@@ -90,6 +90,8 @@ class TestWebBrowser(unittest.TestCase):
         # As used by xdg-open
         #   To set first you have to "unset BROWSER" in the current shell and
         #   then "xdg-settings set default-web-browser open-in-browser-bg.desktop"
+        # More recently in LxQt it delegates to "qtxdg-mat def-web-browser" so set with
+        # "qtxdg-mat def-web-browser -s open-in-browser-bg.desktop"
         self.assertIn("open-in-browser-bg",
                       shell("xdg-settings get default-web-browser"))
 
@@ -98,6 +100,8 @@ class TestWebBrowser(unittest.TestCase):
         #   To set run "xdg-mime default open-in-browser-bg.desktop \
         #   x-scheme-handler/http x-scheme-handler/https" which creates
         #   "[Default Applications]" in ~/.config/mimeapps.list.
+        # More recently in LxQt it delegates to "qtxdg-mat defapp ..." so set with
+        # "qtxdg-mat defapp -s open-in-browser-bg.desktop x-scheme-handler/https"
         self.assertIn("open-in-browser-bg",
                       shell("xdg-mime query default x-scheme-handler/https"))
 
