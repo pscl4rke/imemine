@@ -7,13 +7,14 @@ GH := https://raw.githubusercontent.com
 allsyntax=$(shell grep ^syntax/ Makefile | sed 's/:.*//')
 allftdetect=$(shell grep ^ftdetect/ Makefile | sed 's/:.*//')
 allplugin=$(shell grep ^plugin/ Makefile | sed 's/:.*//')
-ALL: $(allsyntax) $(allftdetect) $(allplugin)
+allautoload=$(shell grep ^autoload/ Makefile | sed 's/:.*//')
+ALL: $(allsyntax) $(allftdetect) $(allplugin) $(allautoload)
 
 
 # The pipe char is used for order-only prerequisites:
 # https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
 # So that a change of directory mtime doesn't rebuild everything
-syntax ftdetect plugin:
+syntax ftdetect plugin autoload:
 	mkdir $@
 
 
@@ -106,3 +107,14 @@ syntax/cddb.vim: | syntax
 ftdetect/cddb.vim: | ftdetect
 	-mv -i $@ ~/attic/$$(date -I).$@
 	curl $(GH)/pscl4rke/vim-cddb/master/ftdetect/cddb.vim -fo $@
+
+
+#autoload/svelte.vim: | autoload
+#	-mv -i $@ ~/attic/$$(date -I).$@
+#	curl $(GH)/leafOfTree/vim-svelte-plugin/refs/heads/master/autoload/svelte.vim -fo $@
+#syntax/svelte.vim: | syntax
+#	-mv -i $@ ~/attic/$$(date -I).$@
+#	curl $(GH)/leafOfTree/vim-svelte-plugin/refs/heads/master/syntax/svelte.vim -fo $@
+#syntax/svelte-html.vim: | syntax
+#	-mv -i $@ ~/attic/$$(date -I).$@
+#	curl $(GH)/leafOfTree/vim-svelte-plugin/refs/heads/master/syntax/svelte-html.vim -fo $@
