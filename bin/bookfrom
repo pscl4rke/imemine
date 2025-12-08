@@ -1,0 +1,26 @@
+#!/usr/bin/env tmpmake
+# vim:ft=make:
+
+sources := $(wildcard *.url)
+bodies := $(subst url,body,$(sources))
+title := $(shell cat meta.title)
+author := $(shell cat meta.author)
+
+book.epub: $(bodies)
+	test "$(title)"
+	test "$(author)"
+	pandoc -f html -t epub3 -o $@ \
+		--number-sections \
+		--metadata=title:"$(title)" \
+		--metadata=author:"$(author)" \
+		$^
+
+%.body: %.url
+	readable "$$(cat $^)" > $@.tmp
+	mv $@.tmp $@
+
+
+# --epub-title-page=false
+# --epub-cover-image=FILE
+# --toc     <-- pointless because pandoc will only detect <h1> when
+#               directly inside <body> tag, not in a <div>
