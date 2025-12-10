@@ -85,6 +85,8 @@ URxvt.keysym.C-question: resize-font:show
 !   Normally this is 14pt, but underscores are invisible on excalibur.
 !   Strangely they are fine at 13pt and 15pt.
 URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=15
+!   This has an effect for emojis, but not the right one, and is glitchy!
+!URxvt.font: xft:Bitstream Vera Sans Mono,xft:Noto Color Emoji:pixelsize=15
 
 
 ! COLOURS
