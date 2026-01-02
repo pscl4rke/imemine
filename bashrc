@@ -205,17 +205,6 @@ PS1="${PS1}\n\\[\e[34;1m\]\$(__private_ps1)\[\e[0m\]$ "
 export PS1
 
 
-# PRINTING OPTIONS
-#   Sending documents through `lp` is very convenient, but the
-#   options that control it are not very handy.  Here I define
-#   some abbreviations.
-OOt=" -o page-top=36 -o page-bottom=36 -o page-left=36 "
-OOs=" -o lpi=8 -o cpi=14 "
-OO2=" -o number-up=2 "
-OO4=" -o number-up=4 "
-OOd=" -o sides=two-sided-long-edge "
-
-
 # ALIASES
 #   I know a lot of people separate aliases off into another file,
 #   but as things stand I have so few of them that there seems very
@@ -316,22 +305,3 @@ alias dh_make="$debdetails dh_make"
 #   If a config file exists containing lots of stuff for work then
 #   load it here.
 [ -f "$RVIMEMINE/bashrc-work" ] && source "$RVIMEMINE/bashrc-work"
-
-
-# SHOW A FORTUNE {{{
-#   The last thing to do is to take the newly prepared shell and shove
-#   a pretty little fortune at the top.  Note it doesn't use the system
-#   fortune program, because I find it suboptimal.
-#   See https://github.com/pscl4rke/fortune2
-if [ -e "$HOME/bin/fortune" ]
-then
-    echo
-    $HOME/bin/fortune
-    echo
-fi
-#}}}
-
-
-# TRACK HISTORY AGE
-#   As of Dec 2017 I am doing about 2-3k commands per month.
-#echo "echo LAUNCHED AT $(date)" >> $HOME/.bash_history
