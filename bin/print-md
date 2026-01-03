@@ -4,6 +4,10 @@ set -eu
 # Note that both the python versions of markdown have smartypants built in.
 # My docs only benefit from smartypants, but other extensions are useful
 # for other people's documents (especially those using gh-flavoured md).
+
+# Save yourself the trouble of attempting footnotes: this combination of
+# programs can't format them well for the printed page!
+
 # Note that html2ps gets the "%%Title:" metadata from <title> tags.
 
 cat "$@" \
