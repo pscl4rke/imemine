@@ -7,8 +7,10 @@ title := $(shell cat meta.title)
 author := $(shell cat meta.author)
 
 book.epub: $(bodies)
+	@echo "CHECKING METADATA..."
 	test "$(title)"
 	test "$(author)"
+	@echo "BUILDING $@..."
 	pandoc -f html -t epub3 -o $@ \
 		--number-sections \
 		--metadata=title:"$(title)" \
@@ -16,6 +18,7 @@ book.epub: $(bodies)
 		$^
 
 %.body: %.url
+	@echo "FETCHING $@..."
 	readable "$$(cat $^)" > $@.tmp
 	mv $@.tmp $@
 
@@ -24,3 +27,9 @@ book.epub: $(bodies)
 # --epub-cover-image=FILE
 # --toc     <-- pointless because pandoc will only detect <h1> when
 #               directly inside <body> tag, not in a <div>
+
+
+urls: sources
+	cat $^ | nl -n rz -w 2 | while read number url; do \
+		echo "$$url" > "$$number.url" ;\
+	done
