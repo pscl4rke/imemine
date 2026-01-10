@@ -84,5 +84,7 @@ vim.cmd [[
     highlight LineNr ctermfg=lightgrey ctermbg=NONE cterm=NONE
     highlight SignColumn ctermbg=None
     highlight DiffAdd ctermbg=151
+    highlight GitSignsAddLn ctermbg=151
     highlight DiffChange ctermbg=223
+    highlight GitSignsChangeLn ctermbg=223
 ]]
