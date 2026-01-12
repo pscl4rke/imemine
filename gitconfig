@@ -20,6 +20,8 @@
 	useConfigOnly = true
 [transfer]
 	fsckObjects = true
+[status]
+	showStash = true
 [pull]
 	ff = only
 [push]
