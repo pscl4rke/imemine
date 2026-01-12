@@ -36,6 +36,7 @@ require("lspconfig").ts_ls.setup {}  -- use "// @ts-check" in .js/.mjs files
 require("lspconfig").bashls.setup {}
 require("lspconfig").gopls.setup {}
 --require("lspconfig").rust_analyzer.setup {}
+require("lspconfig").svelte.setup {}
 
 require("myconf.buffertabs")
 require("myconf.toggleterm")
@@ -44,6 +45,9 @@ require("myconf.completion")
 require("myconf.colours")
 require("myconf.statusbar")
 require("myconf.quickfix")
+
+-- https://github.com/leafOfTree/vim-svelte-plugin
+vim.cmd "let g:vim_svelte_plugin_use_typescript = 1"
 
 -- Possibilities:
 --  I don't use marks, so "m" and "'" could be rebound for other actions

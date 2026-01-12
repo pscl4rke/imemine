@@ -72,4 +72,10 @@ git ensure-repo \
     "v4.9.1"
 
 echo
+git ensure-repo \
+    "$basedir/vim-svelte-plugin" \
+    "https://github.com/leafoftree/vim-svelte-plugin.git" \
+    "master"
+
+echo
 echo DONE
