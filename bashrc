@@ -284,6 +284,11 @@ eval "$(dircolors --bourne-shell <( \
 ))"
 
 
+# FUZZY FINDING
+#   fzf only picks up a config file if this envvar is set.
+export FZF_DEFAULT_OPTS_FILE=~/.fzfrc
+
+
 # PACKAGING
 #   The debian toolkit for building packages works much better if
 #   you tell it who you are.  I used to simply export these envvars

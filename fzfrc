@@ -1,0 +1,7 @@
+
+# This file is ignored without $FZF_DEFAULT_OPTS_FILE exported from the bashrc!
+
+# DIRECTORIES TO IGNORE:
+#   Used in both bash's Ctrl+T and vim/nvim's <g><o>.
+#   The default is just .git and node_modules.
+--walker-skip=.git,__pycache__,venv,.mypy_cache,node_modules
