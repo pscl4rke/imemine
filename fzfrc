@@ -1,5 +1,6 @@
 
 # This file is ignored without $FZF_DEFAULT_OPTS_FILE exported from the bashrc!
+#   That was added in v47, with comments supported in v55.
 
 # DIRECTORIES TO IGNORE:
 #   Used in both bash's Ctrl+T and vim/nvim's <g><o>.
