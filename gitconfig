@@ -31,6 +31,8 @@
 	defaultBranch = master
 [rebase]
 	autostash = true
+[stash]
+	showPatch = true
 [merge]
 	conflictStyle = diff3 # zdiff3 only available from Jan 2022
 [diff]
