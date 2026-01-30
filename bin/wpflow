@@ -12,6 +12,9 @@ def reflow(paragraph):
     preformatted = paragraph[0][0] in " \t"
     if preformatted:
         return reflow_reformatted(paragraph)
+    heading = paragraph[-1][0:5] in ("=====", "-----")
+    if heading:
+        return reflow_reformatted(paragraph)
     blockquote = paragraph[0][0] in ">"
     bullet = paragraph[0][0] in "*-"
     chunks = []
@@ -79,6 +82,11 @@ class TestWpflow(unittest.TestCase):
     def test_paragraphs(self):
         text_in = "foo\nbar\n\nbaz\nquux\n"
         text_out = "foo bar\n\nbaz quux\n"
+        self.assertEqual(text_out, wpflow(text_in))
+
+    def test_headings(self):
+        text_in = "foo bar\n======\n\nbaz\nquux\n"
+        text_out = "foo bar\n======\n\nbaz quux\n"
         self.assertEqual(text_out, wpflow(text_in))
 
     def test_code(self):
