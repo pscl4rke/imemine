@@ -112,6 +112,10 @@ vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
 vim.keymap.set('n', '<F6>', function() require('dap').repl.toggle() end)
 -- DAP has been integrated into my lualine status bar config
 
+vim.cmd [[
+    autocmd FileType css setlocal iskeyword-=-
+]]
+
 -- Possibilities:
 --  I don't use marks, so "m" and "'" could be rebound for other actions
 
