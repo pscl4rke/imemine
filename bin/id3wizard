@@ -1,0 +1,53 @@
+#!/usr/bin/python3
+
+
+# Loops through all files given as args, asks if you want to fix the title,
+# and if you say "y" gives you an edit window and then changes the metadata
+# and filename.
+
+# FIXME: This just crudely fixes title tags for now
+
+
+import os
+import re
+import subprocess
+import sys
+import tempfile
+
+
+def get_title(filepath):
+    response = subprocess.run(["eyeD3", filepath], check=True, capture_output=True)
+    matched = re.search(r"^title: (.*)$", response.stdout.decode(), flags=re.MULTILINE)
+    assert matched is not None
+    return matched[1]
+
+
+def edit(old_string):
+    with tempfile.NamedTemporaryFile() as file:
+        file.write(old_string.encode())
+        file.write(b"\n")
+        file.flush()
+        editor = os.environ["EDITOR"]
+        subprocess.run([editor, file.name], check=True)
+        with open(file.name) as file2:
+            return file2.read().rstrip()
+
+
+def main():
+    for filepath in sys.argv[1:]:
+        print()
+        print()
+        subprocess.run(["eyeD3", filepath], check=True)
+        print()
+        response = input("Fix title? [y/N] ")
+        if not response.lower().startswith("y"):
+            continue
+        current_title = get_title(filepath)
+        new_title = edit(current_title)
+        if new_title != current_title:
+            subprocess.run(["eyeD3", "--title", new_title, filepath], check=True)
+            subprocess.run(["eyeD3", "--rename", "$track:num $title", filepath], check=True)
+
+
+if __name__ == "__main__":
+    main()
