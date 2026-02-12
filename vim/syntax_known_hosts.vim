@@ -9,7 +9,9 @@ if exists("b:current_syntax")
     finish
 endif
 
-setlocal iskeyword=_,-,a-z,A-Z,48-57
+"setlocal iskeyword=_,-,a-z,A-Z,48-57
+"setlocal iskeyword+=-
+syn iskeyword _,-,a-z,A-Z,48-57
 
 syn match knownHostsIdentity '^[^ ]\+'
 syn keyword knownHostsKeyType ssh-rsa ssh-dsa ssh-dss
