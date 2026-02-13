@@ -72,6 +72,9 @@ class ReminderSender:
         args.append(self.args.toaddress)
         sendmail = subprocess.Popen(args, stdin=subprocess.PIPE)
         sendmail.communicate(email.as_bytes())
+        returncode = sendmail.wait()
+        if returncode != 0:
+            LOG.warning("Running %r returned code %r", args[0], returncode)
 
     def send_all(self):
         self.run_sanity_checks()
