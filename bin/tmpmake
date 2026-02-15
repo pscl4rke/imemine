@@ -3,17 +3,17 @@
 makefile=$(realpath "$1")
 
 function setUp {
-    tmpdir=$(mktemp -d -t tmpmake.$(basename $makefile).XXXXXXX)
-    echo "From $makefile"
-    ln -s $makefile $tmpdir/Makefile
-    echo "Using $tmpdir"
-    cd $tmpdir
+    tmpdir=$(mktemp -d -t tmpmake."$(basename "$makefile")".XXXXXXX)
+    echo "From $makefile" 1>&2
+    ln -s "$makefile" "$tmpdir/Makefile"
+    echo "Using $tmpdir" 1>&2
+    cd "$tmpdir"
 }
 
 function tearDown {
-    echo "Tearing down $tmpdir"
+    echo "Tearing down $tmpdir" 1>&2
     cd /
-    rm -r $tmpdir
+    rm -r "$tmpdir"
 }
 
 setUp
