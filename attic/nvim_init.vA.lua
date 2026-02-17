@@ -49,6 +49,11 @@ require("myconf.quickfix")
 -- https://github.com/leafOfTree/vim-svelte-plugin
 vim.cmd "let g:vim_svelte_plugin_use_typescript = 1"
 
+vim.cmd [[
+    imap <F1> <ESC>
+    map <F1> <ESC>
+]]
+
 -- Possibilities:
 --  I don't use marks, so "m" and "'" could be rebound for other actions
 
