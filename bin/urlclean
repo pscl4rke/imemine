@@ -43,6 +43,8 @@ def clean_query(original):
             continue
         if key == "aff":
             continue
+        if key == "ref":
+            continue
         pairs.append((key, value))
     # urlencode can't handle when the value is ""
     #return urllib.parse.urlencode(pairs)
@@ -206,6 +208,10 @@ class TestClean(unittest.TestCase):
 
     def test_affilitate_links(self):
         self.assertEqual(clean("https://foo.com/path?foo=bar&aff=thing"),
+                               "https://foo.com/path?foo=bar")
+
+    def test_reconnections(self):
+        self.assertEqual(clean("https://foo.com/path?foo=bar&ref=reconnections.com"),
                                "https://foo.com/path?foo=bar")
 
     def test_reg_rss_link(self):
