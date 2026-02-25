@@ -28,10 +28,11 @@ case "$HOSTNAME" in
     bittern)
         redshift -v -l 53:0 -t 5500:4300 -b 1.0:0.8 &
         ;;
-    vorpal)
-        # for some reason redshift causes awful graphics glitches
-        xrandr --output eDP-1 --gamma 1:0.9:0.8
-        ;;
+    # This was solved by telling grub "i915.enable_psr=0"
+    #vorpal)
+    #    # for some reason redshift causes awful graphics glitches
+    #    xrandr --output eDP-1 --gamma 1:0.9:0.8
+    #    ;;
     *)
         redshift -v -l 53:0 -t 5500:4300 &
         ;;
