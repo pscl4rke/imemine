@@ -4,6 +4,9 @@ cache-file "/autofs/photometa/newsboat_cache.db"
 # Note: script uses `setsid -f` so when newsboat exits the window isn't killed:
 browser "/home/psc/imemine/bin/open-in-browser-bg -u urltube %u"
 
+# The default keybinding is not documented anywhere properly.  Refer to:
+#   https://github.com/newsboat/newsboat/blob/master/src/keymap.cpp
+
 # really dangerous
 unbind-key A
 unbind-key D
@@ -13,8 +16,9 @@ unbind-key $
 bind-key SPACE pagedown
 
 # Was "next-feed" and "prev-feed"...
-bind-key j next
-bind-key k prev
+#   (also "next" and "prev" didn't play nice either)
+bind-key j down
+bind-key k up
 goto-next-feed no
 
 # No "limit" mechanism
