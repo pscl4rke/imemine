@@ -2,6 +2,7 @@
 
 // FOR INSPIRATION LOOK AT...
 //  https://github.com/arkenfox/user.js
+//user_pref("browser.aboutConfig.showWarning", false);
 
 
 // UPDATING
@@ -83,6 +84,11 @@ user_pref("browser.cache.disk.enable", false);
 //  Some kind of H264 problem.  These seem to fix it:
 user_pref("media.gmp-gmpopenh264.enabled", true);
 user_pref("media.webrtc.hw.h264.enabled", true);
+
+
+// DEVELOPER CONSOLE
+//  The default is 0, requiring me to type "allow pasting" in devtools.
+user_pref("devtools.selfxss.count", 5);
 
 
 // FONTS
