@@ -13,6 +13,7 @@ set -eu
 cat "$@" \
     | sed '/^%.*$/d' \
     | markdown2 -x smarty-pants,metadata,fenced-code-blocks,tables \
+    | sed 's/£/\&pound;/g' \
     | cat <(echo "<head><title>$@</title></head>") - \
     | html2ps \
     | pp
