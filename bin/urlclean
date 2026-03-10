@@ -45,6 +45,8 @@ def clean_query(original):
             continue
         if key == "ref":
             continue
+        if key.startswith("at_"):
+            continue
         pairs.append((key, value))
     # urlencode can't handle when the value is ""
     #return urllib.parse.urlencode(pairs)
@@ -212,6 +214,10 @@ class TestClean(unittest.TestCase):
 
     def test_reconnections(self):
         self.assertEqual(clean("https://foo.com/path?foo=bar&ref=reconnections.com"),
+                               "https://foo.com/path?foo=bar")
+
+    def test_beeb(self):
+        self.assertEqual(clean("https://foo.com/path?foo=bar&at_thing=foobar"),
                                "https://foo.com/path?foo=bar")
 
     def test_reg_rss_link(self):
