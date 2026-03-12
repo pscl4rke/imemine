@@ -161,6 +161,7 @@ def check_mp3(album_dir, path_to_check):
     yield from check_folder_naming(src, path_to_check)
     yield from check_file_naming(src, path_to_check)
     yield from check_file_numbering(src, path_to_check)
+    yield from check_tagging_metadata(src, path_to_check)
     yield from check_from_wipe_mp3_junk_script(src, path_to_check)
     yield from check_track_numbering(album_dir, src, path_to_check)
     yield from check_genre(src, path_to_check)
@@ -168,7 +169,6 @@ def check_mp3(album_dir, path_to_check):
     yield from check_title(src, path_to_check)
     yield from check_artists(src, path_to_check)
     yield from check_composer(src, path_to_check)
-    yield from check_tagging_metadata(src, path_to_check)
     yield from check_year(src, path_to_check)
     yield from check_classical(src, path_to_check)
     yield from check_soundtrack(src, path_to_check)
@@ -218,6 +218,18 @@ def check_file_numbering(src, path_to_check):
         return
     if filename_track != metadata_track:
         yield path_to_check, "File name doesn't match track number %r" % metadata_track
+
+
+def check_tagging_metadata(src, path_to_check):
+    if src.version < (2, 4):
+        yield path_to_check, f"Still using ID3 version {src.version}"
+    if "TDTG" in src:
+        yield path_to_check, "Unwanted tagging date"
+    if "TCON" in src:
+        genre = src["TCON"].text[0]
+        if genre.startswith("("):
+            if src.version >= (2, 4):
+                yield path_to_check, "Old ID3 v2.3 genre"
 
 
 def check_from_wipe_mp3_junk_script(src, path_to_check):
@@ -370,16 +382,6 @@ def check_soundtrack(src, path_to_check):
     #    yield path_to_check, "Missing performer (TPE3)"
 
 
-def check_tagging_metadata(src, path_to_check):
-    if src.version < (2, 4):
-        yield path_to_check, f"Still using ID3 version {src.version}"
-    if "TDTG" in src:
-        yield path_to_check, "Unwanted tagging date"
-    if "TCON" in src:
-        genre = src["TCON"].text[0]
-        if genre.startswith("("):
-            if src.version >= (2, 4):
-                yield path_to_check, "Old ID3 v2.3 genre"
 
 
 def display(path, problem, dest):
