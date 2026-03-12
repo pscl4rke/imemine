@@ -14,7 +14,6 @@ import mutagen.id3
 # check id3v1 data matches id3v2 data
 # check album art of good quality
 # perhaps check the year
-# use a non-zero exit code if problems are found
 
 
 INCLUDES_TRACK_NUMBER = re.compile(r"^\d\d\. ")
@@ -412,9 +411,12 @@ def display(path, problem, dest):
 
 
 def main():
+    problems = 0
     for path_to_check in sys.argv[1:]:
         for path, problem in check(path_to_check):
             display(path, problem, sys.stdout.buffer)
+            problems += 1
+    sys.exit(1 if (problems > 0) else 0)
 
 
 if __name__ == '__main__':
