@@ -11,7 +11,7 @@ import mutagen.id3
 
 
 # check title-case tracks
-# check id3v1 data matches id3v2 data
+# check id3v1 data matches id3v2 data (started below...)
 # check album art of good quality
 # perhaps check the year
 
@@ -174,6 +174,7 @@ def check_mp3(album_dir, path_to_check):
     yield from check_soundtrack(src, path_to_check)
     if is_a_recent_file(path_to_check):
         pass
+    yield from check_version_one_tags(src, path_to_check)
 
 
 def check_folder_naming(src, path_to_check):
@@ -382,6 +383,16 @@ def check_soundtrack(src, path_to_check):
     #    yield path_to_check, "Missing performer (TPE3)"
 
 
+def check_version_one_tags(src_from_v2, path_to_check):
+    with open(path_to_check, "rb") as srcfile:
+        id3v1_tags, offset = mutagen.id3._id3v1.find_id3v1(srcfile)
+    if id3v1_tags is None:
+        yield path_to_check, "No ID3v1 tags"
+        return
+    if len(id3v1_tags) == 0:
+        yield path_to_check, "No ID3v1 tags"
+        return
+    # https://github.com/quodlibet/mutagen/blob/main/mutagen/id3/_id3v1.py
 
 
 def display(path, problem, dest):
