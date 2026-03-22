@@ -4,10 +4,19 @@
 # Do not delete "intermediate" files
 .SECONDARY:
 
+.DEFAULT: ALL
+
 sources := $(wildcard *.url)
 bodies := $(subst url,body,$(sources))
 title := $(shell cat meta.title)
 author := $(shell cat meta.author)
+
+ALL:
+	@echo "CHECKING METADATA..."
+	test "$(title)"
+	test "$(author)"
+	$(MAKE) urls
+	$(MAKE) book.epub
 
 book.epub: $(bodies)
 	@echo "CHECKING METADATA..."
