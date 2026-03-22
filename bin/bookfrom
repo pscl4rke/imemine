@@ -1,6 +1,9 @@
 #!/usr/bin/env tmpmake
 # vim:ft=make:
 
+# Do not delete "intermediate" files
+.SECONDARY:
+
 sources := $(wildcard *.url)
 bodies := $(subst url,body,$(sources))
 title := $(shell cat meta.title)
