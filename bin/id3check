@@ -393,6 +393,9 @@ def check_version_one_tags(src_from_v2, path_to_check):
         yield path_to_check, "No ID3v1 tags"
         return
     # https://github.com/quodlibet/mutagen/blob/main/mutagen/id3/_id3v1.py
+    for tagname in ["TRCK", "TALB", "TPE1", "TIT2"]:  # TDRC TCON
+        if tagname not in id3v1_tags:
+            yield path_to_check, f"Missing {tagname} from v1 tags"
 
 
 def display(path, problem, dest):
