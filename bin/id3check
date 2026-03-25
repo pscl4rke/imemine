@@ -38,8 +38,13 @@ def is_a_year(value):
     return True
 
 
-def contains_smart_quotes(value):
+def contains_fancy_unicode(value):
+    # Smart quotes:
     for char in "\u00b4\u0060\u201c\u201d\u201e\u201f\u2018\u2019\u201a\u201b":
+        if char in value:
+            return True
+    # Looks like hyphens but not
+    for char in "\u2010\u2011\u2012\u2013\u2014":
         if char in value:
             return True
     return False
@@ -200,8 +205,8 @@ def check_file_naming(src, path_to_check):
         yield path_to_check, "Poor match of file name to TIT2 metadata"
     if filename_title[0] == "-":
         yield path_to_check, "Filename has extra separator '-'"
-    if contains_smart_quotes(filename_title):
-        yield path_to_check, "Filename contains smart quotes"
+    if contains_fancy_unicode(filename_title):
+        yield path_to_check, "Filename contains fancy unicode: %r" % filename_title
     if contains_bad_whitespace(filename_title):
         yield path_to_check, "Filename contains bad whitespace"
 
@@ -278,8 +283,11 @@ def check_album(src, path_to_check):
     if "TALB" not in src:
         yield path_to_check, "Missing album"
         return
-    if contains_smart_quotes(src["TALB"].text[0]):
-        yield path_to_check, "Album contains smart quotes"
+    album = src["TALB"].text[0]
+    #if "Every" in src["TALB"].text[0]:
+        #yield path_to_check, "FOO %r" % src["TALB"].text[0].encode("ascii")
+    if contains_fancy_unicode(album):
+        yield path_to_check, "Album contains fancy unicode: %r" % album
     if contains_bad_whitespace(src["TALB"].text[0]):
         yield path_to_check, "Album contains bad whitespace"
 
@@ -288,10 +296,11 @@ def check_title(src, path_to_check):
     if "TIT2" not in src:
         yield path_to_check, "Missing track title"
         return
+    title = src["TIT2"].text[0]
     if INCLUDES_TRACK_NUMBER.match(src["TIT2"].text[0]):
         yield path_to_check, "Title includes track number"
-    if contains_smart_quotes(src["TIT2"].text[0]):
-        yield path_to_check, "Title contains smart quotes"
+    if contains_fancy_unicode(title):
+        yield path_to_check, "Title contains fancy unicode: %r" % title
     if contains_bad_whitespace(src["TIT2"].text[0]):
         yield path_to_check, "Title contains bad whitespace"
 
@@ -309,8 +318,8 @@ def check_artists(src, path_to_check):
     artist = src["TPE1"].text[0]
     if INCLUDES_TRACK_NUMBER.match(src["TPE1"].text[0]):
         yield path_to_check, "Artist includes track number"
-    if contains_smart_quotes(src["TPE1"].text[0]):
-        yield path_to_check, "Artist contains smart quotes"
+    if contains_fancy_unicode(artist):
+        yield path_to_check, "Artist contains fancy unicode: %r" % artist
     if contains_bad_whitespace(src["TPE1"].text[0]):
         yield path_to_check, "Artist contains bad whitespace"
     if "," in artist:
