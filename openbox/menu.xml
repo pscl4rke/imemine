@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:sw=2:et:
+-->
+<openbox_menu xmlns="http://openbox.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/ file:///usr/share/openbox/menu.xsd">
+
+
+<menu id="other" label="LABEL">
+  <item label="M Maximise">
+    <action name="ToggleMaximize" />
+  </item>
+  <item label="N Minimise">
+    <action name="Iconify" />
+  </item>
+  <item label="T Terminal">
+    <action name="Execute">
+      <command>/home/psc/imemine/bin/open-in-terminal</command>
+    </action>
+  </item>
+</menu>
+
+
+</openbox_menu>

@@ -214,6 +214,17 @@
       </keybind>
     </keybind>
 
+    <!-- Test -->
+    <keybind key="W-q">
+      <action name="ShowMenu">
+        <menu>other</menu>
+        <position>
+          <x>center</x>
+          <y>center</y>
+        </position>
+      </action>
+    </keybind>
+
     <!-- Keybindings for windows -->
     <keybind key="C-A-c">
       <keybind key="C-A-c">
@@ -1008,7 +1019,9 @@
     <!-- default menu file (or custom one in $HOME/.config/openbox/) -->
     <file>/usr/share/lubuntu/openbox/menu.xml</file>
     <file>/usr/share/lxde/openbox/menu.xml</file>
+    <!-- <file>/home/psc/.config/openbox/other.xml</file> -->
     <file>menu.xml</file>
+    <!-- <file>other.xml</file> -->
     <hideDelay>200</hideDelay>
     <!-- if a press-release lasts longer than this setting (in milliseconds), the
        menu is hidden again -->
