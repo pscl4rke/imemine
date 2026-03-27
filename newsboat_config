@@ -2,7 +2,8 @@
 cache-file "/autofs/photometa/newsboat_cache.db"
 
 # Note: script uses `setsid -f` so when newsboat exits the window isn't killed:
-browser "/home/psc/imemine/bin/open-in-browser-bg -u urltube %u"
+#browser "/home/psc/imemine/bin/open-in-browser-bg -u urltube %u"
+browser "/home/psc/imemine/bin/open-in-browser-bg %u"
 
 # The default keybinding is not documented anywhere properly.  Refer to:
 #   https://github.com/newsboat/newsboat/blob/master/src/keymap.cpp
