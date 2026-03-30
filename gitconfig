@@ -16,6 +16,8 @@
 	pager = less -+FX
 [color]
 	ui = auto
+[pager]
+	branch = false
 [user]
 	useConfigOnly = true
 [transfer]
