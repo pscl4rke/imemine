@@ -4,6 +4,7 @@
 DIRECTORIES_TO_HIDE = [
     "attic",
     "historical",
+    "venv",
 ]
 
 
