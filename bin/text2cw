@@ -37,6 +37,7 @@ cat text.src \
     | sed 's|^|QQ |g' \
     | iconv -t ascii//translit \
     | tr -cd '[:alnum:][:space:]-' \
+    | sed 's/[[:digit:]]/ \0 /g' \
     | tr '\t\n' '  ' \
     | sed '$s/$/ EOF\n/' \
     | tr -s ' ' \
