@@ -1,0 +1,33 @@
+#!/usr/bin/python3
+
+
+# Not all filesystems are equally forgiving...
+#   Colons are rejected on NTFS
+
+
+import os
+import sys
+
+
+def alert(path, msg):
+    sys.stderr.write("%s: %s\n" % (path, msg))
+
+
+def check(path):
+    if os.path.isdir(path):
+        for item in os.listdir(path):
+            check(os.path.join(path, item))
+    elif os.path.isfile(path):
+        if ":" in path:
+            alert(path, "Contains colon")
+    else:
+        alert(path, "Unknown Type")
+
+
+def main():
+    for path in sys.argv[1:]:
+        check(path)
+
+
+if __name__ == "__main__":
+    main()
