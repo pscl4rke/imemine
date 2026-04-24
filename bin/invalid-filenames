@@ -2,32 +2,39 @@
 
 
 # Not all filesystems are equally forgiving...
-#   Colons are rejected on NTFS
+#   Colons are rejected on NTFS and exFAT
 
 
 import os
 import sys
 
 
-def alert(path, msg):
-    sys.stderr.write("%s: %s\n" % (path, msg))
+class Checker:
+
+    def __init__(self):
+        self.invalid = 0
+
+    def alert(self, path, msg):
+        sys.stderr.write("%s: %s\n" % (path, msg))
+        self.invalid += 1
+
+    def check(self, path) -> int:
+        if os.path.isdir(path):
+            for item in os.listdir(path):
+                self.check(os.path.join(path, item))
+        elif os.path.isfile(path):
+            if ":" in path:
+                self.alert(path, "Contains colon")
+        else:
+            self.alert(path, "Unknown Type")
 
 
-def check(path):
-    if os.path.isdir(path):
-        for item in os.listdir(path):
-            check(os.path.join(path, item))
-    elif os.path.isfile(path):
-        if ":" in path:
-            alert(path, "Contains colon")
-    else:
-        alert(path, "Unknown Type")
-
-
-def main():
+def main() -> int:
+    checker = Checker()
     for path in sys.argv[1:]:
-        check(path)
+        checker.check(path)
+    return 1 if (checker.invalid > 0) else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
