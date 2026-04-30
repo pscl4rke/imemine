@@ -36,17 +36,24 @@ class Nagger:
         self.teddy_proc = None
 
     async def switch_on(self):
-        LOG.info("Switching on")
+        #LOG.info("Switching on")
         if self.teddy_proc is not None:
-            return
+            if self.teddy_proc.returncode is None:
+                LOG.info("Teddy process already running - ignoring command")
+                return
+            else:
+                LOG.info("Teddy process was running but had exited")
+        LOG.info("Launching %r subprocess", XTEDDY)
         self.teddy_proc = await asyncio.create_subprocess_exec(XTEDDY)
         LOG.info("Switched on")
 
     async def switch_off(self):
-        LOG.info("Switching off")
+        #LOG.info("Switching off")
         if self.teddy_proc is None:
+            LOG.info("Teddy process not running - ignoring command")
             return
         try:
+            LOG.info("Terminating subprocess")
             self.teddy_proc.terminate()
             await self.teddy_proc.wait()
         except ProcessLookupError:  # when already terminated
@@ -56,7 +63,7 @@ class Nagger:
         LOG.info("Switched off")
 
     async def handle_connection(self, reader, writer):
-        LOG.info("Incoming Connection")
+        #LOG.info("Incoming Connection")
         try:
             message = await reader.read()
             LOG.info("Received: %r", message)
