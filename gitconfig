@@ -46,6 +46,8 @@
 	frag = cyan white
 [alias]
 	amend = commit --amend --reset-author
+	upstream = branch --all --format=\"%(committerdate:short) %(refname)\" --sort=committerdate
+	merge-no-ff = merge --no-ff
 [tag]
 	sort = version:refname
 
