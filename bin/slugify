@@ -1,0 +1,8 @@
+#!/usr/bin/sed -nf
+#   (note this relies on GNU sed extensions like \L)
+s/[A-Z]/\L&/g
+s/[^[:alnum:]]/-/g
+s/--*/-/g
+s/^-//
+s/-$//
+p
