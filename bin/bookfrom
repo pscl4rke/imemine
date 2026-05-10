@@ -10,15 +10,18 @@ sources := $(wildcard *.url)
 bodies := $(subst url,body,$(sources))
 title := $(shell cat meta.title)
 author := $(shell cat meta.author)
+slug := book
 
 ALL:
 	@echo "CHECKING METADATA..."
 	test "$(title)"
 	test "$(author)"
+	@echo "CHECKING SOURCES..."
+	test -e sources
 	$(MAKE) urls
-	$(MAKE) book.epub
+	$(MAKE) $(slug).epub
 
-book.epub: $(bodies)
+$(slug).epub: $(bodies)
 	@echo "CHECKING METADATA..."
 	test "$(title)"
 	test "$(author)"
