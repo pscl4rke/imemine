@@ -7,7 +7,7 @@
 .DEFAULT: ALL
 
 sources := $(wildcard *.url)
-bodies := $(subst url,body,$(sources))
+internals := $(subst url,internal,$(sources))
 title := $(shell cat meta.title)
 author := $(shell cat meta.author)
 slug := book
@@ -18,10 +18,11 @@ ALL:
 	test "$(author)"
 	@echo "CHECKING SOURCES..."
 	test -e sources
+	mkdir -p images
 	$(MAKE) urls
 	$(MAKE) $(slug).epub
 
-$(slug).epub: $(bodies)
+$(slug).epub: $(internals)
 	@echo "CHECKING METADATA..."
 	test "$(title)"
 	test "$(author)"
@@ -32,9 +33,24 @@ $(slug).epub: $(bodies)
 		--metadata=author:"$(author)" \
 		$^
 
-%.body: %.url
+#%.raw: %.url
+#	@echo "FETCHING $@..."
+#	wget "$$(cat $^)" -O $@.tmp
+#	#wget "$$(cat $^)" -r -l 1 -A jpeg,jpg,png,gif,bmp -nd -P images -O $@.tmp
+#	mv $@.tmp $@
+
+# In case it's not obvious... "external" refers to docs with <img> that link
+# to external web resources, and "internal" is where we've downloaded locally.
+# Unfortunately some webmasters block pandoc from pulling images!
+
+%.external: %.url
 	@echo "FETCHING $@..."
 	readable "$$(cat $^)" > $@.tmp
+	mv $@.tmp $@
+
+%.internal: %.external
+	@echo "FETCHING IMAGES FOR $@..."
+	localimg $^ $@.tmp images
 	mv $@.tmp $@
 
 
