@@ -1,0 +1,67 @@
+#!/usr/bin/python3
+
+
+import logging
+LOG = logging.getLogger("localimg")
+
+import argparse
+import hashlib
+import os
+import re
+import subprocess
+import sys
+import time
+
+
+SRC_ATTRIBUTE = re.compile(r'src=["\']([^"\']*)["\']')
+
+
+def name_for_url(url):
+    mainpart = hashlib.sha1(url.encode()).hexdigest()
+    extension = None  # do I need to fix this?
+    return mainpart
+
+
+def ensure(url, destdir):
+    destfile = os.path.join(destdir, name_for_url(url))
+    if os.path.exists(destfile):
+        LOG.info("At %s I already have %s", destfile, url)
+        return destfile
+    LOG.info("Downloading %s...", url)
+    #args = ["wget", url, "-O", destfile]
+    args = ["curl", url, "-o", destfile]
+    subprocess.run(args, check=True)
+    #with open(".localimg.tmp", "rb") as dlfile:
+    #    hashed = hashlib.sha1(dlfile.read())
+    #destfile = os.path.join(destdir, hashed.hexdigest())
+    #os.rename(".localimg.tmp", destfile)
+    LOG.info("Downloaded %s", destfile)
+    return destfile
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("srcpath")
+    parser.add_argument("destpath")
+    parser.add_argument("imagedir")
+    return parser.parse_args(args)
+
+
+def main():
+    args = parse_args(sys.argv[1:])
+    if not os.path.isdir(args.imagedir):
+        raise NotADirectoryError(args.imagedir)
+    with open(args.srcpath) as srcfile:
+        src = srcfile.read()
+    dest = src
+    for matched in SRC_ATTRIBUTE.finditer(src):
+        created = ensure(matched.group(1), args.imagedir)
+        dest = dest.replace(matched.group(0), f'src="{created}"')
+        time.sleep(2)
+    with open(args.destpath, "w") as destfile:
+        destfile.write(dest)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    main()
