@@ -64,6 +64,12 @@ $(slug).epub: $(internals)
 
 
 urls: sources
+	@echo Only touching *.url timestamps if the content has changed...
 	cat $^ | nl -n rz -w 2 | while read number url; do \
-		echo "$$url" > "$$number.url" ;\
+		echo "$$url" > "tmp.url" ;\
+		if diff "$$number.url" "tmp.url"; then \
+			rm "tmp.url" ;\
+		else \
+			mv "tmp.url" "$$number.url" ;\
+		fi ;\
 	done
