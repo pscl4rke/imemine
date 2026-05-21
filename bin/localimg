@@ -27,6 +27,7 @@ def ensure(url, destdir):
     if os.path.exists(destfile):
         LOG.info("At %s I already have %s", destfile, url)
         return destfile
+    time.sleep(2)
     LOG.info("Downloading %s...", url)
     #args = ["wget", url, "-O", destfile]
     args = ["curl", url, "-o", destfile]
@@ -57,7 +58,6 @@ def main():
     for matched in SRC_ATTRIBUTE.finditer(src):
         created = ensure(matched.group(1), args.imagedir)
         dest = dest.replace(matched.group(0), f'src="{created}"')
-        time.sleep(2)
     with open(args.destpath, "w") as destfile:
         destfile.write(dest)
 
