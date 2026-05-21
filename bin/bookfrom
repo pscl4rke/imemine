@@ -10,7 +10,7 @@ sources := $(wildcard *.url)
 internals := $(subst url,internal,$(sources))
 title := $(shell cat meta.title)
 author := $(shell cat meta.author)
-slug := book
+slug != echo "$(title) $(author)" | slugify
 
 ALL:
 	@echo "CHECKING METADATA..."
@@ -20,7 +20,7 @@ ALL:
 	test -e sources
 	mkdir -p images
 	$(MAKE) urls
-	$(MAKE) $(slug).epub
+	$(MAKE) $(slug)_converted.kepub.epub
 
 $(slug).epub: $(internals)
 	@echo "CHECKING METADATA..."
@@ -32,6 +32,9 @@ $(slug).epub: $(internals)
 		--metadata=title:"$(title)" \
 		--metadata=author:"$(author)" \
 		$^
+
+%_converted.kepub.epub: %.epub
+	kepubify $^
 
 #%.raw: %.url
 #	@echo "FETCHING $@..."
