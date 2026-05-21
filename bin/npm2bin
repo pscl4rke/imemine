@@ -42,10 +42,11 @@ class Npm2bin:
         venv_dir = entry.venv_dir()
         if os.path.exists(venv_dir):
             return  # FIXME: What if the requirements have changed? Redownload?
-        self._log("Downloading %s..." % venv_dir)
+        self._log("Creating %s..." % venv_dir)
         try:
             os.mkdir(venv_dir)
             for requirement in entry.requirements:
+                self._log("Installing %s..." % requirement)
                 self._exec("npm", "install", requirement, cwd=venv_dir)
         except Exception:
             self._log("Moving broken venv_dir...")

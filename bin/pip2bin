@@ -37,7 +37,7 @@ class Pip2bin:
         venv_dir = entry.venv_dir()
         if os.path.exists(venv_dir):
             return # FIXME: What if the requirements have changed? Redownload?
-        self._log("Downloading %s..." % venv_dir)
+        self._log("Creating %s..." % venv_dir)
         try:
             # FIXME if you do a release upgrade and python3 switches the
             # symlink from python3.N to python3.N+1 then the imports will
@@ -45,6 +45,7 @@ class Pip2bin:
             self._exec("/usr/bin/python3", "-m", "venv", venv_dir)
             self._exec("%s/bin/pip" % venv_dir, "install", "--upgrade", "pip")  # fix errors
             for requirement in entry.requirements:
+                self._log("Installing %s..." % requirement)
                 self._exec("%s/bin/pip" % venv_dir, "install", *split(requirement))
         except Exception:
             self._log("Moving broken venv_dir...")
