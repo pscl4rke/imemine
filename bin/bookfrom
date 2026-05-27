@@ -48,7 +48,7 @@ $(slug).epub: $(internals)
 
 %.external: %.url
 	@echo "FETCHING $@..."
-	readable "$$(cat $^)" > $@.tmp
+	readable -l force "$$(cat $^)" > $@.tmp
 	mv $@.tmp $@
 
 %.internal: %.external
