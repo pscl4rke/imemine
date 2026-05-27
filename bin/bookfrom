@@ -2,7 +2,10 @@
 # vim:ft=make:
 
 # Do not delete "intermediate" files
-.SECONDARY:
+#	THIS BREAKS TAB COMPLETION
+#.SECONDARY:
+#	But for some reason this is fine???
+.NOTINTERMEDIATE:
 
 .DEFAULT: ALL
 
@@ -11,6 +14,7 @@ internals := $(subst url,internal,$(sources))
 title := $(shell cat meta.title)
 author := $(shell cat meta.author)
 slug != echo "$(title) $(author)" | slugify
+final := $(slug)_converted.kepub.epub
 
 ALL:
 	@echo "CHECKING METADATA..."
@@ -20,7 +24,7 @@ ALL:
 	test -e sources
 	mkdir -p images
 	$(MAKE) urls
-	$(MAKE) $(slug)_converted.kepub.epub
+	$(MAKE) $(final)
 
 $(slug).epub: $(internals)
 	@echo "CHECKING METADATA..."
@@ -73,3 +77,9 @@ urls: sources
 			mv "tmp.url" "$$number.url" ;\
 		fi ;\
 	done
+
+copy-to-ereader: $(final)
+	cp -aiv $^ /media/*/*eReader/bookfrom/.
+
+copy-to-nas: $(slug).epub $(final)
+	cp -aiv $^ /autofs/nas/*Ebooks/.
