@@ -113,6 +113,7 @@ macro index,pager |a "<pipe-message>$HOME/imemine/bin/addresses | less<enter>"
 macro index,pager |f "<pipe-message>$HOME/imemine/bin/mailarchive --pick<enter><<tag-entry>"
 macro index,pager |F "<pipe-message>$HOME/imemine/bin/mailarchive --pidge<enter><<tag-entry>"
 macro index,pager |l "<pipe-message>mailtextbody | jsonlog --colour=always | less -R<enter>"
+macro index,pager |p "<pipe-message>mailtextbody | popout<enter>"
 
 
 # FILTERING KEY-BINDINGS
