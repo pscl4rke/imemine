@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+tmpdir="$(mktemp -d)"
+
+tearDown() {
+    rm -r "$tmpdir"
+}
+trap tearDown EXIT
+
+#urxvt -e less -f "$tmpdir/pipe" &
+open-in-terminal less -f "$tmpdir/pipe" &
+
+cat >"$tmpdir/pipe"
+sleep 3
