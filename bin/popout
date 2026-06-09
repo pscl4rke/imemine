@@ -7,8 +7,10 @@ tearDown() {
 }
 trap tearDown EXIT
 
+# So I think this doesn't work properly if the "cat"
+# is too slow at sending data to the pipe
 #urxvt -e less -f "$tmpdir/pipe" &
-open-in-terminal less -f "$tmpdir/pipe" &
+bash -c "sleep 0.5 && open-in-terminal less -f $tmpdir/pipe" &
 
 cat >"$tmpdir/pipe"
-sleep 3
+sleep 1
