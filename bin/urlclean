@@ -67,12 +67,12 @@ def is_local(path):
 
 
 def clean(original):
+    if os.path.exists(original.strip()):
+        return "file://%s" % os.path.abspath(original.strip())
     splitfixed = original.strip().lstrip('+').replace("\n+", "")
     splitfixed = "".join(c for c in splitfixed if 31 < ord(c) < 127)
     if "://" not in splitfixed:
-        if os.path.exists(splitfixed):
-            splitfixed = "file://%s" % os.path.abspath(splitfixed.strip())
-        elif is_local(splitfixed):
+        if is_local(splitfixed):
             splitfixed = "http://%s" % splitfixed.strip()
         else:
             # Now if you want http:// specify it explicitly
