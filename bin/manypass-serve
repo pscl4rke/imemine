@@ -60,7 +60,12 @@ async def handle_shell(secrets, arguments):
 async def handle_type(secrets, arguments):
     assert len(arguments) == 1
     value = secrets[arguments[0]]
-    subprocess.run(["xdotool", "type", "--clearmodifiers", value])
+    subprocess.run([
+        "xdotool", "type",
+        "--clearmodifiers",
+        "--delay", "36",  # default is 12ms
+        value,
+    ])
 
 
 async def handle_browse(secrets, arguments):
