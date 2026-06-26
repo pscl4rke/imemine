@@ -185,6 +185,9 @@ do
             basefile="page-$(paddedpage $currentpage)"
             open-in-image-viewer "$basefile.pnm"
             ;;
+        retry)
+            currentpage="$((currentpage - 1))"
+            ;;
         colour)
             colourmode="color"
             ;;
