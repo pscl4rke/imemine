@@ -26,7 +26,21 @@ ALL:
 	$(MAKE) urls
 	$(MAKE) $(final)
 
-$(slug).epub: $(internals)
+# Use "magick -list font" for options. This comes from APT's "fonts-urw-base35"
+coverfont := AvantGarde-Book
+
+frontcover.jpeg: meta.title meta.author
+	magick \
+		-size 700x1000 \
+		-background white \
+		-fill black \
+		-gravity center \
+		-pointsize 48 \
+		-font "$(coverfont)" \
+		label:"$(title)\n$(author)" \
+		$@
+
+$(slug).epub: frontcover.jpeg $(internals)
 	@echo "CHECKING METADATA..."
 	test "$(title)"
 	test "$(author)"
@@ -35,7 +49,12 @@ $(slug).epub: $(internals)
 		--number-sections \
 		--metadata=title:"$(title)" \
 		--metadata=author:"$(author)" \
-		$^
+		--epub-title-page=false \
+		--epub-cover-image=frontcover.jpeg \
+		$(internals)
+
+# --toc     <-- pointless because pandoc will only detect <h1> when
+#               directly inside <body> tag, not in a <div>
 
 %_converted.kepub.epub: %.epub
 	kepubify $^
@@ -59,12 +78,6 @@ $(slug).epub: $(internals)
 	@echo "FETCHING IMAGES FOR $@..."
 	localimg $^ $@.tmp images
 	mv $@.tmp $@
-
-
-# --epub-title-page=false
-# --epub-cover-image=FILE
-# --toc     <-- pointless because pandoc will only detect <h1> when
-#               directly inside <body> tag, not in a <div>
 
 
 urls: sources
