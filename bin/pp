@@ -38,6 +38,15 @@ def best_printer():
     return "HL1110"
 
 
+def handle_autodetected_file(filename):
+    if looks_like_a_postscript(filename):
+        handle_postscript_file(sys.argv[1], None)
+    elif looks_like_a_pdf(filename):
+        handle_pdf_file(sys.argv[1], None)
+    else:
+        raise Exception("Is that really a PostScript or a PDF!?!?")
+
+
 def get_title_from_header_of(psfilename):
     with open(psfilename, "rb") as psfile:
         for line in psfile:
@@ -47,16 +56,21 @@ def get_title_from_header_of(psfilename):
 
 
 def looks_like_a_postscript(psfilename):
-    # note that PDF starts with things like "%PDF-1.4"
     expected = b"%!PS"
     with open(psfilename, "rb") as psfile:
         start = psfile.read(len(expected))
     return start == expected
 
 
+def looks_like_a_pdf(psfilename):
+    # note that PDF starts with things like "%PDF-1.4" or "%PDF-1.6"
+    expected = b"%PDF-"
+    with open(psfilename, "rb") as psfile:
+        start = psfile.read(len(expected))
+    return start == expected
+
+
 def handle_postscript_file(psfilename, title):
-    if not looks_like_a_postscript(psfilename):
-        raise Exception("Is that really a postscript!?!?")
     if title is None:
         title = get_title_from_header_of(psfilename)
     if title is None:
@@ -120,8 +134,9 @@ def run_command(pdffilename, command, title):
 
 def main():
     if len(sys.argv) == 2:
-        handle_postscript_file(sys.argv[1], None)
+        handle_autodetected_file(sys.argv[1])
     else:
+        # FIXME: Can't this be autodetected and support PDF too?
         with tempfile.NamedTemporaryFile(suffix=".ps") as psfile:
             info("I'm saving that into %r..." % psfile.name)
             psfile.write(sys.stdin.buffer.read())
