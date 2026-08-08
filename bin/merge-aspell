@@ -17,19 +17,20 @@
 import sys
 
 
-def sort_key(word):
+def sort_key(word: bytes):
     # first sort case insensitively, then consistently
-    return (word.lower(), word.encode("ascii", "xmlcharrefreplace"))
+    #return (word.lower(), word.decode("ascii", "xmlcharrefreplace"))
+    return (word.lower(), word)
 
 
 class WordList:
 
-    def __init__(self, version, lang):
-        self.version = version
-        self.lang = lang
-        self.words = set()
+    def __init__(self, version: bytes, lang: bytes):
+        self.version: bytes = version
+        self.lang: bytes = lang
+        self.words: set[bytes] = set()
 
-    def read_from(self, srcpath):
+    def read_from(self, srcpath) -> None:
         with open(srcpath, "rb") as srcfile:
             lines = iter(srcfile)
             header = next(lines).split(b" ")
@@ -46,14 +47,14 @@ class WordList:
                 raise Exception("%r != %r" % (len(to_add), int(header[2])))
         self.words.update(to_add)
 
-    def write_to(self, destpath):
+    def write_to(self, destpath) -> None:
         with open(destpath, "wb") as destfile:
             destfile.write(b"%s %s %i \n" % (self.version, self.lang, len(self.words)))
             for word in sorted(self.words, key=sort_key):
                 destfile.write(b"%s\n" % word)
 
 
-def main():
+def main() -> None:
     executable, ancestor, currentanddest, otherbranch = sys.argv
     wordlist = WordList(b"personal_ws-1.1", b"en")
     wordlist.read_from(currentanddest)
