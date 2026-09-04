@@ -11,6 +11,7 @@ import re
 import subprocess
 import sys
 import time
+from urllib.parse import urlparse
 
 
 SRC_ATTRIBUTE = re.compile(r'src=["\']([^"\']*)["\']')
@@ -18,8 +19,12 @@ SRC_ATTRIBUTE = re.compile(r'src=["\']([^"\']*)["\']')
 
 def name_for_url(url):
     mainpart = hashlib.sha1(url.encode()).hexdigest()
-    extension = None  # do I need to fix this?
-    return mainpart
+    filename = os.path.basename(urlparse(url).path)
+    if "." in filename:
+        extension = filename.split(".")[-1]
+        return mainpart + "." + extension
+    else:
+        return mainpart
 
 
 def ensure(url, destdir):
@@ -32,10 +37,6 @@ def ensure(url, destdir):
     #args = ["wget", url, "-O", destfile]
     args = ["curl", url, "-o", destfile]
     subprocess.run(args, check=True)
-    #with open(".localimg.tmp", "rb") as dlfile:
-    #    hashed = hashlib.sha1(dlfile.read())
-    #destfile = os.path.join(destdir, hashed.hexdigest())
-    #os.rename(".localimg.tmp", destfile)
     LOG.info("Downloaded %s", destfile)
     return destfile
 
