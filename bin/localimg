@@ -17,7 +17,7 @@ from urllib.parse import urlparse
 SRC_ATTRIBUTE = re.compile(r'src=["\']([^"\']*)["\']')
 
 
-def name_for_url(url):
+def name_for_url(url: str) -> str:
     mainpart = hashlib.sha1(url.encode()).hexdigest()
     filename = os.path.basename(urlparse(url).path)
     if "." in filename:
@@ -27,21 +27,21 @@ def name_for_url(url):
         return mainpart
 
 
-def ensure(url, destdir):
-    destfile = os.path.join(destdir, name_for_url(url))
+def ensure(args: argparse.Namespace, url: str) -> str:
+    destfile = os.path.join(args.imagedir, name_for_url(url))
     if os.path.exists(destfile):
         LOG.info("At %s I already have %s", destfile, url)
         return destfile
     time.sleep(2)
     LOG.info("Downloading %s...", url)
-    #args = ["wget", url, "-O", destfile]
-    args = ["curl", url, "-o", destfile]
-    subprocess.run(args, check=True)
+    #dlargs = ["wget", url, "-O", destfile]
+    dlargs = ["curl", url, "-o", destfile]
+    subprocess.run(dlargs, check=True)
     LOG.info("Downloaded %s", destfile)
     return destfile
 
 
-def parse_args(args):
+def parse_args(args: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("srcpath")
     parser.add_argument("destpath")
@@ -49,7 +49,7 @@ def parse_args(args):
     return parser.parse_args(args)
 
 
-def main():
+def main() -> None:
     args = parse_args(sys.argv[1:])
     if not os.path.isdir(args.imagedir):
         raise NotADirectoryError(args.imagedir)
@@ -57,7 +57,7 @@ def main():
         src = srcfile.read()
     dest = src
     for matched in SRC_ATTRIBUTE.finditer(src):
-        created = ensure(matched.group(1), args.imagedir)
+        created = ensure(args, matched.group(1))
         dest = dest.replace(matched.group(0), f'src="{created}"')
     with open(args.destpath, "w") as destfile:
         destfile.write(dest)
