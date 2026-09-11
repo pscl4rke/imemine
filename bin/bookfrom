@@ -37,7 +37,7 @@ frontcover.jpeg: meta.title meta.author
 		-gravity center \
 		-pointsize 48 \
 		-font "$(coverfont)" \
-		label:"$(title)\n$(author)" \
+		caption:"$(title)\n\n$(author)" \
 		$@
 
 $(slug).epub: frontcover.jpeg $(internals)
