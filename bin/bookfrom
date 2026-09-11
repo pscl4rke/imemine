@@ -76,7 +76,7 @@ $(slug).epub: frontcover.jpeg $(internals)
 
 %.internal: %.external
 	@echo "FETCHING IMAGES FOR $@..."
-	localimg $^ $@.tmp images
+	localimg --no-webp $^ $@.tmp images
 	mv $@.tmp $@
 
 
