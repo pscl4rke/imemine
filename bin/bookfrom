@@ -10,7 +10,7 @@
 .DEFAULT: ALL
 
 sources := $(wildcard *.url)
-internals := $(subst url,internal,$(sources))
+chapters := $(subst url,internal,$(sources))
 title := $(shell cat meta.title)
 author := $(shell cat meta.author)
 slug != echo "$(title) $(author)" | slugify
@@ -40,7 +40,7 @@ frontcover.jpeg: meta.title meta.author
 		caption:"$(title)\n\n$(author)" \
 		$@
 
-$(slug).epub: frontcover.jpeg $(internals)
+$(slug).epub: frontcover.jpeg $(chapters)
 	@echo "CHECKING METADATA..."
 	test "$(title)"
 	test "$(author)"
@@ -51,7 +51,7 @@ $(slug).epub: frontcover.jpeg $(internals)
 		--metadata=author:"$(author)" \
 		--epub-title-page=false \
 		--epub-cover-image=frontcover.jpeg \
-		$(internals)
+		$(chapters)
 
 # --toc     <-- pointless because pandoc will only detect <h1> when
 #               directly inside <body> tag, not in a <div>
