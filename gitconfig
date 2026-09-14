@@ -20,6 +20,8 @@
 	branch = false
 [user]
 	useConfigOnly = true
+[completion]
+	commands = ls-files
 [transfer]
 	fsckObjects = true
 [status]
