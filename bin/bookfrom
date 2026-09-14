@@ -98,4 +98,4 @@ copy-to-nas: $(slug).epub $(final)
 	cp -aiv $^ /autofs/nas/*Ebooks/.
 
 move-all-to-desktop:
-	mv $$(pwd) ~/Desktop/bookfrom-$(slug)
+	mv $$(pwd) ~/Desktop/bookfrom-$(slug)-$$(date -I)
