@@ -10,7 +10,7 @@
 .DEFAULT: ALL
 
 sources := $(wildcard *.url)
-chapters := $(subst url,internal,$(sources))
+chapters := $(subst url,nodiv,$(sources))
 title := $(shell cat meta.title)
 author := $(shell cat meta.author)
 slug != echo "$(title) $(author)" | slugify
@@ -51,10 +51,9 @@ $(slug).epub: frontcover.jpeg $(chapters)
 		--metadata=author:"$(author)" \
 		--epub-title-page=false \
 		--epub-cover-image=frontcover.jpeg \
+		--toc \
+		--toc-depth=1 \
 		$(chapters)
-
-# --toc     <-- pointless because pandoc will only detect <h1> when
-#               directly inside <body> tag, not in a <div>
 
 %_converted.kepub.epub: %.epub
 	kepubify $^
@@ -77,6 +76,13 @@ $(slug).epub: frontcover.jpeg $(chapters)
 %.internal: %.external
 	@echo "FETCHING IMAGES FOR $@..."
 	localimg --no-webp $^ $@.tmp images
+	mv $@.tmp $@
+
+# So --toc doesn't work if headings are inside divs.
+# Any figures get glued to the top of a section instead of being inline.
+# And captions need telling apart from the rest of the text.
+%.nodiv: %.internal
+	cat $^ | sed 's|<div[^>]*>||g;s|</div>||g;s|<figure>|<p>|g;s|</figure>|</p>|g;s|<figcaption>|<i>|g;s|</figcaption>|</i>|g' > $@.tmp
 	mv $@.tmp $@
 
 
