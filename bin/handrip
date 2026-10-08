@@ -39,6 +39,7 @@ def parse_args(args):
     parser.add_argument("--chapters", action="store", default=None)
     parser.add_argument("--crop", action="store", default=None)
     parser.add_argument("--no-dvdnav", action="store_true", default=False)
+    parser.add_argument("--flatpak", action="store_true", default=False)
     return parser.parse_args(args)
 
 
@@ -63,6 +64,7 @@ class Ripper:
         #self.video_kbps = 685  # bitrate
         self.video_kbps = 985  # bitrate
         self.dvdnav = not args.no_dvdnav
+        self.flatpak = args.flatpak
 
     def info(self, message):
         sys.stdout.write("%s\n" % message)
@@ -95,7 +97,10 @@ class Ripper:
         return ".".join(parts)
 
     def ripping_arguments(self):
-        args = ["nice", "HandBrakeCLI"]
+        if self.flatpak:
+            args = ["flatpak", "run", "--command=HandBrakeCLI", "fr.handbrake.ghb"]
+        else:
+            args = ["nice", "HandBrakeCLI"]
         if self.verbose:
             args.append("--verbose")
         args.append("--decomb")
