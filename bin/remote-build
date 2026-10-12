@@ -1,0 +1,152 @@
+#!/usr/bin/python3
+
+
+from typing import Generator
+
+import logging
+LOG = logging.getLogger("remote-build")
+
+from contextlib import contextmanager
+
+import argparse
+from os import remove
+from os.path import exists, expanduser
+import subprocess
+import sys
+
+
+class SshConnection:
+
+    def __init__(self, hostname: str, socket_path: str):
+        self.hostname = hostname
+        self.socket_path = socket_path
+
+    @classmethod
+    @contextmanager
+    def from_hostname(cls, hostname: str) -> Generator["SshConnection", None, None]:
+        socket_path = expanduser(f"~/.ssh/remote-build.{hostname}.ssh.socket")
+        conn = cls(hostname, socket_path)
+        try:
+            conn.set_up_control_master()
+            yield conn
+        finally:
+            conn.tear_down_control_master()
+
+    def _ssh_args(self) -> list[str]:
+        return ["ssh", "-o", f"ControlPath={self.socket_path}"]
+
+    def set_up_control_master(self) -> None:
+        LOG.info(f"Starting multiplexed connection to {self.hostname}...")
+        args = [*self._ssh_args(),
+                "-o", "ControlMaster=yes",
+                "-o", "ControlPersist=yes",
+                self.hostname, "true"]
+        try:
+            result = subprocess.run(args)
+            result.check_returncode()
+        except subprocess.CalledProcessError:
+            raise ConnectionError("SSH Error to %r" % self.hostname) from None
+
+    def tear_down_control_master(self) -> None:
+        LOG.info(f"Closing multiplexed connection to {self.hostname}...")
+        if not exists(self.socket_path):
+            LOG.info(f"Skipping teardown due to lack of {self.socket_path}")
+            return
+        args = [*self._ssh_args(), self.hostname, "-O", "exit"]
+        result = subprocess.run(args)
+        result.check_returncode()
+
+    def request_new_forward(self, spec: str) -> None:
+        LOG.info(f"Requesting port forward for {spec!r}...")
+        args = [*self._ssh_args(), self.hostname, "-O", "forward", "-L", spec]
+        result = subprocess.run(args)
+        result.check_returncode()
+
+    def run(self, commandline: str) -> None:
+        args = [*self._ssh_args(), "-t", self.hostname, commandline]
+        result = subprocess.run(args)
+        result.check_returncode()
+
+    def query(self, commandline: str) -> str:
+        args = [*self._ssh_args(), self.hostname, commandline]
+        result = subprocess.run(args, check=True, capture_output=True)
+        return result.stdout.decode()
+
+
+# ======================================================================== #
+
+
+class ProxiedDocker:
+    local_docker = "/home/psc/vendor/docker-29.8.1/docker"
+    local_socket = "/tmp/remote-build.docker.sock"
+    remote_socket = "/run/docker.sock"
+
+    def print_images(self) -> None:
+        LOG.info("Printing remote images")
+        subprocess.run([self.local_docker, "images"],
+                       env={"DOCKER_HOST": f"unix://{self.local_socket}"},
+                       check=True)
+
+    def build_as(self, tag: str) -> None:
+        LOG.info("Building this directory on remote daemon")
+        subprocess.run([self.local_docker, "build", ".",
+                        "-t", tag],
+                       env={"DOCKER_HOST": f"unix://{self.local_socket}"},
+                       check=True)
+
+
+# ======================================================================== #
+
+
+def parse_args(arguments) -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("host")
+    parser.add_argument("--assert-group", action="append")
+    parser.add_argument("--docker", action="store_const", dest="builder", const="docker")
+    parser.add_argument("-t", "--tag", required=True)
+    parser.add_argument("--then", action="append")
+    return parser.parse_args(arguments)
+
+
+def build_proxy(args):
+    match args.builder:
+        case "docker":
+            return ProxiedDocker()
+        case "podman":
+            raise NotImplementedError("No ProxiedPodman(...) yet")
+        case other:
+            raise Exception("Unknown proxy type: %r" % other)
+
+
+def check_the_groups(conn: SshConnection, required_groups: list[str]) -> None:
+    missing = []
+    actual_groups = conn.query("groups").split()
+    for group in required_groups:
+        if group not in actual_groups:
+            missing.append(group)
+    if missing:
+        raise AssertionError("Your login user must be a member of: %r" % missing)
+
+
+def main() -> None:
+    args = parse_args(sys.argv[1:])
+    proxy = build_proxy(args)
+    # Hmm... local ssh doesn't clean up after itself, but crashes if this
+    # file exists
+    if exists(proxy.local_socket):
+        LOG.info("Deleting previous socket: %s", proxy.local_socket)
+        remove(proxy.local_socket)
+    with SshConnection.from_hostname(args.host) as conn:
+        check_the_groups(conn, args.assert_group)
+        conn.request_new_forward(f"{proxy.local_socket}:{proxy.remote_socket}")
+        proxy.build_as(args.tag)
+        #proxy.print_images()
+        for command in args.then:
+            LOG.info("Running: %s", command)
+            conn.run(command)
+        LOG.info("Done")
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    main()
