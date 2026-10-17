@@ -38,6 +38,7 @@
 [stash]
 	showPatch = true
 [merge]
+	ff = no
 	conflictStyle = diff3 # zdiff3 only available from Jan 2022
 [diff]
 	algorithm = histogram
@@ -49,7 +50,8 @@
 [alias]
 	amend = commit --amend --reset-author
 	upstream = branch --all --format=\"%(committerdate:short) %(refname)\" --sort=committerdate
-	merge-no-ff = merge --no-ff
+	#merge-no-ff = merge --no-ff
+	ff = merge --ff
 [tag]
 	sort = version:refname
 
