@@ -33,8 +33,11 @@
 	followTags = true  # this only works for annotated tags :(
 [init]
 	defaultBranch = master
+[maintenance]
+	autoDetach = false  # annoying on removable drives
 [rebase]
 	autostash = true
+	missingCommitsCheck = error
 [stash]
 	showPatch = true
 [merge]
