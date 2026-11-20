@@ -54,7 +54,7 @@
 	amend = commit --amend --reset-author
 	upstream = branch --all --format=\"%(committerdate:short) %(refname)\" --sort=committerdate
 	#merge-no-ff = merge --no-ff
-	ff = merge --ff
+	ff = merge --ff-only
 [tag]
 	sort = version:refname
 
