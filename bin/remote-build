@@ -81,6 +81,10 @@ class ProxiedDocker:
     local_socket = "/tmp/remote-build.docker.sock"
     remote_socket = "/run/docker.sock"
 
+    def initially_check(self) -> None:
+        if not exists(self.local_docker):
+            raise Exception("No docker client at %r" % self.local_docker)
+
     def print_images(self) -> None:
         LOG.info("Printing remote images")
         subprocess.run([self.local_docker, "images"],
@@ -101,7 +105,7 @@ class ProxiedDocker:
 def parse_args(arguments) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("host")
-    parser.add_argument("--assert-group", action="append")
+    parser.add_argument("--assert-group", action="append", default=[])
     parser.add_argument("--docker", action="store_const", dest="builder", const="docker")
     parser.add_argument("-t", "--tag", required=True)
     parser.add_argument("--then", action="append")
@@ -131,6 +135,7 @@ def check_the_groups(conn: SshConnection, required_groups: list[str]) -> None:
 def main() -> None:
     args = parse_args(sys.argv[1:])
     proxy = build_proxy(args)
+    proxy.initially_check()
     # Hmm... local ssh doesn't clean up after itself, but crashes if this
     # file exists
     if exists(proxy.local_socket):
