@@ -130,6 +130,7 @@ macro index ~d "<limit>~D<enter>"
 macro index ~f "<limit>~F<enter>"
 macro index ~l "<limit>~z >1000k<enter>"
 macro index ~s "<limit>~H Spam<enter>"
+macro index ~y "<limit>~d >1d<enter>"
 
 
 # NON-PATTERN FILTERING
