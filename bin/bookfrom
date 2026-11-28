@@ -101,7 +101,7 @@ copy-to-ereader: $(final)
 	cp -aiv $^ /media/*/*eReader/bookfrom/.
 
 copy-to-nas: $(slug).epub $(final)
-	cp -aiv $^ /autofs/nas/*Ebooks/.
+	cp -iv $^ /autofs/nas/*Ebooks/.
 
 move-all-to-desktop:
 	mv $$(pwd) ~/Desktop/bookfrom-$(slug)-$$(date -I)
